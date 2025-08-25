@@ -1,1 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact — Match or Move On</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb;
+    --rose:#ff3b30; --glass:rgba(255,255,255,.04);
+    --border:rgba(255,255,255,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
 
+  /* layers */
+  #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+
+  /* nav */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+    padding:14px 24px;backdrop-filter:blur(8px);
+    background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
+               radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.10),transparent 60%);
+    border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav-left{justify-self:start}
+  .nav-left a{color:#ffecec;text-decoration:none;font-weight:600}
+  .logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;
+    font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;
+    text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
+  .logo-neon .accent{color:var(--rose)}
+  .nav-right{justify-self:end;display:flex;gap:18px;align-items:center}
+  .nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
+  .nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
+
+  /* languages */
+  .lang{position:relative}
+  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
+    border:1px solid rgba(255,59,48,.45);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
+    text-shadow:0 0 8px rgba(255,59,48,.55)}
+  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
+    background:rgba(0,0,0,.7);border:1px solid rgba(255,59,48,.45);border-radius:12px;padding:8px;
+    box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
+  .lang:hover .lang-menu{display:flex}
+  .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
+  .lang-menu a:hover{background:rgba(255,59,48,.12)}
+
+  /* page wrap */
+  .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 20px 92px}
+  .page{max-width:min(1000px,94vw);width:100%}
+
+  /* titles */
+  .title{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.08;
+    font-size:clamp(32px,5.6vw,60px);margin:0 0 10px;letter-spacing:.3px;text-shadow:0 0 24px rgba(255,59,48,.18)}
+  .subtitle{color:var(--muted);max-width:760px;margin:8px 0 28px;font-size:clamp(14px,1.6vw,18px)}
+
+  /* card + form */
+  .card{background:radial-gradient(120% 120% at 50% 10%,rgba(255,255,255,.06),rgba(255,255,255,.015) 60%),var(--glass);
+    border:1px solid var(--border);border-radius:20px;box-shadow:0 0 18px rgba(255,59,48,.18), inset 0 0 14px rgba(255,255,255,.04);
+    backdrop-filter:blur(10px);padding:24px}
+  .card--narrow{max-width:760px;margin:0 auto}
+  form{display:grid;gap:14px}
+  .field{display:flex;flex-direction:column;gap:8px}
+  label{font-weight:700;font-size:14px;color:#ffd6d6}
+  input,textarea{
+    width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,.35);
+    color:#fff;outline:none;transition:border-color .18s ease, box-shadow .18s ease;
+    box-shadow:inset 0 0 10px rgba(255,255,255,.03)}
+  input::placeholder,textarea::placeholder{color:#b9b1aa}
+  input:focus,textarea:focus{border-color:rgba(255,59,48,.55);box-shadow:0 0 0 4px rgba(255,59,48,.18)}
+  textarea{min-height:150px;resize:vertical}
+
+  .btn{
+    appearance:none;border:1px solid rgba(255,59,48,.55);background:linear-gradient(to bottom right, rgba(255,59,48,.7), rgba(255,59,48,.45));
+    color:#fff;font-weight:800;letter-spacing:.3px;padding:12px 16px;border-radius:14px;cursor:pointer;
+    box-shadow:0 8px 22px rgba(255,59,48,.28), inset 0 0 10px rgba(255,255,255,.06);transition:transform .14s ease, box-shadow .18s ease}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,59,48,.36)}
+  .btn:active{transform:translateY(0)}
+
+  /* footer */
+  .site-footer{margin-top:60px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
+    background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
+  .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:22px}
+  .site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
+  .site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
+  .site-footer .brand-title span{color:var(--rose)}
+  .site-footer .tag{margin:8px 0 10px;color:#cbbfb7;font-size:14px}
+  .site-footer .mail{color:#fff;text-decoration:none;font-weight:600}
+  .site-footer .mail:hover{color:var(--rose)}
+  .site-footer a{display:block;color:#e9e2db;text-decoration:none;margin:6px 0;font-weight:600}
+  .site-footer a:hover{color:var(--rose)}
+  .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
+  .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
+  @media (max-width:900px){ .site-footer .f-wrap{grid-template-columns:1fr 1fr} }
+  @media (max-width:600px){ .site-footer .f-wrap{grid-template-columns:1fr;text-align:center} .site-footer .icons a{margin:0 6px} }
+
+  /* floating hearts only */
+  .float-item{position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
+    filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
+    transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));
+    animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;will-change:transform,opacity}
+  @keyframes floatUp{
+    0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
+    10%{opacity:1}
+    100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}
+  }
+  @keyframes spin{
+    0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+    50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
+    100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+  }
+</style>
+</head>
+<body>
+
+<!-- background sparkles -->
+<canvas id="sparks"></canvas>
+<!-- floating hearts layer -->
+<div class="bg-float" id="hearts"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-left"><a href="index.html">Home</a></div>
+  <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
+  <div class="nav-right">
+    <a href="how-it-works.html">How it works</a>
+    <a href="contact.html">Contact</a>
+    <div class="lang">
+      <div class="lang-current">🇺🇸 EN ▾</div>
+      <div class="lang-menu">
+        <a href="index-fr.html">🇫🇷 FR</a><a href="index-pt.html">🇵🇹 PT</a><a href="index-es.html">🇪🇸 ES</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="page">
+    <h1 class="title">Contact</h1>
+    <p class="subtitle">Tell us how we can help. We’ll get back to you quickly.</p>
+
+    <!-- SINGLE COLUMN FORM (support panel removed) -->
+    <div class="card card--narrow">
+      <form id="contact-form" action="#" method="POST" novalidate>
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your full name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+        </div>
+        <button class="btn" type="submit">Send message</button>
+        <!-- To wire up: replace action with your endpoint (e.g., Formspree) -->
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="footer">
+  <div class="f-wrap">
+    <div class="f-col brand">
+      <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
+      <p class="tag">Built for clarity, not confusion.</p>
+      <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
+    </div>
+
+    <nav class="f-col links">
+      <h4>Explore</h4>
+      <a href="index.html">Home</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="love-passport.html">Get My Love Passport</a>
+      <a href="compatibility-test.html">Compatibility Test</a>
+      <a href="fix-the-problem.html">Fix the Problem</a>
+    </nav>
+
+    <nav class="f-col legal">
+      <h4>Legal</h4>
+      <a href="terms.html">Terms Policy</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies</a>
+    </nav>
+
+    <div class="f-col social">
+      <h4>Social</h4>
+      <div class="icons">
+        <!-- TikTok -->
+        <a href="https://tiktok.com" aria-label="TikTok">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
+            <path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/>
+          </svg>
+        </a>
+        <!-- Instagram -->
+        <a href="https://instagram.com" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
+            <path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="https://youtube.com" aria-label="YouTube">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
+            <path d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1C17.6 2.5 12 2.5 12 2.5h-.1s-5.6 0-8.6.4c-.4.1-1.3.1-2.1 1-.6.7-.8 2.3-.8 2.3S0 8.1 0 10v1.9c0 1.9.4 3.8.4 3.8s.2 1.6.8 2.3c.8.9 1.9.8 2.4.9 1.7.2 7.4.3 7.4.3s5.6 0 8.6-.4c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.3.8-2.3s.4-1.9.4-3.8V10c0-1.9-.4-3.8-.4-3.8ZM9.5 14.6v-5.2l5 2.6-5 2.6Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="f-bottom">
+    <small>© 2025 Match or Move On. All rights reserved.</small>
+  </div>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+
+<!-- sparkles -->
+<script>
+const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
+function size(){W=s.width=innerWidth;H=s.height=innerHeight;
+  const n=Math.min(180,Math.floor(W*H/11000));
+  PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));
+}
+function loop(){ctx.clearRect(0,0,W,H);
+  for(const p of PS){p.a+=.0028;p.x+=Math.cos(p.a)*p.s;p.y+=Math.sin(p.a)*p.s*.45;
+    if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;if(p.y>H+10)p.y=-10;
+    const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);g.addColorStop(0,`rgba(255,80,80,${p.o})`);g.addColorStop(1,'rgba(255,80,80,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}
+  requestAnimationFrame(loop);
+}
+addEventListener('resize',size);size();loop();
+</script>
+
+<!-- floating hearts only -->
+<script>
+(function(){
+  const LAYER=document.getElementById('hearts'); if(!LAYER) return;
+
+  const HEART=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
+    <defs><radialGradient id="hg" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ffd0d4"/><stop offset="45%" stop-color="#ff5252"/><stop offset="100%" stop-color="#7c1414"/></radialGradient></defs>
+    <g filter="drop-shadow(0 4px 10px rgba(255,80,80,.55))">
+      <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
+      <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
+    </g></svg>`);
+
+  const COUNT_HEARTS=18;
+  const MIN_W=22, MAX_W=64;
+  const MIN_T=18, MAX_T=28;
+
+  function spawn(svg){
+    const el=document.createElement('img');
+    el.src=`data:image/svg+xml;utf8,${svg}`; el.className='float-item';
+    el.style.left=Math.random()*100+'vw';
+    el.style.setProperty('--w',(MIN_W+Math.random()*(MAX_W-MIN_W))+'px');
+    el.style.setProperty('--x',(Math.random()*80-40)+'px');
+    el.style.setProperty('--t',(MIN_T+Math.random()*(MAX_T-MIN_T))+'s');
+    el.style.setProperty('--r',(Math.random()*40-20)+'deg');
+    el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
+    el.style.setProperty('--spin',(14+Math.random()*10)+'s');
+    el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
+    LAYER.appendChild(el);
+  }
+  for(let i=0;i<COUNT_HEARTS;i++) spawn(HEART);
+})();
+</script>
+
+</body>
+</html>

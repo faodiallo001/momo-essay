@@ -5,106 +5,161 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Love Passport — Match or Move On</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0b0b0d;--text:#e9e2db;--muted:#c9c2bb;--rose:#ff3b30;--ring:rgba(255,59,48,.45);--glass:rgba(255,255,255,.04);--border:rgba(255,255,255,.12)}
-  *{box-sizing:border-box} html,body{height:100%}
+  :root{
+    --bg:#0b0b0f;           /* noir profond */
+    --text:#e9e2db;
+    --muted:#c9c2bb;
+    --ruby:#d61e49;         /* rouge rubis */
+    --gold:#d4af37;         /* doré */
+    --ring:rgba(214,30,73,.45);
+    --glass:rgba(255,255,255,.04);
+    --border:rgba(255,255,255,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
   body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
-  /* background layers */
+
+  /* background layers (ton design) */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-  /* nav */
-  .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 24px;backdrop-filter:blur(8px);
-    background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.10),transparent 60%);border-bottom:1px solid rgba(255,255,255,.06)}
-  .nav-left{justify-self:start}.nav-left a{color:#ffecec;text-decoration:none;font-weight:600}
-  .logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
-  .logo-neon .accent{color:var(--rose)}
+
+  /* NAV (ton design) */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+    padding:14px 24px;backdrop-filter:blur(8px);
+    background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
+               radial-gradient(70% 50% at 50% 0%,rgba(214,30,73,.10),transparent 60%);
+    border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav-left{justify-self:start}
+  .nav-left a{color:#ffecec;text-decoration:none;font-weight:600}
+  .logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:900;letter-spacing:.35px;
+    font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;
+    text-shadow:0 0 20px rgba(214,30,73,.65),0 0 8px rgba(214,30,73,.45)}
+  .logo-neon .accent{color:var(--ruby)}
   .nav-right{justify-self:end;display:flex;gap:18px;align-items:center}
   .nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
-  .nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
+  .nav-right a:hover{border-color:rgba(214,30,73,.45);background:rgba(214,30,73,.10)}
   .lang{position:relative}
-  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;border:1px solid var(--ring);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;text-shadow:0 0 8px rgba(255,59,48,.55)}
-  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;background:rgba(0,0,0,.7);border:1px solid var(--ring);border-radius:12px;padding:8px;box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
+  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
+    border:1px solid var(--ring);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
+    text-shadow:0 0 8px rgba(214,30,73,.55)}
+  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
+    background:rgba(0,0,0,.7);border:1px solid var(--ring);border-radius:12px;padding:8px;
+    box-shadow:0 0 12px rgba(214,30,73,.35), inset 0 0 8px rgba(214,30,73,.25)}
   .lang:hover .lang-menu{display:flex}
   .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
-  .lang-menu a:hover{background:rgba(255,59,48,.12)}
-  /* page */
+  .lang-menu a:hover{background:rgba(214,30,73,.12)}
+
+  /* page wrapper */
   .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
   .page{max-width:min(1000px,94vw);width:100%}
-  .title{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.08;font-size:clamp(32px,5.6vw,60px);margin:0 0 10px;letter-spacing:.3px;text-shadow:0 0 24px rgba(255,59,48,.18)}
+  .title{font-family:"Playfair Display",serif;font-weight:900;line-height:1.08;
+    font-size:clamp(32px,5.6vw,60px);margin:0 0 10px;letter-spacing:.3px;color:#fff;text-shadow:0 0 24px rgba(214,30,73,.18)}
   .subtitle{color:var(--muted);max-width:760px;margin:8px 0 28px;font-size:clamp(14px,1.6vw,18px)}
+
   /* progress */
   .progress{height:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
-  .progress>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#ff2d2d,#ff6b4a);box-shadow:0 0 12px rgba(255,59,48,.35);transition:width .25s ease}
+  .progress>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#d61e49,#ff6b4a);box-shadow:0 0 12px rgba(214,30,73,.35);transition:width .25s ease}
   .prog-txt{color:#c9c2bb;font-size:13px;margin-top:6px}
-  /* cards */
-  .card{margin-top:16px;background:radial-gradient(120% 120% at 50% 10%,rgba(255,255,255,.06),rgba(255,255,255,.015) 60%),var(--glass);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.4);backdrop-filter:blur(10px)}
+
+  /* cards (quiz) */
+  .card{margin-top:16px;background:radial-gradient(120% 120% at 50% 10%,rgba(255,255,255,.06),rgba(255,255,255,.015) 60%),var(--glass);
+    border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.4);backdrop-filter:blur(10px)}
   .card--narrow{max-width:760px;margin-left:auto;margin-right:auto}
-  /* question */
   .q-idx{color:#cfc7c0;font-size:12px;margin-bottom:8px}
   .q-text{font-size:20px;margin:6px 0 12px;line-height:1.35}
   .input-line{display:flex;gap:10px;flex-wrap:wrap}
-  .input-line input[type="text"], .input-line select, .input-line input[type="file"]{flex:1 1 260px;min-width:220px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
+  .input-line input[type="text"], .input-line select, .input-line input[type="file"]{
+    flex:1 1 260px;min-width:220px;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
   .file-help{font-size:12px;color:#b9b1aa;margin-top:6px}
   .preview{margin-top:10px;width:88px;height:88px;border-radius:10px;border:1px solid rgba(255,255,255,.15);object-fit:cover;display:none}
   .opts{display:grid;gap:10px;margin-top:10px}
-  .opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}
-  .opt input{accent-color:#ff3b30}
+  .opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}
+  .opt input{accent-color:var(--ruby)}
   .opt:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2)}
   .help{color:#b9b1aa;font-size:12px;margin-top:8px;min-height:18px}
-  /* actions */
   .actions{display:flex;gap:10px;justify-content:space-between;margin-top:16px;flex-wrap:wrap}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;text-decoration:none;color:#fff;border:1px solid var(--ring);
-    background:radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,.09), rgba(255,255,255,.02) 50%),linear-gradient(90deg,#ff2d2d,#ff6b4a);
-    box-shadow:0 8px 22px rgba(255,59,48,.28), inset 0 0 10px rgba(255,255,255,.06);font-weight:800;letter-spacing:.3px;cursor:pointer;transition:transform .14s ease, box-shadow .18s ease, filter .18s ease, opacity .18s ease}
-  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,59,48,.36), inset 0 0 12px rgba(255,255,255,.08)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 16px;border-radius:14px;text-decoration:none;color:#fff;border:1px solid var(--ring);
+    background:radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,.09), rgba(255,255,255,.02) 50%),linear-gradient(90deg,#d61e49,#ff6b4a);
+    box-shadow:0 8px 22px rgba(214,30,73,.28), inset 0 0 10px rgba(255,255,255,.06);
+    font-weight:800;letter-spacing:.3px;cursor:pointer;transition:transform .14s ease, box-shadow .18s ease, filter .18s ease, opacity .18s ease;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(214,30,73,.36), inset 0 0 12px rgba(255,255,255,.08)}
   .btn[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(.2)}
-  /* summary + passport card */
-  .summary{display:none;margin-top:22px}
-  .summary h2{font-family:"Playfair Display",serif;margin:8px 0 6px}
-  .summary ul{margin:10px 0 0 18px}.summary li{line-height:1.6;color:#efe9e5}
-  /* ===== A4 Love Passport ===== */
-  .lp{width:794px;min-height:1123px;padding:28px 32px;color:#ececee;background:radial-gradient(1200px 800px at 10% -10%, rgba(255,59,59,.18), transparent),var(--bg);
-      border-radius:16px;box-shadow:0 16px 60px rgba(255,0,0,.18);position:relative;font:12.5px/1.25 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;margin-top:18px}
-  .lp-header{text-align:center;margin-bottom:12px}
-  .lp-title{font-family:"Playfair Display",serif;font-weight:900;letter-spacing:.4px;font-size:28px}
-  .lp-tagline{margin-top:6px;color:var(--muted);font-size:11.5px}
-  .lp-idrow{display:flex;gap:14px;margin:16px 0 10px;align-items:flex-start}
-  .lp-photo{width:86px;height:86px;border-radius:12px;object-fit:cover;border:1px solid var(--border);background:#151519}
-  .lp-idgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;flex:1}
-  .lp-sec{margin:12px 0 6px;font-weight:800;font-size:12.5px;letter-spacing:.3px;text-transform:uppercase;color:#ffd9d9}
-  .lp-sec.danger{color:var(--rose)}
-  .lp-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-  .it{background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:10px;padding:8px 10px;min-height:40px}
-  .it span{display:block;font-size:10px;color:var(--muted);letter-spacing:.2px;margin-bottom:2px}
-  .it strong{font-weight:700;font-size:12.5px;line-height:1.2;color:#fff}
-  .lp-chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{background:rgba(255,59,59,.12);border:1px solid rgba(255,59,59,.35);color:#ffd1d1;padding:6px 9px;border-radius:999px;font-size:11.5px;line-height:1}
-  .lp-about{background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:10px;padding:10px 12px;min-height:56px;font-size:12.5px}
-  .lp-footer{margin-top:14px;display:flex;flex-direction:column;align-items:center;text-align:center;color:#cfc7c0;gap:6px;font-size:11.5px}
-  .lp-footer .qrrow{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .qrbox{display:flex;align-items:center;gap:10px}
-  .qr{width:64px;height:64px;background:#fff;border-radius:8px;overflow:hidden}
-  .insta{font-size:12px;color:#ffd7d7}
-  /* footer (site) */
+
+  /* ===== BOOK / PASSPORT MULTIPAGE ===== */
+  .book-wrap{margin-top:22px;display:none}
+  .book-controls{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .book-controls .left, .book-controls .right{display:flex;gap:8px;align-items:center}
+  .page-indicator{font-weight:700;color:#ffdabb}
+  .book{display:grid;place-items:center}
+  .pass-page{
+    width:794px; height:1123px; /* A4 px @96dpi */
+    background: radial-gradient(1200px 800px at -10% -20%, rgba(214,30,73,.12), transparent 60%), #0b0b0f;
+    border:2px solid var(--gold); border-radius:16px; padding:28px 32px; position:relative;
+    box-shadow:0 16px 60px rgba(214,30,73,.18), inset 0 0 0 4px rgba(212,175,55,.15);
+  }
+  .p-title{font-family:"Playfair Display",serif;color:var(--ruby);font-weight:900;letter-spacing:.4px;font-size:26px;margin:0 0 6px}
+  .p-sub{color:#e7dac1;font-size:12px;margin:4px 0 12px}
+  .gold-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:10px 0 16px;opacity:.8}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .item{background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:12px;padding:10px 12px;min-height:46px}
+  .item span{display:block;font-size:10px;color:#c9b888;letter-spacing:.2px;margin-bottom:3px}
+  .item strong{font-weight:700;font-size:13px}
+  .photo-round{width:110px;height:110px;border-radius:999px;border:3px solid var(--gold);object-fit:cover;background:#16161a}
+  .serial{font-family:"Playfair Display",serif;color:#ffccd7;font-weight:700}
+  .footer-issuer{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:12px;color:#f7e7c6}
+  .heart-big{
+    width:120px;height:120px;border-radius:16px;background:
+      radial-gradient(50% 60% at 50% 40%, #ff6a8d, #8b0e2a 70%);
+    filter:drop-shadow(0 10px 30px rgba(214,30,73,.45));
+    -webkit-mask: radial-gradient(circle at 35% 35%, transparent 28%, black 29%) top left,
+                  radial-gradient(circle at 65% 35%, transparent 28%, black 29%) top right,
+                  linear-gradient(to bottom, black 45%, transparent 46%) bottom;
+    -webkit-mask-size: 50% 50%; -webkit-mask-repeat:no-repeat;
+  }
+
+  /* Stamps (Deal Breakers) */
+  .stamps{display:flex;flex-wrap:wrap;gap:10px}
+  .stamp{
+    position:relative; display:inline-block; padding:10px 14px;
+    border:2px dashed #7a0b1a; color:#ffd1d9; background:rgba(214,30,73,.08);
+    text-transform:uppercase; font-weight:800; letter-spacing:.4px;
+    transform:rotate(-6deg); border-radius:10px;
+    box-shadow:inset 0 0 0 2px rgba(139,0,0,.35), 0 6px 18px rgba(0,0,0,.35);
+  }
+  .stamp::after{
+    content:"REFUSED"; position:absolute; inset:-6px -8px auto auto; transform:rotate(12deg);
+    font-size:10px; color:#ff7c8f; opacity:.4; border:2px solid #8b0000; padding:2px 6px; border-radius:6px;
+  }
+
+  /* site footer (ton design) */
   .site-footer{margin-top:60px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
-  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
+  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
+    background:radial-gradient(60% 80% at 50% 100%, rgba(214,30,73,.15), transparent 70%);pointer-events:none}
   .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
   .site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
   .site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
-  .site-footer .brand-title span{color:var(--rose)}
+  .site-footer .brand-title span{color:var(--ruby)}
   .site-footer .tag{margin:8px 0 10px;color:#cbbfb7;font-size:14px}
   .site-footer .mail{color:#fff;text-decoration:none;font-weight:600}
-  .site-footer .mail:hover{color:var(--rose)}
+  .site-footer .mail:hover{color:var(--ruby)}
   .site-footer a{display:block;color:#e9e2db;text-decoration:none;margin:6px 0;font-weight:600}
-  .site-footer a:hover{color:var(--rose)}
-  .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
+  .site-footer a:hover{color:var(--ruby)}
+  .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(214,30,73,.35))}
   .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
-  @media (max-width:900px){.site-footer .f-wrap{grid-template-columns:1fr 1fr}}
+
+  @media (max-width:900px){ .site-footer .f-wrap{grid-template-columns:1fr 1fr} }
   @media (max-width:680px){
     .wrap{padding:108px 14px 82px}
-    .q-text{font-size:18px}
-    .lp{width:100%;min-height:auto}
+    .p-title{font-size:22px}
+    .pass-page{width:100%;height:auto}
     .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
     .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
     .nav-left{order:1}
@@ -114,12 +169,21 @@
     .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
     .site-footer .icons a{margin:0 8px}
   }
-  @media (max-width:380px){.nav-left a,.nav-right a{font-size:13px}.lang-current{font-size:11px}}
-  /* floating hearts */
-  .float-item{position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
-    transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;will-change:transform,opacity}
-  @keyframes floatUp{0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}10%{opacity:1}100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}}
-  @keyframes spin{0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}}
+  @media (max-width:380px){
+    .nav-left a,.nav-right a{font-size:13px}
+    .lang-current{font-size:11px}
+  }
+
+  /* floating hearts (ton design) */
+  .float-item{position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
+    filter:drop-shadow(0 8px 18px rgba(214,30,73,.45));
+    transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));
+    animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;will-change:transform,opacity}
+  @keyframes floatUp{0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
+    10%{opacity:1}100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}}
+  @keyframes spin{0%{filter:drop-shadow(0 8px 18px rgba(214,30,73,.45))}
+    50%{filter:drop-shadow(0 12px 26px rgba(214,30,73,.60))}
+    100%{filter:drop-shadow(0 8px 18px rgba(214,30,73,.45))}}
 </style>
 </head>
 <body>
@@ -149,10 +213,11 @@
     <h1 class="title">Love Passport</h1>
     <p class="subtitle">Your passport for love — a clear view of who you are.</p>
 
+    <!-- PROGRESS -->
     <div class="progress"><i id="bar" style="width:0%"></i></div>
     <div class="prog-txt" id="progTxt">0% ready</div>
 
-    <!-- QUIZ -->
+    <!-- QUIZ (questions rendus par JS) -->
     <div id="quiz" class="card card--narrow">
       <div class="q-idx" id="qIdx">Question 1</div>
       <div class="q-text" id="qText">…</div>
@@ -160,120 +225,39 @@
 
       <div class="actions">
         <button class="btn" id="back">← Back</button>
-        <div>
-          <!-- Skip removed on purpose -->
-          <button class="btn" id="next">Next →</button>
-        </div>
+        <div><button class="btn" id="next">Next →</button></div>
       </div>
       <div class="help" id="helper"></div>
     </div>
 
-    <!-- RESULT + A4 PASSPORT -->
-    <div id="result" class="summary card card--narrow">
-      <h2>Your Love Passport — Summary</h2>
+    <!-- RESULT -->
+    <div id="result" class="card card--narrow" style="display:none">
+      <h2 class="p-title" style="margin-bottom:12px">Your Love Passport</h2>
 
-      <!-- A4 PASSPORT -->
-      <div id="passportDoc" class="lp" aria-label="Love Passport Document" style="display:none">
-        <header class="lp-header">
-          <div class="lp-title">LOVE PASSPORT</div>
-          <div class="lp-tagline">Your passport for love — see who you are at a glance.</div>
-        </header>
-
-        <section class="lp-idrow">
-          <img id="pp-photo" class="lp-photo" src="" alt="photo" />
-          <div class="lp-idgrid">
-            <div class="it"><span>Name</span><strong id="pp-name"></strong></div>
-            <div class="it"><span>Age</span><strong id="pp-age"></strong></div>
-            <div class="it"><span>Location</span><strong id="pp-location"></strong></div>
-            <div class="it"><span>Languages</span><strong id="pp-languages"></strong></div>
-            <div class="it"><span>Profession</span><strong id="pp-prof"></strong></div>
-            <div class="it"><span>Marital status</span><strong id="pp-marital"></strong></div>
+      <!-- Viewer + Controls -->
+      <div class="book-wrap" id="bookWrap">
+        <div class="book-controls">
+          <div class="left">
+            <button class="btn" id="btnPrevPage" type="button">← Prev page</button>
+            <button class="btn" id="btnNextPage" type="button">Next page →</button>
+            <span class="page-indicator" id="pageIndicator">Page 1 / 6</span>
           </div>
-        </section>
-
-        <h3 class="lp-sec">Core Profile</h3>
-        <div class="lp-grid3">
-          <div class="it"><span>Children</span><strong id="pp-children"></strong></div>
-          <div class="it"><span>Height</span><strong id="pp-height"></strong></div>
-          <div class="it"><span>Identity</span><strong id="pp-identity"></strong></div>
-          <div class="it"><span>Money arrangement</span><strong id="pp-money"></strong></div>
-          <div class="it"><span>Relationship goals</span><strong id="pp-goals"></strong></div>
-          <div class="it"><span>When to marry</span><strong id="pp-when"></strong></div>
-          <div class="it"><span>Long-distance</span><strong id="pp-long"></strong></div>
-          <div class="it"><span>Relocation</span><strong id="pp-reloc"></strong></div>
-        </div>
-
-        <h3 class="lp-sec">Lifestyle & Habits</h3>
-        <div class="lp-grid3">
-          <div class="it"><span>Smoking</span><strong id="pp-smoking"></strong></div>
-          <div class="it"><span>Alcohol</span><strong id="pp-alcohol"></strong></div>
-          <div class="it"><span>Diet</span><strong id="pp-diet"></strong></div>
-          <div class="it"><span>Fitness</span><strong id="pp-fitness"></strong></div>
-          <div class="it"><span>Pets</span><strong id="pp-pets"></strong></div>
-          <div class="it"><span>Love languages</span><strong id="pp-lovelangs"></strong></div>
-        </div>
-
-        <h3 class="lp-sec">Faith & Culture</h3>
-        <div class="lp-grid3">
-          <div class="it"><span>Religion</span><strong id="pp-religionAff"></strong></div>
-          <div class="it"><span>Alignment</span><strong id="pp-religion"></strong></div>
-          <div class="it"><span>Cross-culture</span><strong id="pp-cross"></strong></div>
-          <div class="it"><span>Place of God</span><strong id="pp-god"></strong></div>
-        </div>
-
-        <h3 class="lp-sec">Roles & Home</h3>
-        <div class="lp-grid3">
-          <div class="it"><span>Household duties</span><strong id="pp-housework"></strong></div>
-          <div class="it"><span>Cooking</span><strong id="pp-cooking"></strong></div>
-          <div class="it"><span>Relationship roles</span><strong id="pp-identityRole"></strong></div>
-        </div>
-
-        <h3 class="lp-sec">Privacy & Social</h3>
-        <div class="lp-grid3">
-          <div class="it"><span>Phone privacy</span><strong id="pp-phone"></strong></div>
-          <div class="it"><span>Social posts</span><strong id="pp-socialpost"></strong></div>
-          <div class="it"><span>DM rules</span><strong id="pp-dmrules"></strong></div>
-        </div>
-
-        <h3 class="lp-sec">Intimacy</h3>
-        <div class="lp-grid3">
-          <div class="it"><span>Progression</span><strong id="pp-int-speed"></strong></div>
-          <div class="it"><span>Public touch</span><strong id="pp-int-touch"></strong></div>
-          <div class="it"><span>Light preference</span><strong id="pp-int-light"></strong></div>
-        </div>
-
-        <h3 class="lp-sec danger">DEAL BREAKERS</h3>
-        <div class="lp-chips" id="pp-breakers"></div>
-
-        <h3 class="lp-sec">About me</h3>
-        <div class="lp-about" id="pp-about"></div>
-
-        <div class="lp-footer">
-          <div class="qrrow">
-            <div class="qrbox">
-              <div id="qr" class="qr" aria-label="QR to matchormoveon.com"></div>
-              <div class="insta">Follow on Instagram <strong>@personelle</strong></div>
-            </div>
-            <div id="pp-date">Generated: —</div>
+          <div class="right">
+            <button class="btn" id="btnPreview" type="button">Build / Refresh</button>
+            <button class="btn" id="btnPdf" type="button">Download PDF</button>
           </div>
-          <div style="max-width:700px">
-            <em>“Remember: you’re just the villain in the story of someone who wasn’t your match — except narcissists. For them, there’s no match. In every story, they remain the villain.”</em>
-          </div>
-          <div style="font-weight:800;letter-spacing:.3px">VISIT MATCHORMOVEON.COM</div>
         </div>
-      </div>
 
-      <div class="actions" style="justify-content:flex-end;gap:8px;flex-wrap:wrap">
-        <button id="btnPreview" class="btn" type="button">Preview Passport</button>
-        <button id="btnPdf" class="btn" type="button">Download PDF</button>
-        <button id="btnPng" class="btn" type="button">Export PNG</button>
+        <div class="book" id="passportBook">
+          <!-- Les 6 pages seront injectées ici par JS -->
+        </div>
       </div>
     </div>
   </div>
 </main>
 
 <!-- FOOTER -->
-<footer class="site-footer" id="footer">
+<footer class="site-footer">
   <div class="f-wrap">
     <div class="f-col brand">
       <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
@@ -341,18 +325,17 @@ addEventListener('resize',size);size();loop();
 })();
 </script>
 
-<!-- ===== LIBS POUR EXPORT ===== -->
+<!-- ===== LIBS POUR EXPORT PDF ===== -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
-<!-- ===== APP LOGIC: QUIZ + PASSPORT ===== -->
 <script>
-/* ===================== QUESTIONS (adaptées) ===================== */
+/* ===================== QUESTIONS (adaptées à ton quiz + ajouts) ===================== */
 const QUESTIONS = [
   { id:'name',  type:'text',   required:true,  label:'What’s your full name?', placeholder:'Your name here' },
   { id:'gender',type:'single', required:true,  label:'How do you identify your gender?',
     options:['Man','Woman','Non-binary','Trans man','Trans woman','Intersex','Other'] },
-  { id:'genderOther', type:'text-sub', parent:'gender', showIfValue:'Other', required:true, label:'Tell us your gender in your own words', placeholder:'Type your gender' },
+  { id:'genderOther', type:'text-sub', parent:'gender', showIfValue:'Other', required:true, label:'Tell us your gender (Other)', placeholder:'Type your gender' },
 
   { id:'photo', type:'file', required:false, label:'Upload your photo (optional) — JPG/PNG under 5 MB' },
 
@@ -423,8 +406,8 @@ const QUESTIONS = [
 
   { id:'evening', type:'single', required:true, label:'What’s your ideal evening?', options:['Cozy movie night at home','Dinner out & good conversation','Game night with friends','Live music or a show']},
 
-  /* Music — updated */
-  { id:'music', type:'multi', required:false, minSelect:3, label:'Music vibe (pick ≥ 3, or choose a single special option)',
+  /* Music — + options spéciales */
+  { id:'music', type:'multi', required:false, minSelect:3, label:'Music vibe (pick ≥ 3, or choose a special option)',
     options:['Afro/RnB','Rap/Trap','Pop / Dance','Rock/Metal','Classical/Jazz','Gospel / Religious only','I don’t listen to music','All vibes']},
 
   { id:'texting', type:'single', required:false, label:'How do you text?', options:['I reply quickly','I reply in batches later','I forget sometimes — remind me']},
@@ -439,7 +422,7 @@ const QUESTIONS = [
     'Political/worldview conflict (very different from mine)','Religion different / not aligned','Tries to change my faith/practice','Cheating / infidelity','Jealous / possessive / controlling','Violence (physical, verbal, emotional)','Explosive temper / unmanaged anger','Disrespects waiters/service workers; lacks humility','Partner owns pets (dogs/cats) — I can’t handle it','Big income gap — earns much less than me','Big income gap — earns much more than me'
   ]},
 
-  /* ===== NEW: Privacy & Social ===== */
+  /* Privacy & Social */
   { id:'phonePrivacy', type:'single', required:true, label:'How do you see phone privacy in a relationship?', options:[
     'My phone is private, I don’t share passwords','I can share passwords if needed','My phone is fully open, no restrictions'
   ]},
@@ -450,7 +433,7 @@ const QUESTIONS = [
     'I am okay with friendly DMs (opposite sex included)','Only respectful/professional DMs are fine','No private DMs with the opposite sex at all'
   ]},
 
-  /* ===== NEW: Intimacy (clair) ===== */
+  /* Intimacy */
   { id:'intimacySpeed', type:'single', required:true, label:'How fast do you like to move physically in a relationship?', options:[
     'I like to take it very slowly (weeks/months before intimacy)','I prefer a normal rhythm (we see how it goes naturally)','I am usually fast (I get intimate early when I feel chemistry)']},
   { id:'publicTouch', type:'single', required:true, label:'How do you feel about physical touch in public?', options:[
@@ -462,16 +445,16 @@ const QUESTIONS = [
   { id:'aboutYou', type:'text', required:false, label:'Write a short “About me” (optional)', placeholder:'3–6 lines about you' }
 ];
 
-/* ===================== CORE HELPERS ===================== */
+/* ===================== CORE HELPERS (quiz) ===================== */
 const $ = (id)=>document.getElementById(id);
-let idx = 0;
-const answers = {}; // id -> value (photo stored as dataURL)
+let idx = 0;                // index rendu
+const answers = {};         // id -> value (photo: dataURL)
 
 function shouldShow(q){
   if(q.type && q.type.endsWith('-sub')){
-    const parentVal = answers[q.parent];
-    if (Array.isArray(q.showIfValues)) return q.showIfValues.includes(parentVal);
-    if ('showIfValue' in q) return parentVal === q.showIfValue;
+    const pv = answers[q.parent];
+    if (Array.isArray(q.showIfValues)) return q.showIfValues.includes(pv);
+    if ('showIfValue' in q) return pv === q.showIfValue;
   }
   return true;
 }
@@ -491,7 +474,7 @@ function isAnswered(q){
   return !!(v && String(v).trim()!=='');
 }
 
-/* ===================== RENDER ===================== */
+/* ===================== RENDER (quiz) ===================== */
 function render(){
   const totalR = getRenderableCount(); if(idx<0) idx=0; if(idx>totalR-1) idx=totalR-1;
   const abs = currentRenderableIndexToAbsolute(idx); const q = QUESTIONS[abs];
@@ -556,14 +539,13 @@ function render(){
       $('helper').textContent='Pick ≥ 3 styles OR select a single special option (Gospel only / I don’t listen / All vibes).';
       wrap.addEventListener('change',(e)=>{
         if(e.target && e.target.name==='optm'){
-          const allBox=[...wrap.querySelectorAll('input[name="optm"]')].find(x=>x.value==='All vibes');
-          const noneBox=[...wrap.querySelectorAll('input[name="optm"]')].find(x=>x.value==='I don’t listen to music');
-          const gospelBox=[...wrap.querySelectorAll('input[name="optm"]')].find(x=>x.value==='Gospel / Religious only');
-          const specials=[allBox,noneBox,gospelBox].filter(Boolean);
-          if(specials.includes(e.target) && e.target.checked){
-            [...wrap.querySelectorAll('input[name="optm"]')].forEach(x=>{ if(x!==e.target) x.checked=false; });
-          } else if(!specials.includes(e.target) && e.target.checked){
-            specials.forEach(x=>{ if(x) x.checked=false; });
+          const boxes=[...wrap.querySelectorAll('input[name="optm"]')];
+          const specialVals=['All vibes','I don’t listen to music','Gospel / Religious only'];
+          const isSpecial=(x)=>specialVals.includes(x.value);
+          if(isSpecial(e.target) && e.target.checked){
+            boxes.forEach(x=>{ if(x!==e.target) x.checked=false; });
+          } else if(!isSpecial(e.target) && e.target.checked){
+            boxes.filter(isSpecial).forEach(x=>x.checked=false);
           }
         }
       });
@@ -573,7 +555,6 @@ function render(){
   $('back').disabled = (idx===0);
 }
 
-/* ===================== CAPTURE & NAV ===================== */
 function collectAndValidate(){
   const abs=currentRenderableIndexToAbsolute(idx); const q=QUESTIONS[abs]; let v=null;
   if(q.type==='text' || q.type==='text-sub'){ v=(document.getElementById('textInput')?.value||'').trim(); }
@@ -596,7 +577,6 @@ function collectAndValidate(){
   if(q.type!=='file'){
     if(Array.isArray(v)) answers[q.id]=v; else if(!empty(v)) answers[q.id]=v; else delete answers[q.id];
   }
-
   if(q.id==='children' && v==='No'){ delete answers['childrenCount']; delete answers['childrenWith']; }
   if(q.id==='childrenCount' && v==='1'){ delete answers['childrenWith']; }
   if(q.id==='religionAff' && v!=='Other'){ delete answers['religionOther']; }
@@ -604,146 +584,213 @@ function collectAndValidate(){
 
   $('helper').textContent=''; return true;
 }
-function next(){ if(!collectAndValidate()) return; const totalR=getRenderableCount(); if(idx<totalR-1){ idx++; render(); } else { showSummary(); } }
+function next(){ if(!collectAndValidate()) return; const totalR=getRenderableCount(); if(idx<totalR-1){ idx++; render(); } else { openResult(); } }
 function back(){ if(idx>0){ idx--; render(); } }
 $('next').addEventListener('click', next);
 $('back').addEventListener('click', back);
 render();
 
-/* ===================== SUMMARY + PASSPORT FILL ===================== */
-function chips(containerId, arr){ const el=$(containerId); if(!el) return; el.innerHTML=''; (arr||[]).forEach(x=>{ const s=document.createElement('span'); s.className='chip'; s.textContent=x; el.appendChild(s); }); }
-function text(id, value){ const el=$(id); if(el) el.textContent=value??''; }
-function photo(id, dataUrl){ const el=$(id); if(el && dataUrl) el.src=dataUrl; }
-
-function buildPassportDoc(){
-  const get=(k)=>answers[k]??''; const join=(k)=>Array.isArray(answers[k])&&answers[k].length?answers[k].join(', '):'';
-
-  text('pp-name', get('name')); text('pp-age', get('age')); text('pp-location', get('country'));
-  text('pp-languages', join('languages')); text('pp-prof', get('job')||'—'); text('pp-marital', get('marital')||'—');
-  if(answers.photo) photo('pp-photo', answers.photo);
-
-  let childrenLine='—';
-  if(answers.children==='No'){ childrenLine='No'; }
-  else if(answers.children==='Yes'){ const c=answers.childrenCount||'?'; childrenLine=(c==='1')?'Yes — 1':`Yes — ${c} (${answers.childrenWith||'?'})`; }
-  text('pp-children', childrenLine); text('pp-height', get('height')||'—');
-  text('pp-identity', get('identity')||'—'); text('pp-money', get('money')||'—');
-  text('pp-goals', join('relationshipGoals')||'—'); text('pp-when', get('marriageTimeline')||'—');
-  text('pp-long', get('longDistance')||'—'); text('pp-reloc', get('relocate')||'—');
-
-  text('pp-smoking', get('smoking')||'—'); text('pp-alcohol', get('alcohol')||'—'); text('pp-diet', get('diet')||'—'); text('pp-fitness', get('fitness')||'—');
-  let pet='—'; if(answers.petOwner==='Yes'){ pet=answers.petType?`Yes — ${answers.petType}`:'Yes'; }
-  else if(answers.petOwner==='No'){ pet='No'; } else if(answers.petOwner==='I am allergic to pets'){ pet='Allergic to pets'; } else if(answers.petOwner==='I don’t want pets'){ pet='I don’t want pets'; }
-  text('pp-pets', pet); text('pp-lovelangs', join('loveLanguages')||'—');
-
-  text('pp-religionAff', answers.religionAff==='Other'?(answers.religionOther||'Other'):(answers.religionAff||'—'));
-  text('pp-religion', get('religion')||'—'); text('pp-cross', get('crossCulture')||'—'); text('pp-god', get('godPlace')||'—');
-
-  text('pp-housework', get('housework')||'—'); text('pp-cooking', get('cooking')||'—'); text('pp-identityRole', get('identity')||'—');
-
-  text('pp-phone', get('phonePrivacy')||'—'); text('pp-socialpost', get('socialPosting')||'—'); text('pp-dmrules', get('dmRules')||'—');
-
-  text('pp-int-speed', get('intimacySpeed')||'—'); text('pp-int-touch', get('publicTouch')||'—'); text('pp-int-light', get('lightPreference')||'—');
-
-  chips('pp-breakers', answers.dealBreaker||[]); text('pp-about', get('aboutYou')||'');
-
-  const d=new Date(); text('pp-date','Generated: '+d.toLocaleDateString());
-
-  // QR
-  const qrBox=$('qr'); if(qrBox){ qrBox.innerHTML=''; new QRCode(qrBox,{ text:'https://matchormoveon.com', width:64, height:64, correctLevel: QRCode.CorrectLevel.M }); }
-
-  $('passportDoc').style.display='block';
+/* ===================== RESULT + BOOK ===================== */
+function openResult(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('result').style.display='block';
+  document.getElementById('bookWrap').style.display='block';
+  buildPassportBook();
+  updateBookView();
 }
 
-function showSummary(){
-  $('quiz').style.display='none';
-  const list=document.createElement('ul'); list.style.margin='10px 0 0 18px'; list.id='rList';
-  const container=document.querySelector('#result'); container.querySelector('#rList')?.remove(); container.insertBefore(list, container.querySelector('.actions'));
+/* helpers */
+const get = (k)=>answers[k] ?? '—';
+const join = (k)=>Array.isArray(answers[k]) && answers[k].length ? answers[k].join(', ') : '—';
+function childrenLine(){
+  if(answers.children==='No') return 'No';
+  if(answers.children==='Yes'){
+    const c = answers.childrenCount || '?';
+    if(c==='1') return 'Yes — 1';
+    return `Yes — ${c} (${answers.childrenWith||'?'})`;
+  }
+  return '—';
+}
+function petsLine(){
+  if(answers.petOwner==='Yes') return answers.petType ? `Yes — ${answers.petType}` : 'Yes';
+  if(answers.petOwner==='No') return 'No';
+  if(answers.petOwner==='I am allergic to pets') return 'Allergic to pets';
+  if(answers.petOwner==='I don’t want pets') return 'I don’t want pets';
+  return '—';
+}
 
-  const labels={
-    name:'Name', gender:'Gender', genderOther:'Gender (other)', country:'Country',
-    languages:'Languages', age:'Age', height:'Height', marital:'Marital status',
-    job:'Profession', money:'Money arrangement', identity:'Relationship role',
-    housework:'Household duties', cooking:'Cooking skills',
-    children:'Children', childrenCount:'Children (how many)', childrenWith:'Children (with)',
-    futureKids:'Future kids', kidsTimeline:'Kids — timeline',
-    religionAff:'Religion (affiliation)', religionOther:'Religion (other)', religion:'Religion alignment', crossCulture:'Cross-culture', godPlace:'Place of God',
-    smoking:'Smoking', alcohol:'Alcohol', diet:'Diet', fitness:'Fitness',
-    loveLanguages:'Love languages', selfDesc:'Self description',
-    ambition:'Ambition', partnerSuccess:'Partner success', conflict:'Conflict handling', energy:'Introvert/Extrovert',
-    relationshipGoals:'Relationship goals', marriageTimeline:'When to marry', longDistance:'Long-distance', relocate:'Relocation',
-    evening:'Ideal evening', music:'Music vibe', texting:'Texting style',
-    petOwner:'Pet owner', petType:'Pet type', boundaries:'Personal boundaries', dealBreaker:'Deal-breakers',
-    phonePrivacy:'Phone privacy', socialPosting:'Social posting', dmRules:'DM rules',
-    intimacySpeed:'Intimacy progression', publicTouch:'Public touch', lightPreference:'Intimacy — light',
-    aboutYou:'About me'
-  };
+/* ========== Build 6 pages ========== */
+let bookPages = []; let currentPage = 0;
 
-  // compose children once
-  let childrenLine=null;
-  if(answers.children==='No') childrenLine='No';
-  else if(answers.children==='Yes'){ const c=answers.childrenCount||'?'; childrenLine=(c==='1')?'Yes — 1':`Yes — ${c} (${answers.childrenWith||'?'})`; }
+function el(tag, attrs={}, html=''){
+  const e=document.createElement(tag);
+  Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+  if(html) e.innerHTML=html;
+  return e;
+}
 
-  Object.keys(labels).forEach(k=>{
-    const li=document.createElement('li');
-    if(k==='children'){ li.innerHTML=`<strong>${labels[k]}:</strong> ${childrenLine??''}`; list.appendChild(li); return; }
-    const v=answers[k]; if(v===undefined) return;
-    const txt=Array.isArray(v)?v.join(', '):v; li.innerHTML=`<strong>${labels[k]}:</strong> ${txt}`; list.appendChild(li);
+function pageShell(title, subtitle){
+  const p=el('div',{class:'pass-page'});
+  p.appendChild(el('h2',{class:'p-title'},title));
+  if(subtitle) p.appendChild(el('div',{class:'p-sub'},subtitle));
+  p.appendChild(el('div',{class:'gold-line'}));
+  return p;
+}
+
+function buildPassportBook(){
+  const book = document.getElementById('passportBook');
+  book.innerHTML=''; bookPages=[]; currentPage=0;
+
+  const serial = 'LP-2025-' + Math.floor(1000 + Math.random()*9000);
+  const issueDate = new Date().toLocaleDateString();
+
+  /* 1. Couverture */
+  const p1 = pageShell('LOVE PASSPORT','Multipage official booklet');
+  const coverBox = el('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:16px;'});
+  const heart = el('div',{class:'heart-big'});
+  const serialBox = el('div',{}, `<div style="margin-bottom:6px"><span class="serial">${serial}</span></div>
+    <div style="font-size:13px;color:#f7e7c6"><strong>Owner:</strong> ${get('name')}</div>
+    <div style="font-size:13px;color:#f7e7c6"><strong>Issued:</strong> ${issueDate}</div>`);
+  coverBox.appendChild(heart); coverBox.appendChild(serialBox);
+  p1.appendChild(coverBox);
+  p1.appendChild(el('div',{class:'footer-issuer'},'Issued by matchormoveon.com'));
+
+  /* 2. Identité */
+  const p2 = pageShell('IDENTITY','Holder information');
+  const top2 = el('div',{class:'grid-2'});
+  const left2 = el('div',{},`
+    <div class="item"><span>Name</span><strong>${get('name')}</strong></div>
+    <div class="grid-2" style="margin-top:10px">
+      <div class="item"><span>Age</span><strong>${get('age')}</strong></div>
+      <div class="item"><span>Height</span><strong>${get('height')}</strong></div>
+    </div>
+    <div class="item" style="margin-top:10px"><span>Location</span><strong>${get('country')}</strong></div>
+    <div class="item" style="margin-top:10px"><span>Languages</span><strong>${join('languages')}</strong></div>
+    <div class="item" style="margin-top:10px"><span>Profession</span><strong>${get('job')}</strong></div>
+    <div class="item" style="margin-top:10px"><span>Marital status</span><strong>${get('marital')}</strong></div>
+    <div style="margin-top:10px;color:#f7e7c6;font-size:12px"><strong>Issued:</strong> ${issueDate}</div>
+  `);
+  const right2 = el('div',{style:'display:flex;flex-direction:column;align-items:center;gap:12px;justify-content:flex-start'});
+  const ph = el('img',{class:'photo-round',alt:'photo'});
+  if(answers.photo) ph.src = answers.photo; right2.appendChild(ph);
+  right2.appendChild(el('div',{class:'item',style:'text-align:center'},`<span>Gender</span><strong>${answers.gender==='Other'? (answers.genderOther||'Other') : (answers.gender||'—')}</strong>`));
+  top2.appendChild(left2); top2.appendChild(right2); p2.appendChild(top2);
+
+  /* 3. Core Profile */
+  const p3 = pageShell('CORE PROFILE','Family, goals & logistics');
+  const g3 = el('div',{class:'grid-3'});
+  g3.innerHTML = `
+    <div class="item"><span>Children</span><strong>${childrenLine()}</strong></div>
+    <div class="item"><span>Identity</span><strong>${get('identity')}</strong></div>
+    <div class="item"><span>Money mindset</span><strong>${get('money')}</strong></div>
+    <div class="item"><span>Relationship goals</span><strong>${join('relationshipGoals')}</strong></div>
+    <div class="item"><span>Marriage plan</span><strong>${get('marriageTimeline')}</strong></div>
+    <div class="item"><span>Long distance</span><strong>${get('longDistance')}</strong></div>
+  `;
+  p3.appendChild(g3);
+
+  /* 4. Values & Vision */
+  const p4 = pageShell('VALUES & VISION','Beliefs, faith & loyalty');
+  const g4 = el('div',{class:'grid-3'});
+  const relAff = (answers.religionAff==='Other' ? (answers.religionOther||'Other') : (answers.religionAff||'—'));
+  g4.innerHTML = `
+    <div class="item"><span>Religion</span><strong>${relAff}</strong></div>
+    <div class="item"><span>Place of God</span><strong>${get('godPlace')}</strong></div>
+    <div class="item"><span>Alignment</span><strong>${get('religion')}</strong></div>
+    <div class="item"><span>Cross-culture</span><strong>${get('crossCulture')}</strong></div>
+    <div class="item"><span>Loyalty belief</span><strong>${get('loyalty')}</strong></div>
+    <div class="item"><span>Phone privacy</span><strong>${get('phonePrivacy')}</strong></div>
+  `;
+  p4.appendChild(g4);
+
+  /* 5. Lifestyle & Habits */
+  const p5 = pageShell('LIFESTYLE & HABITS','Daily rhythm & tastes');
+  const g5 = el('div',{class:'grid-3'});
+  // Musique / Hobbies : on compose
+  let musicLine = join('music');
+  let hobbies = `${get('evening')} • ${join('selfDesc')}`;
+  g5.innerHTML = `
+    <div class="item"><span>Smoking</span><strong>${get('smoking')}</strong></div>
+    <div class="item"><span>Alcohol</span><strong>${get('alcohol')}</strong></div>
+    <div class="item"><span>Diet</span><strong>${get('diet')}</strong></div>
+    <div class="item"><span>Fitness</span><strong>${get('fitness')}</strong></div>
+    <div class="item"><span>Pets</span><strong>${petsLine()}</strong></div>
+    <div class="item"><span>Hobbies</span><strong>${hobbies}</strong></div>
+    <div class="item"><span>Music</span><strong>${musicLine}</strong></div>
+    <div class="item"><span>Public touch</span><strong>${get('publicTouch')}</strong></div>
+    <div class="item"><span>Intimacy light</span><strong>${get('lightPreference')}</strong></div>
+  `;
+  p5.appendChild(g5);
+
+  /* 6. Deal Breakers + Signature */
+  const p6 = pageShell('DEAL BREAKERS & SIGNATURE','Non-negotiables & statement');
+  const stampsWrap = el('div',{class:'stamps',id:'stamps'});
+  (answers.dealBreaker||[]).forEach(t=>{
+    const s=el('div',{class:'stamp'},t);
+    stampsWrap.appendChild(s);
   });
+  p6.appendChild(stampsWrap);
+  p6.appendChild(el('div',{class:'gold-line'}));
+  const about = el('div',{class:'item'},`<span>Motto / About me</span><strong>${answers.aboutYou||'—'}</strong>`);
+  p6.appendChild(about);
+  p6.appendChild(el('div',{style:'margin-top:10px;color:#f7e7c6;font-size:12px'},`Generated: ${issueDate}`));
+  p6.appendChild(el('div',{class:'footer-issuer'},'Issued by matchormoveon.com'));
 
-  buildPassportDoc();
-  $('result').style.display='block';
+  // Inject pages
+  [p1,p2,p3,p4,p5,p6].forEach(p=>{ book.appendChild(p); bookPages.push(p); });
 }
 
-/* ===================== EXPORT & PREVIEW ===================== */
-document.getElementById('btnPreview').addEventListener('click', ()=>{ buildPassportDoc(); document.getElementById('passportDoc').scrollIntoView({behavior:'smooth'}); });
+/* ===== Book navigation & indicator ===== */
+function updateBookView(){
+  bookPages.forEach((p,i)=>{ p.style.display = (i===currentPage)?'block':'none'; });
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage+1} / ${bookPages.length}`;
+}
+document.getElementById('btnPrevPage').addEventListener('click', ()=>{ if(currentPage>0){ currentPage--; updateBookView(); }});
+document.getElementById('btnNextPage').addEventListener('click', ()=>{ if(currentPage<bookPages.length-1){ currentPage++; updateBookView(); }});
+document.addEventListener('keydown', (e)=>{
+  const wrap = document.getElementById('bookWrap');
+  if(wrap.style.display!=='none'){
+    if(e.key==='ArrowLeft'){ if(currentPage>0){ currentPage--; updateBookView(); } }
+    if(e.key==='ArrowRight'){ if(currentPage<bookPages.length-1){ currentPage++; updateBookView(); } }
+  }
+});
 
+/* Build/Refresh */
+document.getElementById('btnPreview').addEventListener('click', ()=>{
+  buildPassportBook();
+  updateBookView();
+});
+
+/* PDF multipages */
 document.getElementById('btnPdf').addEventListener('click', async ()=>{
-  buildPassportDoc();
-  const node=document.getElementById('passportDoc');
-  const canvas=await html2canvas(node,{scale:2,backgroundColor:null});
-  const imgData=canvas.toDataURL('image/png');
-  const { jsPDF }=window.jspdf;
-  const pdf=new jsPDF({orientation:'p',unit:'px',format:'a4',compress:true});
-  const pageW=pdf.internal.pageSize.getWidth();
-  const imgH=(canvas.height/canvas.width)*pageW;
-  pdf.addImage(imgData,'PNG',0,0,pageW,imgH);
-  pdf.save('Love_Passport.pdf');
+  // s’assure que le livre est construit
+  if(bookPages.length===0) buildPassportBook();
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({orientation:'p',unit:'px',format:'a4',compress:true});
+  for(let i=0;i<bookPages.length;i++){
+    // rendre chaque page en image
+    const canvas = await html2canvas(bookPages[i], {scale:2, backgroundColor:'#0b0b0f'});
+    const imgData = canvas.toDataURL('image/png');
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    // dimensionne l’image pour couvrir la page
+    pdf.addImage(imgData,'PNG',0,0,pageW,pageH);
+    if(i<bookPages.length-1) pdf.addPage();
+  }
+  pdf.save('Love_Passport_MOMO.pdf');
 });
 
-document.getElementById('btnPng').addEventListener('click', async ()=>{
-  buildPassportDoc();
-  const node=document.getElementById('passportDoc');
-  const canvas=await html2canvas(node,{scale:3,backgroundColor:null});
-  const link=document.createElement('a');
-  link.download='Love_Passport.png';
-  link.href=canvas.toDataURL('image/png');
-  link.click();
-});
+/* Montrer le résultat quand on a fini le quiz */
+function openResultIfAllAnswered(){
+  const allVisible = QUESTIONS.filter(shouldShow);
+  const ok = allVisible.every(isAnswered);
+  if(ok) openResult();
+}
 </script>
-
-<!-- ===== Minimal QR generator (embedded) ===== -->
-<script>
-(function(){function t(a){this.mode=1;this.data=a}function u(a,b){this.typeNumber=a;this.errorCorrectLevel=b;this.modules=null;this.moduleCount=0;this.dataList=[];this.dataCache=null}
-function v(a,b){if(void 0==a.length)throw Error(a.length+"/"+b);for(var c=0;c<a.length&&0==a[c];)c++;this.num=Array(a.length-c+b);for(var d=0;d<a.length-c;d++)this.num[d]=a[d+c]}
-function w(a,b){this.totalCount=a;this.dataCount=b}function x(){return 0}
-t.prototype={getLength:function(){return this.data.length},write:function(a){for(var b=0;b<this.data.length;b++)a.put(this.data.charCodeAt(b),8)}};
-u.prototype={addData:function(a){this.dataList.push(new t(String(a)));this.dataCache=null},isDark:function(a,b){if(null==this.modules)throw Error("Not set");return this.modules[a][b]},
-getModuleCount:function(){return this.moduleCount},make:function(){1>this.typeNumber&&(this.typeNumber=1);this.makeImpl(!1,this.getBestMaskPattern())},makeImpl:function(a,b){this.moduleCount=4*this.typeNumber+17;this.modules=Array(this.moduleCount);
-for(var c=0;c<this.moduleCount;c++){this.modules[c]=Array(this.moduleCount);for(var d=0;d<this.moduleCount;d++)this.modules[c][d]=null}A(this,b);for(c=0;c<this.dataList.length;c++){d=this.dataList[c];B(this,d)}
-void 0==this.dataCache&&(this.dataCache=C(this,this.dataList));D(this,this.dataCache)},getBestMaskPattern:function(){for(var a=0,b=0,c=0;8>c;c++){E(this,c);var d=F(this);if(0==c||a>d)a=d,b=c}return b}};
-function G(a){this.buffer=[];this.length=0;this.put=function(b,c){for(var d=0;d<c;d++)this.putBit((b>>>c-d-1&1)==1)},this.putBit=function(b){this.buffer.push(b?1:0);this.length++}}
-function B(a,b){b=a;var c=b.dataList[0];c.mode=1;var d=new G;d.put(4,4);d.put(c.getLength(),8);c.write(d);for(var e=0;e<d.length&&0==(d.length%8);)e++;for(;0<d.length%8;)d.putBit(!1);
-for(;d.length<b.typeNumber*8*2;){d.put(236,8);if(d.length>=b.typeNumber*8*2)break;d.put(17,8)}b.dataCache=d.buffer}
-function C(a){return a.dataCache}function D(a,b){for(var c=0,d=0,e=a.moduleCount-1;0<=e;e-=2)for(var f=6<=e?e:e-1;0<=f;f--)for(var g=0;2>g;g++)if(null==a.modules[f][e-g]){var h=!1;d<b.length&&(h=b[d]==1,d++);a.modules[f][e-g]=h}c++}
-function A(a){for(var b=0;b<a.moduleCount;b++)for(var c=0;c<a.moduleCount;c++)a.modules[b][c]=!1;for(b=0;6>=b;b++)a.modules[b][0]=a.modules[0][b]=a.modules[b][6]=a.modules[6][b]=!0;for(b=a.moduleCount-7;b<a.moduleCount;b++)a.modules[b][0]=a.modules[a.moduleCount-1][b]=a.modules[b][6]=a.modules[6][b]=!0}
-function E(a){}function F(a){for(var b=0,c=0;c<a.moduleCount;c++)for(var d=0;d<a.moduleCount;d++)a.modules[c][d]&&b++;return b}
-window.QRCode=function(a,b){b=b||{};var c=new u(2,1);c.addData(b.text||"");c.make();var d=document.createElement("canvas");d.width=b.width||64;d.height=b.height||64;var e=d.getContext("2d"),m=c.getModuleCount(),n=(b.width||64)/m,p=(b.height||64)/m;
-e.fillStyle="#fff";e.fillRect(0,0,d.width,d.height);e.fillStyle="#000";for(var q=0;q<m;q++)for(var r=0;r<m;r++)c.isDark(q,r)&&e.fillRect(Math.round(q*n),Math.round(r*p),Math.ceil(n),Math.ceil(p));(a.appendChild?a:document.querySelector(a)).appendChild(d)};
-QRCode.CorrectLevel={M:1};})();
-</script>
-
 </body>
 </html>
+
+
 
 
 

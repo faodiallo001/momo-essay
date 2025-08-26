@@ -7,119 +7,88 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb;
-    --rose:#ff3b30; --ring:rgba(255,59,48,.45); --glass:rgba(255,255,255,.04);
-    --border:rgba(255,255,255,.12);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
+  :root{--bg:#0b0b0d;--text:#e9e2db;--muted:#c9c2bb;--rose:#ff3b30;--ring:rgba(255,59,48,.45);--glass:rgba(255,255,255,.04);--border:rgba(255,255,255,.12)}
+  *{box-sizing:border-box} html,body{height:100%}
   body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
-
   /* background layers */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-
   /* nav */
-  .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-    padding:14px 24px;backdrop-filter:blur(8px);
-    background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
-               radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.10),transparent 60%);
-    border-bottom:1px solid rgba(255,255,255,.06)}
-  .nav-left{justify-self:start}
-  .nav-left a{color:#ffecec;text-decoration:none;font-weight:600}
-  .logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;
-    font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;
-    text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
+  .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 24px;backdrop-filter:blur(8px);
+    background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.10),transparent 60%);border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav-left{justify-self:start}.nav-left a{color:#ffecec;text-decoration:none;font-weight:600}
+  .logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
   .logo-neon .accent{color:var(--rose)}
   .nav-right{justify-self:end;display:flex;gap:18px;align-items:center}
   .nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
   .nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
   .lang{position:relative}
-  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
-    border:1px solid var(--ring);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
-    text-shadow:0 0 8px rgba(255,59,48,.55)}
-  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
-    background:rgba(0,0,0,.7);border:1px solid var(--ring);border-radius:12px;padding:8px;
-    box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
+  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;border:1px solid var(--ring);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;text-shadow:0 0 8px rgba(255,59,48,.55)}
+  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;background:rgba(0,0,0,.7);border:1px solid var(--ring);border-radius:12px;padding:8px;box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
   .lang:hover .lang-menu{display:flex}
   .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
   .lang-menu a:hover{background:rgba(255,59,48,.12)}
-
   /* page */
   .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
   .page{max-width:min(1000px,94vw);width:100%}
-  .title{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.08;
-    font-size:clamp(32px,5.6vw,60px);margin:0 0 10px;letter-spacing:.3px;text-shadow:0 0 24px rgba(255,59,48,.18)}
+  .title{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.08;font-size:clamp(32px,5.6vw,60px);margin:0 0 10px;letter-spacing:.3px;text-shadow:0 0 24px rgba(255,59,48,.18)}
   .subtitle{color:var(--muted);max-width:760px;margin:8px 0 28px;font-size:clamp(14px,1.6vw,18px)}
-
   /* progress */
   .progress{height:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
   .progress>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#ff2d2d,#ff6b4a);box-shadow:0 0 12px rgba(255,59,48,.35);transition:width .25s ease}
   .prog-txt{color:#c9c2bb;font-size:13px;margin-top:6px}
-
   /* cards */
-  .card{margin-top:16px;background:radial-gradient(120% 120% at 50% 10%,rgba(255,255,255,.06),rgba(255,255,255,.015) 60%),var(--glass);
-    border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.4);backdrop-filter:blur(10px)}
+  .card{margin-top:16px;background:radial-gradient(120% 120% at 50% 10%,rgba(255,255,255,.06),rgba(255,255,255,.015) 60%),var(--glass);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.4);backdrop-filter:blur(10px)}
   .card--narrow{max-width:760px;margin-left:auto;margin-right:auto}
-
   /* question */
   .q-idx{color:#cfc7c0;font-size:12px;margin-bottom:8px}
   .q-text{font-size:20px;margin:6px 0 12px;line-height:1.35}
   .input-line{display:flex;gap:10px;flex-wrap:wrap}
-  .input-line input[type="text"], .input-line select, .input-line input[type="file"]{
-    flex:1 1 260px;min-width:220px;background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
+  .input-line input[type="text"], .input-line select, .input-line input[type="file"]{flex:1 1 260px;min-width:220px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
   .file-help{font-size:12px;color:#b9b1aa;margin-top:6px}
   .preview{margin-top:10px;width:88px;height:88px;border-radius:10px;border:1px solid rgba(255,255,255,.15);object-fit:cover;display:none}
-
   .opts{display:grid;gap:10px;margin-top:10px}
-  .opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}
+  .opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}
   .opt input{accent-color:#ff3b30}
   .opt:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2)}
   .help{color:#b9b1aa;font-size:12px;margin-top:8px;min-height:18px}
-
   /* actions */
   .actions{display:flex;gap:10px;justify-content:space-between;margin-top:16px;flex-wrap:wrap}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:12px 16px;border-radius:14px;text-decoration:none;color:#fff;
-    border:1px solid var(--ring);
-    background:
-      radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,.09), rgba(255,255,255,.02) 50%),
-      linear-gradient(90deg,#ff2d2d,#ff6b4a);
-    box-shadow:0 8px 22px rgba(255,59,48,.28), inset 0 0 10px rgba(255,255,255,.06);
-    font-weight:800;letter-spacing:.3px;cursor:pointer;
-    transition:transform .14s ease, box-shadow .18s ease, filter .18s ease, opacity .18s ease;
-  }
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;text-decoration:none;color:#fff;border:1px solid var(--ring);
+    background:radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,.09), rgba(255,255,255,.02) 50%),linear-gradient(90deg,#ff2d2d,#ff6b4a);
+    box-shadow:0 8px 22px rgba(255,59,48,.28), inset 0 0 10px rgba(255,255,255,.06);font-weight:800;letter-spacing:.3px;cursor:pointer;transition:transform .14s ease, box-shadow .18s ease, filter .18s ease, opacity .18s ease}
   .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,59,48,.36), inset 0 0 12px rgba(255,255,255,.08)}
   .btn[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(.2)}
-
   /* summary + passport card */
   .summary{display:none;margin-top:22px}
   .summary h2{font-family:"Playfair Display",serif;margin:8px 0 6px}
-  .summary ul{margin:10px 0 0 18px} .summary li{line-height:1.6;color:#efe9e5}
-  .passport-card{
-    margin-top:18px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(0,0,0,.45);
-  }
-  .passport-head{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
-  .passport-photo{width:72px;height:72px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);
-    display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.4px;overflow:hidden}
-  .passport-photo img{width:100%;height:100%;object-fit:cover;display:block}
-  .passport-name{font-family:"Playfair Display",serif;font-size:22px}
-  .passport-meta{color:#cfc7c0;font-size:13px}
-  .passport-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-  .passport-row{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:10px}
-  .passport-row b{display:block;font-size:12px;color:#d7d0c9;margin-bottom:4px}
-  .religion-badge{border:1px solid rgba(255,59,48,.35);background:rgba(255,59,48,.10);padding:8px 10px;border-radius:10px;margin-top:10px}
-  .passport-footer{margin-top:12px;font-size:12px;color:#c9c2bb;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-
-  /* footer (Explore removed) */
+  .summary ul{margin:10px 0 0 18px}.summary li{line-height:1.6;color:#efe9e5}
+  /* ===== A4 Love Passport ===== */
+  .lp{width:794px;min-height:1123px;padding:28px 32px;color:#ececee;background:radial-gradient(1200px 800px at 10% -10%, rgba(255,59,59,.18), transparent),var(--bg);
+      border-radius:16px;box-shadow:0 16px 60px rgba(255,0,0,.18);position:relative;font:12.5px/1.25 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;margin-top:18px}
+  .lp-header{text-align:center;margin-bottom:12px}
+  .lp-title{font-family:"Playfair Display",serif;font-weight:900;letter-spacing:.4px;font-size:28px}
+  .lp-tagline{margin-top:6px;color:var(--muted);font-size:11.5px}
+  .lp-idrow{display:flex;gap:14px;margin:16px 0 10px;align-items:flex-start}
+  .lp-photo{width:86px;height:86px;border-radius:12px;object-fit:cover;border:1px solid var(--border);background:#151519}
+  .lp-idgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;flex:1}
+  .lp-sec{margin:12px 0 6px;font-weight:800;font-size:12.5px;letter-spacing:.3px;text-transform:uppercase;color:#ffd9d9}
+  .lp-sec.danger{color:var(--rose)}
+  .lp-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .it{background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:10px;padding:8px 10px;min-height:40px}
+  .it span{display:block;font-size:10px;color:var(--muted);letter-spacing:.2px;margin-bottom:2px}
+  .it strong{font-weight:700;font-size:12.5px;line-height:1.2;color:#fff}
+  .lp-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{background:rgba(255,59,59,.12);border:1px solid rgba(255,59,59,.35);color:#ffd1d1;padding:6px 9px;border-radius:999px;font-size:11.5px;line-height:1}
+  .lp-about{background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:10px;padding:10px 12px;min-height:56px;font-size:12.5px}
+  .lp-footer{margin-top:14px;display:flex;flex-direction:column;align-items:center;text-align:center;color:#cfc7c0;gap:6px;font-size:11.5px}
+  .lp-footer .qrrow{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .qrbox{display:flex;align-items:center;gap:10px}
+  .qr{width:64px;height:64px;background:#fff;border-radius:8px;overflow:hidden}
+  .insta{font-size:12px;color:#ffd7d7}
+  /* footer (site) */
   .site-footer{margin-top:60px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
-  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
-    background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
+  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
   .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
   .site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
   .site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
@@ -131,12 +100,11 @@
   .site-footer a:hover{color:var(--rose)}
   .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
   .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
-
-  @media (max-width:900px){ .site-footer .f-wrap{grid-template-columns:1fr 1fr} }
+  @media (max-width:900px){.site-footer .f-wrap{grid-template-columns:1fr 1fr}}
   @media (max-width:680px){
     .wrap{padding:108px 14px 82px}
     .q-text{font-size:18px}
-    .passport-grid{grid-template-columns:1fr}
+    .lp{width:100%;min-height:auto}
     .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
     .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
     .nav-left{order:1}
@@ -146,26 +114,12 @@
     .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
     .site-footer .icons a{margin:0 8px}
   }
-  @media (max-width:380px){
-    .nav-left a,.nav-right a{font-size:13px}
-    .lang-current{font-size:11px}
-  }
-
+  @media (max-width:380px){.nav-left a,.nav-right a{font-size:13px}.lang-current{font-size:11px}}
   /* floating hearts */
-  .float-item{position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
-    filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
-    transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));
-    animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;will-change:transform,opacity}
-  @keyframes floatUp{
-    0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
-    10%{opacity:1}
-    100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}
-  }
-  @keyframes spin{
-    0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
-    50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
-    100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
-  }
+  .float-item{position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
+    transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;will-change:transform,opacity}
+  @keyframes floatUp{0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}10%{opacity:1}100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}}
+  @keyframes spin{0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}}
 </style>
 </head>
 <body>
@@ -193,11 +147,12 @@
 <main class="wrap">
   <div class="page">
     <h1 class="title">Love Passport</h1>
-    <p class="subtitle">Answer honestly. No judgment — just your vibe, your balance, your truth.</p>
+    <p class="subtitle">Your passport for love — a clear view of who you are.</p>
 
     <div class="progress"><i id="bar" style="width:0%"></i></div>
     <div class="prog-txt" id="progTxt">0% ready</div>
 
+    <!-- QUIZ -->
     <div id="quiz" class="card card--narrow">
       <div class="q-idx" id="qIdx">Question 1</div>
       <div class="q-text" id="qText">…</div>
@@ -206,72 +161,112 @@
       <div class="actions">
         <button class="btn" id="back">← Back</button>
         <div>
-          <button class="btn" id="skip" title="Optional">Skip</button>
+          <!-- Skip removed on purpose -->
           <button class="btn" id="next">Next →</button>
         </div>
       </div>
       <div class="help" id="helper"></div>
     </div>
 
+    <!-- RESULT + A4 PASSPORT -->
     <div id="result" class="summary card card--narrow">
       <h2>Your Love Passport — Summary</h2>
 
-      <!-- PASSPORT CARD -->
-      <div id="passportCard" class="passport-card" style="display:none">
-        <div class="passport-head">
-          <div class="passport-photo" id="pc_photo">ID</div>
-          <div>
-            <div class="passport-name" id="pc_name">—</div>
-            <div class="passport-meta" id="pc_meta">—</div>
+      <!-- A4 PASSPORT -->
+      <div id="passportDoc" class="lp" aria-label="Love Passport Document" style="display:none">
+        <header class="lp-header">
+          <div class="lp-title">LOVE PASSPORT</div>
+          <div class="lp-tagline">Your passport for love — see who you are at a glance.</div>
+        </header>
+
+        <section class="lp-idrow">
+          <img id="pp-photo" class="lp-photo" src="" alt="photo" />
+          <div class="lp-idgrid">
+            <div class="it"><span>Name</span><strong id="pp-name"></strong></div>
+            <div class="it"><span>Age</span><strong id="pp-age"></strong></div>
+            <div class="it"><span>Location</span><strong id="pp-location"></strong></div>
+            <div class="it"><span>Languages</span><strong id="pp-languages"></strong></div>
+            <div class="it"><span>Profession</span><strong id="pp-prof"></strong></div>
+            <div class="it"><span>Marital status</span><strong id="pp-marital"></strong></div>
           </div>
+        </section>
+
+        <h3 class="lp-sec">Core Profile</h3>
+        <div class="lp-grid3">
+          <div class="it"><span>Children</span><strong id="pp-children"></strong></div>
+          <div class="it"><span>Height</span><strong id="pp-height"></strong></div>
+          <div class="it"><span>Identity</span><strong id="pp-identity"></strong></div>
+          <div class="it"><span>Money arrangement</span><strong id="pp-money"></strong></div>
+          <div class="it"><span>Relationship goals</span><strong id="pp-goals"></strong></div>
+          <div class="it"><span>When to marry</span><strong id="pp-when"></strong></div>
+          <div class="it"><span>Long-distance</span><strong id="pp-long"></strong></div>
+          <div class="it"><span>Relocation</span><strong id="pp-reloc"></strong></div>
         </div>
 
-        <div class="passport-grid">
-          <div class="passport-row"><b>Location</b><div id="pc_location">—</div></div>
-          <div class="passport-row"><b>Languages</b><div id="pc_languages">—</div></div>
-
-          <div class="passport-row"><b>Profession</b><div id="pc_job">—</div></div>
-          <div class="passport-row"><b>Marital status</b><div id="pc_marital">—</div></div>
-
-          <div class="passport-row"><b>Children</b><div id="pc_children">—</div></div>
-          <div class="passport-row"><b>Height</b><div id="pc_height">—</div></div>
-
-          <div class="passport-row"><b>Identity</b><div id="pc_identity">—</div></div>
-          <div class="passport-row"><b>Money arrangement</b><div id="pc_money">—</div></div>
-
-          <div class="passport-row"><b>Relationship goals</b><div id="pc_goals">—</div></div>
-          <div class="passport-row"><b>When to marry</b><div id="pc_timeline">—</div></div>
-
-          <div class="passport-row"><b>Long-distance</b><div id="pc_distance">—</div></div>
-          <div class="passport-row"><b>Relocation</b><div id="pc_relocate">—</div></div>
-
-          <div class="passport-row"><b>Cooking</b><div id="pc_cooking">—</div></div>
-          <div class="passport-row"><b>Household duties</b><div id="pc_housework">—</div></div>
-
-          <div class="passport-row"><b>Smoking</b><div id="pc_smoking">—</div></div>
-          <div class="passport-row"><b>Alcohol</b><div id="pc_alcohol">—</div></div>
-          <div class="passport-row"><b>Diet</b><div id="pc_diet">—</div></div>
-          <div class="passport-row"><b>Fitness</b><div id="pc_fitness">—</div></div>
-
-          <div class="passport-row"><b>Pets</b><div id="pc_pets">—</div></div>
-          <div class="passport-row" style="grid-column:1 / -1"><b>Love languages</b><div id="pc_loveLanguages">—</div></div>
+        <h3 class="lp-sec">Lifestyle & Habits</h3>
+        <div class="lp-grid3">
+          <div class="it"><span>Smoking</span><strong id="pp-smoking"></strong></div>
+          <div class="it"><span>Alcohol</span><strong id="pp-alcohol"></strong></div>
+          <div class="it"><span>Diet</span><strong id="pp-diet"></strong></div>
+          <div class="it"><span>Fitness</span><strong id="pp-fitness"></strong></div>
+          <div class="it"><span>Pets</span><strong id="pp-pets"></strong></div>
+          <div class="it"><span>Love languages</span><strong id="pp-lovelangs"></strong></div>
         </div>
 
-        <div class="religion-badge">
-          <div id="pc_religionLine">Religion: —</div>
-          <div id="pc_alignLine" style="margin-top:6px">Alignment: — • Cross-culture: — • God: —</div>
+        <h3 class="lp-sec">Faith & Culture</h3>
+        <div class="lp-grid3">
+          <div class="it"><span>Religion</span><strong id="pp-religionAff"></strong></div>
+          <div class="it"><span>Alignment</span><strong id="pp-religion"></strong></div>
+          <div class="it"><span>Cross-culture</span><strong id="pp-cross"></strong></div>
+          <div class="it"><span>Place of God</span><strong id="pp-god"></strong></div>
         </div>
 
-        <div class="passport-footer">
-          <span>“Remember: You are not too much, you are not the problem. You just haven’t found your match yet.”</span>
-          <span>Visit: <strong>www.matchormoveon.com</strong></span>
+        <h3 class="lp-sec">Roles & Home</h3>
+        <div class="lp-grid3">
+          <div class="it"><span>Household duties</span><strong id="pp-housework"></strong></div>
+          <div class="it"><span>Cooking</span><strong id="pp-cooking"></strong></div>
+          <div class="it"><span>Relationship roles</span><strong id="pp-identityRole"></strong></div>
+        </div>
+
+        <h3 class="lp-sec">Privacy & Social</h3>
+        <div class="lp-grid3">
+          <div class="it"><span>Phone privacy</span><strong id="pp-phone"></strong></div>
+          <div class="it"><span>Social posts</span><strong id="pp-socialpost"></strong></div>
+          <div class="it"><span>DM rules</span><strong id="pp-dmrules"></strong></div>
+        </div>
+
+        <h3 class="lp-sec">Intimacy</h3>
+        <div class="lp-grid3">
+          <div class="it"><span>Progression</span><strong id="pp-int-speed"></strong></div>
+          <div class="it"><span>Public touch</span><strong id="pp-int-touch"></strong></div>
+          <div class="it"><span>Light preference</span><strong id="pp-int-light"></strong></div>
+        </div>
+
+        <h3 class="lp-sec danger">DEAL BREAKERS</h3>
+        <div class="lp-chips" id="pp-breakers"></div>
+
+        <h3 class="lp-sec">About me</h3>
+        <div class="lp-about" id="pp-about"></div>
+
+        <div class="lp-footer">
+          <div class="qrrow">
+            <div class="qrbox">
+              <div id="qr" class="qr" aria-label="QR to matchormoveon.com"></div>
+              <div class="insta">Follow on Instagram <strong>@personelle</strong></div>
+            </div>
+            <div id="pp-date">Generated: —</div>
+          </div>
+          <div style="max-width:700px">
+            <em>“Remember: you’re just the villain in the story of someone who wasn’t your match — except narcissists. For them, there’s no match. In every story, they remain the villain.”</em>
+          </div>
+          <div style="font-weight:800;letter-spacing:.3px">VISIT MATCHORMOVEON.COM</div>
         </div>
       </div>
 
-      <ul id="rList"></ul>
-
-      <div class="actions" style="justify-content:flex-end">
-        <a class="btn" href="pricing.html">Download as PDF — $4.99</a>
+      <div class="actions" style="justify-content:flex-end;gap:8px;flex-wrap:wrap">
+        <button id="btnPreview" class="btn" type="button">Preview Passport</button>
+        <button id="btnPdf" class="btn" type="button">Download PDF</button>
+        <button id="btnPng" class="btn" type="button">Export PNG</button>
       </div>
     </div>
   </div>
@@ -285,33 +280,25 @@
       <p class="tag">Built for clarity, not confusion.</p>
       <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
     </div>
-
     <nav class="f-col legal">
       <h4>Legal</h4>
       <a href="terms.html">Terms Policy</a>
       <a href="privacy.html">Privacy Policy</a>
       <a href="cookies.html">Cookies</a>
     </nav>
-
     <div class="f-col social">
       <h4>Social</h4>
       <div class="icons">
-        <a href="https://tiktok.com" aria-label="TikTok">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/></svg>
-        </a>
-        <a href="https://instagram.com" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/></svg>
-        </a>
-        <a href="https://youtube.com" aria-label="YouTube">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M23.5 6.3a4 4 0 0 0-.8-2.2c-.6-.8-1.3-1.1-2.2-1.2C17.8 2.5 12 2.5 12 2.5s-5.8 0-8.5.4c-.9.1-1.6.4-2.2 1.2A4 4 0 0 0 .5 6.3 39 39 0 0 0 0 12a39 39 0 0 0 .5 5.7 4 4 0 0 0 .8 2.2c.6.8 1.3 1.1 2.2 1.2 2.7.4 8.5.4 8.5.4s5.8 0 8.5-.4c.9-.1 1.6-.4 2.2-1.2.4-.6.7-1.4.8-2.2.4-2.8.4-5.7.4-5.7s0-2.9-.4-5.7ZM9.5 15.3V8.7l6 3.3-6 3.3Z"/></svg>
-        </a>
+        <a href="https://tiktok.com" aria-label="TikTok">TikTok</a>
+        <a href="https://instagram.com" aria-label="Instagram">Instagram</a>
+        <a href="https://youtube.com" aria-label="YouTube">YouTube</a>
       </div>
     </div>
   </div>
   <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
 </footer>
 
-<!-- ===== SCRIPTS ===== -->
+<!-- ===== BACKGROUND SCRIPTS (ton design) ===== -->
 <script>
 const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
 function size(){W=s.width=innerWidth;H=s.height=innerHeight;
@@ -354,26 +341,24 @@ addEventListener('resize',size);size();loop();
 })();
 </script>
 
-<!-- ===== LOVE PASSPORT — APP (Part 1) ===== -->
+<!-- ===== LIBS POUR EXPORT ===== -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<!-- ===== APP LOGIC: QUIZ + PASSPORT ===== -->
 <script>
-/* ===================== QUESTIONS ===================== */
+/* ===================== QUESTIONS (adaptées) ===================== */
 const QUESTIONS = [
   { id:'name',  type:'text',   required:true,  label:'What’s your full name?', placeholder:'Your name here' },
   { id:'gender',type:'single', required:true,  label:'How do you identify your gender?',
     options:['Man','Woman','Non-binary','Trans man','Trans woman','Intersex','Other'] },
   { id:'genderOther', type:'text-sub', parent:'gender', showIfValue:'Other', required:true, label:'Tell us your gender in your own words', placeholder:'Type your gender' },
 
-  /* NEW — Photo upload (optional) */
   { id:'photo', type:'file', required:false, label:'Upload your photo (optional) — JPG/PNG under 5 MB' },
 
   { id:'country', type:'text', required:true,  label:'Which country do you live in?', placeholder:'e.g., Brazil, France, Nigeria' },
   { id:'languages', type:'multi', required:true, minSelect:1, label:'Which languages do you speak? (pick at least 1)',
     options:['English','French','Spanish','Portuguese','Arabic','Chinese','Hindi','German','Turkish','Russian','Swahili'] },
-
-  { id:'politics', type:'single', required:true, label:'Where do you place your politics?',
-    options:['Democrat / Left','Republican / Right','Not into politics'] },
-  { id:'politicsPartner', type:'single', required:true, label:'Politics with a partner — what works for you?',
-    options:['Must be aligned','Doesn’t matter','Not into politics'] },
 
   { id:'age',   type:'select', required:true,  label:'How old are you?',
     options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push('60+');return a;})() },
@@ -381,29 +366,18 @@ const QUESTIONS = [
   { id:'marital',type:'single',required:true,  label:'What’s your marital status right now?', options:['Single','Married','Divorced','Widowed','It’s complicated'] },
 
   { id:'job',   type:'text',   required:false, label:'What do you do for work?', placeholder:'e.g., Nurse, Engineer, Freelancer' },
-  { id:'moneyManagement', type:'single', required:false, label:'How do you manage money (your style)?', options:['Saver','Balanced','Spender'] },
+
+  /* Money & roles */
   { id:'money', type:'single', required:true, label:'How would you like to handle money as a couple?',
     options:['One joint account (share everything)','Separate accounts'] },
-
   { id:'identity', type:'single', required:true, label:'Which role feels the most like you?',
     options:['Tradwife / Traditional husband','Independent (career/money first)','Balanced 50/50'] },
-  { id:'providerMen', type:'single-sub', parent:'gender', showIfValues:['Man','Trans man'], required:true, label:'As a man, what provider style do you prefer?',
-    options:['100% provider (all bills on me)','75/25 (I pay more)','50/50 equal sharing'] },
-  { id:'providerWomen', type:'single-sub', parent:'gender', showIfValues:['Woman','Trans woman'], required:true, label:'As a woman, what provider style do you want?',
-    options:['Full provider (100%)','75/25 (he provides more)','50/50 equal partners','I want to be the provider'] },
-
-  /* UPDATED — Household duties: + hiring option */
   { id:'housework', type:'single', required:true, label:'How do you want to split household duties (cooking/cleaning)?',
-    options:[
-      'I handle everything at home','Shared equally','I do some, not everything',
-      'I prefer a partner who enjoys it','I prefer hiring someone (maid/cleaner)'
-    ]},
+    options:['I handle everything at home','Shared equally','I do some, not everything','I prefer a partner who enjoys it','I prefer hiring someone (maid/cleaner)']},
   { id:'cooking', type:'single', required:true, label:'How are you in the kitchen?',
     options:['Confident cook (many dishes)','Can cook basics','Learning to cook','Prefer not to cook'] },
-  { id:'kitchenPartner', type:'single', required:true, label:'Do you want to share cooking with your partner?',
-    options:['Yes, let’s share','No, I prefer handling it',"I don’t cook, I want a partner who enjoys it","I don’t mind either way"] },
 
-  /* Kids rules — ask “with who” only if >=2 */
+  /* Kids */
   { id:'children', type:'single', required:true, label:'Do you have children?', options:['No','Yes'] },
   { id:'childrenCount', type:'select-sub', parent:'children', showIfValue:'Yes', required:true, label:'How many children do you have?', options:['1','2','3','4','5+'] },
   { id:'childrenWith',  type:'single-sub', parent:'childrenCount', showIfValues:['2','3','4','5+'], required:true, label:'Were they with the same partner or different partners?', options:['Same partner','Different partners'] },
@@ -412,104 +386,80 @@ const QUESTIONS = [
     options:['ASAP (≤12 months)','1–2 years','3–5 years','>5 years','When it happens'] },
 
   /* Faith & culture */
-  { id:'religionAff', type:'single', required:true, label:'What’s your religion?', options:[
-    'Muslim','Christian','Atheist','Buddhist','Hindu','Vodun','Other'
-  ]},
+  { id:'religionAff', type:'single', required:true, label:'What’s your religion?', options:['Muslim','Christian','Atheist','Buddhist','Hindu','Vodun','Other']},
   { id:'religionOther', type:'text-sub', parent:'religionAff', showIfValue:'Other', required:true, label:'Tell us your religion (Other)', placeholder:'Type your religion' },
-  { id:'religion',   type:'single', required:true, label:'Religion in love — what do you prefer?',
-    options:['Must be aligned',"Doesn’t matter"] },
-  { id:'crossCulture', type:'single', required:true, label:'Are you open to a partner from a different culture?',
-    options:['Yes','Maybe','No'] },
+  { id:'religion',   type:'single', required:true, label:'Religion in love — what do you prefer?', options:['Must be aligned',"Doesn’t matter"] },
+  { id:'crossCulture', type:'single', required:true, label:'Are you open to a partner from a different culture?', options:['Yes','Maybe','No'] },
   { id:'godPlace', type:'single', required:true, label:'What place does God have in your life?',
-    options:[
-      'God is everything in my life',
-      'I think about what God would think before big decisions',
-      'I believe in God but I’m not religious',
-      'I don’t believe in God',
-      'Prefer not to say'
-    ]},
+    options:['God is everything in my life','I think about what God would think before big decisions','I believe in God but I’m not religious','I don’t believe in God','Prefer not to say']},
 
   /* Lifestyle */
   { id:'smoking', type:'single', required:false, label:'Do you smoke?', options:['No','Sometimes','Daily'] },
   { id:'alcohol',  type:'single', required:false, label:'Do you drink alcohol?',  options:['No','Socially','Often'] },
   { id:'diet',     type:'single', required:false, label:'Any diet preference?',     options:['No restriction','Halal only','Vegetarian/Vegan','Pescatarian','Other'] },
   { id:'fitness',  type:'single', required:false, label:'How active are you?',  options:['Gym 3+ times/week','Active sometimes','Rarely'] },
-  { id:'sleep',    type:'single', required:false, label:'What’s your sleep rhythm?', options:['Early bird','Night owl','Mixed'] },
 
-  /* UPDATED — Loyalty (add polygamy) */
+  /* Loyalty */
   { id:'loyalty', type:'single', required:true, label:'What does loyalty mean to you?',
-    options:[
-      'Loyalty is non-negotiable (monogamy)',
-      'Open to ethical non-monogamy (clear rules)',
-      'I am polygamist / open to polygamy'
-    ]},
+    options:['Loyalty is non-negotiable (monogamy)','Open to ethical non-monogamy (with clear rules)','I am polygamist / open to polygamy']},
 
-  { id:'loveLanguages', type:'multi', required:true, minSelect:2, label:'Your love languages (pick at least 2)', options:[
-    'Words of affirmation','Quality time','Acts of service','Gifts','Physical touch'
-  ]},
+  /* Love languages */
+  { id:'loveLanguages', type:'multi', required:true, minSelect:2, label:'Your love languages (pick at least 2)', options:['Words of affirmation','Quality time','Acts of service','Gifts','Physical touch']},
 
-  /* UPDATED — Self description becomes MULTI */
-  { id:'selfDesc', type:'multi', required:true, minSelect:1, label:'How would you describe yourself? (you can pick several)',
-    options:[
-      'Fun','Calm and collected','Very respectful','Very shy person',
-      'Adventurous','Thoughtful & observant','Family-oriented','Ambitious'
-    ]},
+  /* Self description */
+  { id:'selfDesc', type:'multi', required:true, minSelect:1, label:'How would you describe yourself? (you can pick several)', options:['Fun','Calm and collected','Very respectful','Very shy person','Adventurous','Thoughtful & observant','Family-oriented','Ambitious']},
 
-  { id:'ambition', type:'single', required:true, label:'How do you see ambition in your life?',
-    options:['Money first, then love','Love first, then money','Both hand in hand']},
-  { id:'partnerSuccess', type:'single', required:true, label:'If your partner becomes more successful than you…',
-    options:['Proud — it’s our win','Happy and motivated too','I’d feel uncomfortable with that']},
-  { id:'conflict', type:'single', required:true, label:'How do you handle a conflict?',
-    options:['Talk it through calmly','Take a pause, then talk','I tend to raise my voice then cool down']},
+  /* Ambition & energy */
+  { id:'ambition', type:'single', required:true, label:'How do you see ambition in your life?', options:['Money first, then love','Love first, then money','Both hand in hand']},
+  { id:'partnerSuccess', type:'single', required:true, label:'If your partner becomes more successful than you…', options:['Proud — it’s our win','Happy and motivated too','I’d feel uncomfortable with that']},
+  { id:'conflict', type:'single', required:true, label:'How do you handle a conflict?', options:['Talk it through calmly','Take a pause, then talk','I tend to raise my voice then cool down']},
   { id:'energy', type:'single', required:true, label:'Are you more introvert or extrovert?', options:['Introvert','Extrovert','Ambivert'] },
 
-  { id:'relationshipGoals', type:'multi', required:true, minSelect:1, label:'What are you looking for? (pick at least 1)', options:[
-    'Serious relationship','Marriage soon','Marriage someday','Casual dating','Friendship first'
-  ]},
-  { id:'marriageTimeline', type:'single', required:false, label:'When do you want to get married?',
-    options:['ASAP (≤12 months)','In 1–2 years','In 3+ years','I’m not focused on marriage']},
+  /* Relationship goals & logistics */
+  { id:'relationshipGoals', type:'multi', required:true, minSelect:1, label:'What are you looking for? (pick at least 1)', options:['Serious relationship','Marriage soon','Marriage someday','Casual dating','Friendship first']},
+  { id:'marriageTimeline', type:'single', required:false, label:'When do you want to get married?', options:['ASAP (≤12 months)','In 1–2 years','In 3+ years','I’m not focused on marriage']},
   { id:'longDistance', type:'single', required:true, label:'Are you open to long-distance?', options:['Yes','Maybe','No'] },
   { id:'relocate', type:'single', required:true, label:'Are you open to relocating internationally?', options:['Yes','Maybe','No'] },
 
-  { id:'evening', type:'single', required:true, label:'What’s your ideal evening?',
-    options:['Cozy movie night at home','Dinner out & good conversation','Game night with friends','Live music or a show']},
+  { id:'evening', type:'single', required:true, label:'What’s your ideal evening?', options:['Cozy movie night at home','Dinner out & good conversation','Game night with friends','Live music or a show']},
 
-  { id:'music', type:'multi', required:false, minSelect:3, label:'Music vibe (pick ≥ 3, or “All vibes”)', options:[
-    'Afro/RnB','Rap/Trap','Pop / Dance','Rock/Metal','Classical/Jazz','All vibes'
-  ]},
-  { id:'texting', type:'single', required:false, label:'How do you text?',
-    options:['I reply quickly','I reply in batches later','I forget sometimes — remind me']},
+  /* Music — updated */
+  { id:'music', type:'multi', required:false, minSelect:3, label:'Music vibe (pick ≥ 3, or choose a single special option)',
+    options:['Afro/RnB','Rap/Trap','Pop / Dance','Rock/Metal','Classical/Jazz','Gospel / Religious only','I don’t listen to music','All vibes']},
 
-  /* UPDATED — Pets, add allergic/dislike */
-  { id:'petOwner', type:'single', required:false, label:'Are you a pet owner?',
-    options:['No','Yes','I am allergic to pets','I don’t want pets'] },
+  { id:'texting', type:'single', required:false, label:'How do you text?', options:['I reply quickly','I reply in batches later','I forget sometimes — remind me']},
+
+  /* Pets */
+  { id:'petOwner', type:'single', required:false, label:'Are you a pet owner?', options:['No','Yes','I am allergic to pets','I don’t want pets'] },
   { id:'petType',  type:'single-sub', parent:'petOwner', showIfValue:'Yes', required:false, label:'Dog, cat… what’s your vibe?', options:['Dog','Cat','Both','Other'] },
 
-  /* UPDATED — Boundaries + Deal-breakers (add pets issue) */
-  { id:'boundaries', type:'multi', required:false, minSelect:2, label:'Your personal boundaries (pick ≥ 2 if you answer)', options:[
-    'No name-calling','No shouting','No social-media drama','Therapy friendly','Financial transparency',
-    'We don’t go to bed angry','Respect personal time','No silent treatment','We don’t check phones'
-  ]},
+  /* Boundaries & Deal breakers */
+  { id:'boundaries', type:'multi', required:false, minSelect:2, label:'Your personal boundaries (pick ≥ 2 if you answer)', options:['No name-calling','No shouting','No social-media drama','Therapy friendly','Financial transparency','We don’t go to bed angry','Respect personal time','No silent treatment','We don’t check phones']},
   { id:'dealBreaker', type:'multi', required:true, minSelect:2, label:'Hard no’s for you (pick at least 2)', options:[
-    'Political/worldview conflict (very different from mine)',
-    'Religion different / not aligned',
-    'Tries to change my faith/practice',
-    'Cheating / infidelity',
-    'Jealous / possessive / controlling',
-    'Violence (physical, verbal, emotional)',
-    'Explosive temper / unmanaged anger',
-    'Disrespects waiters/service workers; lacks humility',
-    'Partner owns pets (dogs/cats) — I can’t handle it',
-    'Big income gap — earns much less than me',
-    'Big income gap — earns much more than me'
+    'Political/worldview conflict (very different from mine)','Religion different / not aligned','Tries to change my faith/practice','Cheating / infidelity','Jealous / possessive / controlling','Violence (physical, verbal, emotional)','Explosive temper / unmanaged anger','Disrespects waiters/service workers; lacks humility','Partner owns pets (dogs/cats) — I can’t handle it','Big income gap — earns much less than me','Big income gap — earns much more than me'
   ]},
 
-  { id:'genderEquality', type:'single', required:true, label:'How do you view gender equality?',
-    options:['I identify as feminist','I support full equality (no labels needed)','I prefer traditional roles','I think men should lead']},
+  /* ===== NEW: Privacy & Social ===== */
+  { id:'phonePrivacy', type:'single', required:true, label:'How do you see phone privacy in a relationship?', options:[
+    'My phone is private, I don’t share passwords','I can share passwords if needed','My phone is fully open, no restrictions'
+  ]},
+  { id:'socialPosting', type:'single', required:true, label:'How do you want your couple to appear on social media?', options:[
+    'I want to post our couple photos freely','I prefer not posting couple photos at all','I’m fine if my partner posts, but I won’t post much','I don’t care, it’s not important to me'
+  ]},
+  { id:'dmRules', type:'single', required:true, label:'What are your rules for DMs and social interactions?', options:[
+    'I am okay with friendly DMs (opposite sex included)','Only respectful/professional DMs are fine','No private DMs with the opposite sex at all'
+  ]},
 
-  { id:'motto', type:'multi', required:true, minSelect:2, label:'Your love motto (pick at least 2)', options:[
-    'Love = Loyalty','Love = Freedom','Love = Security','Love = Fun'
-  ]}
+  /* ===== NEW: Intimacy (clair) ===== */
+  { id:'intimacySpeed', type:'single', required:true, label:'How fast do you like to move physically in a relationship?', options:[
+    'I like to take it very slowly (weeks/months before intimacy)','I prefer a normal rhythm (we see how it goes naturally)','I am usually fast (I get intimate early when I feel chemistry)']},
+  { id:'publicTouch', type:'single', required:true, label:'How do you feel about physical touch in public?', options:[
+    'I enjoy public affection (holding hands, hugs, kisses in public)','I like small gestures only (hand holding, nothing too much)','I prefer keeping intimacy private (no touching in public)']},
+  { id:'lightPreference', type:'single', required:true, label:'What kind of atmosphere do you prefer for intimacy?', options:[
+    'Always in the dark','Dim light / soft light only','Normal light is fine','I don’t really care']},
+
+  /* About me */
+  { id:'aboutYou', type:'text', required:false, label:'Write a short “About me” (optional)', placeholder:'3–6 lines about you' }
 ];
 
 /* ===================== CORE HELPERS ===================== */
@@ -517,33 +467,31 @@ const $ = (id)=>document.getElementById(id);
 let idx = 0;
 const answers = {}; // id -> value (photo stored as dataURL)
 
-/* visibility rules for sub-questions */
 function shouldShow(q){
-  if(q.type.endsWith('-sub')){
+  if(q.type && q.type.endsWith('-sub')){
     const parentVal = answers[q.parent];
     if (Array.isArray(q.showIfValues)) return q.showIfValues.includes(parentVal);
     if ('showIfValue' in q) return parentVal === q.showIfValue;
   }
   return true;
 }
-function currentRenderableIndexToAbsolute(i){
-  let count = -1;
-  for(let k=0;k<QUESTIONS.length;k++){ if(shouldShow(QUESTIONS[k])){ count++; if(count===i) return k; } }
-  return QUESTIONS.length-1;
-}
-function getRenderableCount(){ return QUESTIONS.filter(shouldShow).length; }
-function getRenderableIdxFromAbs(abs){ let c=0; for(let k=0;k<abs;k++) if(shouldShow(QUESTIONS[k])) c++; return c; }
+function currentRenderableIndexToAbsolute(i){let c=-1;for(let k=0;k<QUESTIONS.length;k++){if(shouldShow(QUESTIONS[k])){c++;if(c===i)return k}}return QUESTIONS.length-1}
+function getRenderableCount(){return QUESTIONS.filter(shouldShow).length;}
+function getRenderableIdxFromAbs(abs){let c=0;for(let k=0;k<abs;k++) if(shouldShow(QUESTIONS[k])) c++;return c;}
 function isAnswered(q){
   const v = answers[q.id];
   if(q.type==='multi'){
-    if(q.id==='music' && Array.isArray(v) && v.includes('All vibes')) return true;
-    const min = q.minSelect || 1; return Array.isArray(v) && v.length >= min;
+    const min = q.minSelect || 1;
+    if(q.id==='music' && Array.isArray(v)){
+      if (v.includes('All vibes') || v.includes('I don’t listen to music') || v.includes('Gospel / Religious only')) return true;
+    }
+    return Array.isArray(v) && v.length >= min;
   }
   if(Array.isArray(v)) return v.length>0;
   return !!(v && String(v).trim()!=='');
 }
 
-/* ===================== RENDER ENGINE ===================== */
+/* ===================== RENDER ===================== */
 function render(){
   const totalR = getRenderableCount(); if(idx<0) idx=0; if(idx>totalR-1) idx=totalR-1;
   const abs = currentRenderableIndexToAbsolute(idx); const q = QUESTIONS[abs];
@@ -558,30 +506,30 @@ function render(){
   const body = $('qBody'); body.innerHTML = '';
 
   if(q.type==='text' || q.type==='text-sub'){
-    const wrap = document.createElement('div'); wrap.className='input-line';
-    const input = document.createElement('input'); input.type='text'; input.id='textInput';
+    const wrap=document.createElement('div'); wrap.className='input-line';
+    const input=document.createElement('input'); input.type='text'; input.id='textInput';
     input.placeholder=q.placeholder||''; input.value = answers[q.id]||'';
     wrap.appendChild(input); body.appendChild(wrap);
   }
   else if(q.type==='file'){
-    const wrap = document.createElement('div'); wrap.className='input-line';
-    const input = document.createElement('input'); input.type='file'; input.id='fileInput'; input.accept='image/*';
-    const preview = document.createElement('img'); preview.className='preview'; preview.id='filePreview';
+    const wrap=document.createElement('div'); wrap.className='input-line';
+    const input=document.createElement('input'); input.type='file'; input.id='fileInput'; input.accept='image/*';
+    const preview=document.createElement('img'); preview.className='preview'; preview.id='filePreview';
     if(answers.photo){ preview.src = answers.photo; preview.style.display='block'; }
-    const hint = document.createElement('div'); hint.className='file-help'; hint.textContent='We will only use it to show on your Love Passport.';
-    input.addEventListener('change', (e)=>{
-      const file = e.target.files && e.target.files[0]; if(!file) return;
+    const hint=document.createElement('div'); hint.className='file-help'; hint.textContent='We will only use it to show on your Love Passport.';
+    input.addEventListener('change',(e)=>{
+      const file=e.target.files && e.target.files[0]; if(!file) return;
       if(file.size > 5*1024*1024){ $('helper').textContent='File too large (max 5MB).'; e.target.value=''; return; }
-      const reader = new FileReader();
-      reader.onload = ()=>{ answers.photo = reader.result; preview.src = reader.result; preview.style.display='block'; };
+      const reader=new FileReader();
+      reader.onload=()=>{ answers.photo=reader.result; preview.src=reader.result; preview.style.display='block'; };
       reader.readAsDataURL(file);
     });
     wrap.appendChild(input); body.appendChild(wrap); body.appendChild(preview); body.appendChild(hint);
   }
   else if(q.type==='select' || q.type==='select-sub'){
-    const wrap = document.createElement('div'); wrap.className='input-line';
-    const sel = document.createElement('select'); sel.id='selectInput';
-    const blank = document.createElement('option'); blank.value=''; blank.textContent='Choose…'; sel.appendChild(blank);
+    const wrap=document.createElement('div'); wrap.className='input-line';
+    const sel=document.createElement('select'); sel.id='selectInput';
+    const blank=document.createElement('option'); blank.value=''; blank.textContent='Choose…'; sel.appendChild(blank);
     (q.options||[]).forEach(op=>{ const o=document.createElement('option'); o.value=op; o.textContent=op; if(answers[q.id]===op) o.selected=true; sel.appendChild(o); });
     wrap.appendChild(sel); body.appendChild(wrap);
   }
@@ -596,7 +544,7 @@ function render(){
   }
   else if(q.type==='multi'){
     const wrap=document.createElement('div'); wrap.className='opts';
-    const cur = Array.isArray(answers[q.id]) ? answers[q.id] : [];
+    const cur=Array.isArray(answers[q.id])?answers[q.id]:[];
     (q.options||[]).forEach(op=>{
       const row=document.createElement('label'); row.className='opt';
       const input=document.createElement('input'); input.type='checkbox'; input.name='optm'; input.value=op;
@@ -605,184 +553,197 @@ function render(){
     }); body.appendChild(wrap);
 
     if(q.id==='music'){
-      $('helper').textContent = 'Pick at least 3 styles — or choose “All vibes” (exclusive).';
-      wrap.addEventListener('change', (e)=>{
+      $('helper').textContent='Pick ≥ 3 styles OR select a single special option (Gospel only / I don’t listen / All vibes).';
+      wrap.addEventListener('change',(e)=>{
         if(e.target && e.target.name==='optm'){
-          const allBox = Array.from(wrap.querySelectorAll('input[name="optm"]')).find(x=>x.value==='All vibes');
-          if(!allBox) return;
-          if(e.target.value==='All vibes' && e.target.checked){
-            Array.from(wrap.querySelectorAll('input[name="optm"]')).forEach(x=>{ if(x!==allBox) x.checked=false; });
-          }else if(e.target.value!=='All vibes' && e.target.checked){ allBox.checked=false; }
+          const allBox=[...wrap.querySelectorAll('input[name="optm"]')].find(x=>x.value==='All vibes');
+          const noneBox=[...wrap.querySelectorAll('input[name="optm"]')].find(x=>x.value==='I don’t listen to music');
+          const gospelBox=[...wrap.querySelectorAll('input[name="optm"]')].find(x=>x.value==='Gospel / Religious only');
+          const specials=[allBox,noneBox,gospelBox].filter(Boolean);
+          if(specials.includes(e.target) && e.target.checked){
+            [...wrap.querySelectorAll('input[name="optm"]')].forEach(x=>{ if(x!==e.target) x.checked=false; });
+          } else if(!specials.includes(e.target) && e.target.checked){
+            specials.forEach(x=>{ if(x) x.checked=false; });
+          }
         }
       });
-    } else if(q.minSelect){ $('helper').textContent = `${q.required ? 'Required — ' : ''}Pick at least ${q.minSelect}${q.required ? '' : ' (or Skip)'}`; }
+    } else if(q.minSelect){ $('helper').textContent = `${q.required?'Required — ':''}Pick at least ${q.minSelect}${q.required?'':' (optional)'}`; }
   }
 
   $('back').disabled = (idx===0);
 }
 
-/* ===================== CAPTURE & VALIDATE ===================== */
+/* ===================== CAPTURE & NAV ===================== */
 function collectAndValidate(){
-  const abs = currentRenderableIndexToAbsolute(idx); const q = QUESTIONS[abs]; let v=null;
+  const abs=currentRenderableIndexToAbsolute(idx); const q=QUESTIONS[abs]; let v=null;
+  if(q.type==='text' || q.type==='text-sub'){ v=(document.getElementById('textInput')?.value||'').trim(); }
+  else if(q.type==='select' || q.type==='select-sub'){ v=(document.getElementById('selectInput')?.value||'').trim(); }
+  else if(q.type==='single' || q.type==='single-sub'){ const chk=document.querySelector('input[name="opt"]:checked'); v=chk?chk.value:''; }
+  else if(q.type==='multi'){ v=[...document.querySelectorAll('input[name="optm"]:checked')].map(x=>x.value); }
+  else if(q.type==='file'){ v=answers.photo||''; }
 
-  if(q.type==='text' || q.type==='text-sub'){ v = (document.getElementById('textInput')?.value||'').trim(); }
-  else if(q.type==='select' || q.type==='select-sub'){ v = (document.getElementById('selectInput')?.value||'').trim(); }
-  else if(q.type==='single' || q.type==='single-sub'){ const chk = document.querySelector('input[name="opt"]:checked'); v = chk ? chk.value : ''; }
-  else if(q.type==='multi'){ v = Array.from(document.querySelectorAll('input[name="optm"]:checked')).map(x=>x.value); }
-  else if(q.type==='file'){ /* handled asynchronously in change event; nothing to validate */ v = answers.photo || ''; }
-
-  let bypassMin = false;
-  if(q.id==='music' && Array.isArray(v) && v.includes('All vibes')){ v = ['All vibes']; bypassMin = true; }
-
-  const empty = (val)=>Array.isArray(val) ? val.length===0 : !val || String(val).trim()==='';
+  let bypassMin=false;
+  if(q.type==='multi' && q.id==='music' && Array.isArray(v)){
+    if(v.includes('All vibes')||v.includes('I don’t listen to music')||v.includes('Gospel / Religious only')) bypassMin=true;
+  }
+  const empty=(val)=>Array.isArray(val)?val.length===0:!val||String(val).trim()==='';
   if(q.type==='multi'){
-    const min = q.minSelect || 0, count = Array.isArray(v) ? v.length : 0, requiredMin = Math.max(1, min);
-    const needMin = q.required ? (count < requiredMin) : (count>0 && count<min);
-    if(!bypassMin && needMin){ $('helper').textContent = `Pick at least ${requiredMin} option${requiredMin>1?'s':''}${q.required?'':' or press Skip'}.`; return false; }
-  } else if(q.type!=='file' && q.required && empty(v)){ $('helper').textContent = 'This question is required.'; return false; }
+    const min=q.minSelect||0, count=Array.isArray(v)?v.length:0, req=Math.max(1,min);
+    const needMin=q.required?(count<req):(count>0 && count<min);
+    if(!bypassMin && needMin){ $('helper').textContent=`Pick at least ${req} option${req>1?'s':''}.`; return false; }
+  } else if(q.type!=='file' && q.required && empty(v)){ $('helper').textContent='This question is required.'; return false; }
 
-  if(q.type!=='file'){ // file already saved on change
-    if(Array.isArray(v)) answers[q.id] = v;
-    else if(!empty(v)) answers[q.id] = v;
-    else delete answers[q.id];
+  if(q.type!=='file'){
+    if(Array.isArray(v)) answers[q.id]=v; else if(!empty(v)) answers[q.id]=v; else delete answers[q.id];
   }
 
-  if(q.id==='children'){ if(v==='No'){ delete answers['childrenCount']; delete answers['childrenWith']; } }
-  if(q.id==='childrenCount'){ if(v==='1'){ delete answers['childrenWith']; } }
+  if(q.id==='children' && v==='No'){ delete answers['childrenCount']; delete answers['childrenWith']; }
+  if(q.id==='childrenCount' && v==='1'){ delete answers['childrenWith']; }
   if(q.id==='religionAff' && v!=='Other'){ delete answers['religionOther']; }
   if(q.id==='petOwner' && v!=='Yes'){ delete answers['petType']; }
 
-  $('helper').textContent = ''; return true;
+  $('helper').textContent=''; return true;
 }
-
-/* ===================== NAV ===================== */
 function next(){ if(!collectAndValidate()) return; const totalR=getRenderableCount(); if(idx<totalR-1){ idx++; render(); } else { showSummary(); } }
 function back(){ if(idx>0){ idx--; render(); } }
-function skip(){ const abs=currentRenderableIndexToAbsolute(idx); const q=QUESTIONS[abs]; delete answers[q.id]; const totalR=getRenderableCount(); if(idx<totalR-1){ idx++; render(); } else { showSummary(); } }
+$('next').addEventListener('click', next);
+$('back').addEventListener('click', back);
+render();
 
-  function buildPassportCard(){
-  const get = (k)=>answers[k] || '—';
-  const join = (k)=>Array.isArray(answers[k]) && answers[k].length ? answers[k].join(', ') : '—';
+/* ===================== SUMMARY + PASSPORT FILL ===================== */
+function chips(containerId, arr){ const el=$(containerId); if(!el) return; el.innerHTML=''; (arr||[]).forEach(x=>{ const s=document.createElement('span'); s.className='chip'; s.textContent=x; el.appendChild(s); }); }
+function text(id, value){ const el=$(id); if(el) el.textContent=value??''; }
+function photo(id, dataUrl){ const el=$(id); if(el && dataUrl) el.src=dataUrl; }
 
-  // Photo
-  const photoWrap = $('pc_photo'); photoWrap.innerHTML = 'ID';
-  if(answers.photo){
-    const img = new Image(); img.src = answers.photo; photoWrap.innerHTML=''; photoWrap.appendChild(img);
-  }
+function buildPassportDoc(){
+  const get=(k)=>answers[k]??''; const join=(k)=>Array.isArray(answers[k])&&answers[k].length?answers[k].join(', '):'';
 
-  // Children — single line
-  let childrenLine = '—';
-  if(answers.children==='No'){ childrenLine = 'No'; }
-  else if(answers.children==='Yes'){
-    const c = answers.childrenCount || '?';
-    if(c==='1'){ childrenLine = 'Yes — 1'; }
-    else { const w = answers.childrenWith || '?'; childrenLine = `Yes — ${c} (${w})`; }
-  }
+  text('pp-name', get('name')); text('pp-age', get('age')); text('pp-location', get('country'));
+  text('pp-languages', join('languages')); text('pp-prof', get('job')||'—'); text('pp-marital', get('marital')||'—');
+  if(answers.photo) photo('pp-photo', answers.photo);
 
-  const religionAff = (answers.religionAff==='Other' ? (answers.religionOther||'Other') : (answers.religionAff||'—'));
-  const religionAlign = get('religion');
-  const cross = get('crossCulture');
-  const god = get('godPlace');
+  let childrenLine='—';
+  if(answers.children==='No'){ childrenLine='No'; }
+  else if(answers.children==='Yes'){ const c=answers.childrenCount||'?'; childrenLine=(c==='1')?'Yes — 1':`Yes — ${c} (${answers.childrenWith||'?'})`; }
+  text('pp-children', childrenLine); text('pp-height', get('height')||'—');
+  text('pp-identity', get('identity')||'—'); text('pp-money', get('money')||'—');
+  text('pp-goals', join('relationshipGoals')||'—'); text('pp-when', get('marriageTimeline')||'—');
+  text('pp-long', get('longDistance')||'—'); text('pp-reloc', get('relocate')||'—');
 
-  $('pc_name').textContent = get('name');
-  const meta=[]; if(get('age')!=='—') meta.push(`Age: ${get('age')}`); if(get('job')!=='—') meta.push(get('job'));
-  $('pc_meta').textContent = meta.join(' • ') || '—';
+  text('pp-smoking', get('smoking')||'—'); text('pp-alcohol', get('alcohol')||'—'); text('pp-diet', get('diet')||'—'); text('pp-fitness', get('fitness')||'—');
+  let pet='—'; if(answers.petOwner==='Yes'){ pet=answers.petType?`Yes — ${answers.petType}`:'Yes'; }
+  else if(answers.petOwner==='No'){ pet='No'; } else if(answers.petOwner==='I am allergic to pets'){ pet='Allergic to pets'; } else if(answers.petOwner==='I don’t want pets'){ pet='I don’t want pets'; }
+  text('pp-pets', pet); text('pp-lovelangs', join('loveLanguages')||'—');
 
-  $('pc_location').textContent = get('country')==='—' ? '—' : get('country');
-  $('pc_languages').textContent = join('languages');
+  text('pp-religionAff', answers.religionAff==='Other'?(answers.religionOther||'Other'):(answers.religionAff||'—'));
+  text('pp-religion', get('religion')||'—'); text('pp-cross', get('crossCulture')||'—'); text('pp-god', get('godPlace')||'—');
 
-  $('pc_job').textContent = get('job');
-  $('pc_marital').textContent = get('marital');
-  $('pc_children').textContent = childrenLine;
-  $('pc_height').textContent = get('height');
+  text('pp-housework', get('housework')||'—'); text('pp-cooking', get('cooking')||'—'); text('pp-identityRole', get('identity')||'—');
 
-  $('pc_identity').textContent = get('identity');
-  $('pc_money').textContent = get('money');
+  text('pp-phone', get('phonePrivacy')||'—'); text('pp-socialpost', get('socialPosting')||'—'); text('pp-dmrules', get('dmRules')||'—');
 
-  $('pc_goals').textContent = join('relationshipGoals');
-  $('pc_timeline').textContent = get('marriageTimeline');
-  $('pc_distance').textContent = get('longDistance');
-  $('pc_relocate').textContent = get('relocate');
+  text('pp-int-speed', get('intimacySpeed')||'—'); text('pp-int-touch', get('publicTouch')||'—'); text('pp-int-light', get('lightPreference')||'—');
 
-  $('pc_cooking').textContent = get('cooking');
-  $('pc_housework').textContent = get('housework');
-  $('pc_smoking').textContent = get('smoking');
-  $('pc_alcohol').textContent = get('alcohol');
-  $('pc_diet').textContent = get('diet');
-  $('pc_fitness').textContent = get('fitness');
+  chips('pp-breakers', answers.dealBreaker||[]); text('pp-about', get('aboutYou')||'');
 
-  let petLine='—';
-  if(answers.petOwner==='Yes'){ petLine = answers.petType ? `Yes — ${answers.petType}` : 'Yes'; }
-  else if(answers.petOwner==='No'){ petLine='No'; }
-  else if(answers.petOwner==='I am allergic to pets'){ petLine='Allergic to pets'; }
-  else if(answers.petOwner==='I don’t want pets'){ petLine='I don’t want pets'; }
-  $('pc_pets').textContent = petLine;
+  const d=new Date(); text('pp-date','Generated: '+d.toLocaleDateString());
 
-  $('pc_loveLanguages').textContent = join('loveLanguages');
+  // QR
+  const qrBox=$('qr'); if(qrBox){ qrBox.innerHTML=''; new QRCode(qrBox,{ text:'https://matchormoveon.com', width:64, height:64, correctLevel: QRCode.CorrectLevel.M }); }
 
-  $('pc_religionLine').textContent = `Religion: ${religionAff}`;
-  $('pc_alignLine').textContent   = `Alignment: ${religionAlign} • Cross-culture: ${cross} • God: ${god}`;
-
-  $('passportCard').style.display = 'block';
+  $('passportDoc').style.display='block';
 }
 
 function showSummary(){
   $('quiz').style.display='none';
-  const list = $('rList'); list.innerHTML='';
+  const list=document.createElement('ul'); list.style.margin='10px 0 0 18px'; list.id='rList';
+  const container=document.querySelector('#result'); container.querySelector('#rList')?.remove(); container.insertBefore(list, container.querySelector('.actions'));
 
-  const labels = {
+  const labels={
     name:'Name', gender:'Gender', genderOther:'Gender (other)', country:'Country',
     languages:'Languages', age:'Age', height:'Height', marital:'Marital status',
-    politics:'Politics', politicsPartner:'Politics with a partner',
-    job:'Profession', moneyManagement:'How you manage money', money:'Money arrangement',
-    identity:'Self identity', providerMen:'Provider (men)', providerWomen:'Provider (women)',
-    housework:'Household duties', cooking:'Cooking skills', kitchenPartner:'Partner in kitchen',
-    children:'Children', /* count/with hidden to avoid tautology */
+    job:'Profession', money:'Money arrangement', identity:'Relationship role',
+    housework:'Household duties', cooking:'Cooking skills',
+    children:'Children', childrenCount:'Children (how many)', childrenWith:'Children (with)',
     futureKids:'Future kids', kidsTimeline:'Kids — timeline',
-    religionAff:'Religion (affiliation)', religionOther:'Religion (other)',
-    religion:'Religion alignment', crossCulture:'Cross-culture', godPlace:'Place of God',
-    smoking:'Smoking', alcohol:'Alcohol', diet:'Diet', fitness:'Fitness', sleep:'Sleep rhythm',
-    loyalty:'Loyalty view', loveLanguages:'Love languages',
-    selfDesc:'Self description', ambition:'Ambition', partnerSuccess:'Partner success',
-    conflict:'Conflict handling', energy:'Introvert/Extrovert',
-    relationshipGoals:'Relationship goals', marriageTimeline:'When to marry',
-    longDistance:'Long-distance', relocate:'Relocation',
+    religionAff:'Religion (affiliation)', religionOther:'Religion (other)', religion:'Religion alignment', crossCulture:'Cross-culture', godPlace:'Place of God',
+    smoking:'Smoking', alcohol:'Alcohol', diet:'Diet', fitness:'Fitness',
+    loveLanguages:'Love languages', selfDesc:'Self description',
+    ambition:'Ambition', partnerSuccess:'Partner success', conflict:'Conflict handling', energy:'Introvert/Extrovert',
+    relationshipGoals:'Relationship goals', marriageTimeline:'When to marry', longDistance:'Long-distance', relocate:'Relocation',
     evening:'Ideal evening', music:'Music vibe', texting:'Texting style',
-    petOwner:'Pet owner', /* petType hidden here; photo shown only on card */
-    boundaries:'Personal boundaries', dealBreaker:'Deal-breakers', genderEquality:'Gender equality view',
-    motto:'Love motto'
+    petOwner:'Pet owner', petType:'Pet type', boundaries:'Personal boundaries', dealBreaker:'Deal-breakers',
+    phonePrivacy:'Phone privacy', socialPosting:'Social posting', dmRules:'DM rules',
+    intimacySpeed:'Intimacy progression', publicTouch:'Public touch', lightPreference:'Intimacy — light',
+    aboutYou:'About me'
   };
 
   // compose children once
-  let childrenLine = null;
-  if(answers.children === 'No') childrenLine = 'No';
-  else if(answers.children === 'Yes'){
-    const c = answers.childrenCount || '?';
-    if(c==='1'){ childrenLine = 'Yes — 1'; }
-    else { const w = answers.childrenWith || '?'; childrenLine = `Yes — ${c} (${w})`; }
-  }
+  let childrenLine=null;
+  if(answers.children==='No') childrenLine='No';
+  else if(answers.children==='Yes'){ const c=answers.childrenCount||'?'; childrenLine=(c==='1')?'Yes — 1':`Yes — ${c} (${answers.childrenWith||'?'})`; }
 
-  const order = Object.keys(labels);
-  order.forEach(k=>{
-    if(k==='children'){
-      const li=document.createElement('li'); li.innerHTML = `<strong>${labels[k]}:</strong> ${childrenLine ?? ''}`; list.appendChild(li); return;
-    }
-    const v = answers[k]; if(v===undefined) return;
-    const text = Array.isArray(v) ? v.join(', ') : v;
-    const li=document.createElement('li'); li.innerHTML = `<strong>${labels[k]}:</strong> ${text}`; list.appendChild(li);
+  Object.keys(labels).forEach(k=>{
+    const li=document.createElement('li');
+    if(k==='children'){ li.innerHTML=`<strong>${labels[k]}:</strong> ${childrenLine??''}`; list.appendChild(li); return; }
+    const v=answers[k]; if(v===undefined) return;
+    const txt=Array.isArray(v)?v.join(', '):v; li.innerHTML=`<strong>${labels[k]}:</strong> ${txt}`; list.appendChild(li);
   });
 
-  buildPassportCard();
+  buildPassportDoc();
   $('result').style.display='block';
 }
 
-/* Events */
-$('next').addEventListener('click', next);
-$('back').addEventListener('click', back);
-$('skip').addEventListener('click', skip);
-render();
-  
+/* ===================== EXPORT & PREVIEW ===================== */
+document.getElementById('btnPreview').addEventListener('click', ()=>{ buildPassportDoc(); document.getElementById('passportDoc').scrollIntoView({behavior:'smooth'}); });
+
+document.getElementById('btnPdf').addEventListener('click', async ()=>{
+  buildPassportDoc();
+  const node=document.getElementById('passportDoc');
+  const canvas=await html2canvas(node,{scale:2,backgroundColor:null});
+  const imgData=canvas.toDataURL('image/png');
+  const { jsPDF }=window.jspdf;
+  const pdf=new jsPDF({orientation:'p',unit:'px',format:'a4',compress:true});
+  const pageW=pdf.internal.pageSize.getWidth();
+  const imgH=(canvas.height/canvas.width)*pageW;
+  pdf.addImage(imgData,'PNG',0,0,pageW,imgH);
+  pdf.save('Love_Passport.pdf');
+});
+
+document.getElementById('btnPng').addEventListener('click', async ()=>{
+  buildPassportDoc();
+  const node=document.getElementById('passportDoc');
+  const canvas=await html2canvas(node,{scale:3,backgroundColor:null});
+  const link=document.createElement('a');
+  link.download='Love_Passport.png';
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+});
 </script>
+
+<!-- ===== Minimal QR generator (embedded) ===== -->
+<script>
+(function(){function t(a){this.mode=1;this.data=a}function u(a,b){this.typeNumber=a;this.errorCorrectLevel=b;this.modules=null;this.moduleCount=0;this.dataList=[];this.dataCache=null}
+function v(a,b){if(void 0==a.length)throw Error(a.length+"/"+b);for(var c=0;c<a.length&&0==a[c];)c++;this.num=Array(a.length-c+b);for(var d=0;d<a.length-c;d++)this.num[d]=a[d+c]}
+function w(a,b){this.totalCount=a;this.dataCount=b}function x(){return 0}
+t.prototype={getLength:function(){return this.data.length},write:function(a){for(var b=0;b<this.data.length;b++)a.put(this.data.charCodeAt(b),8)}};
+u.prototype={addData:function(a){this.dataList.push(new t(String(a)));this.dataCache=null},isDark:function(a,b){if(null==this.modules)throw Error("Not set");return this.modules[a][b]},
+getModuleCount:function(){return this.moduleCount},make:function(){1>this.typeNumber&&(this.typeNumber=1);this.makeImpl(!1,this.getBestMaskPattern())},makeImpl:function(a,b){this.moduleCount=4*this.typeNumber+17;this.modules=Array(this.moduleCount);
+for(var c=0;c<this.moduleCount;c++){this.modules[c]=Array(this.moduleCount);for(var d=0;d<this.moduleCount;d++)this.modules[c][d]=null}A(this,b);for(c=0;c<this.dataList.length;c++){d=this.dataList[c];B(this,d)}
+void 0==this.dataCache&&(this.dataCache=C(this,this.dataList));D(this,this.dataCache)},getBestMaskPattern:function(){for(var a=0,b=0,c=0;8>c;c++){E(this,c);var d=F(this);if(0==c||a>d)a=d,b=c}return b}};
+function G(a){this.buffer=[];this.length=0;this.put=function(b,c){for(var d=0;d<c;d++)this.putBit((b>>>c-d-1&1)==1)},this.putBit=function(b){this.buffer.push(b?1:0);this.length++}}
+function B(a,b){b=a;var c=b.dataList[0];c.mode=1;var d=new G;d.put(4,4);d.put(c.getLength(),8);c.write(d);for(var e=0;e<d.length&&0==(d.length%8);)e++;for(;0<d.length%8;)d.putBit(!1);
+for(;d.length<b.typeNumber*8*2;){d.put(236,8);if(d.length>=b.typeNumber*8*2)break;d.put(17,8)}b.dataCache=d.buffer}
+function C(a){return a.dataCache}function D(a,b){for(var c=0,d=0,e=a.moduleCount-1;0<=e;e-=2)for(var f=6<=e?e:e-1;0<=f;f--)for(var g=0;2>g;g++)if(null==a.modules[f][e-g]){var h=!1;d<b.length&&(h=b[d]==1,d++);a.modules[f][e-g]=h}c++}
+function A(a){for(var b=0;b<a.moduleCount;b++)for(var c=0;c<a.moduleCount;c++)a.modules[b][c]=!1;for(b=0;6>=b;b++)a.modules[b][0]=a.modules[0][b]=a.modules[b][6]=a.modules[6][b]=!0;for(b=a.moduleCount-7;b<a.moduleCount;b++)a.modules[b][0]=a.modules[a.moduleCount-1][b]=a.modules[b][6]=a.modules[6][b]=!0}
+function E(a){}function F(a){for(var b=0,c=0;c<a.moduleCount;c++)for(var d=0;d<a.moduleCount;d++)a.modules[c][d]&&b++;return b}
+window.QRCode=function(a,b){b=b||{};var c=new u(2,1);c.addData(b.text||"");c.make();var d=document.createElement("canvas");d.width=b.width||64;d.height=b.height||64;var e=d.getContext("2d"),m=c.getModuleCount(),n=(b.width||64)/m,p=(b.height||64)/m;
+e.fillStyle="#fff";e.fillRect(0,0,d.width,d.height);e.fillStyle="#000";for(var q=0;q<m;q++)for(var r=0;r<m;r++)c.isDark(q,r)&&e.fillRect(Math.round(q*n),Math.round(r*p),Math.ceil(n),Math.ceil(p));(a.appendChild?a:document.querySelector(a)).appendChild(d)};
+QRCode.CorrectLevel={M:1};})();
+</script>
+
 </body>
 </html>
+
+
 

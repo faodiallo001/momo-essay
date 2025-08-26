@@ -109,31 +109,18 @@
     .title{font-size:clamp(22px,6.6vw,30px);line-height:1.1;max-width:22ch;margin:0 auto 12px}
     .title .moveon{white-space:nowrap}
 
-    /* cœurs : 3 colonnes, éléments centrés */
-    .glass-grid{
-      grid-template-columns:repeat(3, 1fr);
-      justify-items:center;gap:16px;margin-top:10px;margin-bottom:12px;
-    }
+    /* cœurs : 3 colonnes */
+    .glass-grid{grid-template-columns:repeat(3, 1fr);justify-items:center;gap:16px;margin-top:10px;margin-bottom:12px}
     .glass-btn{width:var(--heartw)}
     .heart-wrap{width:50%}
 
-    /* === IMPORTANT : rectangles horizontaux, 1 ligne chacun === */
-    .labels{
-      grid-template-columns:repeat(3, 1fr);  /* 3 colonnes */
-      justify-items:center;
-      gap:10px;
-      margin-top:12px;
-    }
+    /* rectangles : horizontaux, 1 ligne chacun */
+    .labels{grid-template-columns:repeat(3, 1fr);justify-items:center;gap:10px;margin-top:12px}
     .labels .neon{
-      width:var(--rectw);              /* largeur fixe par carte */
-      padding:10px 8px;
-      border-radius:14px;
-      white-space:nowrap;              /* pas de retour à la ligne */
-      overflow:hidden;                 /* reste dans le rectangle */
-      text-overflow:clip;              /* (garde tout si ça tient) */
-      font-size:clamp(10px,2.8vw,12px);/* réduit juste ce qu’il faut */
-      line-height:1.15;
-      text-align:center;
+      width:var(--rectw);
+      padding:10px 8px;border-radius:14px;
+      white-space:nowrap;overflow:hidden;text-overflow:clip;
+      font-size:clamp(10px,2.8vw,12px);line-height:1.15;text-align:center;
     }
 
     /* footer compact */
@@ -149,6 +136,21 @@
     .glass-btn{width:clamp(60px,19vw,86px)}
     .heart-wrap{width:48%}
     .labels .neon{font-size:clamp(9.5px,3.2vw,11px)}
+  }
+
+  /* ========== PATCH demandé : 1er rectangle un peu plus large (mobile) ========== */
+  @media (max-width:768px){
+    .labels .neon:first-child{
+      width: calc(var(--rectw) + 10px);
+      font-size: clamp(10px, 2.5vw, 12px);
+      letter-spacing:.1px;
+    }
+  }
+  @media (max-width:380px){
+    .labels .neon:first-child{
+      width: calc(var(--rectw) + 14px);
+      font-size: clamp(9.5px, 3.1vw, 11px);
+    }
   }
 
   /* floating items (hearts only) */
@@ -237,7 +239,7 @@
       </a>
     </div>
 
-    <!-- labels : horizontaux en 1 ligne chacun (mobile OK) -->
+    <!-- labels -->
     <div class="labels" aria-hidden="true">
       <div class="neon">Get My Love Passport</div>
       <div class="neon">Compatibility Test</div>
@@ -350,6 +352,7 @@ addEventListener('resize',size);size();loop();
 
 </body>
 </html>
+
 
 
 

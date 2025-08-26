@@ -20,7 +20,7 @@
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 
-  /* nav (same style as other pages) */
+  /* nav */
   .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
     padding:14px 24px;backdrop-filter:blur(8px);
     background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
@@ -46,7 +46,7 @@
   .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
   .lang-menu a:hover{background:rgba(255,59,48,.12)}
 
-  /* page wrap */
+  /* page */
   .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
   .page{max-width:min(1000px,94vw);width:100%}
   .title{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.08;
@@ -66,8 +66,6 @@
   /* question */
   .q-idx{color:#cfc7c0;font-size:12px;margin-bottom:8px}
   .q-text{font-size:20px;margin:6px 0 12px;line-height:1.35}
-
-  /* inputs */
   .input-line{display:flex;gap:10px;flex-wrap:wrap}
   .input-line input[type="text"], .input-line select{
     flex:1 1 260px;min-width:220px;background:rgba(255,255,255,.05);
@@ -79,8 +77,8 @@
   .opt:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2)}
   .help{color:#b9b1aa;font-size:12px;margin-top:8px;min-height:18px}
 
-  /* actions / luminous buttons */
-  .actions{display:flex;gap:10px;justify-content:space-between;margin-top:16px}
+  /* actions */
+  .actions{display:flex;gap:10px;justify-content:space-between;margin-top:16px;flex-wrap:wrap}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     padding:12px 16px;border-radius:14px;text-decoration:none;color:#fff;
@@ -96,7 +94,7 @@
   .btn:active{transform:translateY(0)}
   .btn[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(.2)}
 
-  /* summary + passport card */
+  /* summary + passport card (rendered in part 2) */
   .summary{display:none;margin-top:22px}
   .summary h2{font-family:"Playfair Display",serif;margin:8px 0 6px}
   .summary ul{margin:10px 0 0 18px} .summary li{line-height:1.6;color:#efe9e5}
@@ -115,11 +113,11 @@
   .religion-badge{border:1px solid rgba(255,59,48,.35);background:rgba(255,59,48,.10);padding:8px 10px;border-radius:10px;margin-top:10px}
   .passport-footer{margin-top:12px;font-size:12px;color:#c9c2bb;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 
-  /* footer */
+  /* footer (Explore removed) */
   .site-footer{margin-top:60px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
   .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
     background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
-  .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:22px}
+  .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
   .site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
   .site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
   .site-footer .brand-title span{color:var(--rose)}
@@ -127,11 +125,29 @@
   .site-footer .mail{color:#fff;text-decoration:none;font-weight:600}
   .site-footer .mail:hover{color:var(--rose)}
   .site-footer a{display:block;color:#e9e2db;text-decoration:none;margin:6px 0;font-weight:600}
-  .site-footer a:hover{color:var(--rose)}
+  .site-footer a:hover{color:var(--rose)} /* fixed */
   .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
   .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
+
+  /* responsive footer grid */
   @media (max-width:900px){ .site-footer .f-wrap{grid-template-columns:1fr 1fr} }
-  @media (max-width:600px){ .site-footer .f-wrap{grid-template-columns:1fr;text-align:center} .site-footer .icons a{margin:0 6px} }
+  @media (max-width:680px){
+    .wrap{padding:108px 14px 82px}
+    .q-text{font-size:18px}
+    .passport-grid{grid-template-columns:1fr}
+    .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
+    .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
+    .nav-left{order:1}
+    .nav-right{order:1;margin-left:auto;display:flex;gap:14px;align-items:center}
+    .nav-left a,.nav-right a{font-size:14px}
+    .lang-current{font-size:12px;padding:6px 10px}
+    .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
+    .site-footer .icons a{margin:0 8px}
+  }
+  @media (max-width:380px){
+    .nav-left a,.nav-right a{font-size:13px}
+    .lang-current{font-size:11px}
+  }
 
   /* floating hearts only */
   .float-item{position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
@@ -152,7 +168,7 @@
 </head>
 <body>
 
-<!-- background layers (same as other pages) -->
+<!-- background layers -->
 <canvas id="sparks"></canvas>
 <div class="bg-float" id="hearts"></div>
 
@@ -198,6 +214,7 @@
     <div id="result" class="summary card card--narrow">
       <h2>Your Love Passport — Summary</h2>
 
+      <!-- PASSPORT CARD (rendered in Part 2) -->
       <div id="passportCard" class="passport-card" style="display:none">
         <div class="passport-head">
           <div class="passport-photo">ID</div>
@@ -208,19 +225,39 @@
         </div>
 
         <div class="passport-grid">
+          <div class="passport-row"><b>Location</b><div id="pc_location">—</div></div>
+          <div class="passport-row"><b>Languages</b><div id="pc_languages">—</div></div>
+
           <div class="passport-row"><b>Profession</b><div id="pc_job">—</div></div>
           <div class="passport-row"><b>Marital status</b><div id="pc_marital">—</div></div>
+
           <div class="passport-row"><b>Children</b><div id="pc_children">—</div></div>
           <div class="passport-row"><b>Height</b><div id="pc_height">—</div></div>
+
           <div class="passport-row"><b>Identity</b><div id="pc_identity">—</div></div>
           <div class="passport-row"><b>Money arrangement</b><div id="pc_money">—</div></div>
+
+          <div class="passport-row"><b>Relationship goals</b><div id="pc_goals">—</div></div>
+          <div class="passport-row"><b>When to marry</b><div id="pc_timeline">—</div></div>
+
+          <div class="passport-row"><b>Long-distance</b><div id="pc_distance">—</div></div>
+          <div class="passport-row"><b>Relocation</b><div id="pc_relocate">—</div></div>
+
           <div class="passport-row"><b>Cooking</b><div id="pc_cooking">—</div></div>
           <div class="passport-row"><b>Household duties</b><div id="pc_housework">—</div></div>
+
+          <div class="passport-row"><b>Smoking</b><div id="pc_smoking">—</div></div>
+          <div class="passport-row"><b>Alcohol</b><div id="pc_alcohol">—</div></div>
+          <div class="passport-row"><b>Diet</b><div id="pc_diet">—</div></div>
+          <div class="passport-row"><b>Fitness</b><div id="pc_fitness">—</div></div>
+
+          <div class="passport-row"><b>Pets</b><div id="pc_pets">—</div></div>
+          <div class="passport-row" style="grid-column:1 / -1"><b>Love languages</b><div id="pc_loveLanguages">—</div></div>
         </div>
 
         <div class="religion-badge">
           <div id="pc_religionLine">Religion: —</div>
-          <div id="pc_alignLine" style="margin-top:6px">Alignment: — • Cross-culture: —</div>
+          <div id="pc_alignLine" style="margin-top:6px">Alignment: — • Cross-culture: — • God: —</div>
         </div>
 
         <div class="passport-footer">
@@ -238,7 +275,7 @@
   </div>
 </main>
 
-<!-- FOOTER -->
+<!-- FOOTER (Explore removed) -->
 <footer class="site-footer" id="footer">
   <div class="f-wrap">
     <div class="f-col brand">
@@ -246,15 +283,6 @@
       <p class="tag">Built for clarity, not confusion.</p>
       <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
     </div>
-
-    <nav class="f-col links">
-      <h4>Explore</h4>
-      <a href="index.html">Home</a>
-      <a href="how-it-works.html">How it works</a>
-      <a href="love-passport.html">Get My Love Passport</a>
-      <a href="compatibility-test.html">Compatibility Test</a>
-      <a href="fix-the-problem.html">Fix the Problem</a>
-    </nav>
 
     <nav class="f-col legal">
       <h4>Legal</h4>
@@ -267,27 +295,21 @@
       <h4>Social</h4>
       <div class="icons">
         <a href="https://tiktok.com" aria-label="TikTok">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/></svg>
         </a>
         <a href="https://instagram.com" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/></svg>
         </a>
         <a href="https://youtube.com" aria-label="YouTube">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1C17.6 2.5 12 2.5 12 2.5h-.1s-5.6 0-8.6.4c-.4.1-1.3.1-2.1 1-.6.7-.8 2.3-.8 2.3S0 8.1 0 10v1.9c0 1.9.4 3.8.4 3.8s.2 1.6.8 2.3c.8.9 1.9.8 2.4.9 1.7.2 7.4.3 7.4.3s5.6 0 8.6-.4c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.3.8-2.3s.4-1.9.4-3.8V10c0-1.9-.4-3.8-.4-3.8ZM9.5 14.6v-5.2l5 2.6-5 2.6Z"/>
+          <!-- Clean YouTube mark -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true" focusable="false">
+            <path d="M23.5 6.3a4 4 0 0 0-.8-2.2c-.6-.8-1.3-1.1-2.2-1.2C17.8 2.5 12 2.5 12 2.5s-5.8 0-8.5.4c-.9.1-1.6.4-2.2 1.2A4 4 0 0 0 .5 6.3 39 39 0 0 0 0 12a39 39 0 0 0 .5 5.7 4 4 0 0 0 .8 2.2c.6.8 1.3 1.1 2.2 1.2 2.7.4 8.5.4 8.5.4s5.8 0 8.5-.4c.9-.1 1.6-.4 2.2-1.2.4-.6.7-1.4.8-2.2.4-2.8.4-5.7.4-5.7s0-2.9-.4-5.7ZM9.5 15.3V8.7l6 3.3-6 3.3Z"/>
           </svg>
         </a>
       </div>
     </div>
   </div>
-
-  <div class="f-bottom">
-    <small>© 2025 Match or Move On. All rights reserved.</small>
-  </div>
+  <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
 </footer>
 
 <!-- ===== SCRIPTS ===== -->
@@ -309,7 +331,7 @@ function loop(){ctx.clearRect(0,0,W,H);
 addEventListener('resize',size);size();loop();
 </script>
 
-<!-- floating hearts (no flowers) -->
+<!-- floating hearts -->
 <script>
 (function(){
   const LAYER=document.getElementById('hearts'); if(!LAYER) return;
@@ -319,10 +341,10 @@ addEventListener('resize',size);size();loop();
       <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
       <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
     </g></svg>`);
-  const COUNT_HEARTS=18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
-  function spawn(svg){
+  const COUNT=18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
+  for(let i=0;i<COUNT;i++){
     const el=document.createElement('img');
-    el.src=`data:image/svg+xml;utf8,${svg}`; el.className='float-item';
+    el.src=`data:image/svg+xml;utf8,${HEART}`; el.className='float-item';
     el.style.left=Math.random()*100+'vw';
     el.style.setProperty('--w',(MIN_W+Math.random()*(MAX_W-MIN_W))+'px');
     el.style.setProperty('--x',(Math.random()*80-40)+'px');
@@ -333,130 +355,191 @@ addEventListener('resize',size);size();loop();
     el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
     LAYER.appendChild(el);
   }
-  for(let i=0;i<COUNT_HEARTS;i++) spawn(HEART);
 })();
 </script>
 
-<!-- ===== LOVE PASSPORT APP ===== -->
+<!-- ===== LOVE PASSPORT — APP (Part 1) ===== -->
 <script>
-/* ===========================
-   QUESTIONS
-   - For multi-select questions, set type: 'multi'
-   - To require at least N choices, add minSelect: N
-   =========================== */
+/* ===== QUESTIONS (refonte) ===== */
 const QUESTIONS = [
-  // Identity
-  { id:'name',  type:'text',   required:true,  label:'Full Name', placeholder:'Your name here' },
-  { id:'job',   type:'text',   required:false, label:'Profession / Job', placeholder:'e.g., Nurse, Engineer, Freelancer' },
-  { id:'age',   type:'select', required:true,  label:'Age', options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push('60+','Always 18','Always 25');return a;})() },
-  { id:'height',type:'text',   required:false, label:'Height', placeholder:'170 cm / 5’7”' },
-  { id:'marital',type:'single',required:true,  label:'Marital Status', options:['Single','Married','Divorced','Widowed','It’s complicated'] },
+  /* 1) Basics & Location */
+  { id:'name',  type:'text',   required:true,  label:'What’s your full name?', placeholder:'Your name here' },
+  { id:'gender',type:'single', required:true,  label:'How do you identify your gender?',
+    options:['Man','Woman','Non-binary','Trans man','Trans woman','Intersex','Other'] },
+  { id:'genderOther', type:'text-sub', parent:'gender', showIfValue:'Other', required:true, label:'Tell us your gender in your own words', placeholder:'Type your gender' },
+  { id:'country', type:'text', required:true,  label:'Which country do you live in?', placeholder:'e.g., Brazil, France, Nigeria' },
+  /* City/Region intentionally removed */
+  { id:'languages', type:'multi', required:true, minSelect:1, label:'Which languages do you speak? (pick at least 1)',
+    options:['English','Français','Español','Português','العربية','中文','हिन्दी','Deutsch','Türkçe','Русский','Swahili'] },
 
-  // Children (conditional details when Yes)
+  /* 2) Worldview & Politics */
+  { id:'politics', type:'single', required:true, label:'Where do you place your politics?',
+    options:['Democrat / Left','Republican / Right','Not into politics'] },
+  { id:'politicsPartner', type:'single', required:true, label:'Politics with a partner — what works for you?',
+    options:['Must be aligned','Doesn’t matter','Not into politics'] },
+
+  /* more basics */
+  { id:'age',   type:'select', required:true,  label:'How old are you?',
+    options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push('60+');return a;})() },
+  { id:'height',type:'text',   required:false, label:'How tall are you?', placeholder:'170 cm / 5’7”' },
+  { id:'marital',type:'single',required:true,  label:'What’s your marital status right now?', options:['Single','Married','Divorced','Widowed','It’s complicated'] },
+
+  /* 3) Work/Time/Money */
+  { id:'job',   type:'text',   required:false, label:'What do you do for work?', placeholder:'e.g., Nurse, Engineer, Freelancer' },
+  { id:'moneyManagement', type:'single', required:false, label:'How do you manage money (your style)?', options:['Saver','Balanced','Spender'] },
+  { id:'money', type:'single', required:true, label:'How would you like to handle money as a couple?',
+    options:['One joint account (share everything)','Separate accounts'] },
+
+  /* 4) Roles & Home */
+  { id:'identity', type:'single', required:true, label:'Which role feels the most like you?',
+    options:['Tradwife / Traditional husband','Independent (career/money first)','Balanced 50/50'] },
+  { id:'providerMen', type:'single-sub', parent:'gender', showIfValues:['Man','Trans man'], required:true, label:'As a man, what provider style do you prefer?',
+    options:['100% provider (all bills on me)','75/25 (I pay more)','50/50 equal sharing'] },
+  { id:'providerWomen', type:'single-sub', parent:'gender', showIfValues:['Woman','Trans woman'], required:true, label:'As a woman, what provider style do you want?',
+    options:['Full provider (100%)','75/25 (he provides more)','50/50 equal partners','I want to be the provider'] },
+  { id:'housework', type:'single', required:true, label:'How do you want to split household duties (cooking/cleaning)?',
+    options:['I handle everything at home','Shared equally','I do some, not everything','I prefer a partner who enjoys it'] },
+  { id:'cooking', type:'single', required:true, label:'How are you in the kitchen?',
+    options:['Confident cook (many dishes)','Can cook basics','Learning to cook','Prefer not to cook'] },
+  { id:'kitchenPartner', type:'single', required:true, label:'Do you want to share cooking with your partner?',
+    options:['Yes, let’s share','No, I prefer handling it',"I don’t cook, I want a partner who enjoys it","I don’t mind either way"] },
+
+  /* 5) Kids & Family */
   { id:'children', type:'single', required:true, label:'Do you have children?', options:['No','Yes'] },
-  { id:'childrenCount', type:'select-sub', parent:'children', showIfValue:'Yes', required:true, label:'How many?', options:['1','2','3','4','5+'] },
-  { id:'childrenWith',  type:'single-sub', parent:'children', showIfValue:'Yes', required:true, label:'With:', options:['Same partner','Different partners'] },
+  { id:'childrenCount', type:'select-sub', parent:'children', showIfValue:'Yes', required:true, label:'How many children do you have?', options:['1','2','3','4','5+'] },
+  { id:'childrenWith',  type:'single-sub', parent:'childrenCount', showIfValues:['2','3','4','5+'], required:true, label:'Were they with the same partner or different partners?', options:['Same partner','Different partners'] },
+  { id:'futureKids', type:'single', required:true, label:'Do you want children in the future?', options:['Yes','Not sure','No'] },
+  { id:'kidsTimeline', type:'single-sub', parent:'futureKids', showIfValue:'Yes', required:false, label:'If yes, what timeline feels right? (optional)',
+    options:['ASAP (≤12 months)','1–2 years','3–5 years','>5 years','When it happens'] },
 
-  // Roles & Money Balance
-  { id:'identity', type:'single', required:true, label:'How do you see yourself?', options:[
-    'Tradwife / Traditional husband','Independent (career/money first)','Balanced 50/50'
-  ]},
-  { id:'providerMen', type:'single', required:true, label:'For men: What do you want to provide?', options:[
-    '100% provider (all bills on me)','75/25 (I pay more)','50/50 equal sharing'
-  ]},
-  { id:'providerWomen', type:'single', required:true, label:'For women: What provider style do you want in a man?', options:[
-    'Full provider (100%)','75/25 (he provides more)','50/50 equal partners','I want to be the provider'
-  ]},
-  { id:'housework', type:'single', required:true, label:'Household duties (cooking/cleaning)', options:[
-    'I handle everything at home','Shared equally',"I don’t like it (I prefer a partner who enjoys it)",'I do some, not everything'
-  ]},
-  { id:'money', type:'single', required:true, label:'Money arrangement', options:[
-    'One joint account (share everything)','Separate accounts'
-  ]},
-
-  // Cooking & Home vibe
-  { id:'cooking', type:'single', required:true, label:'Cooking skills?', options:[
-    'I cook & love it','I cook but I hate it',"I don’t cook but I’d learn","I don’t cook & I don’t want to 🤣"
-  ]},
-  { id:'kitchenPartner', type:'single', required:true, label:'Do you want your partner in the kitchen?', options:[
-    'Yes, share cooking','No, I prefer handling it',"I don’t cook, I want a partner who enjoys it","I don’t mind either way"
-  ]},
-  { id:'cleaning', type:'single', required:false, label:'Cleaning vibe', options:[
-    'Clean freak ✨','Normal (when necessary)','Prefer hiring help'
-  ]},
-
-  // Future & Values
-  { id:'futureKids', type:'single', required:true, label:'Do you want kids in the future?', options:['Yes','Not sure','No'] },
-
-  // RELIGION — explicit affiliation + alignment + openness
+  /* 6) Faith & Culture */
   { id:'religionAff', type:'single', required:true, label:'What’s your religion?', options:[
     'Muslim','Christian','Atheist','Buddhist','Hindu','Vodun','Other'
   ]},
-  { id:'religionOther', type:'text-sub', parent:'religionAff', showIfValue:'Other', required:true, label:'Specify your religion (Other)', placeholder:'Type your religion' },
-  { id:'religion',   type:'single', required:true, label:'Religion/spiritual alignment in love', options:[
-    'Must be aligned','Good if similar',"Doesn’t matter"
-  ]},
-  { id:'crossCulture', type:'single', required:true, label:'Open to a partner from a different culture/religion?', options:[
-    'Yes','Maybe','No'
-  ]},
+  { id:'religionOther', type:'text-sub', parent:'religionAff', showIfValue:'Other', required:true, label:'Tell us your religion (Other)', placeholder:'Type your religion' },
+  { id:'religion',   type:'single', required:true, label:'Religion in love — what do you prefer?',
+    options:['Must be aligned',"Doesn’t matter"] },
+  { id:'crossCulture', type:'single', required:true, label:'Are you open to a partner from a different culture?',
+    options:['Yes','Maybe','No'] },
+  { id:'godPlace', type:'single', required:true, label:'What place does God have in your life?',
+    options:[
+      'God is everything in my life',
+      'I think about what God would think before big decisions',
+      'I believe in God but I’m not religious',
+      'I don’t believe in God',
+      'Prefer not to say'
+    ]},
 
-  { id:'loyalty', type:'single', required:true, label:'Do you believe in 100% loyalty?', options:[
-    'Yes, absolutely','Temptation exists but I try','Open relationships are fine'
-  ]},
+  /* 7) Lifestyle */
+  { id:'smoking', type:'single', required:false, label:'Do you smoke?', options:['No','Sometimes','Daily'] },
+  { id:'alcohol',  type:'single', required:false, label:'Do you drink alcohol?',  options:['No','Socially','Often'] },
+  { id:'diet',     type:'single', required:false, label:'Any diet preference?',     options:['No restriction','Halal only','Vegetarian/Vegan','Pescatarian','Other'] },
+  { id:'fitness',  type:'single', required:false, label:'How active are you?',  options:['Gym 3+ times/week','Active sometimes','Rarely'] },
+  { id:'sleep',    type:'single', required:false, label:'What’s your sleep rhythm?', options:['Early bird','Night owl','Mixed'] },
 
-  // Personality & Lifestyle
-  { id:'selfDesc', type:'single', required:true, label:'Self description', options:[
-    'Physically lazy but mentally strong','Active physically & mentally','Super chill, I take life easy'
+  /* 8) Personality & Values */
+  { id:'loyalty', type:'single', required:true, label:'What does loyalty mean to you?',
+    options:[
+      'Monogamy only — loyalty is non-negotiable',
+      'Open to ethical non-monogamy (with clear rules)'
+    ]},
+  { id:'loveLanguages', type:'multi', required:true, minSelect:2, label:'Your love languages (pick at least 2)', options:[
+    'Words of affirmation','Quality time','Acts of service','Gifts','Physical touch'
   ]},
-  { id:'ambition', type:'single', required:true, label:'Ambition focus', options:[
-    'Money first, then love','Love first, then money','Both hand in hand'
-  ]},
-  { id:'partnerSuccess', type:'single', required:true, label:'When your partner is more successful than you…', options:[
-    'Proud (our win)','Jealous but I hide it','I need to be on top'
-  ]},
-  { id:'conflict', type:'single', required:true, label:'Conflict style', options:[
-    'I talk directly','I go silent for a while','I explode then regret'
-  ]},
-  { id:'energy', type:'single', required:true, label:'Introvert / Extrovert', options:[
-    'Introvert','Extrovert','Ambivert'
-  ]},
+  { id:'selfDesc', type:'single', required:true, label:'How would you describe yourself?',
+    options:[
+      'Fun','Calm and collected','Very respectful','Very shy person','Adventurous','Thoughtful & observant'
+    ]},
+  { id:'ambition', type:'single', required:true, label:'How do you see ambition in your life?',
+    options:[
+      'Money first, then love','Love first, then money','Both hand in hand'
+    ]},
+  { id:'partnerSuccess', type:'single', required:true, label:'If your partner becomes more successful than you…',
+    options:[
+      'Proud — it’s our win','Happy and motivated too','I’d feel uncomfortable with that'
+    ]},
+  { id:'conflict', type:'single', required:true, label:'How do you handle a conflict?',
+    options:[
+      'Talk it through calmly',
+      'Take a pause, then talk',
+      'I tend to raise my voice then cool down'
+    ]},
+  { id:'energy', type:'single', required:true, label:'Are you more introvert or extrovert?', options:['Introvert','Extrovert','Ambivert'] },
 
-  /* ---- MULTI-SELECTS (with minimums where needed) ---- */
-  { id:'evening', type:'multi', required:false, minSelect:2, label:'Ideal evening (choose at least 2 if you answer)', options:[
-    'Netflix & chill 🛋️','Party with friends 🍹','Spontaneous trip ✈️'
+  /* 9) Goals & Logistics */
+  { id:'relationshipGoals', type:'multi', required:true, minSelect:1, label:'What are you looking for? (pick at least 1)', options:[
+    'Serious relationship','Marriage soon','Marriage someday','Casual dating','Friendship first'
   ]},
-  { id:'music', type:'multi', required:false, minSelect:2, label:'Music vibe (choose at least 2 if you answer)', options:[
-    'Afro/RnB','Rap/Trap','Pop/EDM','Rock/Metal','Classical/Jazz','All vibes 🎶'
-  ]},
+  { id:'marriageTimeline', type:'single', required:false, label:'When do you want to get married?',
+    options:[
+      'ASAP (≤12 months)','In 1–2 years','In 3+ years','I’m not focused on marriage'
+    ]},
+  { id:'longDistance', type:'single', required:true, label:'Are you open to long-distance?', options:['Yes','Maybe','No'] },
+  { id:'relocate', type:'single', required:true, label:'Are you open to relocating internationally?', options:['Yes','Maybe','No'] },
 
-  { id:'texting', type:'single', required:false, label:'Texting style', options:[
-    'Reply instantly','Leave on “seen” 3h on purpose','Forget to reply for 3 days'
+  /* 10) Social & Interests */
+  { id:'evening', type:'single', required:true, label:'What’s your ideal evening?',
+    options:[
+      'Cozy movie night at home',
+      'Dinner out & good conversation',
+      'Game night with friends',
+      'Live music or a show'
+    ]},
+  { id:'music', type:'multi', required:false, minSelect:3, label:'Music vibe (pick ≥ 3, or “All vibes”)', options:[
+    'Afro/RnB','Rap/Trap','Pop / Dance','Rock/Metal','Classical/Jazz','All vibes'
   ]},
-  { id:'freeFlight', type:'single', required:false, label:'If you get a free flight tomorrow…', options:[
-    'I leave immediately','I plan first','I refuse, I like my routine'
-  ]},
+  { id:'texting', type:'single', required:false, label:'How do you text?',
+    options:[
+      'I reply quickly',
+      'I reply in batches later',
+      'I forget sometimes — remind me'
+    ]},
 
-  // Boundaries & Motto
-  { id:'noChores', type:'single', required:true, label:'Accept a partner who doesn’t cook/clean?', options:[
-    'Yes (I enjoy doing it)','Yes (if they provide otherwise)','No! I don’t want a partner that doesn’t cook or clean'
+  /* 11) Pets */
+  { id:'petOwner', type:'single', required:false, label:'Are you a pet owner?', options:['No','Yes'] },
+  { id:'petType',  type:'single-sub', parent:'petOwner', showIfValue:'Yes', required:false, label:'Dog, cat… what’s your vibe?', options:['Dog','Cat','Both','Other'] },
+
+  /* 12) Boundaries & Deal-breakers */
+  { id:'boundaries', type:'multi', required:false, minSelect:2, label:'Your personal boundaries (pick ≥ 2 if you answer)', options:[
+    'No name-calling','No shouting','No social-media drama','Therapy friendly','Financial transparency',
+    'We don’t go to bed angry','Respect personal time','No silent treatment','We don’t check phones'
   ]},
-  { id:'dealBreaker', type:'multi', required:true, minSelect:2, label:'Biggest deal-breaker (pick at least 2)', options:[
-    'Cheating','Violence','Laziness (no ambition)','Bad hygiene','Already has a child'
+  { id:'dealBreaker', type:'multi', required:true, minSelect:2, label:'Hard no’s for you (pick at least 2)', options:[
+    'Political/worldview conflict (very different from mine)',
+    'Religion different / not aligned',
+    'Tries to change my faith/practice',
+    'Cheating / infidelity',
+    'Jealous / possessive / controlling',
+    'Violence (physical, verbal, emotional)',
+    'Explosive temper / unmanaged anger',
+    'Disrespects waiters/service workers; lacks humility',
+    'Big income gap — earns much less than me',
+    'Big income gap — earns much more than me'
   ]},
-  { id:'motto', type:'single', required:true, label:'Your love motto', options:[
+  { id:'genderEquality', type:'single', required:true, label:'How do you view gender equality?',
+    options:[
+      'I identify as feminist',
+      'I support full equality (no labels needed)',
+      'I prefer traditional roles',
+      'I think men should lead'
+    ]},
+
+  /* 13) Motto */
+  { id:'motto', type:'multi', required:true, minSelect:2, label:'Your love motto (pick at least 2)', options:[
     'Love = Loyalty','Love = Freedom','Love = Security','Love = Fun'
   ]}
 ];
 
-/* ========= HELPERS ========= */
+/* ===== Core helpers ===== */
 const $ = (id)=>document.getElementById(id);
 let idx = 0;
-const answers = {}; // id -> value (string | array)
+const answers = {}; // id -> value
 
 function shouldShow(q){
   if(q.type.endsWith('-sub')){
     const parentVal = answers[q.parent];
-    return parentVal === q.showIfValue;
+    if (Array.isArray(q.showIfValues)) return q.showIfValues.includes(parentVal);
+    if ('showIfValue' in q) return parentVal === q.showIfValue;
   }
   return true;
 }
@@ -481,6 +564,7 @@ function getRenderableIdxFromAbs(abs){
 function isAnswered(q){
   const v = answers[q.id];
   if(q.type==='multi'){
+    if(q.id==='music' && Array.isArray(v) && v.includes('All vibes')) return true;
     const min = q.minSelect || 1;
     return Array.isArray(v) && v.length >= min;
   }
@@ -488,7 +572,7 @@ function isAnswered(q){
   return !!(v && String(v).trim()!=='');
 }
 
-/* ========= RENDER ========= */
+/* ===== Render engine ===== */
 function render(){
   const totalR = getRenderableCount();
   if(idx<0) idx=0;
@@ -501,7 +585,7 @@ function render(){
   $('qText').textContent = q.label;
   $('helper').textContent = q.required ? 'Required' : 'Optional';
 
-  // progress based on “answered” among visible
+  // progress
   const visibleQs = QUESTIONS.filter(shouldShow);
   const answeredCount = visibleQs.filter(isAnswered).length;
   const pct = Math.round((answeredCount / visibleQs.length) * 100);
@@ -548,22 +632,39 @@ function render(){
       row.appendChild(input); row.appendChild(span); wrap.appendChild(row);
     });
     body.appendChild(wrap);
-    if(q.minSelect){ $('helper').textContent = `${q.required ? 'Required — ' : ''}Pick at least ${q.minSelect}${q.required ? '' : ' (or Skip)'}`; }
+
+    // multi rules
+    if(q.id==='music'){
+      $('helper').textContent = 'Pick at least 3 styles — or choose “All vibes” (exclusive).';
+      wrap.addEventListener('change', (e)=>{
+        if(e.target && e.target.name==='optm'){
+          const allBox = Array.from(wrap.querySelectorAll('input[name="optm"]')).find(x=>x.value==='All vibes');
+          if(!allBox) return;
+          if(e.target.value==='All vibes' && e.target.checked){
+            Array.from(wrap.querySelectorAll('input[name="optm"]')).forEach(x=>{ if(x!==allBox) x.checked=false; });
+          }else if(e.target.value!=='All vibes' && e.target.checked){
+            allBox.checked=false;
+          }
+        }
+      });
+    } else if(q.minSelect){
+      $('helper').textContent = `${q.required ? 'Required — ' : ''}Pick at least ${q.minSelect}${q.required ? '' : ' (or Skip)'}`;
+    }
   }
 
   $('back').disabled = (idx===0);
 }
 
-/* ========= CAPTURE & VALIDATE ========= */
+/* ===== Capture & Validate ===== */
 function collectAndValidate(){
   const abs = currentRenderableIndexToAbsolute(idx);
   const q = QUESTIONS[abs];
   let v=null;
 
   if(q.type==='text' || q.type==='text-sub'){
-    v = ($('textInput')?.value||'').trim();
+    v = (document.getElementById('textInput')?.value||'').trim();
   } else if(q.type==='select' || q.type==='select-sub'){
-    v = ($('selectInput')?.value||'').trim();
+    v = (document.getElementById('selectInput')?.value||'').trim();
   } else if(q.type==='single' || q.type==='single-sub'){
     const chk = document.querySelector('input[name="opt"]:checked');
     v = chk ? chk.value : '';
@@ -572,16 +673,24 @@ function collectAndValidate(){
     v = chks;
   }
 
-  // empty / minSelect checks
+  // special rule for music: "All vibes" exclusive + bypass min
+  let bypassMin = false;
+  if(q.id==='music' && Array.isArray(v) && v.includes('All vibes')){
+    v = ['All vibes'];
+    bypassMin = true;
+  }
+
   const empty = (val)=>Array.isArray(val) ? val.length===0 : !val || String(val).trim()==='';
   if(q.type==='multi'){
     const min = q.minSelect || 0;
     const count = Array.isArray(v) ? v.length : 0;
-    if((q.required && count < Math.max(1,min)) || (!q.required && count>0 && count<min)){
-      $('helper').textContent = `Pick at least ${Math.max(1,min)} option${Math.max(1,min)>1?'s':''}${q.required?'':' or press Skip'}.`;
+    const requiredMin = Math.max(1, min);
+    const needMin = q.required ? (count < requiredMin) : (count>0 && count<min);
+    if(!bypassMin && needMin){
+      $('helper').textContent = `Pick at least ${requiredMin} option${requiredMin>1?'s':''}${q.required?'':' or press Skip'}.`;
       return false;
     }
-  }else{
+  } else {
     if(q.required && empty(v)){
       $('helper').textContent = 'This question is required.';
       return false;
@@ -593,19 +702,25 @@ function collectAndValidate(){
   else if(!empty(v)) answers[q.id] = v;
   else delete answers[q.id];
 
-  // special clears
-  if(q.id==='children' && v==='No'){
-    delete answers['childrenCount']; delete answers['childrenWith'];
+  // clear dependent fields
+  if(q.id==='children'){
+    if(v==='No'){ delete answers['childrenCount']; delete answers['childrenWith']; }
+  }
+  if(q.id==='childrenCount'){
+    if(v==='1'){ delete answers['childrenWith']; }
   }
   if(q.id==='religionAff' && v!=='Other'){
     delete answers['religionOther'];
+  }
+  if(q.id==='petOwner' && v!=='Yes'){
+    delete answers['petType'];
   }
 
   $('helper').textContent = '';
   return true;
 }
 
-/* ========= NAV ========= */
+/* ===== NAV ===== */
 function next(){
   if(!collectAndValidate()) return;
   const totalR = getRenderableCount();
@@ -614,7 +729,6 @@ function next(){
 }
 function back(){ if(idx>0){ idx--; render(); } }
 function skip(){
-  // skip ignores validation except sub-visibility
   const abs = currentRenderableIndexToAbsolute(idx);
   const q = QUESTIONS[abs];
   delete answers[q.id];
@@ -622,68 +736,135 @@ function skip(){
   if(idx < totalR-1){ idx++; render(); } else { showSummary(); }
 }
 
-/* ========= BUILD PASSPORT CARD ========= */
+/* ===== Build Passport Card ===== */
 function buildPassportCard(){
   const get = (k)=>answers[k] || '—';
+  const join = (k)=>Array.isArray(answers[k]) && answers[k].length ? answers[k].join(', ') : '—';
 
   // Children line
   let childrenLine = '—';
   if(answers.children==='No'){ childrenLine = 'No'; }
   else if(answers.children==='Yes'){
     const c = answers.childrenCount || '?';
-    const w = answers.childrenWith || '?';
-    childrenLine = `Yes — ${c} (${w})`;
+    if(c==='1'){
+      childrenLine = 'Yes — 1';
+    }else{
+      const w = answers.childrenWith || '?';
+      childrenLine = `Yes — ${c} (${w})`;
+    }
   }
 
   // Religion lines
   const religionAff = (answers.religionAff==='Other' ? (answers.religionOther||'Other') : (answers.religionAff||'—'));
   const religionAlign = get('religion');
   const cross = get('crossCulture');
+  const god = get('godPlace');
 
   // Header
   $('pc_name').textContent = get('name');
-  const age = get('age');
-  const job = get('job');
   const meta = [];
-  if(age !== '—') meta.push(`Age: ${age}`);
-  if(job !== '—') meta.push(job);
+  if(get('age')!=='—') meta.push(`Age: ${get('age')}`);
+  if(get('job')!=='—') meta.push(get('job'));
   $('pc_meta').textContent = meta.join(' • ') || '—';
 
-  // Grid
-  $('pc_job').textContent = job;
+  // Location + Languages (City removed)
+  const locPieces = [];
+  if(get('country')!=='—') locPieces.push(get('country'));
+  $('pc_location').textContent = locPieces.join(', ') || '—';
+  $('pc_languages').textContent = join('languages');
+
+  // Grid basics
+  $('pc_job').textContent = get('job');
   $('pc_marital').textContent = get('marital');
   $('pc_children').textContent = childrenLine;
   $('pc_height').textContent = get('height');
+
+  // Roles & money
   $('pc_identity').textContent = get('identity');
   $('pc_money').textContent = get('money');
+
+  // Goals & logistics
+  $('pc_goals').textContent = join('relationshipGoals');
+  $('pc_timeline').textContent = get('marriageTimeline');
+  $('pc_distance').textContent = get('longDistance');
+  $('pc_relocate').textContent = get('relocate');
+
+  // Home & lifestyle
   $('pc_cooking').textContent = get('cooking');
   $('pc_housework').textContent = get('housework');
+  $('pc_smoking').textContent = get('smoking');
+  $('pc_alcohol').textContent = get('alcohol');
+  $('pc_diet').textContent = get('diet');
+  $('pc_fitness').textContent = get('fitness');
+
+  // Pets
+  let petLine = '—';
+  if(answers.petOwner==='Yes'){ petLine = answers.petType || 'Yes'; }
+  else if(answers.petOwner==='No'){ petLine = 'No'; }
+  $('pc_pets').textContent = petLine;
+
+  // Love languages
+  $('pc_loveLanguages').textContent = join('loveLanguages');
 
   // Religion section
   $('pc_religionLine').textContent = `Religion: ${religionAff}`;
-  $('pc_alignLine').textContent = `Alignment: ${religionAlign} • Cross-culture: ${cross}`;
+  $('pc_alignLine').textContent   = `Alignment: ${religionAlign} • Cross-culture: ${cross} • God: ${god}`;
 
   $('passportCard').style.display = 'block';
 }
 
-/* ========= SUMMARY ========= */
+/* ===== Summary ===== */
 function showSummary(){
   $('quiz').style.display='none';
   const list = $('rList'); list.innerHTML='';
 
   const labels = {
-    name:'Name', job:'Profession', age:'Age', height:'Height', marital:'Marital status',
+    /* Basics */
+    name:'Name', gender:'Gender', genderOther:'Gender (other)', country:'Country',
+    languages:'Languages', age:'Age', height:'Height', marital:'Marital status',
+
+    /* Politics */
+    politics:'Politics', politicsPartner:'Politics with a partner',
+
+    /* Work & Money */
+    job:'Profession', moneyManagement:'How you manage money', money:'Money arrangement',
+
+    /* Roles & Home */
+    identity:'Self identity',
+    providerMen:'Provider (men)', providerWomen:'Provider (women)',
+    housework:'Household duties', cooking:'Cooking skills', kitchenPartner:'Partner in kitchen',
+
+    /* Kids */
     children:'Children', childrenCount:'Children — how many', childrenWith:'Children — with',
-    identity:'Self identity', providerMen:'Provider (men)', providerWomen:'Provider (women)',
-    housework:'Household duties', money:'Money arrangement',
-    cooking:'Cooking skills', kitchenPartner:'Partner in kitchen', cleaning:'Cleaning vibe',
-    futureKids:'Future kids',
+    futureKids:'Future kids', kidsTimeline:'Kids — timeline',
+
+    /* Faith & Culture */
     religionAff:'Religion (affiliation)', religionOther:'Religion (other)',
-    religion:'Religion alignment', crossCulture:'Cross-culture',
-    loyalty:'Loyalty view', selfDesc:'Self description', ambition:'Ambition',
-    partnerSuccess:'Partner success', conflict:'Conflict style', energy:'Introvert/Extrovert',
-    evening:'Ideal evening', music:'Music vibe', texting:'Texting style', freeFlight:'Free flight',
-    noChores:'No-cook/no-clean partner?', dealBreaker:'Deal-breakers', motto:'Love motto'
+    religion:'Religion alignment', crossCulture:'Cross-culture', godPlace:'Place of God',
+
+    /* Lifestyle */
+    smoking:'Smoking', alcohol:'Alcohol', diet:'Diet', fitness:'Fitness', sleep:'Sleep rhythm',
+
+    /* Personality & Values */
+    loyalty:'Loyalty view', loveLanguages:'Love languages',
+    selfDesc:'Self description', ambition:'Ambition', partnerSuccess:'Partner success',
+    conflict:'Conflict handling', energy:'Introvert/Extrovert',
+
+    /* Goals & Logistics */
+    relationshipGoals:'Relationship goals', marriageTimeline:'When to marry',
+    longDistance:'Long-distance', relocate:'Relocation',
+
+    /* Social */
+    evening:'Ideal evening', music:'Music vibe', texting:'Texting style',
+
+    /* Pets */
+    petOwner:'Pet owner', petType:'Pet type',
+
+    /* Boundaries & Deal-breakers */
+    boundaries:'Personal boundaries', dealBreaker:'Deal-breakers', genderEquality:'Gender equality view',
+
+    /* Motto */
+    motto:'Love motto'
   };
 
   // pretty children line
@@ -692,8 +873,12 @@ function showSummary(){
     childrenLine = 'No';
   } else if(answers.children === 'Yes'){
     const c = answers.childrenCount ? answers.childrenCount : '?';
-    const w = answers.childrenWith ? answers.childrenWith : '?';
-    childrenLine = `Yes — ${c} (${w})`;
+    if(c==='1'){
+      childrenLine = 'Yes — 1';
+    } else {
+      const w = answers.childrenWith ? answers.childrenWith : '?';
+      childrenLine = `Yes — ${c} (${w})`;
+    }
   }
 
   const order = Object.keys(labels);
@@ -716,13 +901,13 @@ function showSummary(){
   $('result').style.display='block';
 }
 
-/* ========= EVENTS ========= */
+/* ===== Events ===== */
 $('next').addEventListener('click', next);
 $('back').addEventListener('click', back);
 $('skip').addEventListener('click', skip);
-
-/* first render */
 render();
+
+
 </script>
 </body>
 </html>

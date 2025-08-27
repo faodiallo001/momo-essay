@@ -12,14 +12,10 @@
     --text:#e9e2db;
     --muted:#c9c2bb;
     --ruby:#d61e49;         /* rouge rubis */
-    /* --gold supprimé */
+    --gold:#d4af37;         /* doré */
     --ring:rgba(214,30,73,.45);
     --glass:rgba(255,255,255,.04);
     --border:rgba(255,255,255,.12);
-
-    /* A6 fixe pour les pages (sortie identique partout) */
-    --a6w:1240px;
-    --a6h:1748px;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -102,26 +98,23 @@
   .book-controls .left, .book-controls .right{display:flex;gap:8px;align-items:center}
   .page-indicator{font-weight:700;color:#ffdabb}
   .book{display:grid;place-items:center}
-
-  /* ⚠️ A6 FIXE + pas de doré */
   .pass-page{
-    width:var(--a6w); height:var(--a6h);
+    width:794px; height:1123px; /* A4 px @96dpi */
     background: radial-gradient(1200px 800px at -10% -20%, rgba(214,30,73,.12), transparent 60%), #0b0b0f;
-    border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:28px 32px; position:relative;
-    box-shadow:0 16px 60px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.05);
+    border:2px solid var(--gold); border-radius:16px; padding:28px 32px; position:relative;
+    box-shadow:0 16px 60px rgba(214,30,73,.18), inset 0 0 0 4px rgba(212,175,55,.15);
   }
   .p-title{font-family:"Playfair Display",serif;color:var(--ruby);font-weight:900;letter-spacing:.4px;font-size:26px;margin:0 0 6px}
-  .p-sub{color:var(--muted);font-size:12px;margin:4px 0 12px}
-  /* ex-gold-line -> sobre */
-  .gold-line{height:1px;background:rgba(255,255,255,.16);margin:10px 0 16px;opacity:.9}
+  .p-sub{color:#e7dac1;font-size:12px;margin:4px 0 12px}
+  .gold-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:10px 0 16px;opacity:.8}
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
   .item{background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:12px;padding:10px 12px;min-height:46px}
-  .item span{display:block;font-size:10px;color:#bdb7b0;letter-spacing:.2px;margin-bottom:3px}
+  .item span{display:block;font-size:10px;color:#c9b888;letter-spacing:.2px;margin-bottom:3px}
   .item strong{font-weight:700;font-size:13px}
-  .photo-round{width:110px;height:110px;border-radius:999px;border:2px solid rgba(255,255,255,.28);object-fit:cover;background:#16161a}
-  .serial{display:none} /* on supprime l’usage de série */
-  .footer-issuer{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:12px;color:#fff}
+  .photo-round{width:110px;height:110px;border-radius:999px;border:3px solid var(--gold);object-fit:cover;background:#16161a}
+  .serial{font-family:"Playfair Display",serif;color:#ffccd7;font-weight:700}
+  .footer-issuer{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:12px;color:#f7e7c6}
   .heart-big{
     width:120px;height:120px;border-radius:16px;background:
       radial-gradient(50% 60% at 50% 40%, #ff6a8d, #8b0e2a 70%);
@@ -166,8 +159,7 @@
   @media (max-width:680px){
     .wrap{padding:108px 14px 82px}
     .p-title{font-size:22px}
-    /* ❌ on ne casse plus la taille A6 — on supprime l’override responsive
-    .pass-page{width:100%;height:auto} */
+    .pass-page{width:100%;height:auto}
     .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
     .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
     .nav-left{order:1}
@@ -289,6 +281,8 @@
   </div>
   <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
 </footer>
+
+<!-- ===== BACKGROUND SCRIPTS (ton design) ===== -->
 <script>
 const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
 function size(){W=s.width=innerWidth;H=s.height=innerHeight;
@@ -336,9 +330,120 @@ addEventListener('resize',size);size();loop();
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <script>
-/* ===================== QUESTIONS (inchangées) ===================== */
-const QUESTIONS = [/* … (ta liste inchangée collée intégralement) … */];
-/* ==== (je laisse ta liste telle quelle — tu l’as déjà collée au-dessus) ==== */
+/* ===================== QUESTIONS (adaptées à ton quiz + ajouts) ===================== */
+const QUESTIONS = [
+  { id:'name',  type:'text',   required:true,  label:'What’s your full name?', placeholder:'Your name here' },
+  { id:'gender',type:'single', required:true,  label:'How do you identify your gender?',
+    options:['Man','Woman','Non-binary','Trans man','Trans woman','Intersex','Other'] },
+  { id:'genderOther', type:'text-sub', parent:'gender', showIfValue:'Other', required:true, label:'Tell us your gender (Other)', placeholder:'Type your gender' },
+
+  { id:'photo', type:'file', required:false, label:'Upload your photo (optional) — JPG/PNG under 5 MB' },
+
+  { id:'country', type:'text', required:true,  label:'Which country do you live in?', placeholder:'e.g., Brazil, France, Nigeria' },
+  { id:'languages', type:'multi', required:true, minSelect:1, label:'Which languages do you speak? (pick at least 1)',
+    options:['English','French','Spanish','Portuguese','Arabic','Chinese','Hindi','German','Turkish','Russian','Swahili'] },
+
+  { id:'age',   type:'select', required:true,  label:'How old are you?',
+    options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push('60+');return a;})() },
+  { id:'height',type:'text',   required:false, label:'How tall are you?', placeholder:'170 cm / 5’7”' },
+  { id:'marital',type:'single',required:true,  label:'What’s your marital status right now?', options:['Single','Married','Divorced','Widowed','It’s complicated'] },
+
+  { id:'job',   type:'text',   required:false, label:'What do you do for work?', placeholder:'e.g., Nurse, Engineer, Freelancer' },
+
+  /* Money & roles */
+  { id:'money', type:'single', required:true, label:'How would you like to handle money as a couple?',
+    options:['One joint account (share everything)','Separate accounts'] },
+  { id:'identity', type:'single', required:true, label:'Which role feels the most like you?',
+    options:['Tradwife / Traditional husband','Independent (career/money first)','Balanced 50/50'] },
+  { id:'housework', type:'single', required:true, label:'How do you want to split household duties (cooking/cleaning)?',
+    options:['I handle everything at home','Shared equally','I do some, not everything','I prefer a partner who enjoys it','I prefer hiring someone (maid/cleaner)']},
+  { id:'cooking', type:'single', required:true, label:'How are you in the kitchen?',
+    options:['Confident cook (many dishes)','Can cook basics','Learning to cook','Prefer not to cook'] },
+
+  /* Kids */
+  { id:'children', type:'single', required:true, label:'Do you have children?', options:['No','Yes'] },
+  { id:'childrenCount', type:'select-sub', parent:'children', showIfValue:'Yes', required:true, label:'How many children do you have?', options:['1','2','3','4','5+'] },
+  { id:'childrenWith',  type:'single-sub', parent:'childrenCount', showIfValues:['2','3','4','5+'], required:true, label:'Were they with the same partner or different partners?', options:['Same partner','Different partners'] },
+  { id:'futureKids', type:'single', required:true, label:'Do you want children in the future?', options:['Yes','Not sure','No'] },
+  { id:'kidsTimeline', type:'single-sub', parent:'futureKids', showIfValue:'Yes', required:false, label:'If yes, what timeline feels right? (optional)',
+    options:['ASAP (≤12 months)','1–2 years','3–5 years','>5 years','When it happens'] },
+
+  /* Faith & culture */
+  { id:'religionAff', type:'single', required:true, label:'What’s your religion?', options:['Muslim','Christian','Atheist','Buddhist','Hindu','Vodun','Other']},
+  { id:'religionOther', type:'text-sub', parent:'religionAff', showIfValue:'Other', required:true, label:'Tell us your religion (Other)', placeholder:'Type your religion' },
+  { id:'religion',   type:'single', required:true, label:'Religion in love — what do you prefer?', options:['Must be aligned',"Doesn’t matter"] },
+  { id:'crossCulture', type:'single', required:true, label:'Are you open to a partner from a different culture?', options:['Yes','Maybe','No'] },
+  { id:'godPlace', type:'single', required:true, label:'What place does God have in your life?',
+    options:['God is everything in my life','I think about what God would think before big decisions','I believe in God but I’m not religious','I don’t believe in God','Prefer not to say']},
+
+  /* Lifestyle */
+  { id:'smoking', type:'single', required:false, label:'Do you smoke?', options:['No','Sometimes','Daily'] },
+  { id:'alcohol',  type:'single', required:false, label:'Do you drink alcohol?',  options:['No','Socially','Often'] },
+  { id:'diet',     type:'single', required:false, label:'Any diet preference?',     options:['No restriction','Halal only','Vegetarian/Vegan','Pescatarian','Other'] },
+  { id:'fitness',  type:'single', required:false, label:'How active are you?',  options:['Gym 3+ times/week','Active sometimes','Rarely'] },
+
+  /* Loyalty */
+  { id:'loyalty', type:'single', required:true, label:'What does loyalty mean to you?',
+    options:['Loyalty is non-negotiable (monogamy)','Open to ethical non-monogamy (with clear rules)','I am polygamist / open to polygamy']},
+
+  /* Love languages */
+  { id:'loveLanguages', type:'multi', required:true, minSelect:2, label:'Your love languages (pick at least 2)', options:['Words of affirmation','Quality time','Acts of service','Gifts','Physical touch']},
+
+  /* Self description */
+  { id:'selfDesc', type:'multi', required:true, minSelect:1, label:'How would you describe yourself? (you can pick several)', options:['Fun','Calm and collected','Very respectful','Very shy person','Adventurous','Thoughtful & observant','Family-oriented','Ambitious']},
+
+  /* Ambition & energy */
+  { id:'ambition', type:'single', required:true, label:'How do you see ambition in your life?', options:['Money first, then love','Love first, then money','Both hand in hand']},
+  { id:'partnerSuccess', type:'single', required:true, label:'If your partner becomes more successful than you…', options:['Proud — it’s our win','Happy and motivated too','I’d feel uncomfortable with that']},
+  { id:'conflict', type:'single', required:true, label:'How do you handle a conflict?', options:['Talk it through calmly','Take a pause, then talk','I tend to raise my voice then cool down']},
+  { id:'energy', type:'single', required:true, label:'Are you more introvert or extrovert?', options:['Introvert','Extrovert','Ambivert'] },
+
+  /* Relationship goals & logistics */
+  { id:'relationshipGoals', type:'multi', required:true, minSelect:1, label:'What are you looking for? (pick at least 1)', options:['Serious relationship','Marriage soon','Marriage someday','Casual dating','Friendship first']},
+  { id:'marriageTimeline', type:'single', required:false, label:'When do you want to get married?', options:['ASAP (≤12 months)','In 1–2 years','In 3+ years','I’m not focused on marriage']},
+  { id:'longDistance', type:'single', required:true, label:'Are you open to long-distance?', options:['Yes','Maybe','No'] },
+  { id:'relocate', type:'single', required:true, label:'Are you open to relocating internationally?', options:['Yes','Maybe','No'] },
+
+  { id:'evening', type:'single', required:true, label:'What’s your ideal evening?', options:['Cozy movie night at home','Dinner out & good conversation','Game night with friends','Live music or a show']},
+
+  /* Music — + options spéciales */
+  { id:'music', type:'multi', required:false, minSelect:3, label:'Music vibe (pick ≥ 3, or choose a special option)',
+    options:['Afro/RnB','Rap/Trap','Pop / Dance','Rock/Metal','Classical/Jazz','Gospel / Religious only','I don’t listen to music','All vibes']},
+
+  { id:'texting', type:'single', required:false, label:'How do you text?', options:['I reply quickly','I reply in batches later','I forget sometimes — remind me']},
+
+  /* Pets */
+  { id:'petOwner', type:'single', required:false, label:'Are you a pet owner?', options:['No','Yes','I am allergic to pets','I don’t want pets'] },
+  { id:'petType',  type:'single-sub', parent:'petOwner', showIfValue:'Yes', required:false, label:'Dog, cat… what’s your vibe?', options:['Dog','Cat','Both','Other'] },
+
+  /* Boundaries & Deal breakers */
+  { id:'boundaries', type:'multi', required:false, minSelect:2, label:'Your personal boundaries (pick ≥ 2 if you answer)', options:['No name-calling','No shouting','No social-media drama','Therapy friendly','Financial transparency','We don’t go to bed angry','Respect personal time','No silent treatment','We don’t check phones']},
+  { id:'dealBreaker', type:'multi', required:true, minSelect:2, label:'Hard no’s for you (pick at least 2)', options:[
+    'Political/worldview conflict (very different from mine)','Religion different / not aligned','Tries to change my faith/practice','Cheating / infidelity','Jealous / possessive / controlling','Violence (physical, verbal, emotional)','Explosive temper / unmanaged anger','Disrespects waiters/service workers; lacks humility','Partner owns pets (dogs/cats) — I can’t handle it','Big income gap — earns much less than me','Big income gap — earns much more than me'
+  ]},
+
+  /* Privacy & Social */
+  { id:'phonePrivacy', type:'single', required:true, label:'How do you see phone privacy in a relationship?', options:[
+    'My phone is private, I don’t share passwords','I can share passwords if needed','My phone is fully open, no restrictions'
+  ]},
+  { id:'socialPosting', type:'single', required:true, label:'How do you want your couple to appear on social media?', options:[
+    'I want to post our couple photos freely','I prefer not posting couple photos at all','I’m fine if my partner posts, but I won’t post much','I don’t care, it’s not important to me'
+  ]},
+  { id:'dmRules', type:'single', required:true, label:'What are your rules for DMs and social interactions?', options:[
+    'I am okay with friendly DMs (opposite sex included)','Only respectful/professional DMs are fine','No private DMs with the opposite sex at all'
+  ]},
+
+  /* Intimacy */
+  { id:'intimacySpeed', type:'single', required:true, label:'How fast do you like to move physically in a relationship?', options:[
+    'I like to take it very slowly (weeks/months before intimacy)','I prefer a normal rhythm (we see how it goes naturally)','I am usually fast (I get intimate early when I feel chemistry)']},
+  { id:'publicTouch', type:'single', required:true, label:'How do you feel about physical touch in public?', options:[
+    'I enjoy public affection (holding hands, hugs, kisses in public)','I like small gestures only (hand holding, nothing too much)','I prefer keeping intimacy private (no touching in public)']},
+  { id:'lightPreference', type:'single', required:true, label:'What kind of atmosphere do you prefer for intimacy?', options:[
+    'Always in the dark','Dim light / soft light only','Normal light is fine','I don’t really care']},
+
+  /* About me */
+  { id:'aboutYou', type:'text', required:false, label:'Write a short “About me” (optional)', placeholder:'3–6 lines about you' }
+];
 
 /* ===================== CORE HELPERS (quiz) ===================== */
 const $ = (id)=>document.getElementById(id);
@@ -514,7 +619,7 @@ function petsLine(){
   return '—';
 }
 
-/* ========== Build 6 pages (A6 + cover simple + no gold) ========== */
+/* ========== Build 6 pages ========== */
 let bookPages = []; let currentPage = 0;
 
 function el(tag, attrs={}, html=''){
@@ -536,14 +641,19 @@ function buildPassportBook(){
   const book = document.getElementById('passportBook');
   book.innerHTML=''; bookPages=[]; currentPage=0;
 
+  const serial = 'LP-2025-' + Math.floor(1000 + Math.random()*9000);
   const issueDate = new Date().toLocaleDateString();
 
-  /* 1. Couverture (simple : cœur + issuer) */
-  const p1 = pageShell('LOVE PASSPORT','');
-  const coverCenter = el('div',{style:'display:flex;justify-content:center;align-items:center;height:70%;'});
-  coverCenter.innerHTML = `<div style="font-size:220px;line-height:1;color:#d61e49;text-shadow:0 14px 50px rgba(214,30,73,.35);">❤</div>`;
-  p1.appendChild(coverCenter);
-  p1.appendChild(el('div',{class:'footer-issuer'},'Issued by MatchOrMoveOn.com'));
+  /* 1. Couverture */
+  const p1 = pageShell('LOVE PASSPORT','Multipage official booklet');
+  const coverBox = el('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:16px;'});
+  const heart = el('div',{class:'heart-big'});
+  const serialBox = el('div',{}, `<div style="margin-bottom:6px"><span class="serial">${serial}</span></div>
+    <div style="font-size:13px;color:#f7e7c6"><strong>Owner:</strong> ${get('name')}</div>
+    <div style="font-size:13px;color:#f7e7c6"><strong>Issued:</strong> ${issueDate}</div>`);
+  coverBox.appendChild(heart); coverBox.appendChild(serialBox);
+  p1.appendChild(coverBox);
+  p1.appendChild(el('div',{class:'footer-issuer'},'Issued by matchormoveon.com'));
 
   /* 2. Identité */
   const p2 = pageShell('IDENTITY','Holder information');
@@ -558,7 +668,7 @@ function buildPassportBook(){
     <div class="item" style="margin-top:10px"><span>Languages</span><strong>${join('languages')}</strong></div>
     <div class="item" style="margin-top:10px"><span>Profession</span><strong>${get('job')}</strong></div>
     <div class="item" style="margin-top:10px"><span>Marital status</span><strong>${get('marital')}</strong></div>
-    <div style="margin-top:10px;color:#fff;font-size:12px"><strong>Issued:</strong> ${issueDate}</div>
+    <div style="margin-top:10px;color:#f7e7c6;font-size:12px"><strong>Issued:</strong> ${issueDate}</div>
   `);
   const right2 = el('div',{style:'display:flex;flex-direction:column;align-items:center;gap:12px;justify-content:flex-start'});
   const ph = el('img',{class:'photo-round',alt:'photo'});
@@ -596,6 +706,7 @@ function buildPassportBook(){
   /* 5. Lifestyle & Habits */
   const p5 = pageShell('LIFESTYLE & HABITS','Daily rhythm & tastes');
   const g5 = el('div',{class:'grid-3'});
+  // Musique / Hobbies : on compose
   let musicLine = join('music');
   let hobbies = `${get('evening')} • ${join('selfDesc')}`;
   g5.innerHTML = `
@@ -622,10 +733,10 @@ function buildPassportBook(){
   p6.appendChild(el('div',{class:'gold-line'}));
   const about = el('div',{class:'item'},`<span>Motto / About me</span><strong>${answers.aboutYou||'—'}</strong>`);
   p6.appendChild(about);
-  p6.appendChild(el('div',{style:'margin-top:10px;color:#fff;font-size:12px'},`Generated: ${issueDate}`));
-  p6.appendChild(el('div',{class:'footer-issuer'},'Issued by MatchOrMoveOn.com'));
+  p6.appendChild(el('div',{style:'margin-top:10px;color:#f7e7c6;font-size:12px'},`Generated: ${issueDate}`));
+  p6.appendChild(el('div',{class:'footer-issuer'},'Issued by matchormoveon.com'));
 
-  // Inject
+  // Inject pages
   [p1,p2,p3,p4,p5,p6].forEach(p=>{ book.appendChild(p); bookPages.push(p); });
 }
 
@@ -650,30 +761,23 @@ document.getElementById('btnPreview').addEventListener('click', ()=>{
   updateBookView();
 });
 
-/* ====== PDF multipages (A6 + capture pages visibles) ====== */
+/* PDF multipages */
 document.getElementById('btnPdf').addEventListener('click', async ()=>{
+  // s’assure que le livre est construit
   if(bookPages.length===0) buildPassportBook();
-
   const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF({orientation:'p', unit:'mm', format:'a6', compress:true});
-
-  // on capture chaque page en la rendant visible le temps du rendu
-  const original = bookPages.map(p=>p.style.display);
+  const pdf = new jsPDF({orientation:'p',unit:'px',format:'a4',compress:true});
   for(let i=0;i<bookPages.length;i++){
-    bookPages.forEach(p=>p.style.display='none');
-    bookPages[i].style.display='block';
-    await new Promise(r=>setTimeout(r,120)); // layout
-
+    // rendre chaque page en image
     const canvas = await html2canvas(bookPages[i], {scale:2, backgroundColor:'#0b0b0f'});
     const imgData = canvas.toDataURL('image/png');
-
-    if(i>0) pdf.addPage('a6','p');
-    pdf.addImage(imgData,'PNG',0,0,105,148); // A6 = 105×148 mm
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    // dimensionne l’image pour couvrir la page
+    pdf.addImage(imgData,'PNG',0,0,pageW,pageH);
+    if(i<bookPages.length-1) pdf.addPage();
   }
-  // restore
-  bookPages.forEach((p,idx)=>p.style.display = original[idx] || 'block');
-
-  pdf.save('Love_Passport_MOMO_A6.pdf');
+  pdf.save('Love_Passport_MOMO.pdf');
 });
 
 /* Montrer le résultat quand on a fini le quiz */

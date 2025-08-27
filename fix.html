@@ -227,6 +227,8 @@
       ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}requestAnimationFrame(loop);}
     addEventListener('resize',size);size();loop();
   </script>
+
+  
   <script>
     // HEARTS
     (function(){
@@ -251,9 +253,10 @@
       }
       for(let i=0;i<COUNT;i++) spawn(HEART);
     })();
+    
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // ===== Helpers =====
+  // === Helpers ===
   const $  = s => document.querySelector(s);
   const qs = n => new URLSearchParams(location.search).get(n);
   const uid = () => Array.from(crypto.getRandomValues(new Uint8Array(8)))
@@ -266,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return ['s','x','z'].includes(last) ? `${name}’` : `${name}’s`;
   };
 
-  // ===== Elements =====
+  // === Elements ===
   const step1 = $('#step1');
   const shareBlock = $('#shareBlock');
   const step2 = $('#step2');
@@ -277,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const initStory = $('#initStory');
   const partnerStory = $('#partnerStory');
 
-  // ===== Counters (500 words) =====
+  // === Word counters ===
   function bindCounter(el, counter){
     if(!el || !counter) return;
     const update = () => {
@@ -285,18 +288,17 @@ document.addEventListener('DOMContentLoaded', () => {
       counter.textContent = `${n} / 500 words`;
       counter.style.color = n > 500 ? '#ff6c6c' : '#cbbfb7';
     };
-    el.addEventListener('input', update);
-    update();
+    el.addEventListener('input', update); update();
   }
   bindCounter(initStory, count1);
   bindCounter(partnerStory, count2);
 
-  // ===== Storage (demo) =====
+  // === Storage (demo) ===
   const LS   = id  => `fixCase:${id}`;
   const load = id  => JSON.parse(localStorage.getItem(LS(id)) || 'null');
   const save = (id, data) => localStorage.setItem(LS(id), JSON.stringify(data));
 
-  // ===== Step 1 (Initiator) =====
+  // === STEP 1 (Initiator) ===
   const formInitiator = $('#formInitiator');
   function handleInitiator(){
     const name  = $('#initName')?.value.trim();
@@ -307,70 +309,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const id = uid(), ptok = uid();
     save(id, { id, ptok, initiator:{name,email,story}, createdAt: Date.now() });
 
-    const base = location.origin + location.pathname;
+    // Share URL (same page with params)
+    const base = (location.origin && location.origin !== 'null')
+      ? location.origin + location.pathname
+      : location.pathname;
     const url  = `${base}?case=${id}&role=partner&token=${ptok}`;
 
     $('#shareUrl').textContent = url;
     $('#waBtn').href  = `https://wa.me/?text=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
     $('#smsBtn').href = `sms:&body=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
-    $('#copyBtn').onclick = async ()=>{
+    $('#copyBtn').onclick = async () => {
       try { await navigator.clipboard.writeText(url); } catch {}
-      const m=$('#copiedMsg'); if(m){ m.style.display='inline'; setTimeout(()=>m.style.display='none',1500); }
+      const m = $('#copiedMsg'); if(m){ m.style.display='inline'; setTimeout(()=>m.style.display='none',1500); }
     };
 
     step1?.classList.add('hidden');
     shareBlock?.classList.remove('hidden');
   }
   if (formInitiator){
+    // Intercept submit + submit-button clicks to prevent reload
     formInitiator.addEventListener('submit', e => { e.preventDefault(); handleInitiator(); });
     formInitiator.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn=>{
       btn.addEventListener('click', e => { e.preventDefault(); handleInitiator(); });
     });
   }
 
-  // ===== Step 2 (Partner mode) =====
+  // === STEP 2 (Partner mode) ===
   const caseId = qs('case'), role = qs('role'), token = qs('token');
 
-  function forceSetPartnerTitle(name){
+  function setPartnerHeading(name){
     if (!step2) return;
-    const title = `${possessive(name)} Version of the Story`;
-
-    // 1) Try: any h2 inside step2 that currently contains "their"
-    let targetH2 = Array.from(step2.querySelectorAll('h2'))
-      .find(h => /their/i.test(h.textContent || ''));
-
-    // 2) Fallback: first h2 in step2
-    if (!targetH2) targetH2 = step2.querySelector('h2');
-
-    if (targetH2) targetH2.textContent = title;
-
-    // 3) Last-resort guard: if something rewrites it later, put it back once.
-    const mo = new MutationObserver(() => {
-      const h = step2.querySelector('h2');
-      if (h && !/version of the story/i.test(h.textContent || '')) {
-        h.textContent = title;
-      }
-    });
-    mo.observe(step2, {subtree:true, childList:true, characterData:true});
-    setTimeout(()=>mo.disconnect(), 1500); // stop observing after 1.5s
+    const titleText = `${possessive(name)} Version of the Story`;
+    // First H2 inside #step2 (this is the "Their version..." heading in your HTML)
+    let h2 = step2.querySelector('h2');
+    if (h2) {
+      h2.textContent = titleText;
+    } else {
+      // If missing for any reason, insert one at the top
+      h2 = document.createElement('h2');
+      h2.className = 'title-md';
+      h2.textContent = titleText;
+      step2.insertBefore(h2, step2.firstChild);
+    }
   }
 
   if (caseId && role === 'partner'){
     const rec = load(caseId);
 
     if(!rec || token !== rec.ptok){
-      [step1,shareBlock,step2,finalBlock].forEach(s=>s&&s.classList.add('hidden'));
+      [step1, shareBlock, step2, finalBlock].forEach(s=>s&&s.classList.add('hidden'));
       resultBlock?.classList.remove('hidden');
       $('#summary').textContent = 'Invalid or expired link. Ask your partner for a new one.';
       return;
     }
 
+    // Show partner view
     step1?.classList.add('hidden');
     shareBlock?.classList.add('hidden');
     step2?.classList.remove('hidden');
 
-    // >>> This line forces the custom title, even if your HTML still says "Their version (read-only)"
-    forceSetPartnerTitle(rec.initiator?.name);
+    // Set custom heading using the initiator's name
+    setPartnerHeading(rec.initiator?.name);
 
     // Show initiator’s text
     $('#theirVersion').textContent = rec.initiator.story;

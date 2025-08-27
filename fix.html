@@ -5,162 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fix the Problem — Match or Move On</title>
 
-  <!-- Fonts + styles communs -->
+  <!-- Fonts + shared styles -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
+  <!-- Page-specific tiny helpers (optional) -->
   <style>
-    :root{ --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; --glass:rgba(255,255,255,.04); }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
-
-/* layers */
-#sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-
-/* ========= NAV ========= */
-.nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-  padding:14px 24px;backdrop-filter:blur(8px);
-  background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
-             radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.10),transparent 60%);
-  border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-left{justify-self:start}
-.nav-left a{color:#ffecec;text-decoration:none;font-weight:600}
-.logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;
-  font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;white-space:nowrap;
-  text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
-.logo-neon .accent{color:var(--rose)}
-.nav-right{justify-self:end;display:flex;gap:18px;align-items:center}
-.nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
-.nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
-
-/* Hover identique sur "Home" */
-.nav-left a{padding:8px 10px;border-radius:12px;border:1px solid transparent}
-.nav-left a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
-
-/* languages */
-.lang{position:relative;z-index:10}
-.lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
-  border:1px solid rgba(255,59,48,.45);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
-  text-shadow:0 0 8px rgba(255,59,48,.55); user-select:none}
-.lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
-  background:rgba(0,0,0,.8);border:1px solid rgba(255,59,48,.45);border-radius:12px;padding:8px;max-height:50vh;overflow:auto;
-  -webkit-overflow-scrolling:touch; box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
-.lang.open .lang-menu{display:flex}
-@media (hover:hover){ .lang:hover .lang-menu{display:flex} }
-.lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
-.lang-menu a:hover{background:rgba(255,59,48,.12)}
-
-/* hero */
-.wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 20px 92px}
-.hero{max-width:min(1150px,94vw);text-align:center}
-.title{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.05;
-  font-size:clamp(38px,6.2vw,86px);margin:0 0 10px;letter-spacing:.3px;text-shadow:0 0 24px rgba(255,59,48,.18)}
-.title .moveon{color:var(--rose)}
-.subtitle{color:var(--muted);max-width:820px;margin:10px auto 34px;font-size:clamp(14px,1.6vw,18px)}
-
-/* hearts row (desktop) */
-.glass-grid{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:22px;justify-items:center;margin-top:12px}
-@media (max-width:860px){.glass-grid{grid-template-columns:1fr;gap:18px}}
-.glass-btn{position:relative;width:min(100px,15vw);aspect-ratio:1/1;border-radius:999px;display:grid;place-items:center;text-decoration:none;color:#fff;
-  background:radial-gradient(120% 120% at 50% 10%,rgba(255,255,255,.08),rgba(255,255,255,.012) 60%),var(--glass);
-  border:1px solid rgba(255,255,255,.12);box-shadow:0 0 14px rgba(255,59,48,.16), inset 0 0 12px rgba(255,255,255,.045);
-  backdrop-filter:blur(10px);transition:transform .18s ease, box-shadow .18s ease, background .18s ease;isolation:isolate}
-.glass-btn:hover{transform:translateY(-3px) scale(1.04)}
-.heart-wrap{width:62%;aspect-ratio:1/1}
-.heart-wrap svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 18px rgba(255,59,48,.45))}
-
-/* labels (desktop) */
-.labels{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:22px;justify-items:center;margin-top:18px}
-@media (max-width:860px){.labels{grid-template-columns:1fr}}
-.neon{font-weight:700;letter-spacing:.2px;font-size:14px;color:#ffd6d6;text-align:center;
-  text-shadow:0 0 10px rgba(255,59,48,.65),0 0 4px rgba(255,59,48,.45);border:1px solid rgba(255,59,48,.45);
-  border-radius:16px;padding:9px 14px;background:rgba(255,59,48,.08);box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.18)}
-
-/* footer */
-.site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
-.site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
-  background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
-.site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
-.site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
-.site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
-.site-footer .brand-title span{color:var(--rose)}
-.site-footer .tag{margin:8px 0 10px;color:#cbbfb7;font-size:14px}
-.site-footer .mail{color:#fff;text-decoration:none;font-weight:600}
-.site-footer .mail:hover{color:var(--rose)}
-.site-footer a{display:block;color:#e9e2db;text-decoration:none;margin:6px 0;font-weight:600}
-.site-footer a:hover{color:var(--rose)}
-.site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
-.site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
-
-/* ========= MOBILE/TABLET : overrides ========= */
-@media (max-width:768px){
-  :root{ --heartw: clamp(64px,17vw,88px); --rectw: clamp(100px,29vw,126px); }
-  .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
-  .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
-  .nav-left{order:1}
-  .nav-right{order:1;margin-left:auto;display:flex;gap:14px;align-items:center}
-  .nav-left a,.nav-right a{font-size:14px}
-  .lang-current{font-size:12px;padding:6px 10px}
-  .wrap{padding-top:112px;padding-bottom:80px}
-  .title{font-size:clamp(22px,6.6vw,30px);line-height:1.1;max-width:22ch;margin:0 auto 12px}
-  .title .moveon{white-space:nowrap}
-  .glass-grid{grid-template-columns:repeat(3, 1fr);justify-items:center;gap:16px;margin-top:10px;margin-bottom:12px}
-  .glass-btn{width:var(--heartw)}
-  .heart-wrap{width:50%}
-  .labels{grid-template-columns:repeat(3, 1fr);justify-items:center;gap:10px;margin-top:12px}
-  .labels .neon{
-    width:var(--rectw);
-    padding:10px 8px;border-radius:14px;
-    white-space:nowrap;overflow:hidden;text-overflow:clip;
-    font-size:clamp(10px,2.8vw,12px);line-height:1.15;text-align:center;
-  }
-  .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
-  .site-footer .icons a{margin:0 8px}
-  .site-footer .f-bottom{padding:10px 14px;font-size:12px}
-}
-
-@media (max-width:380px){
-  .nav-left a,.nav-right a{font-size:13px}
-  .lang-current{font-size:11px}
-  .title{font-size:clamp(21px,7.2vw,28px)}
-  .glass-btn{width:clamp(60px,19vw,86px)}
-  .heart-wrap{width:48%}
-  .labels .neon{font-size:clamp(9.5px,3.2vw,11px)}
-}
-
-/* PATCH 1er rectangle plus large sur mobile */
-@media (max-width:768px){
-  .labels .neon:first-child{
-    width: calc(var(--rectw) + 10px);
-    font-size: clamp(10px, 2.5vw, 12px);
-    letter-spacing:.1px;
-  }
-}
-@media (max-width:380px){
-  .labels .neon:first-child{
-    width: calc(var(--rectw) + 14px);
-    font-size: clamp(9.5px, 3.1vw, 11px);
-  }
-}
-
-/* floating hearts */
-.float-item{position:absolute;top:110vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
-  filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
-  transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));
-  animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;will-change:transform,opacity}
-@keyframes floatUp{
-  0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
-  10%{opacity:1}
-  100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-130vh) rotate(var(--rEnd,360deg));opacity:0}
-}
-@keyframes spin{
-  0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
-  50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
-  100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
-}
-    /* légers styles de page (spécifiques fix) */
     .page{max-width:min(1000px,94vw);margin:0 auto}
     .lead{color:var(--muted);margin:6px 0 22px}
     .card{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px}
@@ -172,269 +23,220 @@ body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-a
     .btn{display:inline-block;text-decoration:none;color:#fff;font-weight:700;border-radius:14px;padding:12px 16px;border:1px solid rgba(255,59,48,.55);background:rgba(255,59,48,.14);cursor:pointer}
     .btn:hover{background:rgba(255,59,48,.20)}
     .muted{color:#cbbfb7;font-size:13px}
-    .counter{font-size:13px;color:#cbbfb7;justify-self:end}
     .mono{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;word-break:break-all}
-    .hidden{display:none !important}
-    .tag-pill{display:inline-block;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 10px;font-size:12px;color:#e9e2db;background:rgba(255,255,255,.06)}
-    .banner{padding:12px;border:1px dashed rgba(255,255,255,.22);border-radius:12px;margin-bottom:12px}
+    .hidden{display:none!important}
     .title-md{font-family:"Playfair Display",serif;font-size:clamp(22px,3.2vw,28px);margin:0 0 8px}
-    @media (max-width:768px){ .wrap{padding-top:112px} }
+    @media (max-width:768px){ .wrap{padding-top:112px} .btn{width:100%} }
   </style>
 </head>
 <body>
 
-<!-- background sparkles -->
-<canvas id="sparks"></canvas>
-<!-- floating hearts layer -->
-<div class="bg-float" id="hearts"></div>
-
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-left"><a href="index.html">Home</a></div>
-  <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
-  <div class="nav-right">
-    <a href="how-it-works.html">How it works</a>
-    <a href="contact.html" aria-current="page">Contact</a>
-    <div class="lang" id="lang">
-      <div class="lang-current" id="langBtn">🇺🇸 EN ▾</div>
-      <div class="lang-menu" id="langMenu">
-        <a href="index-fr.html">🇫🇷 FR</a><a href="index-pt.html">🇵🇹 PT</a><a href="index-es.html">🇪🇸 ES</a>
-      </div>
+  <!-- NAV (reuse yours) -->
+  <nav class="nav">
+    <div class="nav-left"><a href="index.html">Home</a></div>
+    <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
+    <div class="nav-right">
+      <a href="how-it-works.html">How it works</a>
+      <a href="contact.html">Contact</a>
     </div>
-  </div>
-</nav>
-  
- <main class="wrap fix-page">
-  <section>
-    <h1>Fix the Problem</h1>
-    <p class="lead">Tell us what’s going on. We’ll help you calm things down and move forward — with respect for both sides.</p>
+  </nav>
 
-    <h2>Unlock analysis</h2>
-    <ul>
-      <li>You write your version (optional word limit)</li>
-      <li>Share a link (WhatsApp / Messages) so your partner can write theirs</li>
-      <li>We read both sides & send clear, kind, constructive guidance</li>
-      <li>Delivered instantly on this page</li>
-    </ul>
+  <main class="wrap">
+    <section class="page">
+      <h1 class="title">Fix the Problem</h1>
+      <p class="lead">Tell us what’s going on. We’ll help you calm things down and move forward — with respect for both sides.</p>
 
-    <div class="card" id="paywall">
-      <div class="field">
-        <strong>$9.99</strong> <button id="payBtn" class="btn">Pay & Continue</button>
-        <span class="muted">Demo mode: no real payment</span>
-      </div>
-    </div>
+      <!-- STEP 1: Initiator (visible immediately) -->
+      <section id="step1" class="card">
+        <h2 class="title-md">Your side</h2>
+        <form id="formInitiator">
+          <div class="field">
+            <label for="initName">Your name</label>
+            <input class="input" id="initName" name="initName" placeholder="Ex: Ana" required>
+          </div>
+          <div class="field">
+            <label for="initEmail">Your email</label>
+            <input class="input" id="initEmail" name="initEmail" type="email" inputmode="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field" style="grid-template-columns:1fr auto;align-items:end">
+            <label for="initStory">Your side of the story</label>
+            <span class="counter" id="count1">0 / 500 words</span>
+            <textarea class="input" id="initStory" name="initStory" placeholder="What happened, how you feel, what you want…" required></textarea>
+            <span class="muted">Tip: be factual, avoid insults, propose one clear next step.</span>
+          </div>
+          <div class="row">
+            <button class="btn" type="submit">Save & get share link</button>
+            <span class="muted">You’ll get a link to send to your partner.</span>
+          </div>
+        </form>
+      </section>
 
-    <section id="fixFormSection" class="hidden">
-      <h2>Tell us your side</h2>
-
-      <form id="fixForm">
-        <div class="field">
-          <label for="name">Your name</label>
-          <input class="input" id="name" name="name" placeholder="Ex: Ana" required>
+      <!-- SHARE LINK -->
+      <section id="shareBlock" class="card hidden">
+        <h2 class="title-md">Share with your partner</h2>
+        <p class="muted">Send this link so they can add their version.</p>
+        <div id="shareUrl" class="mono" style="margin:8px 0 10px"></div>
+        <div class="row">
+          <a id="waBtn" class="btn" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+          <a id="smsBtn" class="btn" href="#">Share via Messages</a>
+          <button id="copyBtn" class="btn" type="button">Copy link</button>
         </div>
+        <p class="muted" id="copiedMsg" style="display:none">Link copied ✅</p>
+      </section>
 
-        <div class="field">
-          <label for="email">Your email</label>
-          <input class="input" id="email" name="email" type="email" placeholder="you@example.com" required>
-        </div>
+      <!-- STEP 2: Partner view (via URL with ?case=...&role=partner&token=...) -->
+      <section id="step2" class="card hidden">
+        <h2 class="title-md">Their version (read-only)</h2>
+        <div id="theirVersion" class="mono" style="white-space:pre-wrap;margin-bottom:12px"></div>
 
-        <div class="field">
-          <label for="yourSide">Your side of the story <span class="counter" id="countMe">0/500 words</span></label>
-          <textarea class="input" id="yourSide" name="yourSide" data-count="words" placeholder="What happened, how you feel, what you want…" maxlength="4000"></textarea>
-          <div class="muted">Tip: be factual, avoid insults, propose one clear next step.</div>
-        </div>
+        <h2 class="title-md">Your side</h2>
+        <form id="formPartner">
+          <div class="field">
+            <label for="partnerName">Your name</label>
+            <input class="input" id="partnerName" name="partnerName" placeholder="Ex: Daniel" required>
+          </div>
+          <div class="field">
+            <label for="partnerEmail">Your email</label>
+            <input class="input" id="partnerEmail" name="partnerEmail" type="email" inputmode="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field" style="grid-template-columns:1fr auto;align-items:end">
+            <label for="partnerStory">Your side of the story</label>
+            <span class="counter" id="count2">0 / 500 words</span>
+            <textarea class="input" id="partnerStory" name="partnerStory" placeholder="Add your version calmly and clearly…" required></textarea>
+          </div>
+          <div class="row">
+            <button class="btn" type="submit">Submit your version</button>
+          </div>
+        </form>
+      </section>
 
-        <div class="field">
-          <button class="btn" type="submit">Save & get share link</button>
-          <span class="muted">You’ll get a link to share with your partner.</span>
-        </div>
-      </form>
+      <!-- FINAL BUTTON -->
+      <section id="finalBlock" class="card hidden">
+        <h2 class="title-md">Ready?</h2>
+        <p>Once both versions are saved, click below to get guidance:</p>
+        <div class="row"><button id="fixBtn" class="btn">Fix the Problem</button></div>
+        <p class="muted">Demo mode: we’ll show a summary here. In production, we’ll email both of you.</p>
+      </section>
 
-      <h2>Share with your partner</h2>
-      <p class="muted">Send this link so they can write their version.</p>
-      <p><a href="#" class="btn">Share on WhatsApp</a> <a href="#" class="btn">Share via Messages</a> <button id="copyLink" class="btn">Copy link</button></p>
-
-      <h2>Their version (read-only)</h2>
-      <div class="card muted">Waiting for your partner’s input…</div>
-
-      <h2>Your guided response</h2>
-      <div id="resultSection" class="card hidden">
-        <div id="aiResult"></div>
-        <p><button id="copyBtn" class="btn">Copy</button> <button id="downloadBtn" class="btn">Download</button></p>
-      </div>
+      <!-- RESULT / SUMMARY -->
+      <section id="resultBlock" class="card hidden">
+        <h2 class="title-md">Summary (demo)</h2>
+        <pre id="summary" class="mono" style="white-space:pre-wrap"></pre>
+      </section>
     </section>
-  </section>
-</main>
+  </main>
 
-
- <!-- FOOTER -->
-<footer class="site-footer" id="footer">
-  <div class="f-wrap">
-    <div class="f-col brand">
-      <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
-      <p class="tag">Built for clarity, not confusion.</p>
-      <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
-    </div>
-
-    <nav class="f-col legal">
-      <h4>Legal</h4>
-      <a href="terms.html">Terms Policy</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="cookies.html">Cookies</a>
-    </nav>
-
-    <div class="f-col social">
-      <h4>Social</h4>
-      <div class="icons">
-        <a href="https://tiktok.com" aria-label="TikTok">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/>
-          </svg>
-        </a>
-        <a href="https://instagram.com" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/>
-          </svg>
-        </a>
-        <a href="https://youtube.com" aria-label="YouTube">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M23.5 6.2c-.2-1.2-.8-2.3-1.7-3-1-.8-2.2-.9-2.7-1C16.1 2 12 2 12 2s-4.1 0-7.1.2c-.5.1-1.7.2-2.7 1-1 .7-1.5 1.8-1.7 3C0 7.4 0 10 0 10s0 2.6.2 3.8c.2 1.2.8 2.3 1.7 3 1 .8 2.3.9 2.8 1C7.9 18 12 18 12 18s4.1 0 7.1-.2c.5-.1 1.7-.2 2.7-1 .9-.7 1.5-1.8 1.7-3 .2-1.2.2-3.8.2-3.8s0-2.6-.2-3.8zM9.5 14.6V7.4L15.5 11 9.5 14.6z"/>
-          </svg>
-        </a>
+  <!-- FOOTER (reuse yours) -->
+  <footer class="site-footer" id="footer">
+    <div class="f-wrap">
+      <div class="f-col brand">
+        <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
+        <p class="tag">Built for clarity, not confusion.</p>
+        <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
+      </div>
+      <nav class="f-col legal">
+        <h4>Legal</h4>
+        <a href="terms.html">Terms Policy</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="cookies.html">Cookies</a>
+      </nav>
+      <div class="f-col social">
+        <h4>Social</h4>
+        <div class="icons">
+          <a href="https://tiktok.com" aria-label="TikTok">TikTok</a>
+          <a href="https://instagram.com" aria-label="Instagram">Instagram</a>
+          <a href="https://youtube.com" aria-label="YouTube">YouTube</a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
-</footer>
+    <div class="f-bottom"><small>© <span id="year"></span> Match or Move On. All rights reserved.</small></div>
+  </footer>
 
-  <!-- ===== SCRIPTS (démo) ===== -->
+  <!-- ===== SCRIPTS ===== -->
   <script>
-    // --- petits utilitaires
+    // Footer year
+    const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+
+    // Helpers
     const $ = s => document.querySelector(s);
-    const qs = (name) => new URLSearchParams(location.search).get(name);
+    const qs = n => new URLSearchParams(location.search).get(n);
     const uid = () => Array.from(crypto.getRandomValues(new Uint8Array(8))).map(b=>b.toString(16).padStart(2,'0')).join('');
-    const limitWords = (txt, max=500) => {
-      const words = txt.trim().split(/\s+/).filter(Boolean);
-      return {count: words.length, over: words.length > max};
-    };
+    const wordCount = (t) => (t.trim().match(/\S+/g) || []).length;
 
-    // --- état
-    const caseId = qs('case');
-    const role   = qs('role');
-    const token  = qs('token');
+    // Elements
+    const step1 = $('#step1'), shareBlock = $('#shareBlock'), step2 = $('#step2'),
+          finalBlock = $('#finalBlock'), resultBlock = $('#resultBlock'),
+          count1 = $('#count1'), count2 = $('#count2'),
+          initStory = $('#initStory'), partnerStory = $('#partnerStory');
 
-    // --- vues
-    const paywall     = $('#paywall');
-    const step1       = $('#step1');
-    const shareBlock  = $('#shareBlock');
-    const step2       = $('#step2');
-    const finalBlock  = $('#finalBlock');
-    const resultBlock = $('#resultBlock');
-
-    // --- compteurs mots
-    const initStory = $('#initStory');
-    const partnerStory = $('#partnerStory');
-    const count1 = $('#count1');
-    const count2 = $('#count2');
-
+    // Word counters (500 words target)
     function bindCounter(el, counter){
       if(!el || !counter) return;
-      const update = () => {
-        const {count, over} = limitWords(el.value, 500);
-        counter.textContent = count + ' / 500 words';
-        counter.style.color = over ? '#ff6c6c' : '#cbbfb7';
-      };
+      const update = () => { const n = wordCount(el.value); counter.textContent = `${n} / 500 words`; counter.style.color = n>500 ? '#ff6c6c' : '#cbbfb7'; };
       el.addEventListener('input', update); update();
     }
-    bindCounter(initStory, count1);
-    bindCounter(partnerStory, count2);
+    bindCounter(initStory, count1); bindCounter(partnerStory, count2);
 
-    // --- paywall (démo : on déverrouille sans Stripe)
-    $('#payBtn')?.addEventListener('click', () => {
-      paywall.classList.add('hidden');
-      step1.classList.remove('hidden');
-    });
+    // Storage (demo)
+    const LS = id => `fixCase:${id}`;
+    const load = id => JSON.parse(localStorage.getItem(LS(id)) || 'null');
+    const save = (id, data) => localStorage.setItem(LS(id), JSON.stringify(data));
 
-    // --- stockage (démo localStorage)
-    const LS_KEY = (id) => `fixCase:${id}`;
-    const loadCase = (id) => JSON.parse(localStorage.getItem(LS_KEY(id)) || 'null');
-    const saveCase = (id, data) => localStorage.setItem(LS_KEY(id), JSON.stringify(data));
-
-    // --- Form initiateur -> crée le dossier + lien partenaire
+    // Step 1 submit
     $('#formInitiator')?.addEventListener('submit', (e)=>{
       e.preventDefault();
-      const name = $('#initName').value.trim();
+      const name  = $('#initName').value.trim();
       const email = $('#initEmail').value.trim();
       const story = $('#initStory').value.trim();
       if(!name || !email || !story) return;
 
-      const id = uid();
-      const ptok = uid(); // token partenaire (simple démo)
-      const rec = { id, ptok, initiator: {name, email, story}, createdAt: Date.now() };
-      saveCase(id, rec);
+      const id = uid(), ptok = uid();
+      const rec = { id, ptok, initiator:{name,email,story}, createdAt: Date.now() };
+      save(id, rec);
 
-      // construire le lien à partager
+      // Share URL
       const base = location.origin + location.pathname;
       const url  = `${base}?case=${id}&role=partner&token=${ptok}`;
       $('#shareUrl').textContent = url;
-
-      // boutons partage
-      const msg = `Please add your side so we can fix this together:`;
-      $('#waBtn').href  = `https://wa.me/?text=${encodeURIComponent(msg + ' ' + url)}`;
-      $('#smsBtn').href = `sms:&body=${encodeURIComponent(msg + ' ' + url)}`;
-
-      // copier
-      $('#copyBtn').onclick = async ()=>{
-        await navigator.clipboard.writeText(url);
-        $('#copiedMsg').style.display='inline';
-        setTimeout(()=>$('#copiedMsg').style.display='none', 1500);
-      };
+      $('#waBtn').href  = `https://wa.me/?text=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
+      $('#smsBtn').href = `sms:&body=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
+      $('#copyBtn').onclick = async ()=>{ await navigator.clipboard.writeText(url); const m=$('#copiedMsg'); m.style.display='inline'; setTimeout(()=>m.style.display='none',1500); };
 
       step1.classList.add('hidden');
       shareBlock.classList.remove('hidden');
     });
 
-    // --- Mode Partenaire : si l’URL a ?role=partner
-    function initPartnerView(){
-      const rec = loadCase(caseId);
-      if(!rec || !token || token !== rec.ptok){
-        // dossier introuvable ou mauvais token
-        paywall.classList.add('hidden');
-        step1.classList.add('hidden');
-        step2.classList.add('hidden');
-        finalBlock.classList.add('hidden');
+    // Partner mode
+    const caseId = qs('case'), role = qs('role'), token = qs('token');
+    if (caseId && role === 'partner'){
+      const rec = load(caseId);
+      if(!rec || token !== rec.ptok){
+        [step1,shareBlock,step2,finalBlock].forEach(s=>s&&s.classList.add('hidden'));
         resultBlock.classList.remove('hidden');
-        $('#summary').textContent = "Invalid or expired link.\nAsk your partner to send you a new one.";
-        return;
-      }
-      // afficher la version initiateur
-      $('#theirVersion').textContent = rec.initiator.story;
+        $('#summary').textContent = 'Invalid or expired link. Ask your partner for a new one.';
+      } else {
+        // show partner view
+        step1.classList.add('hidden'); shareBlock.classList.add('hidden'); step2.classList.remove('hidden');
+        $('#theirVersion').textContent = rec.initiator.story;
 
-      paywall.classList.add('hidden');
-      step1.classList.add('hidden');
-      shareBlock.classList.add('hidden');
-      step2.classList.remove('hidden');
+        $('#formPartner').addEventListener('submit',(e)=>{
+          e.preventDefault();
+          const name  = $('#partnerName').value.trim();
+          const email = $('#partnerEmail').value.trim();
+          const story = $('#partnerStory').value.trim();
+          if(!name || !email || !story) return;
 
-      // soumission partenaire
-      $('#formPartner').addEventListener('submit',(e)=>{
-        e.preventDefault();
-        const name = $('#partnerName').value.trim();
-        const email = $('#partnerEmail').value.trim();
-        const story = $('#partnerStory').value.trim();
-        if(!name || !email || !story) return;
+          rec.partner = {name,email,story,submittedAt:Date.now()};
+          save(caseId, rec);
 
-        rec.partner = {name, email, story, submittedAt: Date.now()};
-        saveCase(caseId, rec);
+          step2.classList.add('hidden');
+          finalBlock.classList.remove('hidden');
 
-        step2.classList.add('hidden');
-        finalBlock.classList.remove('hidden');
-
-        // bouton final (démo : on affiche un récap)
-        $('#fixBtn').onclick = ()=>{
-          const r = loadCase(caseId);
-          finalBlock.classList.add('hidden');
-          resultBlock.classList.remove('hidden');
-          $('#summary').textContent =
+          $('#fixBtn').onclick = ()=>{
+            const r = load(caseId);
+            finalBlock.classList.add('hidden');
+            resultBlock.classList.remove('hidden');
+            $('#summary').textContent =
 `Fix the Problem — DEMO SUMMARY
 
 Initiator: ${r.initiator.name} <${r.initiator.email}>
@@ -446,20 +248,17 @@ Their story:
 ${r.partner.story}
 
 Next (production):
-• appeler une API /api/fix pour générer des conseils
-• envoyer un email aux deux avec le résumé et les conseils
-• marquer le dossier comme "done"`;
-        };
-      });
-    }
-
-    // --- si on arrive SANS params → flow initiateur (déverrouiller puis écrire)
-    if (caseId && role === 'partner') {
-      initPartnerView();
+• call /api/fix to generate guidance
+• email both parties the same advice
+• mark the case as done`;
+          };
+        });
+      }
     }
   </script>
 </body>
 </html>
+
 
 
 

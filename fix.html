@@ -251,9 +251,6 @@
       }
       for(let i=0;i<COUNT;i++) spawn(HEART);
     })();
-  </script>
-
-  <!-- ===== Page logic (Fix the Problem) ===== -->
  <script>
 document.addEventListener('DOMContentLoaded', () => {
   // ===== Helpers =====
@@ -341,12 +338,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== PARTNER MODE (Step 2) =====
   const caseId = qs('case'), role = qs('role'), token = qs('token');
 
-  // Helper pour titre possessif: "Fawziat’s", "Alex’", etc.
+  // Helper pour "Fawziat’s", "Alex’", etc.
   const possessive = (n) => {
     const name = (n || '').trim();
-    if (!name) return 'Their';
+    if (!name) return 'Someone’s';
     const last = name.slice(-1).toLowerCase();
-    const needsOnlyApostrophe = ['s', 'x', 'z'].includes(last);
+    const needsOnlyApostrophe = ['s','x','z'].includes(last);
     return needsOnlyApostrophe ? `${name}’` : `${name}’s`;
   };
 
@@ -362,8 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
       shareBlock?.classList.add('hidden');
       step2?.classList.remove('hidden');
 
-      // Injecter le titre personnalisé avec le nom de l’initiateur
-      const theirTitleEl = document.getElementById('theirTitle');
+      // ======= MODIF IMPORTANTE =======
+      // Construire le titre avec le nom saisi à l’étape 1
+      const theirTitleEl = document.getElementById('theirTitle') 
+                        || document.querySelector('#step2 h2.title-md');
       if (theirTitleEl){
         const prettyTitle = `${possessive(rec.initiator.name)} Version of the Story`;
         theirTitleEl.textContent = prettyTitle;
@@ -395,11 +394,11 @@ document.addEventListener('DOMContentLoaded', () => {
 `Fix the Problem — DEMO SUMMARY
 
 Initiator: ${r.initiator.name} <${r.initiator.email}>
-Their story:
+${possessive(r.initiator.name)} story:
 ${r.initiator.story}
 
 Partner: ${r.partner.name} <${r.partner.email}>
-Their story:
+${possessive(r.partner.name)} story:
 ${r.partner.story}
 
 Next (production):
@@ -419,6 +418,7 @@ Next (production):
   }
 });
 </script>
+
 
 
   

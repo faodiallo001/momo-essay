@@ -253,11 +253,11 @@
     })();
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // === Helpers ===
+  // ===== Helpers =====
   const $  = s => document.querySelector(s);
   const qs = n => new URLSearchParams(location.search).get(n);
   const uid = () => Array.from(crypto.getRandomValues(new Uint8Array(8)))
-                  .map(b=>b.toString(16).padStart(2,'0')).join('');
+                    .map(b=>b.toString(16).padStart(2,'0')).join('');
   const wordCount = t => (t.trim().match(/\S+/g) || []).length;
   const possessive = (n) => {
     const name = (n || '').trim();
@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return ['s','x','z'].includes(last) ? `${name}’` : `${name}’s`;
   };
 
-  // === Elements ===
+  // ===== Elements =====
   const step1 = $('#step1');
   const shareBlock = $('#shareBlock');
   const step2 = $('#step2');
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const initStory = $('#initStory');
   const partnerStory = $('#partnerStory');
 
-  // === Word counters (500 words) ===
+  // ===== Counters (500 words) =====
   function bindCounter(el, counter){
     if(!el || !counter) return;
     const update = () => {
@@ -291,76 +291,86 @@ document.addEventListener('DOMContentLoaded', () => {
   bindCounter(initStory, count1);
   bindCounter(partnerStory, count2);
 
-  // === Storage (demo) ===
+  // ===== Storage (demo) =====
   const LS   = id  => `fixCase:${id}`;
   const load = id  => JSON.parse(localStorage.getItem(LS(id)) || 'null');
   const save = (id, data) => localStorage.setItem(LS(id), JSON.stringify(data));
 
-  // === INITIATOR (Step 1) ===
+  // ===== Step 1 (Initiator) =====
   const formInitiator = $('#formInitiator');
   function handleInitiator(){
     const name  = $('#initName')?.value.trim();
     const email = $('#initEmail')?.value.trim();
     const story = $('#initStory')?.value.trim();
-    if(!name || !email || !story){
-      formInitiator?.reportValidity?.();
-      return;
-    }
+    if(!name || !email || !story){ formInitiator?.reportValidity?.(); return; }
 
     const id = uid(), ptok = uid();
-    const rec = { id, ptok, initiator:{name, email, story}, createdAt: Date.now() };
-    save(id, rec);
+    save(id, { id, ptok, initiator:{name,email,story}, createdAt: Date.now() });
 
-    // Share URL (same page with params)
     const base = location.origin + location.pathname;
     const url  = `${base}?case=${id}&role=partner&token=${ptok}`;
 
     $('#shareUrl').textContent = url;
     $('#waBtn').href  = `https://wa.me/?text=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
     $('#smsBtn').href = `sms:&body=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
-    const copy = async () => {
+    $('#copyBtn').onclick = async ()=>{
       try { await navigator.clipboard.writeText(url); } catch {}
-      const m = $('#copiedMsg'); if(!m) return;
-      m.style.display = 'inline'; setTimeout(()=> m.style.display = 'none', 1500);
+      const m=$('#copiedMsg'); if(m){ m.style.display='inline'; setTimeout(()=>m.style.display='none',1500); }
     };
-    $('#copyBtn').onclick = copy;
 
-    // Switch view
     step1?.classList.add('hidden');
     shareBlock?.classList.remove('hidden');
   }
-
   if (formInitiator){
-    // Intercept submit + submit-button clicks to avoid page reload
     formInitiator.addEventListener('submit', e => { e.preventDefault(); handleInitiator(); });
-    formInitiator.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn => {
+    formInitiator.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn=>{
       btn.addEventListener('click', e => { e.preventDefault(); handleInitiator(); });
     });
   }
 
-  // === PARTNER MODE (Step 2) ===
+  // ===== Step 2 (Partner mode) =====
   const caseId = qs('case'), role = qs('role'), token = qs('token');
+
+  function forceSetPartnerTitle(name){
+    if (!step2) return;
+    const title = `${possessive(name)} Version of the Story`;
+
+    // 1) Try: any h2 inside step2 that currently contains "their"
+    let targetH2 = Array.from(step2.querySelectorAll('h2'))
+      .find(h => /their/i.test(h.textContent || ''));
+
+    // 2) Fallback: first h2 in step2
+    if (!targetH2) targetH2 = step2.querySelector('h2');
+
+    if (targetH2) targetH2.textContent = title;
+
+    // 3) Last-resort guard: if something rewrites it later, put it back once.
+    const mo = new MutationObserver(() => {
+      const h = step2.querySelector('h2');
+      if (h && !/version of the story/i.test(h.textContent || '')) {
+        h.textContent = title;
+      }
+    });
+    mo.observe(step2, {subtree:true, childList:true, characterData:true});
+    setTimeout(()=>mo.disconnect(), 1500); // stop observing after 1.5s
+  }
 
   if (caseId && role === 'partner'){
     const rec = load(caseId);
 
     if(!rec || token !== rec.ptok){
-      [step1, shareBlock, step2, finalBlock].forEach(s => s && s.classList.add('hidden'));
+      [step1,shareBlock,step2,finalBlock].forEach(s=>s&&s.classList.add('hidden'));
       resultBlock?.classList.remove('hidden');
       $('#summary').textContent = 'Invalid or expired link. Ask your partner for a new one.';
       return;
     }
 
-    // Show partner view
     step1?.classList.add('hidden');
     shareBlock?.classList.add('hidden');
     step2?.classList.remove('hidden');
 
-    // Force-replace Step 2 title to "<Name>’s Version of the Story"
-    const h2s = step2?.querySelectorAll('h2') || [];
-    let targetH2 = Array.from(h2s).find(h => /their/i.test(h.textContent)); // old text
-    if (!targetH2) targetH2 = step2?.querySelector('h2'); // fallback: first h2
-    if (targetH2) targetH2.textContent = `${possessive(rec.initiator?.name)} Version of the Story`;
+    // >>> This line forces the custom title, even if your HTML still says "Their version (read-only)"
+    forceSetPartnerTitle(rec.initiator?.name);
 
     // Show initiator’s text
     $('#theirVersion').textContent = rec.initiator.story;
@@ -371,10 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const name  = $('#partnerName')?.value.trim();
       const email = $('#partnerEmail')?.value.trim();
       const story = $('#partnerStory')?.value.trim();
-      if(!name || !email || !story){
-        formPartner?.reportValidity?.();
-        return;
-      }
+      if(!name || !email || !story){ formPartner?.reportValidity?.(); return; }
+
       rec.partner = { name, email, story, submittedAt: Date.now() };
       save(caseId, rec);
 
@@ -402,10 +410,9 @@ Next (production):
 • mark the case as done`;
       };
     }
-
     if (formPartner){
       formPartner.addEventListener('submit', e => { e.preventDefault(); handlePartner(); });
-      formPartner.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn => {
+      formPartner.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn=>{
         btn.addEventListener('click', e => { e.preventDefault(); handlePartner(); });
       });
     }
@@ -414,9 +421,6 @@ Next (production):
 </script>
 
 
-
-
-  
   <script>
 (function(){
   function autosize(el){

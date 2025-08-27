@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Paywall</title>
+</head>
+<body>
+  <h1 id="p_name">Checkout</h1>
+  <p id="p_desc"></p>
+  <p><strong id="p_price"></strong></p>
+  <button id="payBtn">Payer maintenant</button>
+  <p id="status"></p>
+
+  <script>
+  (function(){
+    // quel produit ? (passport | compat | fix)
+    const params  = new URLSearchParams(location.search);
+    const product = (params.get('product')||'').toLowerCase();
+
+    // libellés + page à ouvrir après paiement
+    const PRODUCTS = {
+      passport: { name:"Get My Love Passport", price:"$4.99", desc:"Questionnaire + PDF.",
+                  go:"love-passport.html", key:"paid_passport" },
+      compat:   { name:"Compatibility Test",   price:"$9.99", desc:"Deux liens, score + mini analyse.",
+                  go:"compatibility.html", key:"paid_compat" },
+      fix:      { name:"Fix the Problem",      price:"$9.99", desc:"Analyse du conflit.",
+                  go:"fix.html", key:"paid_fix" }
+    };
+    const cfg = PRODUCTS[product];
+    if(!cfg){ location.replace('index.html'); return; }
+
+    // afficher
+    document.getElementById('p_name').textContent  = cfg.name;
+    document.getElementById('p_price').textContent = cfg.price;
+    document.getElementById('p_desc').textContent  = cfg.desc;
+
+    // 1) créer la session stripe côté serveur
+    document.getElementById('payBtn').addEventListener('click', async ()=>{
+      document.getElementById('status').textContent = "Création de la session de paiement…";
+      try{
+        const r = await fetch('/api/checkout?product='+product);
+        const j = await r.json();
+        if(j.url){ window.location.href = j.url; }
+        else{ document.getElementById('status').textContent = "Erreur de paiement."; }
+      }catch(e){
+        document.getElementById('status').textContent = "Erreur réseau.";
+      }
+    });
+
+    // 2) retour de stripe : ?session_id=cs_...
+    const sessionId = params.get('session_id');
+    if(sessionId){
+      document.getElementById('status').textContent = "Vérification du paiement…";
+      fetch('/api/verify?id='+encodeURIComponent(sessionId))
+        .then(r=>r.json())
+        .then(j=>{
+          if(j.paid){
+            // flag local (simple) pour laisser entrer sur la page cible
+            localStorage.setItem(cfg.key, JSON.stringify({paid:true, ts:Date.now(), sid:sessionId}));
+            location.replace(cfg.go);
+          }else{
+            document.getElementById('status').textContent = "Paiement non confirmé.";
+          }
+        })
+        .catch(()=> document.getElementById('status').textContent = "Erreur de vérification.");
+    }
+  })();
+  </script>
+</body>
+</html>
 

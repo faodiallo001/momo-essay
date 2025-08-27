@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fix the Problem — Match or Move On</title>
 
-  <!-- Fonts + styles communs -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  
+
+  <!-- chemin ABSOLU + cache-bust -->
+  <link rel="stylesheet" href="/style.css?v=9">
 </head>
-<body>
+
 
   <!-- NAV (ta nav habituelle) -->
   <nav class="nav">
@@ -167,156 +167,77 @@
 </footer>
 
   <!-- ===== SCRIPTS (démo) ===== -->
-  <script>
-    // --- petits utilitaires
-    const $ = s => document.querySelector(s);
-    const qs = (name) => new URLSearchParams(location.search).get(name);
-    const uid = () => Array.from(crypto.getRandomValues(new Uint8Array(8))).map(b=>b.toString(16).padStart(2,'0')).join('');
-    const limitWords = (txt, max=500) => {
-      const words = txt.trim().split(/\s+/).filter(Boolean);
-      return {count: words.length, over: words.length > max};
+ <script>
+  // Footer year
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // Elements
+  const payBtn = document.getElementById('payBtn');
+  const paywall = document.getElementById('paywall');
+  const formSection = document.getElementById('fixFormSection');
+  const form = document.getElementById('fixForm');
+  const resultSection = document.getElementById('resultSection');
+  const aiResult = document.getElementById('aiResult');
+
+  // Simulate payment (replace later with Stripe Checkout)
+  if (payBtn && paywall && formSection) {
+    payBtn.addEventListener('click', () => {
+      paywall.classList.add('hidden');
+      formSection.classList.remove('hidden');
+    });
+  }
+
+  // Word counters (e.g., 500 words)
+  const storyAreas = document.querySelectorAll('[data-count="words"]');
+  storyAreas.forEach(area => {
+    const counter = area.closest('.field')?.querySelector('.counter');
+    if (!counter) return;
+    const LIMIT = 500;
+    const update = () => {
+      const words = (area.value.trim().match(/\S+/g) || []).length;
+      counter.textContent = `${words}/${LIMIT} words`;
     };
+    area.addEventListener('input', update);
+    update();
+  });
 
-    // --- état
-    const caseId = qs('case');
-    const role   = qs('role');
-    const token  = qs('token');
-
-    // --- vues
-    const paywall     = $('#paywall');
-    const step1       = $('#step1');
-    const shareBlock  = $('#shareBlock');
-    const step2       = $('#step2');
-    const finalBlock  = $('#finalBlock');
-    const resultBlock = $('#resultBlock');
-
-    // --- compteurs mots
-    const initStory = $('#initStory');
-    const partnerStory = $('#partnerStory');
-    const count1 = $('#count1');
-    const count2 = $('#count2');
-
-    function bindCounter(el, counter){
-      if(!el || !counter) return;
-      const update = () => {
-        const {count, over} = limitWords(el.value, 500);
-        counter.textContent = count + ' / 500 words';
-        counter.style.color = over ? '#ff6c6c' : '#cbbfb7';
-      };
-      el.addEventListener('input', update); update();
-    }
-    bindCounter(initStory, count1);
-    bindCounter(partnerStory, count2);
-
-    // --- paywall (démo : on déverrouille sans Stripe)
-    $('#payBtn')?.addEventListener('click', () => {
-      paywall.classList.add('hidden');
-      step1.classList.remove('hidden');
-    });
-
-    // --- stockage (démo localStorage)
-    const LS_KEY = (id) => `fixCase:${id}`;
-    const loadCase = (id) => JSON.parse(localStorage.getItem(LS_KEY(id)) || 'null');
-    const saveCase = (id, data) => localStorage.setItem(LS_KEY(id), JSON.stringify(data));
-
-    // --- Form initiateur -> crée le dossier + lien partenaire
-    $('#formInitiator')?.addEventListener('submit', (e)=>{
+  // Simulate analysis result
+  if (form && aiResult && resultSection) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = $('#initName').value.trim();
-      const email = $('#initEmail').value.trim();
-      const story = $('#initStory').value.trim();
-      if(!name || !email || !story) return;
-
-      const id = uid();
-      const ptok = uid(); // token partenaire (simple démo)
-      const rec = { id, ptok, initiator: {name, email, story}, createdAt: Date.now() };
-      saveCase(id, rec);
-
-      // construire le lien à partager
-      const base = location.origin + location.pathname;
-      const url  = `${base}?case=${id}&role=partner&token=${ptok}`;
-      $('#shareUrl').textContent = url;
-
-      // boutons partage
-      const msg = `Please add your side so we can fix this together:`;
-      $('#waBtn').href  = `https://wa.me/?text=${encodeURIComponent(msg + ' ' + url)}`;
-      $('#smsBtn').href = `sms:&body=${encodeURIComponent(msg + ' ' + url)}`;
-
-      // copier
-      $('#copyBtn').onclick = async ()=>{
-        await navigator.clipboard.writeText(url);
-        $('#copiedMsg').style.display='inline';
-        setTimeout(()=>$('#copiedMsg').style.display='none', 1500);
-      };
-
-      step1.classList.add('hidden');
-      shareBlock.classList.remove('hidden');
+      aiResult.innerHTML = `
+        <h3>Summary</h3>
+        <p>Both of you want clarity and respect. Try short, calm messages.</p>
+        <h3>Next steps</h3>
+        <p>Pick a calm time, listen first, reflect back what you understood,
+        and agree on one small action.</p>
+      `;
+      resultSection.classList.remove('hidden');
     });
+  }
 
-    // --- Mode Partenaire : si l’URL a ?role=partner
-    function initPartnerView(){
-      const rec = loadCase(caseId);
-      if(!rec || !token || token !== rec.ptok){
-        // dossier introuvable ou mauvais token
-        paywall.classList.add('hidden');
-        step1.classList.add('hidden');
-        step2.classList.add('hidden');
-        finalBlock.classList.add('hidden');
-        resultBlock.classList.remove('hidden');
-        $('#summary').textContent = "Invalid or expired link.\nAsk your partner to send you a new one.";
-        return;
-      }
-      // afficher la version initiateur
-      $('#theirVersion').textContent = rec.initiator.story;
+  // Copy result
+  const copyBtn = document.getElementById('copyBtn');
+  if (copyBtn && aiResult) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(aiResult.innerText || '');
+    });
+  }
 
-      paywall.classList.add('hidden');
-      step1.classList.add('hidden');
-      shareBlock.classList.add('hidden');
-      step2.classList.remove('hidden');
-
-      // soumission partenaire
-      $('#formPartner').addEventListener('submit',(e)=>{
-        e.preventDefault();
-        const name = $('#partnerName').value.trim();
-        const email = $('#partnerEmail').value.trim();
-        const story = $('#partnerStory').value.trim();
-        if(!name || !email || !story) return;
-
-        rec.partner = {name, email, story, submittedAt: Date.now()};
-        saveCase(caseId, rec);
-
-        step2.classList.add('hidden');
-        finalBlock.classList.remove('hidden');
-
-        // bouton final (démo : on affiche un récap)
-        $('#fixBtn').onclick = ()=>{
-          const r = loadCase(caseId);
-          finalBlock.classList.add('hidden');
-          resultBlock.classList.remove('hidden');
-          $('#summary').textContent =
-`Fix the Problem — DEMO SUMMARY
-
-Initiator: ${r.initiator.name} <${r.initiator.email}>
-Their story:
-${r.initiator.story}
-
-Partner: ${r.partner.name} <${r.partner.email}>
-Their story:
-${r.partner.story}
-
-Next (production):
-• appeler une API /api/fix pour générer des conseils
-• envoyer un email aux deux avec le résumé et les conseils
-• marquer le dossier comme "done"`;
-        };
-      });
-    }
-
-    // --- si on arrive SANS params → flow initiateur (déverrouiller puis écrire)
-    if (caseId && role === 'partner') {
-      initPartnerView();
-    }
-  </script>
+  // Download result
+  const downloadBtn = document.getElementById('downloadBtn');
+  if (downloadBtn && aiResult) {
+    downloadBtn.addEventListener('click', () => {
+      const blob = new Blob([aiResult.innerText || ''], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'FixTheProblem.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+  }
+</script>
 </body>
 </html>
 

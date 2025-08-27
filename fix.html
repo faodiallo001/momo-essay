@@ -33,6 +33,38 @@
     .counter{justify-self:end;font-size:12px;color:#cbbfb7}
     .hidden{display:none!important}
     @media (max-width:768px){ .wrap{padding-top:112px} .btn{width:100%} }
+    /* === Story field: plein écran et confortable sur mobile === */
+@media (max-width: 768px){
+  /* Forcer la grille du bloc story sur une seule colonne */
+  #step1 .field[style],
+  #step2 .field[style]{
+    grid-template-columns: 1fr !important;
+    align-items: start !important;
+  }
+
+  /* Le compteur passe à la ligne sous le label */
+  .counter{
+    justify-self: start !important;
+    margin-top: 6px;
+    font-size: 12px;
+  }
+
+  /* Le textarea devient plus grand et confortable */
+  #initStory,
+  #partnerStory{
+    min-height: 260px !important;   /* 260–300px, ajuste si tu veux */
+    width: 100%;
+  }
+
+  /* Réduire les marges pour gagner de la largeur visuelle */
+  .wrap{ padding-left: 12px; padding-right: 12px; }
+  .page{ max-width: 100vw; }
+  .card{ padding: 14px; }
+}
+
+/* Évite le zoom iOS quand on focus un input */
+.input{ font-size: 16px; }
+
   </style>
 </head>
 <body>
@@ -336,7 +368,20 @@ Next (production):
         });
       }
     }
-  </script>
+ <script>
+(function(){
+  function autosize(el){
+    el.style.height = 'auto';
+    el.style.height = Math.min(800, el.scrollHeight) + 'px'; // limite haute 800px
+  }
+  ['initStory','partnerStory'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    ['input','change'].forEach(ev=>el.addEventListener(ev, ()=>autosize(el)));
+    autosize(el);
+  });
+})();
+</script>
 </body>
 </html>
 

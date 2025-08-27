@@ -284,6 +284,23 @@
 </footer>
 
   <!-- JS -->
+  
+  <script>
+const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
+function size(){W=s.width=innerWidth;H=s.height=innerHeight;
+  const n=Math.min(180,Math.floor(W*H/11000));
+  PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));
+}
+function loop(){ctx.clearRect(0,0,W,H);
+  for(const p of PS){p.a+=.0028;p.x+=Math.cos(p.a)*p.s;p.y+=Math.sin(p.a)*p.s*.45;
+    if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;if(p.y>H+10)p.y=-10;
+    const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);g.addColorStop(0,`rgba(255,80,80,${p.o})`);g.addColorStop(1,'rgba(255,80,80,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}
+  requestAnimationFrame(loop);
+}
+addEventListener('resize',size);size();loop();
+</script>
+  
   <script>
     
     document.getElementById("year").textContent = new Date().getFullYear();

@@ -1,1 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fix the Problem — Match or Move On</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="momo-body">
+
+  <!-- HEADER -->
+  <header class="momo-header">
+    <a href="index.html" class="brand">Match or Move On</a>
+    <nav class="nav">
+      <a href="compatibility.html">Compatibility Test</a>
+      <a href="love-passport.html">Love Passport</a>
+      <a class="active" href="fix.html">Fix the Problem</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="container container--narrow">
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1 class="title-xl">Fix the Problem</h1>
+      <p class="subtitle">Break the silent war. Share both sides — get a calm, objective response you can both accept.</p>
+      <div class="pill">One-time • $9.99 • No account</div>
+    </section>
+
+    <!-- PAYWALL -->
+    <section class="paywall" id="paywall">
+      <h2 class="title-md">Unlock analysis</h2>
+      <ul>
+        <li>Submit both versions (you + partner)</li>
+        <li>Optional screenshots or photos</li>
+        <li>Clear, kind, and constructive response</li>
+        <li>Delivered instantly on this page</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">$9.99</div>
+        <button id="payBtn" class="btn btn--ruby">Pay & Continue</button>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section id="fixFormSection" class="hidden">
+      <h2 class="title-md">Tell us both sides</h2>
+      <form id="fixForm">
+        <label>Your version</label>
+        <textarea id="yourSide" rows="6" maxlength="2000"></textarea>
+
+        <label>Their version</label>
+        <textarea id="theirSide" rows="6" maxlength="2000"></textarea>
+
+        <label>Relationship status</label>
+        <select id="relationship">
+          <option value="">Select…</option>
+          <option>Dating</option>
+          <option>Engaged</option>
+          <option>Married</option>
+          <option>Separated</option>
+        </select>
+
+        <label>Goal</label>
+        <select id="goal">
+          <option value="">Select…</option>
+          <option>Rebuild trust</option>
+          <option>Reach a calm agreement</option>
+          <option>Decide next steps</option>
+          <option>End respectfully</option>
+        </select>
+
+        <label>Attachments (optional)</label>
+        <input type="file" id="attachments" multiple />
+
+        <button class="btn btn--gold" type="submit">Generate the Answer</button>
+      </form>
+    </section>
+
+    <!-- RESULT -->
+    <section id="resultSection" class="hidden">
+      <h2 class="title-md">Your guided response</h2>
+      <div id="aiResult" class="result-card"></div>
+      <div class="result-actions">
+        <button id="copyBtn" class="btn">Copy</button>
+        <button id="downloadBtn" class="btn">Download</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="momo-footer">
+    <p>© <span id="year"></span> Match or Move On — São Paulo, Brazil.</p>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const payBtn = document.getElementById("payBtn");
+    const paywall = document.getElementById("paywall");
+    const formSection = document.getElementById("fixFormSection");
+    const form = document.getElementById("fixForm");
+    const resultSection = document.getElementById("resultSection");
+    const aiResult = document.getElementById("aiResult");
+
+    // Simuler paiement
+    payBtn.addEventListener("click", () => {
+      paywall.classList.add("hidden");
+      formSection.classList.remove("hidden");
+    });
+
+    // Simuler analyse
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      aiResult.innerHTML = `
+        <h3>Summary</h3>
+        <p>Both of you want clarity and respect. Try short, calm talks instead of silence or escalation.</p>
+        <h3>Next step</h3>
+        <p>Pick a calm time, listen first, repeat what you understood, and choose one small action each.</p>
+      `;
+      resultSection.classList.remove("hidden");
+    });
+
+    // Copier
+    document.getElementById("copyBtn").addEventListener("click", () => {
+      navigator.clipboard.writeText(aiResult.innerText);
+    });
+
+    // Télécharger (simple)
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const blob = new Blob([aiResult.innerText], {type: "text/plain"});
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "FixTheProblem.txt";
+      link.click();
+    });
+  </script>
+</body>
+</html>
 

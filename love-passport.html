@@ -11,10 +11,11 @@
     --bg:#0b0b0f;           /* noir profond */
     --text:#e9e2db;
     --muted:#c9c2bb;
-   --rose:#ff3b30        
-    --ring:rgba(214,30,73,.45);
+    --rose:#ff3b30;         /* même accent que contact.html */
+    --ring:rgba(255,59,48,.45);
     --glass:rgba(255,255,255,.04);
     --border:rgba(255,255,255,.12);
+    --gold:#d4af37;         /* utilisé dans les pages passeport */
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -28,38 +29,38 @@
   .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
     padding:14px 24px;backdrop-filter:blur(8px);
     background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
-               radial-gradient(70% 50% at 50% 0%,rgba(214,30,73,.10),transparent 60%);
+               radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.10),transparent 60%);
     border-bottom:1px solid rgba(255,255,255,.06)}
   .nav-left{justify-self:start}
   .nav-left a{color:#ffecec;text-decoration:none;font-weight:600}
   .logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:900;letter-spacing:.35px;
     font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;
-    text-shadow:0 0 20px rgba(214,30,73,.65),0 0 8px rgba(214,30,73,.45)}
-  .logo-neon .accent{color:var(--ruby)}
+    text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
+  .logo-neon .accent{color:var(--rose)}
   .nav-right{justify-self:end;display:flex;gap:18px;align-items:center}
   .nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
-  .nav-right a:hover{border-color:rgba(214,30,73,.45);background:rgba(214,30,73,.10)}
+  .nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
   .lang{position:relative}
   .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
     border:1px solid var(--ring);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
-    text-shadow:0 0 8px rgba(214,30,73,.55)}
+    text-shadow:0 0 8px rgba(255,59,48,.55)}
   .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
     background:rgba(0,0,0,.7);border:1px solid var(--ring);border-radius:12px;padding:8px;
-    box-shadow:0 0 12px rgba(214,30,73,.35), inset 0 0 8px rgba(214,30,73,.25)}
+    box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
   .lang:hover .lang-menu{display:flex}
   .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
-  .lang-menu a:hover{background:rgba(214,30,73,.12)}
+  .lang-menu a:hover{background:rgba(255,59,48,.12)}
 
   /* page wrapper */
   .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
   .page{max-width:min(1000px,94vw);width:100%}
   .title{font-family:"Playfair Display",serif;font-weight:900;line-height:1.08;
-    font-size:clamp(32px,5.6vw,60px);margin:0 0 10px;letter-spacing:.3px;color:#fff;text-shadow:0 0 24px rgba(214,30,73,.18)}
+    font-size:clamp(32px,5.6vw,60px);margin:0 0 10px;letter-spacing:.3px;color:#fff;text-shadow:0 0 24px rgba(255,59,48,.18)}
   .subtitle{color:var(--muted);max-width:760px;margin:8px 0 28px;font-size:clamp(14px,1.6vw,18px)}
 
   /* progress */
   .progress{height:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
-  .progress>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#d61e49,#ff6b4a);box-shadow:0 0 12px rgba(214,30,73,.35);transition:width .25s ease}
+  .progress>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--rose),#ff6b4a);box-shadow:0 0 12px rgba(255,59,48,.35);transition:width .25s ease}
   .prog-txt{color:#c9c2bb;font-size:13px;margin-top:6px}
 
   /* cards (quiz) */
@@ -77,18 +78,18 @@
   .opts{display:grid;gap:10px;margin-top:10px}
   .opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(255,255,255,.04);
     border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}
-  .opt input{accent-color:var(--ruby)}
+  .opt input{accent-color:var(--rose)}
   .opt:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2)}
   .help{color:#b9b1aa;font-size:12px;margin-top:8px;min-height:18px}
   .actions{display:flex;gap:10px;justify-content:space-between;margin-top:16px;flex-wrap:wrap}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     padding:12px 16px;border-radius:14px;text-decoration:none;color:#fff;border:1px solid var(--ring);
-    background:radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,.09), rgba(255,255,255,.02) 50%),linear-gradient(90deg,#d61e49,#ff6b4a);
-    box-shadow:0 8px 22px rgba(214,30,73,.28), inset 0 0 10px rgba(255,255,255,.06);
+    background:radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,.09), rgba(255,255,255,.02) 50%),linear-gradient(90deg,var(--rose),#ff6b4a);
+    box-shadow:0 8px 22px rgba(255,59,48,.28), inset 0 0 10px rgba(255,255,255,.06);
     font-weight:800;letter-spacing:.3px;cursor:pointer;transition:transform .14s ease, box-shadow .18s ease, filter .18s ease, opacity .18s ease;
   }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(214,30,73,.36), inset 0 0 12px rgba(255,255,255,.08)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,59,48,.36), inset 0 0 12px rgba(255,255,255,.08)}
   .btn[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(.2)}
 
   /* ===== BOOK / PASSPORT MULTIPAGE ===== */
@@ -99,11 +100,11 @@
   .book{display:grid;place-items:center}
   .pass-page{
     width:794px; height:1123px; /* A4 px @96dpi */
-    background: radial-gradient(1200px 800px at -10% -20%, rgba(214,30,73,.12), transparent 60%), #0b0b0f;
+    background: radial-gradient(1200px 800px at -10% -20%, rgba(255,59,48,.12), transparent 60%), #0b0b0f;
     border:2px solid var(--gold); border-radius:16px; padding:28px 32px; position:relative;
-    box-shadow:0 16px 60px rgba(214,30,73,.18), inset 0 0 0 4px rgba(212,175,55,.15);
+    box-shadow:0 16px 60px rgba(255,59,48,.18), inset 0 0 0 4px rgba(212,175,55,.15);
   }
-  .p-title{font-family:"Playfair Display",serif;color:var(--ruby);font-weight:900;letter-spacing:.4px;font-size:26px;margin:0 0 6px}
+  .p-title{font-family:"Playfair Display",serif;color:var(--rose);font-weight:900;letter-spacing:.4px;font-size:26px;margin:0 0 6px}
   .p-sub{color:#e7dac1;font-size:12px;margin:4px 0 12px}
   .gold-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:10px 0 16px;opacity:.8}
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -117,7 +118,7 @@
   .heart-big{
     width:120px;height:120px;border-radius:16px;background:
       radial-gradient(50% 60% at 50% 40%, #ff6a8d, #8b0e2a 70%);
-    filter:drop-shadow(0 10px 30px rgba(214,30,73,.45));
+    filter:drop-shadow(0 10px 30px rgba(255,59,48,.45));
     -webkit-mask: radial-gradient(circle at 35% 35%, transparent 28%, black 29%) top left,
                   radial-gradient(circle at 65% 35%, transparent 28%, black 29%) top right,
                   linear-gradient(to bottom, black 45%, transparent 46%) bottom;
@@ -128,7 +129,7 @@
   .stamps{display:flex;flex-wrap:wrap;gap:10px}
   .stamp{
     position:relative; display:inline-block; padding:10px 14px;
-    border:2px dashed #7a0b1a; color:#ffd1d9; background:rgba(214,30,73,.08);
+    border:2px dashed #7a0b1a; color:#ffd1d9; background:rgba(255,59,48,.08);
     text-transform:uppercase; font-weight:800; letter-spacing:.4px;
     transform:rotate(-6deg); border-radius:10px;
     box-shadow:inset 0 0 0 2px rgba(139,0,0,.35), 0 6px 18px rgba(0,0,0,.35);
@@ -141,17 +142,17 @@
   /* site footer (ton design) */
   .site-footer{margin-top:60px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
   .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
-    background:radial-gradient(60% 80% at 50% 100%, rgba(214,30,73,.15), transparent 70%);pointer-events:none}
+    background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
   .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
   .site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
   .site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
-  .site-footer .brand-title span{color:var(--ruby)}
+  .site-footer .brand-title span{color:var(--rose)}
   .site-footer .tag{margin:8px 0 10px;color:#cbbfb7;font-size:14px}
   .site-footer .mail{color:#fff;text-decoration:none;font-weight:600}
-  .site-footer .mail:hover{color:var(--ruby)}
+  .site-footer .mail:hover{color:var(--rose)}
   .site-footer a{display:block;color:#e9e2db;text-decoration:none;margin:6px 0;font-weight:600}
-  .site-footer a:hover{color:var(--ruby)}
-  .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(214,30,73,.35))}
+  .site-footer a:hover{color:var(--rose)}
+  .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
   .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
 
   @media (max-width:900px){ .site-footer .f-wrap{grid-template-columns:1fr 1fr} }
@@ -175,14 +176,14 @@
 
   /* floating hearts (ton design) */
   .float-item{position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
-    filter:drop-shadow(0 8px 18px rgba(214,30,73,.45));
+    filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
     transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));
     animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;will-change:transform,opacity}
   @keyframes floatUp{0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
     10%{opacity:1}100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}}
-  @keyframes spin{0%{filter:drop-shadow(0 8px 18px rgba(214,30,73,.45))}
-    50%{filter:drop-shadow(0 12px 26px rgba(214,30,73,.60))}
-    100%{filter:drop-shadow(0 8px 18px rgba(214,30,73,.45))}}
+  @keyframes spin{0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+    50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
+    100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}}
 </style>
 </head>
 <body>
@@ -705,7 +706,6 @@ function buildPassportBook(){
   /* 5. Lifestyle & Habits */
   const p5 = pageShell('LIFESTYLE & HABITS','Daily rhythm & tastes');
   const g5 = el('div',{class:'grid-3'});
-  // Musique / Hobbies : on compose
   let musicLine = join('music');
   let hobbies = `${get('evening')} • ${join('selfDesc')}`;
   g5.innerHTML = `
@@ -735,7 +735,6 @@ function buildPassportBook(){
   p6.appendChild(el('div',{style:'margin-top:10px;color:#f7e7c6;font-size:12px'},`Generated: ${issueDate}`));
   p6.appendChild(el('div',{class:'footer-issuer'},'Issued by matchormoveon.com'));
 
-  // Inject pages
   [p1,p2,p3,p4,p5,p6].forEach(p=>{ book.appendChild(p); bookPages.push(p); });
 }
 
@@ -762,24 +761,20 @@ document.getElementById('btnPreview').addEventListener('click', ()=>{
 
 /* PDF multipages */
 document.getElementById('btnPdf').addEventListener('click', async ()=>{
-  // s’assure que le livre est construit
   if(bookPages.length===0) buildPassportBook();
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({orientation:'p',unit:'px',format:'a4',compress:true});
   for(let i=0;i<bookPages.length;i++){
-    // rendre chaque page en image
     const canvas = await html2canvas(bookPages[i], {scale:2, backgroundColor:'#0b0b0f'});
     const imgData = canvas.toDataURL('image/png');
     const pageW = pdf.internal.pageSize.getWidth();
     const pageH = pdf.internal.pageSize.getHeight();
-    // dimensionne l’image pour couvrir la page
     pdf.addImage(imgData,'PNG',0,0,pageW,pageH);
     if(i<bookPages.length-1) pdf.addPage();
   }
   pdf.save('Love_Passport_MOMO.pdf');
 });
 
-/* Montrer le résultat quand on a fini le quiz */
 function openResultIfAllAnswered(){
   const allVisible = QUESTIONS.filter(shouldShow);
   const ok = allVisible.every(isAnswered);
@@ -788,6 +783,7 @@ function openResultIfAllAnswered(){
 </script>
 </body>
 </html>
+
 
 
 

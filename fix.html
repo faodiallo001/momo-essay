@@ -15,7 +15,7 @@
 
   /* layers */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .bg-float{position:fixed;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+  .bg-float{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden}
 
   /* NAV */
   .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
@@ -140,7 +140,7 @@
   }
 
   /* floating items */
-  .float-item{position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
+  .float-item{position:absolute;top:40vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
     filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
     transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));
     animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;will-change:transform,opacity}
@@ -312,7 +312,7 @@ addEventListener('resize',size);size();loop();
       <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
     </g></svg>`);
   const isM = matchMedia('(max-width:768px)').matches;
-  const COUNT=isM?12:18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
+  const COUNT=isM?24:18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
   function spawn(svg){
     const el=document.createElement('img');
     el.src=`data:image/svg+xml;utf8,${svg}`; el.className='float-item';
@@ -323,7 +323,7 @@ addEventListener('resize',size);size();loop();
     el.style.setProperty('--r',(Math.random()*40-20)+'deg');
     el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
     el.style.setProperty('--spin',(14+Math.random()*10)+'s');
-    el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
+    el.style.animationDelay=(Math.random()*12).toFixed(2)+'0s';
     LAYER.appendChild(el);
   }
   for(let i=0;i<COUNT)i++) spawn(HEART);

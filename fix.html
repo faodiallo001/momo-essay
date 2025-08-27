@@ -251,28 +251,33 @@
       }
       for(let i=0;i<COUNT;i++) spawn(HEART);
     })();
- <script>
+<script>
 document.addEventListener('DOMContentLoaded', () => {
-  // ===== Helpers =====
+  // === Helpers ===
   const $  = s => document.querySelector(s);
   const qs = n => new URLSearchParams(location.search).get(n);
-  const uid = () =>
-    Array.from(crypto.getRandomValues(new Uint8Array(8)))
-      .map(b => b.toString(16).padStart(2,'0')).join('');
+  const uid = () => Array.from(crypto.getRandomValues(new Uint8Array(8)))
+                  .map(b=>b.toString(16).padStart(2,'0')).join('');
   const wordCount = t => (t.trim().match(/\S+/g) || []).length;
+  const possessive = (n) => {
+    const name = (n || '').trim();
+    if (!name) return 'Someone’s';
+    const last = name.slice(-1).toLowerCase();
+    return ['s','x','z'].includes(last) ? `${name}’` : `${name}’s`;
+  };
 
-  // ===== Elements =====
-  const step1 = $('#step1'),
-        shareBlock = $('#shareBlock'),
-        step2 = $('#step2'),
-        finalBlock = $('#finalBlock'),
-        resultBlock = $('#resultBlock'),
-        count1 = $('#count1'),
-        count2 = $('#count2'),
-        initStory = $('#initStory'),
-        partnerStory = $('#partnerStory');
+  // === Elements ===
+  const step1 = $('#step1');
+  const shareBlock = $('#shareBlock');
+  const step2 = $('#step2');
+  const finalBlock = $('#finalBlock');
+  const resultBlock = $('#resultBlock');
+  const count1 = $('#count1');
+  const count2 = $('#count2');
+  const initStory = $('#initStory');
+  const partnerStory = $('#partnerStory');
 
-  // ===== Word counters (500 words) =====
+  // === Word counters (500 words) ===
   function bindCounter(el, counter){
     if(!el || !counter) return;
     const update = () => {
@@ -286,12 +291,12 @@ document.addEventListener('DOMContentLoaded', () => {
   bindCounter(initStory, count1);
   bindCounter(partnerStory, count2);
 
-  // ===== Storage (demo) =====
+  // === Storage (demo) ===
   const LS   = id  => `fixCase:${id}`;
   const load = id  => JSON.parse(localStorage.getItem(LS(id)) || 'null');
   const save = (id, data) => localStorage.setItem(LS(id), JSON.stringify(data));
 
-  // ===== INITIATOR (Step 1) =====
+  // === INITIATOR (Step 1) ===
   const formInitiator = $('#formInitiator');
   function handleInitiator(){
     const name  = $('#initName')?.value.trim();
@@ -310,87 +315,77 @@ document.addEventListener('DOMContentLoaded', () => {
     const base = location.origin + location.pathname;
     const url  = `${base}?case=${id}&role=partner&token=${ptok}`;
 
-    const setCopyMsg = () => {
-      const m = $('#copiedMsg');
-      if(!m) return;
-      m.style.display = 'inline';
-      setTimeout(()=> m.style.display = 'none', 1500);
-    };
-
     $('#shareUrl').textContent = url;
     $('#waBtn').href  = `https://wa.me/?text=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
     $('#smsBtn').href = `sms:&body=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
-    $('#copyBtn').onclick = async () => { await navigator.clipboard.writeText(url); setCopyMsg(); };
+    const copy = async () => {
+      try { await navigator.clipboard.writeText(url); } catch {}
+      const m = $('#copiedMsg'); if(!m) return;
+      m.style.display = 'inline'; setTimeout(()=> m.style.display = 'none', 1500);
+    };
+    $('#copyBtn').onclick = copy;
 
-    // switch view
+    // Switch view
     step1?.classList.add('hidden');
     shareBlock?.classList.remove('hidden');
   }
 
   if (formInitiator){
-    // Anti-reload: intercepter submit + clic submit
+    // Intercept submit + submit-button clicks to avoid page reload
     formInitiator.addEventListener('submit', e => { e.preventDefault(); handleInitiator(); });
     formInitiator.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn => {
       btn.addEventListener('click', e => { e.preventDefault(); handleInitiator(); });
     });
   }
 
-  // ===== PARTNER MODE (Step 2) =====
+  // === PARTNER MODE (Step 2) ===
   const caseId = qs('case'), role = qs('role'), token = qs('token');
-
-  // Helper pour "Fawziat’s", "Alex’", etc.
-  const possessive = (n) => {
-    const name = (n || '').trim();
-    if (!name) return 'Someone’s';
-    const last = name.slice(-1).toLowerCase();
-    const needsOnlyApostrophe = ['s','x','z'].includes(last);
-    return needsOnlyApostrophe ? `${name}’` : `${name}’s`;
-  };
 
   if (caseId && role === 'partner'){
     const rec = load(caseId);
+
     if(!rec || token !== rec.ptok){
       [step1, shareBlock, step2, finalBlock].forEach(s => s && s.classList.add('hidden'));
       resultBlock?.classList.remove('hidden');
       $('#summary').textContent = 'Invalid or expired link. Ask your partner for a new one.';
-    } else {
-      // show partner view
-      step1?.classList.add('hidden');
-      shareBlock?.classList.add('hidden');
-      step2?.classList.remove('hidden');
+      return;
+    }
 
-      // ======= MODIF IMPORTANTE =======
-      // Construire le titre avec le nom saisi à l’étape 1
-      const theirTitleEl = document.getElementById('theirTitle') 
-                        || document.querySelector('#step2 h2.title-md');
-      if (theirTitleEl){
-        const prettyTitle = `${possessive(rec.initiator.name)} Version of the Story`;
-        theirTitleEl.textContent = prettyTitle;
+    // Show partner view
+    step1?.classList.add('hidden');
+    shareBlock?.classList.add('hidden');
+    step2?.classList.remove('hidden');
+
+    // Force-replace Step 2 title to "<Name>’s Version of the Story"
+    const h2s = step2?.querySelectorAll('h2') || [];
+    let targetH2 = Array.from(h2s).find(h => /their/i.test(h.textContent)); // old text
+    if (!targetH2) targetH2 = step2?.querySelector('h2'); // fallback: first h2
+    if (targetH2) targetH2.textContent = `${possessive(rec.initiator?.name)} Version of the Story`;
+
+    // Show initiator’s text
+    $('#theirVersion').textContent = rec.initiator.story;
+
+    // Partner submit
+    const formPartner = $('#formPartner');
+    function handlePartner(){
+      const name  = $('#partnerName')?.value.trim();
+      const email = $('#partnerEmail')?.value.trim();
+      const story = $('#partnerStory')?.value.trim();
+      if(!name || !email || !story){
+        formPartner?.reportValidity?.();
+        return;
       }
+      rec.partner = { name, email, story, submittedAt: Date.now() };
+      save(caseId, rec);
 
-      // Afficher la version initiateur
-      $('#theirVersion').textContent = rec.initiator.story;
+      step2?.classList.add('hidden');
+      finalBlock?.classList.remove('hidden');
 
-      const formPartner = $('#formPartner');
-      function handlePartner(){
-        const name  = $('#partnerName')?.value.trim();
-        const email = $('#partnerEmail')?.value.trim();
-        const story = $('#partnerStory')?.value.trim();
-        if(!name || !email || !story){
-          formPartner?.reportValidity?.();
-          return;
-        }
-        rec.partner = { name, email, story, submittedAt: Date.now() };
-        save(caseId, rec);
-
-        step2?.classList.add('hidden');
-        finalBlock?.classList.remove('hidden');
-
-        $('#fixBtn').onclick = () => {
-          const r = load(caseId);
-          finalBlock?.classList.add('hidden');
-          resultBlock?.classList.remove('hidden');
-          $('#summary').textContent =
+      $('#fixBtn').onclick = () => {
+        const r = load(caseId);
+        finalBlock?.classList.add('hidden');
+        resultBlock?.classList.remove('hidden');
+        $('#summary').textContent =
 `Fix the Problem — DEMO SUMMARY
 
 Initiator: ${r.initiator.name} <${r.initiator.email}>
@@ -405,19 +400,19 @@ Next (production):
 • call /api/fix to generate guidance
 • email both parties the same advice
 • mark the case as done`;
-        };
-      }
+      };
+    }
 
-      if (formPartner){
-        formPartner.addEventListener('submit', e => { e.preventDefault(); handlePartner(); });
-        formPartner.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn => {
-          btn.addEventListener('click', e => { e.preventDefault(); handlePartner(); });
-        });
-      }
+    if (formPartner){
+      formPartner.addEventListener('submit', e => { e.preventDefault(); handlePartner(); });
+      formPartner.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn => {
+        btn.addEventListener('click', e => { e.preventDefault(); handlePartner(); });
+      });
     }
   }
 });
 </script>
+
 
 
 

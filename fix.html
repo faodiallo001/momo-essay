@@ -254,7 +254,7 @@
   </script>
 
   <!-- ===== Page logic (Fix the Problem) ===== -->
-  <script>
+ <script>
 document.addEventListener('DOMContentLoaded', () => {
   // ===== Helpers =====
   const $  = s => document.querySelector(s);
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initStory = $('#initStory'),
         partnerStory = $('#partnerStory');
 
-  // ===== Counters (500 words) =====
+  // ===== Word counters (500 words) =====
   function bindCounter(el, counter){
     if(!el || !counter) return;
     const update = () => {
@@ -312,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Share URL (same page with params)
     const base = location.origin + location.pathname;
     const url  = `${base}?case=${id}&role=partner&token=${ptok}`;
+
     const setCopyMsg = () => {
       const m = $('#copiedMsg');
       if(!m) return;
@@ -330,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (formInitiator){
-    // Anti-reload béton: intercepter submit + clics sur boutons submit
+    // Anti-reload: intercepter submit + clic submit
     formInitiator.addEventListener('submit', e => { e.preventDefault(); handleInitiator(); });
     formInitiator.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn => {
       btn.addEventListener('click', e => { e.preventDefault(); handleInitiator(); });
@@ -339,6 +340,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== PARTNER MODE (Step 2) =====
   const caseId = qs('case'), role = qs('role'), token = qs('token');
+
+  // Helper pour titre possessif: "Fawziat’s", "Alex’", etc.
+  const possessive = (n) => {
+    const name = (n || '').trim();
+    if (!name) return 'Their';
+    const last = name.slice(-1).toLowerCase();
+    const needsOnlyApostrophe = ['s', 'x', 'z'].includes(last);
+    return needsOnlyApostrophe ? `${name}’` : `${name}’s`;
+  };
+
   if (caseId && role === 'partner'){
     const rec = load(caseId);
     if(!rec || token !== rec.ptok){
@@ -350,6 +361,15 @@ document.addEventListener('DOMContentLoaded', () => {
       step1?.classList.add('hidden');
       shareBlock?.classList.add('hidden');
       step2?.classList.remove('hidden');
+
+      // Injecter le titre personnalisé avec le nom de l’initiateur
+      const theirTitleEl = document.getElementById('theirTitle');
+      if (theirTitleEl){
+        const prettyTitle = `${possessive(rec.initiator.name)} Version of the Story`;
+        theirTitleEl.textContent = prettyTitle;
+      }
+
+      // Afficher la version initiateur
       $('#theirVersion').textContent = rec.initiator.story;
 
       const formPartner = $('#formPartner');
@@ -399,6 +419,7 @@ Next (production):
   }
 });
 </script>
+
 
   
   <script>

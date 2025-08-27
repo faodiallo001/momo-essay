@@ -3,54 +3,169 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Compatibility Test — Paywall</title>
+<title>Compatibility Test — Match or Move On</title>
+
+<!-- (Optionnel) Google Fonts -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<style>
+/* ========= THEME ========= */
+:root{
+  --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; --line:rgba(255,255,255,.10);
+  --glass:rgba(255,255,255,.04); --ok:#19c37d; --warn:#ffb020; --bad:#ff3b30;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;overflow-x:hidden}
+a{color:#fff}
+#sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+
+/* ========= NAV ========= */
+.nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:14px 20px;backdrop-filter:blur(8px);
+  background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
+             radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.12),transparent 60%);
+  border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-left{justify-self:start}.nav-right{justify-self:end;display:flex;gap:16px;align-items:center}
+.nav a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
+.nav a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
+.logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;
+  font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;white-space:nowrap;
+  text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
+.logo-neon .accent{color:var(--rose)}
+.lang{position:relative}.lang-current{background:rgba(0,0,0,.45);border:1px solid rgba(255,59,48,.45);padding:6px 10px;border-radius:16px;font-weight:700}
+
+/* ========= LAYOUT ========= */
+.wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
+.page{max-width:min(1100px,94vw)}
+h1{font-family:"Playfair Display",serif;font-size:clamp(34px,5.6vw,64px);line-height:1.05;margin:0 0 8px}
+.lead{color:var(--muted);max-width:820px;margin:6px 0 18px}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 0 14px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04);margin:12px 0}
+.title-md{font-family:"Playfair Display",serif;font-size:clamp(20px,3vw,26px);margin:0 0 10px}
+
+/* ========= FORM ========= */
+.form{display:grid;gap:14px}
+.field{display:grid;gap:8px}
+label{font-weight:600}
+.input, select{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.35);color:#fff}
+.input:focus, select:focus{outline:none;border-color:rgba(255,59,48,.65);box-shadow:0 0 0 3px rgba(255,59,48,.18)}
+textarea.input{min-height:140px;resize:vertical}
+.help{color:#cbbfb7;font-size:12px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;color:#fff;font-weight:800;border-radius:14px;padding:12px 16px;border:1px solid rgba(255,59,48,.55);background:rgba(255,59,48,.14);cursor:pointer}
+.btn:hover{background:rgba(255,59,48,.20)}
+.chk, .rad{display:flex;gap:10px;flex-wrap:wrap}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.2);font-size:12px}
+.hidden{display:none!important}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;word-break:break-word}
+
+/* progress */
+.progress{height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg, rgba(255,59,48,.5), rgba(255,59,48,.9));transition:width .25s}
+
+/* ========= FOOTER ========= */
+.site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+.site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
+.site-footer a{color:#e9e2db;text-decoration:none;font-weight:600;margin:6px 0}
+.site-footer a:hover{color:var(--rose)}
+.f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
+
+/* mobile */
+@media (max-width:768px){
+  .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
+  .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
+  .nav-left{order:1}.nav-right{order:1;margin-left:auto}
+  .wrap{padding-top:112px}
+  .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
+  .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- Background layers (optionnels) -->
 <canvas id="sparks"></canvas>
 <div class="bg-float" id="hearts"></div>
 
-  <!-- NAV -->
+<!-- NAV -->
 <nav class="nav">
   <div class="nav-left"><a href="index.html">Home</a></div>
   <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
   <div class="nav-right">
     <a href="how-it-works.html">How it works</a>
-    <a href="contact.html" aria-current="page">Contact</a>
-    <div class="lang" id="lang">
-      <div class="lang-current" id="langBtn">🇺🇸 EN ▾</div>
-      <div class="lang-menu" id="langMenu">
-        <a href="index-fr.html">🇫🇷 FR</a><a href="index-pt.html">🇵🇹 PT</a><a href="index-es.html">🇪🇸 ES</a>
-      </div>
-    </div>
+    <a href="contact.html">Contact</a>
+    <div class="lang"><div class="lang-current">🇺🇸 EN</div></div>
   </div>
 </nav>
 
 <main class="wrap">
   <section class="page">
     <h1>Compatibility Test</h1>
-    <p class="lead">Pay once, and get everything , from your score to your love passport PDF to share ...</p>
+    <p class="lead">Fill your details and answer the questions. Share the link with your partner so they answer too. Then view and email your results.</p>
 
+    <!-- Progress -->
     <div class="card">
-      <div class="row">
-        <div>
-          <div class="price">$9.99 <span class="per">one-time</span></div>
-          <span class="badge">No subscription • No hidden fees</span>
-          <ul class="feat">
-            <li>Test complet de compatibilité</li>
-            <li>Score + zones d’alignement</li>
-            <li>PDF de synthèse</li>
-          </ul>
-        </div>
-        <aside class="aside">
-          <!-- TODO: Remplacer par ton lien Stripe -->
-          <a class="btn"
-             href="https://your-checkout.example/checkout?product=compatibility-test&amount=9.99&success_url=compatibility.html&cancel_url=compatibility-test.html">
-             Pay $9.99 → Start the Test
-          </a>
-        </aside>
+      <div class="row" style="justify-content:space-between;gap:14px">
+        <div class="badge" id="progressText">0% completed</div>
+        <div class="progress" style="flex:1;min-width:180px"><i id="progressBar"></i></div>
       </div>
     </div>
+
+    <!-- Step 1: Initiator form -->
+    <section id="step1" class="card">
+      <h2 class="title-md">Your details & answers</h2>
+      <form id="formInitiator" class="form"></form>
+      <div class="row">
+        <button class="btn" id="initSubmit" type="button">Save & get share link</button>
+      </div>
+      <p class="help">We don’t store files in demo (photo preview only). Your answers are kept in your browser (Local Storage) for sharing.</p>
+    </section>
+
+    <!-- Share block -->
+    <section id="shareBlock" class="card hidden">
+      <h2 class="title-md">Share with your partner</h2>
+      <p class="help">Send them this link. They will answer on their phone. Don’t close this page yet if you want to see a preview.</p>
+      <div id="shareUrl" class="mono" style="margin:8px 0 10px"></div>
+      <div class="row">
+        <a id="waBtn" class="btn" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+        <a id="smsBtn" class="btn" href="#">Share via Messages</a>
+        <button id="copyBtn" class="btn" type="button">Copy link</button>
+      </div>
+      <p class="help" id="copiedMsg" style="display:none">Link copied ✅</p>
+    </section>
+
+    <!-- Step 2: Partner form (via URL with ?case=...&role=partner&token=...) -->
+    <section id="step2" class="card hidden">
+      <h2 class="title-md" id="partnerHeading">Partner — please answer the same questions</h2>
+      <form id="formPartner" class="form"></form>
+      <div class="row">
+        <button class="btn" id="partnerSubmit" type="button">Submit partner answers</button>
+      </div>
+    </section>
+
+    <!-- Final -->
+    <section id="finalBlock" class="card hidden">
+      <h2 class="title-md">Ready?</h2>
+      <p>Both sets are saved. Compute your compatibility and preview the result:</p>
+      <div class="row">
+        <button id="seeResults" class="btn" type="button">Compute & show results</button>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="resultBlock" class="card hidden">
+      <h2 class="title-md">Compatibility Result</h2>
+      <p><b id="scoreBig" style="font-size:28px"></b></p>
+      <div id="insights" class="mono" style="white-space:pre-wrap"></div>
+
+      <div class="row" style="margin-top:10px">
+        <button id="printBtn" class="btn" type="button">Print / Save PDF</button>
+        <button id="emailBtn" class="btn" type="button">Send via email (dev)</button>
+      </div>
+      <p class="help">Printing uses your browser to “Save as PDF”. For real email delivery, connect a backend API (see comments in code).</p>
+    </section>
   </section>
 </main>
 
@@ -62,51 +177,36 @@
       <p class="tag">Built for clarity, not confusion.</p>
       <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
     </div>
-
     <nav class="f-col legal">
       <h4>Legal</h4>
       <a href="terms.html">Terms Policy</a>
       <a href="privacy.html">Privacy Policy</a>
       <a href="cookies.html">Cookies</a>
     </nav>
-
     <div class="f-col social">
       <h4>Social</h4>
       <div class="icons">
-        <a href="https://tiktok.com" aria-label="TikTok">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/>
-          </svg>
-        </a>
-        <a href="https://instagram.com" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/>
-          </svg>
-        </a>
-        <a href="https://youtube.com" aria-label="YouTube">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M23.5 6.2c-.2-1.2-.8-2.3-1.7-3-1-.8-2.2-.9-2.7-1C16.1 2 12 2 12 2s-4.1 0-7.1.2c-.5.1-1.7.2-2.7 1-1 .7-1.5 1.8-1.7 3C0 7.4 0 10 0 10s0 2.6.2 3.8c.2 1.2.8 2.3 1.7 3 1 .8 2.3.9 2.8 1C7.9 18 12 18 12 18s4.1 0 7.1-.2c.5-.1 1.7-.2 2.7-1 .9-.7 1.5-1.8 1.7-3 .2-1.2.2-3.8.2-3.8s0-2.6-.2-3.8zM9.5 14.6V7.4L15.5 11 9.5 14.6z"/>
-          </svg>
-        </a>
+        <a href="https://tiktok.com" aria-label="TikTok">TikTok</a>
+        <a href="https://instagram.com" aria-label="Instagram">Instagram</a>
+        <a href="https://youtube.com" aria-label="YouTube">YouTube</a>
       </div>
     </div>
   </div>
   <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
 </footer>
 
-
+<!-- ===== Background (optionnel) ===== -->
 <script>
-const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
+try{const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
 function size(){W=s.width=innerWidth;H=s.height=innerHeight;const n=Math.min(180,Math.floor(W*H/11000));
 PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));}
 function loop(){ctx.clearRect(0,0,W,H);for(const p of PS){p.a+=.0028;p.x+=Math.cos(p.a)*p.s;p.y+=Math.sin(p.a)*p.s*.45;
 if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;if(p.y>H+10)p.y=-10;
 const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);g.addColorStop(0,`rgba(255,80,80,${p.o})`);g.addColorStop(1,'rgba(255,80,80,0)');
-ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}requestAnimationFrame(loop);}
-addEventListener('resize',size);size();loop();
+ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}requestAnimationFrame(loop);}addEventListener('resize',size);size();loop();}catch(e){}
 </script>
 <script>
-(function(){const LAYER=document.getElementById('hearts');if(!LAYER)return;
+try{const LAYER=document.getElementById('hearts');if(!LAYER)throw 0;
 const HEART=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
 <defs><radialGradient id="hg" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ffd0d4"/><stop offset="45%" stop-color="#ff5252"/><stop offset="100%" stop-color="#7c1414"/></radialGradient></defs>
 <g filter="drop-shadow(0 4px 10px rgba(255,80,80,.55))">
@@ -118,7 +218,454 @@ el.style.left=Math.random()*100+'vw';el.style.setProperty('--w',(MIN_W+Math.rand
 el.style.setProperty('--x',(Math.random()*80-40)+'px');el.style.setProperty('--t',(MIN_T+Math.random()*(MAX_T-MIN_T))+'s');
 el.style.setProperty('--r',(Math.random()*40-20)+'deg');el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
 el.style.setProperty('--spin',(14+Math.random()*10)+'s');el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';LAYER.appendChild(el);}
-for(let i=0;i<COUNT;i++) spawn(HEART);})();
+for(let i=0;i<COUNT;i++) spawn(HEART);}catch(e){}
+</script>
+
+<!-- ===== PAGE LOGIC ===== -->
+<script>
+// ===================== QUESTIONS (from your list) =====================
+const QUESTIONS = [
+  { id:'name',  type:'text',   required:true,  label:'What’s your full name?', placeholder:'Your name here' },
+  { id:'email', type:'text',   required:true,  label:'Your email', placeholder:'you@example.com' },
+  { id:'gender',type:'single', required:true,  label:'How do you identify your gender?',
+    options:['Man','Woman','Non-binary','Trans man','Trans woman','Intersex','Other'] },
+  { id:'genderOther', type:'text-sub', parent:'gender', showIfValue:'Other', required:true, label:'Tell us your gender (Other)', placeholder:'Type your gender' },
+  { id:'photo', type:'file', required:false, label:'Upload your photo (optional) — JPG/PNG under 5 MB' },
+  { id:'country', type:'text', required:true,  label:'Which country do you live in?', placeholder:'e.g., Brazil, France, Nigeria' },
+  { id:'languages', type:'multi', required:true, minSelect:1, label:'Which languages do you speak? (pick at least 1)',
+    options:['English','French','Spanish','Portuguese','Arabic','Chinese','Hindi','German','Turkish','Russian','Swahili'] },
+  { id:'age',   type:'select', required:true,  label:'How old are you?', options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push('60+');return a;})() },
+  { id:'height',type:'text',   required:false, label:'How tall are you?', placeholder:'170 cm / 5’7”' },
+  { id:'marital',type:'single',required:true,  label:'What’s your marital status right now?', options:['Single','Married','Divorced','Widowed','It’s complicated'] },
+  { id:'job',   type:'text',   required:false, label:'What do you do for work?', placeholder:'e.g., Nurse, Engineer, Freelancer' },
+
+  /* Money & roles */
+  { id:'money', type:'single', required:true, label:'How would you like to handle money as a couple?',
+    options:['One joint account (share everything)','Separate accounts'] },
+  { id:'identity', type:'single', required:true, label:'Which role feels the most like you?',
+    options:['Tradwife / Traditional husband','Independent (career/money first)','Balanced 50/50'] },
+  { id:'housework', type:'single', required:true, label:'How do you want to split household duties (cooking/cleaning)?',
+    options:['I handle everything at home','Shared equally','I do some, not everything','I prefer a partner who enjoys it','I prefer hiring someone (maid/cleaner)']},
+  { id:'cooking', type:'single', required:true, label:'How are you in the kitchen?',
+    options:['Confident cook (many dishes)','Can cook basics','Learning to cook','Prefer not to cook'] },
+
+  /* Kids */
+  { id:'children', type:'single', required:true, label:'Do you have children?', options:['No','Yes'] },
+  { id:'childrenCount', type:'select-sub', parent:'children', showIfValue:'Yes', required:true, label:'How many children do you have?', options:['1','2','3','4','5+'] },
+  { id:'childrenWith',  type:'single-sub', parent:'childrenCount', showIfValues:['2','3','4','5+'], required:true, label:'Were they with the same partner or different partners?', options:['Same partner','Different partners'] },
+  { id:'futureKids', type:'single', required:true, label:'Do you want children in the future?', options:['Yes','Not sure','No'] },
+  { id:'kidsTimeline', type:'single-sub', parent:'futureKids', showIfValue:'Yes', required:false, label:'If yes, what timeline feels right? (optional)',
+    options:['ASAP (≤12 months)','1–2 years','3–5 years','>5 years','When it happens'] },
+
+  /* Faith & culture */
+  { id:'religionAff', type:'single', required:true, label:'What’s your religion?', options:['Muslim','Christian','Atheist','Buddhist','Hindu','Vodun','Other']},
+  { id:'religionOther', type:'text-sub', parent:'religionAff', showIfValue:'Other', required:true, label:'Tell us your religion (Other)', placeholder:'Type your religion' },
+  { id:'religion',   type:'single', required:true, label:'Religion in love — what do you prefer?', options:['Must be aligned',"Doesn’t matter"] },
+  { id:'crossCulture', type:'single', required:true, label:'Are you open to a partner from a different culture?', options:['Yes','Maybe','No'] },
+  { id:'godPlace', type:'single', required:true, label:'What place does God have in your life?',
+    options:['God is everything in my life','I think about what God would think before big decisions','I believe in God but I’m not religious','I don’t believe in God','Prefer not to say']},
+
+  /* Lifestyle */
+  { id:'smoking', type:'single', required:false, label:'Do you smoke?', options:['No','Sometimes','Daily'] },
+  { id:'alcohol',  type:'single', required:false, label:'Do you drink alcohol?',  options:['No','Socially','Often'] },
+  { id:'diet',     type:'single', required:false, label:'Any diet preference?',     options:['No restriction','Halal only','Vegetarian/Vegan','Pescatarian','Other'] },
+  { id:'fitness',  type:'single', required:false, label:'How active are you?',  options:['Gym 3+ times/week','Active sometimes','Rarely'] },
+
+  /* Loyalty */
+  { id:'loyalty', type:'single', required:true, label:'What does loyalty mean to you?',
+    options:['Loyalty is non-negotiable (monogamy)','Open to ethical non-monogamy (with clear rules)','I am polygamist / open to polygamy']},
+
+  /* Love languages */
+  { id:'loveLanguages', type:'multi', required:true, minSelect:2, label:'Your love languages (pick at least 2)', options:['Words of affirmation','Quality time','Acts of service','Gifts','Physical touch']},
+
+  /* Self description */
+  { id:'selfDesc', type:'multi', required:true, minSelect:1, label:'How would you describe yourself? (pick several if you want)', options:['Fun','Calm and collected','Very respectful','Very shy person','Adventurous','Thoughtful & observant','Family-oriented','Ambitious']},
+
+  /* Ambition & energy */
+  { id:'ambition', type:'single', required:true, label:'How do you see ambition in your life?', options:['Money first, then love','Love first, then money','Both hand in hand']},
+  { id:'partnerSuccess', type:'single', required:true, label:'If your partner becomes more successful than you…', options:['Proud — it’s our win','Happy and motivated too','I’d feel uncomfortable with that']},
+  { id:'conflict', type:'single', required:true, label:'How do you handle a conflict?', options:['Talk it through calmly','Take a pause, then talk','I tend to raise my voice then cool down']},
+  { id:'energy', type:'single', required:true, label:'Are you more introvert or extrovert?', options:['Introvert','Extrovert','Ambivert'] },
+
+  /* Relationship goals & logistics */
+  { id:'relationshipGoals', type:'multi', required:true, minSelect:1, label:'What are you looking for? (pick at least 1)', options:['Serious relationship','Marriage soon','Marriage someday','Casual dating','Friendship first']},
+  { id:'marriageTimeline', type:'single', required:false, label:'When do you want to get married?', options:['ASAP (≤12 months)','In 1–2 years','In 3+ years','I’m not focused on marriage']},
+  { id:'longDistance', type:'single', required:true, label:'Are you open to long-distance?', options:['Yes','Maybe','No'] },
+  { id:'relocate', type:'single', required:true, label:'Are you open to relocating internationally?', options:['Yes','Maybe','No'] },
+  { id:'evening', type:'single', required:true, label:'What’s your ideal evening?', options:['Cozy movie night at home','Dinner out & good conversation','Game night with friends','Live music or a show']},
+
+  /* Music */
+  { id:'music', type:'multi', required:false, minSelect:3, label:'Music vibe (pick ≥ 3, or choose a special option)',
+    options:['Afro/RnB','Rap/Trap','Pop / Dance','Rock/Metal','Classical/Jazz','Gospel / Religious only','I don’t listen to music','All vibes']},
+  { id:'texting', type:'single', required:false, label:'How do you text?', options:['I reply quickly','I reply in batches later','I forget sometimes — remind me']},
+
+  /* Pets */
+  { id:'petOwner', type:'single', required:false, label:'Are you a pet owner?', options:['No','Yes','I am allergic to pets','I don’t want pets'] },
+  { id:'petType',  type:'single-sub', parent:'petOwner', showIfValue:'Yes', required:false, label:'Dog, cat… what’s your vibe?', options:['Dog','Cat','Both','Other'] },
+
+  /* Boundaries & Deal breakers */
+  { id:'boundaries', type:'multi', required:false, minSelect:2, label:'Your personal boundaries (pick ≥ 2 if you answer)', options:['No name-calling','No shouting','No social-media drama','Therapy friendly','Financial transparency','We don’t go to bed angry','Respect personal time','No silent treatment','We don’t check phones']},
+  { id:'dealBreaker', type:'multi', required:true, minSelect:2, label:'Hard no’s for you (pick at least 2)', options:[
+    'Political/worldview conflict (very different from mine)','Religion different / not aligned','Tries to change my faith/practice','Cheating / infidelity','Jealous / possessive / controlling','Violence (physical, verbal, emotional)','Explosive temper / unmanaged anger','Disrespects waiters/service workers; lacks humility','Partner owns pets (dogs/cats) — I can’t handle it','Big income gap — earns much less than me','Big income gap — earns much more than me'
+  ]},
+
+  /* Privacy & Social */
+  { id:'phonePrivacy', type:'single', required:true, label:'How do you see phone privacy in a relationship?', options:[
+    'My phone is private, I don’t share passwords','I can share passwords if needed','My phone is fully open, no restrictions'
+  ]},
+  { id:'socialPosting', type:'single', required:true, label:'How do you want your couple to appear on social media?', options:[
+    'I want to post our couple photos freely','I prefer not posting couple photos at all','I’m fine if my partner posts, but I won’t post much','I don’t care, it’s not important to me'
+  ]},
+  { id:'dmRules', type:'single', required:true, label:'What are your rules for DMs and social interactions?', options:[
+    'I am okay with friendly DMs (opposite sex included)','Only respectful/professional DMs are fine','No private DMs with the opposite sex at all'
+  ]},
+
+  /* Intimacy */
+  { id:'intimacySpeed', type:'single', required:true, label:'How fast do you like to move physically in a relationship?', options:[
+    'I like to take it very slowly (weeks/months before intimacy)','I prefer a normal rhythm (we see how it goes naturally)','I am usually fast (I get intimate early when I feel chemistry)']},
+  { id:'publicTouch', type:'single', required:true, label:'How do you feel about physical touch in public?', options:[
+    'I enjoy public affection (holding hands, hugs, kisses in public)','I like small gestures only (hand holding, nothing too much)','I prefer keeping intimacy private (no touching in public)']},
+  { id:'lightPreference', type:'single', required:true, label:'What kind of atmosphere do you prefer for intimacy?', options:[
+    'Always in the dark','Dim light / soft light only','Normal light is fine','I don’t really care']},
+
+  /* About me */
+  { id:'aboutYou', type:'text', required:false, label:'Write a short “About me” (optional)', placeholder:'3–6 lines about you' }
+];
+
+// ======== RENDERER =========
+const $ = s => document.querySelector(s);
+const qs = n => new URLSearchParams(location.search).get(n);
+const uid = () => Array.from(crypto.getRandomValues(new Uint8Array(8))).map(b=>b.toString(16).padStart(2,'0')).join('');
+const LS = id => `ctCase:${id}`;
+const load = id => JSON.parse(localStorage.getItem(LS(id)) || 'null');
+const save = (id,data)=>localStorage.setItem(LS(id), JSON.stringify(data));
+
+function el(tag, attrs={}, children=[]){
+  const e=document.createElement(tag);
+  for(const k in attrs){
+    if(k==='class') e.className=attrs[k];
+    else if(k==='for') e.htmlFor=attrs[k];
+    else if(k==='text') e.textContent=attrs[k];
+    else if(k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  children.forEach(c=>e.appendChild(c));
+  return e;
+}
+
+function renderForm(container, modeId){
+  container.innerHTML='';
+  QUESTIONS.forEach(q=>{
+    const isSub = /-sub$/.test(q.type) || q.type==='text-sub' || q.type==='select-sub';
+    const wrap = el('div', {class:'field', id:`wrap-${modeId}-${q.id}`});
+    const label = el('label', {for:`${modeId}-${q.id}`, text:q.label});
+    wrap.appendChild(label);
+
+    if(q.type==='text' || q.type==='text-sub'){
+      const inp = el('input', {id:`${modeId}-${q.id}`, class:'input', placeholder:q.placeholder||''});
+      if(q.id==='email') inp.type='email';
+      wrap.appendChild(inp);
+    }
+    else if(q.type==='file'){
+      const inp = el('input', {id:`${modeId}-${q.id}`, type:'file', accept:'image/*', class:'input'});
+      const hint = el('div', {class:'help', text:'Max 5 MB. Preview only; not stored.'});
+      const prev = el('div', {id:`preview-${modeId}-${q.id}`, class:'row'});
+      inp.addEventListener('change', ()=>{
+        const f=inp.files?.[0]; prev.innerHTML='';
+        if(!f) return;
+        if(f.size>5*1024*1024){ alert('File too large (>5MB)'); inp.value=''; return; }
+        const img=new Image(); img.style.maxHeight='80px'; img.style.borderRadius='10px';
+        img.onload=()=>URL.revokeObjectURL(img.src);
+        img.src=URL.createObjectURL(f); prev.appendChild(img);
+      });
+      wrap.append(inp); wrap.append(hint); wrap.append(prev);
+    }
+    else if(q.type==='single' || q.type==='single-sub'){
+      const box = el('div',{class:'rad'});
+      q.options.forEach(opt=>{
+        const id=`${modeId}-${q.id}-${opt}`;
+        const r=el('input',{type:'radio',name:`${modeId}-${q.id}`,id, value:opt});
+        const l=el('label',{'for':id, text:opt});
+        box.append(r,l);
+      });
+      wrap.appendChild(box);
+    }
+    else if(q.type==='multi'){
+      const box = el('div',{class:'chk'});
+      q.options.forEach(opt=>{
+        const id=`${modeId}-${q.id}-${opt}`;
+        const c=el('input',{type:'checkbox',id, value:opt});
+        const l=el('label',{'for':id, text:opt});
+        box.append(c,l);
+      });
+      if(q.minSelect) wrap.append(el('div',{class:'help',text:`Pick at least ${q.minSelect}`})); 
+      wrap.appendChild(box);
+    }
+    else if(q.type==='select' || q.type==='select-sub'){
+      const sel = el('select',{id:`${modeId}-${q.id}`});
+      sel.appendChild(el('option',{value:'',text:'Select…'}));
+      q.options.forEach(opt=> sel.appendChild(el('option',{value:opt,text:opt})));
+      wrap.appendChild(sel);
+    }
+
+    // required cue
+    if(q.required){ wrap.appendChild(el('div',{class:'help',text:'Required'})); }
+
+    // hide sub by default
+    if(isSub){ wrap.classList.add('hidden'); wrap.dataset.sub='1'; wrap.dataset.parent=q.parent; wrap.dataset.show=q.showIfValue||''; if(q.showIfValues) wrap.dataset.shows=q.showIfValues.join('|'); }
+
+    container.appendChild(wrap);
+  });
+
+  // bind show/hide for subs
+  QUESTIONS.forEach(q=>{
+    const attach = (parentId, checkFn)=>{
+      const radios = container.querySelectorAll(`input[name="${modeId}-${parentId}"]`);
+      const sel    = container.querySelector(`#${modeId}-${parentId}`);
+      const run = ()=>{
+        QUESTIONS.filter(x=>x.parent===parentId).forEach(sub=>{
+          const w=container.querySelector(`#wrap-${modeId}-${sub.id}`);
+          if(!w) return;
+          const val = getValue(container, modeId, parentId);
+          let show=false;
+          if(sub.showIfValue!=null) show = val===sub.showIfValue;
+          if(sub.showIfValues)      show = Array.isArray(sub.showIfValues) && sub.showIfValues.includes(val);
+          w.classList.toggle('hidden', !show);
+        });
+        updateProgress(container);
+      };
+      radios.forEach(r=>r.addEventListener('change', run));
+      if(sel) sel.addEventListener('change', run);
+    };
+    if(q.type==='single' || q.type==='select'){
+      if(QUESTIONS.some(s=>s.parent===q.id)) attach(q.id);
+    }
+  });
+}
+
+function getValue(container, modeId, id){
+  const wrap = container.querySelector(`#wrap-${modeId}-${id}`);
+  if(!wrap) return null;
+  const input = container.querySelector(`#${modeId}-${id}`);
+  if(input && (input.tagName==='INPUT' || input.tagName==='SELECT')){
+    if(input.type==='file') return null;
+    return input.value.trim();
+  }
+  // radios
+  const radios = container.querySelectorAll(`input[name="${modeId}-${id}"]`);
+  for(const r of radios){ if(r.checked) return r.value; }
+  // checkboxes
+  const checks = container.querySelectorAll(`[id^="${modeId}-${id}-"][type="checkbox"]`);
+  if(checks.length){ return Array.from(checks).filter(c=>c.checked).map(c=>c.value); }
+  return null;
+}
+
+function validate(container, modeId){
+  let ok=true, msg=[];
+  for(const q of QUESTIONS){
+    // skip hidden subs
+    const wrap=container.querySelector(`#wrap-${modeId}-${q.id}`);
+    if(!wrap) continue;
+    if(wrap.classList.contains('hidden') && wrap.dataset.sub==='1') continue;
+
+    const val = getValue(container, modeId, q.id);
+
+    if(q.required){
+      if(q.type==='multi'){
+        const n = Array.isArray(val)? val.length : 0;
+        if(!n || (q.minSelect && n<q.minSelect)){ ok=false; msg.push(`Pick at least ${q.minSelect} for: ${q.label}`); }
+      }else if(!val){ ok=false; msg.push(`Missing: ${q.label}`); }
+      if(q.id==='email' && val){
+        const re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!re.test(val)){ ok=false; msg.push('Invalid email format'); }
+      }
+    }
+    if(q.type==='file'){
+      // optional; preview only
+    }
+  }
+  return {ok, msg};
+}
+
+function collectAnswers(container, modeId){
+  const ans={};
+  for(const q of QUESTIONS){
+    const wrap=container.querySelector(`#wrap-${modeId}-${q.id}`);
+    if(!wrap) continue;
+    if(wrap.classList.contains('hidden') && wrap.dataset.sub==='1') continue;
+    const val = getValue(container, modeId, q.id);
+    if(val!=null && !(q.type==='file')) ans[q.id]=val;
+  }
+  return ans;
+}
+
+function updateProgress(container){
+  const pb = document.getElementById('progressBar');
+  const pt = document.getElementById('progressText');
+  // count required that are visible
+  const visibles = QUESTIONS.filter(q=>{
+    const w=container.querySelector(`#wrap-init-${q.id}`) || container.querySelector(`#wrap-part-${q.id}`);
+    if(!w) return false;
+    if(w.dataset.sub==='1' && w.classList.contains('hidden')) return false;
+    return q.required===true;
+  });
+  const total = visibles.length || 1;
+  // count answered in current visible container only
+  let answered=0;
+  visibles.forEach(q=>{
+    const val = getValue(container, container.id==='formInitiator'?'init':'part', q.id);
+    if(q.type==='multi'){ if(Array.isArray(val) && val.length>0) answered++; }
+    else if(val){ answered++; }
+  });
+  const pct = Math.round(answered*100/total);
+  if(pb) pb.style.width=pct+'%';
+  if(pt) pt.textContent = `${pct}% completed`;
+}
+
+/* ======= FLOW ======= */
+const formInit = document.getElementById('formInitiator');
+const formPart = document.getElementById('formPartner');
+renderForm(formInit, 'init');  // initiator
+renderForm(formPart, 'part');  // partner
+
+formInit.addEventListener('input', ()=>updateProgress(formInit));
+formPart.addEventListener('input', ()=>updateProgress(formPart));
+
+document.getElementById('initSubmit').addEventListener('click', ()=>{
+  const v = validate(formInit, 'init');
+  if(!v.ok){ alert(v.msg.join('\n')); return; }
+  const id = uid(), ptok = uid();
+  const initiator = collectAnswers(formInit, 'init');
+  save(id, { id, ptok, initiator, createdAt: Date.now() });
+
+  const base = (location.origin && location.origin!=='null') ? location.origin + location.pathname : location.pathname;
+  const url  = `${base}?case=${id}&role=partner&token=${ptok}`;
+  document.getElementById('shareUrl').textContent = url;
+  document.getElementById('waBtn').href  = `https://wa.me/?text=${encodeURIComponent('Please answer this compatibility test: ' + url)}`;
+  document.getElementById('smsBtn').href = `sms:&body=${encodeURIComponent('Please answer this compatibility test: ' + url)}`;
+  document.getElementById('copyBtn').onclick = async ()=>{ await navigator.clipboard.writeText(url); const m=document.getElementById('copiedMsg'); m.style.display='inline'; setTimeout(()=>m.style.display='none',1500); };
+
+  document.getElementById('step1').classList.add('hidden');
+  document.getElementById('shareBlock').classList.remove('hidden');
+});
+
+// Partner mode
+const caseId = qs('case'), role = qs('role'), token = qs('token');
+if (caseId && role==='partner'){
+  const rec = load(caseId);
+  if(!rec || token!==rec.ptok){
+    document.getElementById('step1').classList.add('hidden');
+    document.getElementById('shareBlock').classList.add('hidden');
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('finalBlock').classList.add('hidden');
+    const r=document.getElementById('resultBlock'); r.classList.remove('hidden'); r.querySelector('#insights').textContent='Invalid or expired link.';
+  }else{
+    document.getElementById('step1').classList.add('hidden');
+    document.getElementById('shareBlock').classList.add('hidden');
+    document.getElementById('step2').classList.remove('hidden');
+    // Heading with initiator name
+    const pname = rec.initiator?.name || 'Partner';
+    const last = (pname||'').slice(-1).toLowerCase();
+    const possessive = ['s','x','z'].includes(last) ? `${pname}’` : `${pname}’s`;
+    document.getElementById('partnerHeading').textContent = `${possessive} Compatibility Test`;
+
+    document.getElementById('partnerSubmit').addEventListener('click', ()=>{
+      const v = validate(formPart, 'part');
+      if(!v.ok){ alert(v.msg.join('\n')); return; }
+      rec.partner = collectAnswers(formPart, 'part');
+      rec.partner.submittedAt = Date.now();
+      save(caseId, rec);
+
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('finalBlock').classList.remove('hidden');
+
+      document.getElementById('seeResults').onclick = ()=>{
+        const fresh = load(caseId);
+        const {score, notes} = computeScore(fresh.initiator, fresh.partner);
+        showResults(fresh, score, notes);
+      };
+    });
+  }
+}
+
+// ======= SCORING =======
+// Simple weights: single/select exact match = 1; multi = Jaccard * 1; important keys have 2x
+const IMPORTANT = new Set(['loyalty','religion','money','identity','housework','children','futureKids','longDistance','relocate','dmRules','phonePrivacy','publicTouch','intimacySpeed','dealBreaker','loveLanguages','relationshipGoals','ambition']);
+function computeScore(a,b){
+  let total=0, got=0; let lines=[];
+  function add(n,g, label){ total+=n; got+=g; if(label) lines.push(label); }
+
+  for(const q of QUESTIONS){
+    if(['text','text-sub','file','aboutYou','height','job','country','email','name','photo'].includes(q.id)) continue;
+
+    const va=a[q.id], vb=b[q.id];
+    if(va==null || vb==null) continue;
+
+    let weight = IMPORTANT.has(q.id) ? 2 : 1;
+    if(q.type==='single' || q.type==='single-sub' || q.type==='select' || q.type==='select-sub'){
+      add(weight, va===vb ? weight : 0,
+          va===vb ? `✓ ${q.label}: both "${va}"` : `• ${q.label}: you "${va}", partner "${vb}"`);
+    } else if(q.type==='multi'){
+      const A=new Set(Array.isArray(va)?va:[]), B=new Set(Array.isArray(vb)?vb:[]);
+      const inter=[...A].filter(x=>B.has(x)).length, uni=new Set([...A,...B]).size||1;
+      const j=inter/uni;
+      add(weight, j*weight, `• ${q.label}: overlap ${(j*100).toFixed(0)}%`);
+    }
+  }
+  const score = Math.round((got/total)*100) || 0;
+  // quick notes
+  const notes = [
+    score>=80 ? 'High alignment — strong green flags.' :
+    score>=60 ? 'Good alignment — differences manageable with communication.' :
+    score>=40 ? 'Mixed alignment — be intentional about differences.' :
+                'Low alignment — proceed carefully; discuss deal-breakers early.',
+  ].join('\n');
+  return {score, notes};
+}
+
+function showResults(rec, score, notes){
+  document.getElementById('finalBlock').classList.add('hidden');
+  const res = document.getElementById('resultBlock');
+  res.classList.remove('hidden');
+  document.getElementById('scoreBig').textContent = `Compatibility Score: ${score}%`;
+  const ini = rec.initiator?.name||'Initiator';
+  const par = rec.partner?.name||'Partner';
+  const txt =
+`Couple: ${ini}  ×  ${par}
+
+Score: ${score}%
+
+Guidance:
+${notes}
+
+Context:
+• Deal-breakers (initiator): ${(rec.initiator.dealBreaker||[]).join(', ')||'—'}
+• Deal-breakers (partner): ${(rec.partner.dealBreaker||[]).join(', ')||'—'}
+• Love languages (initiator): ${(rec.initiator.loveLanguages||[]).join(', ')||'—'}
+• Love languages (partner): ${(rec.partner.loveLanguages||[]).join(', ')||'—'}
+
+Tip: Use this as a conversation starter, not a verdict.`;
+  document.getElementById('insights').textContent = txt;
+
+  // Print / Save PDF
+  document.getElementById('printBtn').onclick = ()=>window.print();
+
+  // Email (dev): opens default email client
+  document.getElementById('emailBtn').onclick = ()=>{
+    const to = [rec.initiator.email, rec.partner.email].filter(Boolean).join(',');
+    const subject = encodeURIComponent('Your Compatibility Test Result');
+    const body = encodeURIComponent(txt);
+    location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+
+    // Real backend (example):
+    /*
+    fetch('/api/compat/send',{method:'POST',headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({to:[rec.initiator.email, rec.partner.email], score, text:txt, caseId:rec.id})})
+      .then(r=>r.ok?alert('Emails sent'):alert('Email API error'));
+    */
+  };
+}
 </script>
 </body>
 </html>
+

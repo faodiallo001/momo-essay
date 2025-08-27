@@ -44,108 +44,68 @@
     </div>
   </nav>
 
-  <main class="wrap">
-    <section class="page">
-      <h1 class="title">Fix the Problem</h1>
-      <p class="lead">Dis-nous ce qui se passe. On va t’aider à clarifier, calmer et avancer — avec respect pour vous deux.</p>
+ <main class="wrap fix-page">
+  <section>
+    <h1>Fix the Problem</h1>
+    <p class="lead">Tell us what’s going on. We’ll help you calm things down and move forward — with respect for both sides.</p>
 
-      <!-- PAYWALL (démo : bouton “Déverrouiller” simule le paiement) -->
-      <section id="paywall" class="card">
-        <h2 class="title-md">Unlock analysis</h2>
-        <ul>
-          <li>Tu écris ta version (option limite de mots)</li>
-          <li>Partage un lien (WhatsApp / Messages) pour que l’autre écrive la sienne</li>
-          <li>On rassemble & on vous envoie des conseils clairs et respectueux</li>
-        </ul>
-        <div class="row" style="margin-top:10px">
-          <span class="tag-pill">$9.99</span>
-          <button id="payBtn" class="btn">Pay & Continue</button>
-          <span class="muted">Mode démo : pas de vrai paiement</span>
+    <h2>Unlock analysis</h2>
+    <ul>
+      <li>You write your version (optional word limit)</li>
+      <li>Share a link (WhatsApp / Messages) so your partner can write theirs</li>
+      <li>We read both sides & send clear, kind, constructive guidance</li>
+      <li>Delivered instantly on this page</li>
+    </ul>
+
+    <div class="card" id="paywall">
+      <div class="field">
+        <strong>$9.99</strong> <button id="payBtn" class="btn">Pay & Continue</button>
+        <span class="muted">Demo mode: no real payment</span>
+      </div>
+    </div>
+
+    <section id="fixFormSection" class="hidden">
+      <h2>Tell us your side</h2>
+
+      <form id="fixForm">
+        <div class="field">
+          <label for="name">Your name</label>
+          <input class="input" id="name" name="name" placeholder="Ex: Ana" required>
         </div>
-      </section>
 
-      <!-- ÉTAPE 1 : Initiateur -->
-      <section id="step1" class="card hidden">
-        <div class="banner">💬 <strong>What’s going on?</strong> We’ve got you. Raconte calmement ce qui se passe.</div>
-
-        <form id="formInitiator">
-          <div class="field">
-            <label for="initName">Your name</label>
-            <input id="initName" class="input" placeholder="Ex: Ana" required>
-          </div>
-          <div class="field">
-            <label for="initEmail">Your email</label>
-            <input id="initEmail" class="input" type="email" inputmode="email" placeholder="you@example.com" required>
-          </div>
-          <div class="field" style="grid-template-columns:1fr auto;align-items:end">
-            <label for="initStory">Your side of the story</label>
-            <span class="counter" id="count1">0 / 500 words</span>
-            <textarea id="initStory" class="input" placeholder="Explique ce qui s’est passé, ce que tu ressens, ce que tu attends…" required></textarea>
-            <span class="muted">Conseil : reste factuelle, évite les insultes, propose ce que tu aimerais.</span>
-          </div>
-
-          <div class="row">
-            <button class="btn" type="submit">Save & get share link</button>
-            <span class="muted">Tu recevras un lien à partager à l’autre personne.</span>
-          </div>
-        </form>
-      </section>
-
-      <!-- LIEN À PARTAGER -->
-      <section id="shareBlock" class="card hidden">
-        <h2 class="title-md">Share with your partner</h2>
-        <p>Envoie-lui ce lien. Il/elle verra ta version et pourra écrire la sienne.</p>
-        <div id="shareUrl" class="mono" style="margin:8px 0 10px"></div>
-        <div class="row">
-          <a id="waBtn" class="btn" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
-          <a id="smsBtn" class="btn" href="#">Share via Messages</a>
-          <button id="copyBtn" class="btn" type="button">Copy link</button>
+        <div class="field">
+          <label for="email">Your email</label>
+          <input class="input" id="email" name="email" type="email" placeholder="you@example.com" required>
         </div>
-        <p class="muted" id="copiedMsg" style="display:none">Lien copié ✅</p>
-      </section>
 
-      <!-- ÉTAPE 2 : Partenaire (chargée via ?case=...&role=partner&token=...) -->
-      <section id="step2" class="card hidden">
-        <h2 class="title-md">Their version (read-only)</h2>
-        <div id="theirVersion" class="mono" style="white-space:pre-wrap;margin-bottom:12px"></div>
+        <div class="field">
+          <label for="yourSide">Your side of the story <span class="counter" id="countMe">0/500 words</span></label>
+          <textarea class="input" id="yourSide" name="yourSide" data-count="words" placeholder="What happened, how you feel, what you want…" maxlength="4000"></textarea>
+          <div class="muted">Tip: be factual, avoid insults, propose one clear next step.</div>
+        </div>
 
-        <form id="formPartner">
-          <div class="field">
-            <label for="partnerName">Your name</label>
-            <input id="partnerName" class="input" placeholder="Ex: Daniel" required>
-          </div>
-          <div class="field">
-            <label for="partnerEmail">Your email</label>
-            <input id="partnerEmail" class="input" type="email" inputmode="email" placeholder="you@example.com" required>
-          </div>
-          <div class="field" style="grid-template-columns:1fr auto;align-items:end">
-            <label for="partnerStory">Your side of the story</label>
-            <span class="counter" id="count2">0 / 500 words</span>
-            <textarea id="partnerStory" class="input" placeholder="Ta version, calmement et clairement…" required></textarea>
-          </div>
+        <div class="field">
+          <button class="btn" type="submit">Save & get share link</button>
+          <span class="muted">You’ll get a link to share with your partner.</span>
+        </div>
+      </form>
 
-          <div class="row">
-            <button class="btn" type="submit">Submit your version</button>
-          </div>
-        </form>
-      </section>
+      <h2>Share with your partner</h2>
+      <p class="muted">Send this link so they can write their version.</p>
+      <p><a href="#" class="btn">Share on WhatsApp</a> <a href="#" class="btn">Share via Messages</a> <button id="copyLink" class="btn">Copy link</button></p>
 
-      <!-- ÉTAPE 3 : Bouton final -->
-      <section id="finalBlock" class="card hidden">
-        <h2 class="title-md">Ready?</h2>
-        <p>Quand vous avez écrit tous les deux, cliquez :</p>
-        <div class="row"><button id="fixBtn" class="btn">Fix the Problem</button></div>
-        <p class="muted">Mode démo : on affiche un récap et un “email simulé”. En production, on enverra un vrai email aux deux.</p>
-      </section>
+      <h2>Their version (read-only)</h2>
+      <div class="card muted">Waiting for your partner’s input…</div>
 
-      <!-- RÉCAP / “EMAIL” -->
-      <section id="resultBlock" class="card hidden">
-        <h2 class="title-md">Summary (demo)</h2>
-        <pre id="summary" class="mono" style="white-space:pre-wrap"></pre>
-      </section>
-
+      <h2>Your guided response</h2>
+      <div id="resultSection" class="card hidden">
+        <div id="aiResult"></div>
+        <p><button id="copyBtn" class="btn">Copy</button> <button id="downloadBtn" class="btn">Download</button></p>
+      </div>
     </section>
-  </main>
+  </section>
+</main>
+
 
   <!-- FOOTER (ton footer habituel) -->
   <footer class="site-footer" id="footer">

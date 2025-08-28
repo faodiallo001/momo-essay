@@ -53,7 +53,47 @@
   background:rgba(255,59,48,.10);
 }
 
-
+ <style>
+      /* ========= LPQ (scoped) — Mobile-first ========= */
+      .lpq{--bg:#0b0b0f;--card:#101217;--line:#1f2230;--text:#eae7e3;--muted:#bdb8b2;--accent:#d61e49;--accent20:#d61e4926;--ok:#26c281;--warn:#ffa93a}
+      .lpq{color:var(--text);background:var(--bg);min-height:100dvh}
+      .lpq .wrap{max-width:980px;margin:0 auto;padding:20px 14px}
+      .lpq h1{font-size:clamp(26px,6vw,40px);letter-spacing:.5px;color:var(--accent);margin:10px 0 18px}
+      .lpq .section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px;margin:14px 0}
+      .lpq .badge{display:inline-block;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 8px;margin-bottom:8px}
+      .lpq .title{font-weight:800;color:#fff;margin:6px 0 10px;font-size:clamp(18px,4.5vw,26px)}
+      .lpq .sub{font-size:13px;color:var(--muted);margin:-4px 0 10px}
+      .lpq .field{display:flex;flex-direction:column;margin:10px 0}
+      .lpq .label{font-size:15px;font-weight:650;margin-bottom:8px}
+      .lpq input[type="text"],.lpq input[type="file"],.lpq textarea,.lpq select{
+        background:#0e1118;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px 12px;font-size:15px;outline:none
+      }
+      .lpq textarea{min-height:110px;resize:vertical}
+      .lpq .grid{display:grid;gap:12px}
+      .lpq .grid.two{grid-template-columns:1fr}
+      .lpq .grid.three{grid-template-columns:1fr}
+      @media(min-width:700px){.lpq .grid.two{grid-template-columns:1fr 1fr}.lpq .grid.three{grid-template-columns:1fr 1fr 1fr}}
+      /* Options en colonne, puces RONDES uniformes */
+      .lpq .options{display:flex;flex-direction:column;gap:10px}
+      .lpq .opt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none}
+      .lpq .opt input{
+        appearance:none;-webkit-appearance:none;-moz-appearance:none;width:20px;height:20px;border-radius:50%;
+        border:2px solid var(--accent);background:transparent;position:relative;top:2px;flex:0 0 20px;transition:.15s;
+        box-shadow:0 0 0 3px transparent
+      }
+      .lpq .opt input:hover{box-shadow:0 0 0 3px var(--accent20)}
+      .lpq .opt input:checked{background:var(--accent)}
+      .lpq .opt span{line-height:1.32}
+      .lpq .hint{font-size:12px;color:var(--muted);margin-top:6px}
+      .lpq .error{display:none;color:#ff6b6b;font-size:13px;margin-top:6px}
+      .lpq .show{display:block}
+      .lpq .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+      .lpq .btn{background:linear-gradient(180deg,#d61e49,#9f0f30);border:none;color:#fff;border-radius:999px;padding:12px 16px;font-weight:800;letter-spacing:.3px;cursor:pointer;box-shadow:0 10px 28px var(--accent20)}
+      .lpq .btn.secondary{background:#12141c;border:1px solid var(--line);color:#ddd}
+      .lpq .hidden{display:none !important}
+  
+  /* lang */ 
+  
   .lang{position:relative}
   .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
     border:1px solid var(--ring);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
@@ -64,94 +104,6 @@
   .lang:hover .lang-menu{display:flex}
   .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
   .lang-menu a:hover{background:rgba(255,59,48,.12)}
-
-  /* page wrapper */
-  .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
-  .page{max-width:min(1000px,94vw);width:100%}
-  .title{font-family:"Playfair Display",serif;font-weight:900;line-height:1.08;
-    font-size:clamp(32px,5.6vw,60px);margin:0 0 10px;letter-spacing:.3px;color:#fff;text-shadow:0 0 24px rgba(255,59,48,.18)}
-  .subtitle{color:var(--muted);max-width:760px;margin:8px 0 28px;font-size:clamp(14px,1.6vw,18px)}
-
-  /* progress */
-  .progress{height:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
-  .progress>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--rose),#ff6b4a);box-shadow:0 0 12px rgba(255,59,48,.35);transition:width .25s ease}
-  .prog-txt{color:#c9c2bb;font-size:13px;margin-top:6px}
-
-  /* cards (quiz) */
-  .card{margin-top:16px;background:radial-gradient(120% 120% at 50% 10%,rgba(255,255,255,.06),rgba(255,255,255,.015) 60%),var(--glass);
-    border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.4);backdrop-filter:blur(10px)}
-  .card--narrow{max-width:760px;margin-left:auto;margin-right:auto}
-  .q-idx{color:#cfc7c0;font-size:12px;margin-bottom:8px}
-  .q-text{font-size:20px;margin:6px 0 12px;line-height:1.35}
-  .input-line{display:flex;gap:10px;flex-wrap:wrap}
-  .input-line input[type="text"], .input-line select, .input-line input[type="file"]{
-    flex:1 1 260px;min-width:220px;background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
-  .file-help{font-size:12px;color:#b9b1aa;margin-top:6px}
-  .preview{margin-top:10px;width:88px;height:88px;border-radius:10px;border:1px solid rgba(255,255,255,.15);object-fit:cover;display:none}
-  .opts{display:grid;gap:10px;margin-top:10px}
-  .opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}
-  .opt input{accent-color:var(--rose)}
-  .opt:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2)}
-  .help{color:#b9b1aa;font-size:12px;margin-top:8px;min-height:18px}
-  .actions{display:flex;gap:10px;justify-content:space-between;margin-top:16px;flex-wrap:wrap}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:12px 16px;border-radius:14px;text-decoration:none;color:#fff;border:1px solid var(--ring);
-    background:radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,.09), rgba(255,255,255,.02) 50%),linear-gradient(90deg,var(--rose),#ff6b4a);
-    box-shadow:0 8px 22px rgba(255,59,48,.28), inset 0 0 10px rgba(255,255,255,.06);
-    font-weight:800;letter-spacing:.3px;cursor:pointer;transition:transform .14s ease, box-shadow .18s ease, filter .18s ease, opacity .18s ease;
-  }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,59,48,.36), inset 0 0 12px rgba(255,255,255,.08)}
-  .btn[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(.2)}
-
-  /* ===== BOOK / PASSPORT MULTIPAGE ===== */
-  .book-wrap{margin-top:22px;display:none}
-  .book-controls{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-  .book-controls .left, .book-controls .right{display:flex;gap:8px;align-items:center}
-  .page-indicator{font-weight:700;color:#ffdabb}
-  .book{display:grid;place-items:center}
-  .pass-page{
-    width:794px; height:1123px; /* A4 px @96dpi */
-    background: radial-gradient(1200px 800px at -10% -20%, rgba(255,59,48,.12), transparent 60%), #0b0b0f;
-    border:2px solid var(--gold); border-radius:16px; padding:28px 32px; position:relative;
-    box-shadow:0 16px 60px rgba(255,59,48,.18), inset 0 0 0 4px rgba(212,175,55,.15);
-  }
-  .p-title{font-family:"Playfair Display",serif;color:var(--rose);font-weight:900;letter-spacing:.4px;font-size:26px;margin:0 0 6px}
-  .p-sub{color:#e7dac1;font-size:12px;margin:4px 0 12px}
-  .gold-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:10px 0 16px;opacity:.8}
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-  .item{background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:12px;padding:10px 12px;min-height:46px}
-  .item span{display:block;font-size:10px;color:#c9b888;letter-spacing:.2px;margin-bottom:3px}
-  .item strong{font-weight:700;font-size:13px}
-  .photo-round{width:110px;height:110px;border-radius:999px;border:3px solid var(--gold);object-fit:cover;background:#16161a}
-  .serial{font-family:"Playfair Display",serif;color:#ffccd7;font-weight:700}
-  .footer-issuer{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:12px;color:#f7e7c6}
-  .heart-big{
-    width:120px;height:120px;border-radius:16px;background:
-      radial-gradient(50% 60% at 50% 40%, #ff6a8d, #8b0e2a 70%);
-    filter:drop-shadow(0 10px 30px rgba(255,59,48,.45));
-    -webkit-mask: radial-gradient(circle at 35% 35%, transparent 28%, black 29%) top left,
-                  radial-gradient(circle at 65% 35%, transparent 28%, black 29%) top right,
-                  linear-gradient(to bottom, black 45%, transparent 46%) bottom;
-    -webkit-mask-size: 50% 50%; -webkit-mask-repeat:no-repeat;
-  }
-
-  /* Stamps (Deal Breakers) */
-  .stamps{display:flex;flex-wrap:wrap;gap:10px}
-  .stamp{
-    position:relative; display:inline-block; padding:10px 14px;
-    border:2px dashed #7a0b1a; color:#ffd1d9; background:rgba(255,59,48,.08);
-    text-transform:uppercase; font-weight:800; letter-spacing:.4px;
-    transform:rotate(-6deg); border-radius:10px;
-    box-shadow:inset 0 0 0 2px rgba(139,0,0,.35), 0 6px 18px rgba(0,0,0,.35);
-  }
-  .stamp::after{
-    content:"REFUSED"; position:absolute; inset:-6px -8px auto auto; transform:rotate(12deg);
-    font-size:10px; color:#ff7c8f; opacity:.4; border:2px solid #8b0000; padding:2px 6px; border-radius:6px;
-  }
 
   /* site footer (ton design) */
   .site-footer{margin-top:60px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
@@ -222,55 +174,380 @@
   </div>
 </nav>
 
-<main class="wrap">
-  <div class="page">
-    <h1 class="title">Love Passport</h1>
-    <p class="subtitle">Your passport for love — a clear view of who you are.</p>
+  <!-- LOVE PASSPORT QUESTIONNAIRE -->
+  <div class="lpq">
+    <div class="wrap">
+      <h1>LOVE PASSPORT — Questionnaire</h1>
 
-    <!-- PROGRESS -->
-    <div class="progress"><i id="bar" style="width:0%"></i></div>
-    <div class="prog-txt" id="progTxt">0% ready</div>
+      <!-- ============ IDENTITY ============ -->
+      <section class="section" id="sec-identity">
+        <div class="badge">Section 1</div>
+        <div class="title">Identity (real info)</div>
 
-    <!-- QUIZ (questions rendus par JS) -->
-    <div id="quiz" class="card card--narrow">
-      <div class="q-idx" id="qIdx">Question 1</div>
-      <div class="q-text" id="qText">…</div>
-      <div id="qBody"></div>
-
-      <div class="actions">
-        <button class="btn" id="back">← Back</button>
-        <div><button class="btn" id="next">Next →</button></div>
-      </div>
-      <div class="help" id="helper"></div>
-    </div>
-
-    <!-- RESULT -->
-    <div id="result" class="card card--narrow" style="display:none">
-      <h2 class="p-title" style="margin-bottom:12px">Your Love Passport</h2>
-
-      <!-- Viewer + Controls -->
-      <div class="book-wrap" id="bookWrap">
-        <div class="book-controls">
-          <div class="left">
-            <button class="btn" id="btnPrevPage" type="button">← Prev page</button>
-            <button class="btn" id="btnNextPage" type="button">Next page →</button>
-            <span class="page-indicator" id="pageIndicator">Page 1 / 6</span>
+        <div class="grid two">
+          <div class="field">
+            <label class="label" for="fullName">1) What’s your full name? *</label>
+            <input id="fullName" type="text" placeholder="First & last name" required>
           </div>
-          <div class="right">
-            <button class="btn" id="btnPreview" type="button">Build / Refresh</button>
-            <button class="btn" id="btnPdf" type="button">Download PDF</button>
+
+          <div class="field">
+            <label class="label" for="photo">2) Upload your photo (JPG/PNG ≤ 5MB) *</label>
+            <input id="photo" type="file" accept="image/png,image/jpeg" required>
+          </div>
+
+          <div class="field">
+            <label class="label" for="age">3) How old are you? (18+) *</label>
+            <select id="age" required></select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="gender">4) What is your gender? *</label>
+            <select id="gender" required>
+              <option value="">Select…</option>
+              <option>Woman</option><option>Man</option><option>Non-binary</option>
+              <option>Trans woman</option><option>Trans man</option><option>Intersex</option>
+              <option>Agender</option><option>Genderfluid</option><option>Bigender</option><option>Two-Spirit</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="originCountry">5) Where are you originally from? *</label>
+            <select id="originCountry" required></select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="residenceCountry">6) Which country do you live in today? *</label>
+            <select id="residenceCountry" required></select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="relationshipStatus">7) Relationship status *</label>
+            <select id="relationshipStatus" required>
+              <option value="">Select…</option>
+              <option>Single</option><option>Dating</option><option>In a relationship</option>
+              <option>Married</option><option>Divorced</option><option>Widowed</option><option>It’s complicated</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="job">8) What do you do for work? (optional)</label>
+            <input id="job" type="text" placeholder="e.g., Nurse, Engineer, Freelancer">
+          </div>
+
+          <div class="field">
+            <label class="label" for="instagram">9) Your Instagram handle (optional)</label>
+            <input id="instagram" type="text" placeholder="@username">
+          </div>
+
+          <div class="field">
+            <label class="label" for="politics">10) Are you involved in politics? *</label>
+            <div class="options" id="politics"></div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="astro">11) What is your astrological sign? *</label>
+            <select id="astro" required></select>
           </div>
         </div>
 
-        <div class="book" id="passportBook">
-          <!-- Les 6 pages seront injectées ici par JS -->
+        <div id="err-identity" class="error">Please complete all required identity fields.</div>
+      </section>
+
+      <!-- ============ MONEY & ROLES ============ -->
+      <section class="section" id="sec-money">
+        <div class="badge">Section 2</div>
+        <div class="title">Money & Roles</div>
+
+        <div class="field">
+          <label class="label">12) How would you like to handle money as a couple? *</label>
+          <div class="options" id="money"></div>
         </div>
+
+        <div class="field">
+          <label class="label">13) Which role feels the most like you? *</label>
+          <div class="options" id="role"></div>
+        </div>
+
+        <div class="field">
+          <label class="label">14) How do you want to split household duties? *</label>
+          <div class="options" id="housework"></div>
+        </div>
+
+        <div class="field">
+          <label class="label">15) How are you in the kitchen? *</label>
+          <div class="options" id="kitchen"></div>
+        </div>
+      </section>
+
+      <!-- ============ CHILDREN ============ -->
+      <section class="section" id="sec-children">
+        <div class="badge">Section 3</div>
+        <div class="title">Children</div>
+
+        <div class="field">
+          <label class="label">16) Do you have children? *</label>
+          <div class="options" id="children"></div>
+        </div>
+
+        <div class="field hidden" id="childrenCountWrap">
+          <label class="label">17) If yes — How many?</label>
+          <select id="childrenCount">
+            <option value="">Select…</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+          </select>
+        </div>
+
+        <div class="field hidden" id="childrenWithWrap">
+          <label class="label">18) If 2+ — Same partner or different partners?</label>
+          <div class="options" id="childrenWith"></div>
+        </div>
+
+        <div class="field">
+          <label class="label">19) Do you want children in the future? *</label>
+          <div class="options" id="futureKids"></div>
+        </div>
+
+        <div class="field hidden" id="kidsTimelineWrap">
+          <label class="label">20) If yes — What timeline feels right?</label>
+          <div class="options" id="kidsTimeline"></div>
+        </div>
+      </section>
+
+      <!-- ============ FAITH & CULTURE ============ -->
+      <section class="section" id="sec-faith">
+        <div class="badge">Section 4</div>
+        <div class="title">Faith & Culture</div>
+
+        <div class="field">
+          <label class="label">21) What’s your religion? *</label>
+          <div class="options" id="religionAff"></div>
+        </div>
+
+        <div class="field">
+          <label class="label">22) Religion in love — what do you prefer? *</label>
+          <div class="options" id="religionPref"></div>
+        </div>
+
+        <div class="field">
+          <label class="label">23) Are you open to a partner from a different culture? *</label>
+          <div class="options" id="crossCulture"></div>
+        </div>
+
+        <div class="field">
+          <label class="label">24) What place does God have in your life? *</label>
+          <div class="options" id="godPlace"></div>
+        </div>
+      </section>
+
+      <!-- ============ TRAVEL ============ -->
+      <section class="section" id="sec-travel">
+        <div class="badge">Section 5</div>
+        <div class="title">Travel</div>
+
+        <div class="field">
+          <label class="label">25) Do you like to travel? *</label>
+          <div class="options" id="travel"></div>
+        </div>
+
+        <div class="grid two">
+          <div class="field hidden" id="favVisitedWrap">
+            <label class="label" for="favVisited">26) If yes — Favorite visited country</label>
+            <select id="favVisited"></select>
+          </div>
+
+          <div class="field hidden" id="dreamCountryWrap">
+            <label class="label" for="dreamCountry">27) If yes — Dream country to visit</label>
+            <select id="dreamCountry"></select>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PETS ============ -->
+      <section class="section" id="sec-pets">
+        <div class="badge">Section 6</div>
+        <div class="title">Pets</div>
+
+        <div class="grid two">
+          <div class="field">
+            <label class="label" for="petsCount">28) How many pets do you have? *</label>
+            <select id="petsCount" required>
+              <option value="">Select…</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label">30) Are you allergic to pets? *</label>
+            <div class="options" id="petAllergy"></div>
+          </div>
+
+          <div class="field hidden" id="petTypesWrap">
+            <label class="label">29) If you have pets — What kind? (choose all that apply)</label>
+            <div class="options" id="petTypes"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LIFESTYLE ============ -->
+      <section class="section" id="sec-lifestyle">
+        <div class="badge">Section 7</div>
+        <div class="title">Lifestyle</div>
+
+        <div class="grid two">
+          <div class="field">
+            <label class="label">31) Do you smoke?</label>
+            <div class="options" id="smoking"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">32) Do you drink alcohol?</label>
+            <div class="options" id="alcohol"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">33) Any diet preference?</label>
+            <div class="options" id="diet"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">34) How active are you?</label>
+            <div class="options" id="fitness"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">35) What is your sleeping style?</label>
+            <div class="options" id="sleeping"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LOYALTY & LOVE ============ -->
+      <section class="section" id="sec-loyalty">
+        <div class="badge">Section 8</div>
+        <div class="title">Loyalty & Love</div>
+
+        <div class="field">
+          <label class="label">36) What does loyalty mean to you? *</label>
+          <div class="options" id="loyalty"></div>
+        </div>
+
+        <div class="field">
+          <label class="label">37) I feel love this way (choose all that apply)</label>
+          <div class="options" id="feelLove"></div>
+        </div>
+
+        <div class="field">
+          <label class="label">38) How I show love (choose all that apply)</label>
+          <div class="options" id="showLove"></div>
+        </div>
+      </section>
+
+      <!-- ============ SELF-DESCRIPTION ============ -->
+      <section class="section" id="sec-selfdesc">
+        <div class="badge">Section 9</div>
+        <div class="title">Self-Description</div>
+
+        <div class="field">
+          <label class="label">39) How would you describe yourself? (choose all that apply)</label>
+          <div class="options" id="selfDesc"></div>
+        </div>
+      </section>
+
+      <!-- ============ AMBITION & ENERGY ============ -->
+      <section class="section" id="sec-ambition">
+        <div class="badge">Section 10</div>
+        <div class="title">Ambition & Energy</div>
+
+        <div class="grid two">
+          <div class="field">
+            <label class="label">40) How do you see ambition in your life?</label>
+            <div class="options" id="ambition"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">41) If your partner becomes more successful than you…</label>
+            <div class="options" id="partnerSuccess"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">42) How do you handle conflict?</label>
+            <div class="options" id="conflict"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">43) Are you introvert or extrovert?</label>
+            <div class="options" id="energy"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">44) What is success to you?</label>
+            <div class="options" id="success"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ RELATIONSHIP GOALS ============ -->
+      <section class="section" id="sec-goals">
+        <div class="badge">Section 11</div>
+        <div class="title">Relationship Goals</div>
+
+        <div class="grid two">
+          <div class="field">
+            <label class="label">45) What are you looking for?</label>
+            <div class="options" id="relationshipGoals"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">46) When do you want to get married?</label>
+            <div class="options" id="marriageTimeline"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">47) Are you open to long-distance?</label>
+            <div class="options" id="longDistance"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">48) Are you open to relocating internationally?</label>
+            <div class="options" id="relocate"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">49) What’s your ideal evening?</label>
+            <div class="options" id="evening"></div>
+          </div>
+
+          <div class="field">
+            <label class="label">50) In a relationship, what do you prioritize most?</label>
+            <div class="options" id="lovePriority"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ DEAL BREAKERS (AT THE END) ============ -->
+      <section class="section" id="sec-dealbreakers">
+        <div class="badge">Final</div>
+        <div class="title">Deal Breakers — I cannot accept</div>
+        <div class="options" id="dealbreakers"></div>
+        <div class="hint">Choose at least 2.</div>
+        <div id="err-deal" class="error">Please choose at least 2 deal breakers.</div>
+      </section>
+
+      <!-- ============ ABOUT ME (not counted) ============ -->
+      <section class="section" id="sec-about">
+        <div class="badge">Optional</div>
+        <div class="title">About Me (short bio)</div>
+        <div class="field">
+          <label class="label" for="aboutYou">Write 3–6 lines about yourself (optional)</label>
+          <textarea id="aboutYou" placeholder="Tell us about you…"></textarea>
+        </div>
+      </section>
+
+      <div class="btns">
+        <button class="btn" id="saveBtn">Save my answers</button>
+        <button class="btn secondary" id="previewBtn">Preview Passport</button>
       </div>
     </div>
-  </div>
-</main>
 
-<!-- FOOTER -->
+    <!-- FOOTER -->
 <footer class="site-footer" id="footer">
   <div class="f-wrap">
     <div class="f-col brand">
@@ -309,509 +586,228 @@
   </div>
   <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
 </footer>
+    
+    <script>
+      /* ===== Data ===== */
+      const COUNTRIES = [
+        "United States","Brazil","France","United Kingdom","Canada","Nigeria","Ghana","Côte d’Ivoire","Senegal",
+        "Morocco","Algeria","Tunisia","South Africa","Kenya","Ethiopia","Egypt","Germany","Italy","Spain","Portugal",
+        "Netherlands","Belgium","Sweden","Norway","Denmark","Finland","Poland","Turkey","Saudi Arabia","United Arab Emirates",
+        "Qatar","India","Pakistan","Bangladesh","China","Japan","South Korea","Thailand","Vietnam","Mexico","Argentina",
+        "Colombia","Chile","Peru","Australia","New Zealand"
+      ];
+      const ASTRO = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces","I don’t believe in astrology signs"];
+      const ages = Array.from({length:63},(_,i)=>String(i+18)).concat("80+");
 
+      // Q10 Politics (order requested)
+      const POLITICS = ["Conservative Right","Progressive Left","Not interested in politics"];
 
-<!-- ===== BACKGROUND SCRIPTS (ton design) ===== -->
-<script>
-const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
-function size(){W=s.width=innerWidth;H=s.height=innerHeight;
-  const n=Math.min(180,Math.floor(W*H/11000));
-  PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));
-}
-function loop(){ctx.clearRect(0,0,W,H);
-  for(const p of PS){p.a+=.0028;p.x+=Math.cos(p.a)*p.s;p.y+=Math.sin(p.a)*p.s*.45;
-    if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;if(p.y>H+10)p.y=-10;
-    const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);g.addColorStop(0,`rgba(255,80,80,${p.o})`);g.addColorStop(1,'rgba(255,80,80,0)');
-    ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}
-  requestAnimationFrame(loop);
-}
-addEventListener('resize',size);size();loop();
-</script>
+      // Money & Roles
+      const MONEY = ["One joint account (share everything)","Separate accounts"];
+      const ROLE = ["Tradwife / Traditional husband","Independent (career/money first)","Balanced 50/50"];
+      const HOUSEWORK = ["I handle everything at home","Shared equally","I do some, not everything","I prefer a partner who enjoys it","I prefer hiring someone (maid/cleaner)"];
+      const KITCHEN = ["I cook very well (many dishes)","I can cook basic meals","I can learn","I don’t cook","I don’t know how to cook"];
 
-<script>
-(function(){
-  const LAYER=document.getElementById('hearts'); if(!LAYER) return;
-  const HEART=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
-    <defs><radialGradient id="hg" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ffd0d4"/><stop offset="45%" stop-color="#ff5252"/><stop offset="100%" stop-color="#7c1414"/></radialGradient></defs>
-    <g filter="drop-shadow(0 4px 10px rgba(255,80,80,.55))">
-      <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
-      <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
-    </g></svg>`);
-  const COUNT=18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
-  for(let i=0;i<COUNT;i++){
-    const el=document.createElement('img');
-    el.src=`data:image/svg+xml;utf8,${HEART}`; el.className='float-item';
-    el.style.left=Math.random()*100+'vw';
-    el.style.setProperty('--w',(MIN_W+Math.random()*(MAX_W-MIN_W))+'px');
-    el.style.setProperty('--x',(Math.random()*80-40)+'px');
-    el.style.setProperty('--t',(MIN_T+Math.random()*(MAX_T-MIN_T))+'s');
-    el.style.setProperty('--r',(Math.random()*40-20)+'deg');
-    el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
-    el.style.setProperty('--spin',(14+Math.random()*10)+'s');
-    el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
-    LAYER.appendChild(el);
-  }
-})();
-</script>
+      // Children
+      const YESNO = ["Yes","No"];
+      const CHILDREN_WITH = ["Same partner","Different partners"];
+      const FUTURE_KIDS = ["Yes","Not sure","No"];
+      const KIDS_TIMELINE = ["ASAP (≤12 months)","1–2 years","3–5 years",">5 years","When it happens"];
 
-<!-- ===== LIBS POUR EXPORT PDF ===== -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+      // Faith & Culture
+      const RELIGION_AFF = ["Practicing Muslim","Non-practicing Muslim","Christian","Jewish","Hindu","Buddhist","Vodun","Other"];
+      const RELIGION_PREF = ["Must be aligned","Doesn’t matter"];
+      const CROSS_CULTURE = ["Yes","Maybe","No"];
+      const GOD_PLACE = ["God is everything in my life","I think about God before big decisions","I believe in God but I’m not religious","I don’t believe in God"];
 
-<script>
-/* ===================== QUESTIONS (adaptées à ton quiz + ajouts) ===================== */
-const QUESTIONS = [
-  { id:'name',  type:'text',   required:true,  label:'What’s your full name?', placeholder:'Your name here' },
-  { id:'gender',type:'single', required:true,  label:'How do you identify your gender?',
-    options:['Man','Woman','Non-binary','Trans man','Trans woman','Intersex','Other'] },
-  { id:'genderOther', type:'text-sub', parent:'gender', showIfValue:'Other', required:true, label:'Tell us your gender (Other)', placeholder:'Type your gender' },
+      // Travel
+      const TRAVEL = ["Yes","No"];
 
-  { id:'photo', type:'file', required:false, label:'Upload your photo (optional) — JPG/PNG under 5 MB' },
+      // Pets
+      const PET_TYPES = ["Dog","Cat","Bird","Fish","Reptile","Small pets","Other"];
+      const PET_ALLERGY = ["Yes","No"];
 
-  { id:'country', type:'text', required:true,  label:'Which country do you live in?', placeholder:'e.g., Brazil, France, Nigeria' },
-  { id:'languages', type:'multi', required:true, minSelect:1, label:'Which languages do you speak? (pick at least 1)',
-    options:['English','French','Spanish','Portuguese','Arabic','Chinese','Hindi','German','Turkish','Russian','Swahili'] },
+      // Lifestyle
+      const SMOKING = ["No","Sometimes","Daily"];
+      const ALCOHOL = ["No","Socially","Often"];
+      const DIET = ["Halal only","Vegetarian/Vegan","Pescatarian","No restriction","Other"];
+      const FITNESS = ["Gym 3+ times per week","Sometimes active","Rarely active","Never active"];
+      const SLEEPING = ["Early sleeper","Night owl","In between (sometimes early, sometimes late)"];
 
-  { id:'age',   type:'select', required:true,  label:'How old are you?',
-    options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push('60+');return a;})() },
-  { id:'height',type:'text',   required:false, label:'How tall are you?', placeholder:'170 cm / 5’7”' },
-  { id:'marital',type:'single',required:true,  label:'What’s your marital status right now?', options:['Single','Married','Divorced','Widowed','It’s complicated'] },
+      // Loyalty & Love
+      const LOYALTY = ["Loyalty is non-negotiable (monogamy only)","I am polygamist","I prefer an open relationship"];
+      const FEEL_LOVE = ["Kind words","Quality time","Helpful actions (acts of service)","Thoughtful gifts","Hugs & kisses, physical touch","Money and financial support","Support for my dreams and goals","Feeling protected","Sweet surprises"];
+      const SHOW_LOVE = ["Giving money","Giving gifts","Spending quality time","Cooking and caring","Helping with tasks and problems","Listening and emotional support","Hugs & kisses, holding hands","Planning experiences and travels","Protecting and standing up for my partner"];
 
-  { id:'job',   type:'text',   required:false, label:'What do you do for work?', placeholder:'e.g., Nurse, Engineer, Freelancer' },
+      // Self-Description
+      const SELF_DESC = ["Fun","Calm","Respectful","Shy","Adventurous","Thoughtful","Family-oriented","Ambitious"];
 
-  /* Money & roles */
-  { id:'money', type:'single', required:true, label:'How would you like to handle money as a couple?',
-    options:['One joint account (share everything)','Separate accounts'] },
-  { id:'identity', type:'single', required:true, label:'Which role feels the most like you?',
-    options:['Tradwife / Traditional husband','Independent (career/money first)','Balanced 50/50'] },
-  { id:'housework', type:'single', required:true, label:'How do you want to split household duties (cooking/cleaning)?',
-    options:['I handle everything at home','Shared equally','I do some, not everything','I prefer a partner who enjoys it','I prefer hiring someone (maid/cleaner)']},
-  { id:'cooking', type:'single', required:true, label:'How are you in the kitchen?',
-    options:['Confident cook (many dishes)','Can cook basics','Learning to cook','Prefer not to cook'] },
+      // Ambition & Energy
+      const AMBITION = ["Money first","Love first","Both hand in hand"];
+      const PARTNER_SUCCESS = ["Proud — it’s our win","Happy and motivated too","I’d feel uncomfortable with that"];
+      const CONFLICT = ["Talk it through calmly","Take a pause, then talk","I raise my voice then cool down","I walk away and come back later"];
+      const ENERGY = ["Introvert","Extrovert","Ambivert"];
+      const SUCCESS = ["Success is financial independence","Success is building a family (wife/husband, stability, children)","Success is creating a business that works and grows","Success is being fully aligned with my religion (prayer, fasting, values)"];
 
-  /* Kids */
-  { id:'children', type:'single', required:true, label:'Do you have children?', options:['No','Yes'] },
-  { id:'childrenCount', type:'select-sub', parent:'children', showIfValue:'Yes', required:true, label:'How many children do you have?', options:['1','2','3','4','5+'] },
-  { id:'childrenWith',  type:'single-sub', parent:'childrenCount', showIfValues:['2','3','4','5+'], required:true, label:'Were they with the same partner or different partners?', options:['Same partner','Different partners'] },
-  { id:'futureKids', type:'single', required:true, label:'Do you want children in the future?', options:['Yes','Not sure','No'] },
-  { id:'kidsTimeline', type:'single-sub', parent:'futureKids', showIfValue:'Yes', required:false, label:'If yes, what timeline feels right? (optional)',
-    options:['ASAP (≤12 months)','1–2 years','3–5 years','>5 years','When it happens'] },
+      // Relationship goals
+      const REL_GOALS = ["Serious relationship","Marriage soon","Marriage someday","Casual dating","Friendship first"];
+      const MARRIAGE_TL = ["ASAP (≤12 months)","In 1–2 years","In 3+ years","I’m not focused on marriage"];
+      const LONG_DISTANCE = ["Yes","Maybe","No"];
+      const RELOCATE = ["Yes","Maybe","No"];
+      const EVENING = ["Cozy movie night at home","Dinner out & good conversation","Game night with friends","Live music or a show"];
+      const LOVE_PRIORITY = ["Respect","Trust","Communication","Patience","Financial stability"];
 
-  /* Faith & culture */
-  { id:'religionAff', type:'single', required:true, label:'What’s your religion?', options:['Muslim','Christian','Atheist','Buddhist','Hindu','Vodun','Other']},
-  { id:'religionOther', type:'text-sub', parent:'religionAff', showIfValue:'Other', required:true, label:'Tell us your religion (Other)', placeholder:'Type your religion' },
-  { id:'religion',   type:'single', required:true, label:'Religion in love — what do you prefer?', options:['Must be aligned',"Doesn’t matter"] },
-  { id:'crossCulture', type:'single', required:true, label:'Are you open to a partner from a different culture?', options:['Yes','Maybe','No'] },
-  { id:'godPlace', type:'single', required:true, label:'What place does God have in your life?',
-    options:['God is everything in my life','I think about what God would think before big decisions','I believe in God but I’m not religious','I don’t believe in God','Prefer not to say']},
+      // Deal breakers (final)
+      const DEAL_BREAKERS = [
+        "Cheating / infidelity","Lying often","Jealous or controlling behavior","Violence (physical, verbal, emotional)",
+        "Explosive anger / constant shouting","Drug use","Drinking too much alcohol","Gambling","Disrespect of my religion",
+        "No exercise at all (never does sport)","Smoking (cigarettes or others)","Spending money without control",
+        "Always late paying bills / debts","Someone who already has a child","Someone who has children with different partners",
+        "Someone who doesn’t take care of their health","Someone with poor hygiene","No ambition / refuses to work",
+        "Refuses therapy or help when needed","Very different political opinions from mine",
+        "Sharing my private life on social media without my consent"
+      ];
 
-  /* Lifestyle */
-  { id:'smoking', type:'single', required:false, label:'Do you smoke?', options:['No','Sometimes','Daily'] },
-  { id:'alcohol',  type:'single', required:false, label:'Do you drink alcohol?',  options:['No','Socially','Often'] },
-  { id:'diet',     type:'single', required:false, label:'Any diet preference?',     options:['No restriction','Halal only','Vegetarian/Vegan','Pescatarian','Other'] },
-  { id:'fitness',  type:'single', required:false, label:'How active are you?',  options:['Gym 3+ times/week','Active sometimes','Rarely'] },
+      /* ===== Helpers ===== */
+      const $ = s=>document.querySelector(s);
+      function fillSelect(sel, list, placeholder="Select…"){
+        sel.innerHTML = "";
+        const o=document.createElement("option");o.value="";o.textContent=placeholder;sel.appendChild(o);
+        list.forEach(v=>{const opt=document.createElement("option");opt.value=v;opt.textContent=v;sel.appendChild(opt);});
+      }
+      function renderOptions(containerId, list, name, type="radio"){
+        const c = document.getElementById(containerId); c.innerHTML="";
+        list.forEach((label,i)=>{
+          const id = `${name}-${i}`;
+          const lab = document.createElement("label"); lab.className="opt";
+          const input = document.createElement("input"); input.type=type; input.name=name; input.id=id; input.value=label;
+          const span = document.createElement("span"); span.textContent=label;
+          lab.appendChild(input); lab.appendChild(span); c.appendChild(lab);
+        });
+      }
+      function getChecked(name){
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(i=>i.value);
+      }
 
-  /* Loyalty */
-  { id:'loyalty', type:'single', required:true, label:'What does loyalty mean to you?',
-    options:['Loyalty is non-negotiable (monogamy)','Open to ethical non-monogamy (with clear rules)','I am polygamist / open to polygamy']},
+      /* ===== Init dropdowns ===== */
+      fillSelect($('#age'), ages, "Select age…");
+      fillSelect($('#originCountry'), COUNTRIES, "Select your origin country…");
+      fillSelect($('#residenceCountry'), COUNTRIES, "Select your current country…");
+      fillSelect($('#favVisited'), COUNTRIES, "Select a country…");
+      fillSelect($('#dreamCountry'), COUNTRIES, "Select a country…");
+      fillSelect($('#astro'), ASTRO, "Select your sign…");
 
-  /* Love languages */
-  { id:'loveLanguages', type:'multi', required:true, minSelect:2, label:'Your love languages (pick at least 2)', options:['Words of affirmation','Quality time','Acts of service','Gifts','Physical touch']},
+      /* ===== Init options ===== */
+      renderOptions("politics", POLITICS, "politics","radio");
+      renderOptions("money", MONEY, "money","radio");
+      renderOptions("role", ROLE, "role","radio");
+      renderOptions("housework", HOUSEWORK, "housework","radio");
+      renderOptions("kitchen", KITCHEN, "kitchen","radio");
 
-  /* Self description */
-  { id:'selfDesc', type:'multi', required:true, minSelect:1, label:'How would you describe yourself? (you can pick several)', options:['Fun','Calm and collected','Very respectful','Very shy person','Adventurous','Thoughtful & observant','Family-oriented','Ambitious']},
+      renderOptions("children", YESNO, "children","radio");
+      renderOptions("childrenWith", CHILDREN_WITH, "childrenWith","radio");
+      renderOptions("futureKids", FUTURE_KIDS, "futureKids","radio");
+      renderOptions("kidsTimeline", KIDS_TIMELINE, "kidsTimeline","radio");
 
-  /* Ambition & energy */
-  { id:'ambition', type:'single', required:true, label:'How do you see ambition in your life?', options:['Money first, then love','Love first, then money','Both hand in hand']},
-  { id:'partnerSuccess', type:'single', required:true, label:'If your partner becomes more successful than you…', options:['Proud — it’s our win','Happy and motivated too','I’d feel uncomfortable with that']},
-  { id:'conflict', type:'single', required:true, label:'How do you handle a conflict?', options:['Talk it through calmly','Take a pause, then talk','I tend to raise my voice then cool down']},
-  { id:'energy', type:'single', required:true, label:'Are you more introvert or extrovert?', options:['Introvert','Extrovert','Ambivert'] },
+      renderOptions("religionAff", RELIGION_AFF, "religionAff","radio");
+      renderOptions("religionPref", RELIGION_PREF, "religion","radio");
+      renderOptions("crossCulture", CROSS_CULTURE, "crossCulture","radio");
+      renderOptions("godPlace", GOD_PLACE, "godPlace","radio");
 
-  /* Relationship goals & logistics */
-  { id:'relationshipGoals', type:'multi', required:true, minSelect:1, label:'What are you looking for? (pick at least 1)', options:['Serious relationship','Marriage soon','Marriage someday','Casual dating','Friendship first']},
-  { id:'marriageTimeline', type:'single', required:false, label:'When do you want to get married?', options:['ASAP (≤12 months)','In 1–2 years','In 3+ years','I’m not focused on marriage']},
-  { id:'longDistance', type:'single', required:true, label:'Are you open to long-distance?', options:['Yes','Maybe','No'] },
-  { id:'relocate', type:'single', required:true, label:'Are you open to relocating internationally?', options:['Yes','Maybe','No'] },
+      renderOptions("travel", TRAVEL, "travel","radio");
 
-  { id:'evening', type:'single', required:true, label:'What’s your ideal evening?', options:['Cozy movie night at home','Dinner out & good conversation','Game night with friends','Live music or a show']},
+      renderOptions("petTypes", PET_TYPES, "petTypes","checkbox");
+      renderOptions("petAllergy", PET_ALLERGY, "petAllergy","radio");
 
-  /* Music — + options spéciales */
-  { id:'music', type:'multi', required:false, minSelect:3, label:'Music vibe (pick ≥ 3, or choose a special option)',
-    options:['Afro/RnB','Rap/Trap','Pop / Dance','Rock/Metal','Classical/Jazz','Gospel / Religious only','I don’t listen to music','All vibes']},
+      renderOptions("smoking", SMOKING, "smoking","radio");
+      renderOptions("alcohol", ALCOHOL, "alcohol","radio");
+      renderOptions("diet", DIET, "diet","checkbox");
+      renderOptions("fitness", FITNESS, "fitness","radio");
+      renderOptions("sleeping", SLEEPING, "sleeping","radio");
 
-  { id:'texting', type:'single', required:false, label:'How do you text?', options:['I reply quickly','I reply in batches later','I forget sometimes — remind me']},
+      renderOptions("loyalty", LOYALTY, "loyalty","radio");
+      renderOptions("feelLove", FEEL_LOVE, "feelLove","checkbox");
+      renderOptions("showLove", SHOW_LOVE, "showLove","checkbox");
 
-  /* Pets */
-  { id:'petOwner', type:'single', required:false, label:'Are you a pet owner?', options:['No','Yes','I am allergic to pets','I don’t want pets'] },
-  { id:'petType',  type:'single-sub', parent:'petOwner', showIfValue:'Yes', required:false, label:'Dog, cat… what’s your vibe?', options:['Dog','Cat','Both','Other'] },
+      renderOptions("selfDesc", SELF_DESC, "selfDesc","checkbox");
 
-  /* Boundaries & Deal breakers */
-  { id:'boundaries', type:'multi', required:false, minSelect:2, label:'Your personal boundaries (pick ≥ 2 if you answer)', options:['No name-calling','No shouting','No social-media drama','Therapy friendly','Financial transparency','We don’t go to bed angry','Respect personal time','No silent treatment','We don’t check phones']},
-  { id:'dealBreaker', type:'multi', required:true, minSelect:2, label:'Hard no’s for you (pick at least 2)', options:[
-    'Political/worldview conflict (very different from mine)','Religion different / not aligned','Tries to change my faith/practice','Cheating / infidelity','Jealous / possessive / controlling','Violence (physical, verbal, emotional)','Explosive temper / unmanaged anger','Disrespects waiters/service workers; lacks humility','Partner owns pets (dogs/cats) — I can’t handle it','Big income gap — earns much less than me','Big income gap — earns much more than me'
-  ]},
+      renderOptions("ambition", AMBITION, "ambition","radio");
+      renderOptions("partnerSuccess", PARTNER_SUCCESS, "partnerSuccess","radio");
+      renderOptions("conflict", CONFLICT, "conflict","radio");
+      renderOptions("energy", ENERGY, "energy","radio");
+      renderOptions("success", SUCCESS, "success","radio");
 
-  /* Privacy & Social */
-  { id:'phonePrivacy', type:'single', required:true, label:'How do you see phone privacy in a relationship?', options:[
-    'My phone is private, I don’t share passwords','I can share passwords if needed','My phone is fully open, no restrictions'
-  ]},
-  { id:'socialPosting', type:'single', required:true, label:'How do you want your couple to appear on social media?', options:[
-    'I want to post our couple photos freely','I prefer not posting couple photos at all','I’m fine if my partner posts, but I won’t post much','I don’t care, it’s not important to me'
-  ]},
-  { id:'dmRules', type:'single', required:true, label:'What are your rules for DMs and social interactions?', options:[
-    'I am okay with friendly DMs (opposite sex included)','Only respectful/professional DMs are fine','No private DMs with the opposite sex at all'
-  ]},
+      renderOptions("relationshipGoals", REL_GOALS, "relationshipGoals","checkbox");
+      renderOptions("marriageTimeline", MARRIAGE_TL, "marriageTimeline","radio");
+      renderOptions("longDistance", LONG_DISTANCE, "longDistance","radio");
+      renderOptions("relocate", RELOCATE, "relocate","radio");
+      renderOptions("evening", EVENING, "evening","radio");
+      renderOptions("lovePriority", LOVE_PRIORITY, "lovePriority","radio");
 
-  /* Intimacy */
-  { id:'intimacySpeed', type:'single', required:true, label:'How fast do you like to move physically in a relationship?', options:[
-    'I like to take it very slowly (weeks/months before intimacy)','I prefer a normal rhythm (we see how it goes naturally)','I am usually fast (I get intimate early when I feel chemistry)']},
-  { id:'publicTouch', type:'single', required:true, label:'How do you feel about physical touch in public?', options:[
-    'I enjoy public affection (holding hands, hugs, kisses in public)','I like small gestures only (hand holding, nothing too much)','I prefer keeping intimacy private (no touching in public)']},
-  { id:'lightPreference', type:'single', required:true, label:'What kind of atmosphere do you prefer for intimacy?', options:[
-    'Always in the dark','Dim light / soft light only','Normal light is fine','I don’t really care']},
+      renderOptions("dealbreakers", DEAL_BREAKERS, "dealbreakers","checkbox");
 
-  /* About me */
-  { id:'aboutYou', type:'text', required:false, label:'Write a short “About me” (optional)', placeholder:'3–6 lines about you' }
-];
+      /* ===== Conditional logic ===== */
+      // Children: show count if Yes, show childrenWith if count >=2
+      document.getElementById("children").addEventListener("change", ()=>{
+        const yes = getChecked("children")[0]==="Yes";
+        $('#childrenCountWrap').classList.toggle('hidden', !yes);
+        if(!yes){ $('#childrenWithWrap').classList.add('hidden'); $('#childrenCount').value=""; }
+      });
+      $('#childrenCount').addEventListener("change", (e)=>{
+        const show = e.target.value && (e.target.value!=="1");
+        $('#childrenWithWrap').classList.toggle('hidden', !show);
+      });
+      // Future kids timeline
+      document.getElementById("futureKids").addEventListener("change", ()=>{
+        const yes = getChecked("futureKids")[0]==="Yes";
+        $('#kidsTimelineWrap').classList.toggle('hidden', !yes);
+      });
+      // Travel extra
+      document.getElementById("travel").addEventListener("change", ()=>{
+        const yes = getChecked("travel")[0]==="Yes";
+        $('#favVisitedWrap').classList.toggle('hidden', !yes);
+        $('#dreamCountryWrap').classList.toggle('hidden', !yes);
+      });
+      // Pets extra
+      $('#petsCount').addEventListener("change", (e)=>{
+        const v = e.target.value; const hasPets = v && v!=="0";
+        $('#petTypesWrap').classList.toggle('hidden', !hasPets);
+      });
 
-/* ===================== CORE HELPERS (quiz) ===================== */
-const $ = (id)=>document.getElementById(id);
-let idx = 0;                // index rendu
-const answers = {};         // id -> value (photo: dataURL)
+      /* ===== Minimal validation on save ===== */
+      function validateIdentity(){
+        const ok = $('#fullName').value.trim()
+          && $('#photo').files[0]
+          && $('#age').value && $('#gender').value
+          && $('#originCountry').value && $('#residenceCountry').value
+          && $('#relationshipStatus').value
+          && getChecked("politics").length
+          && $('#astro').value;
+        $('#err-identity').classList.toggle('show', !ok);
+        return ok;
+      }
+      function validateDeal(){
+        const ok = getChecked("dealbreakers").length>=2;
+        $('#err-deal').classList.toggle('show', !ok);
+        return ok;
+      }
 
-function shouldShow(q){
-  if(q.type && q.type.endsWith('-sub')){
-    const pv = answers[q.parent];
-    if (Array.isArray(q.showIfValues)) return q.showIfValues.includes(pv);
-    if ('showIfValue' in q) return pv === q.showIfValue;
-  }
-  return true;
-}
-function currentRenderableIndexToAbsolute(i){let c=-1;for(let k=0;k<QUESTIONS.length;k++){if(shouldShow(QUESTIONS[k])){c++;if(c===i)return k}}return QUESTIONS.length-1}
-function getRenderableCount(){return QUESTIONS.filter(shouldShow).length;}
-function getRenderableIdxFromAbs(abs){let c=0;for(let k=0;k<abs;k++) if(shouldShow(QUESTIONS[k])) c++;return c;}
-function isAnswered(q){
-  const v = answers[q.id];
-  if(q.type==='multi'){
-    const min = q.minSelect || 1;
-    if(q.id==='music' && Array.isArray(v)){
-      if (v.includes('All vibes') || v.includes('I don’t listen to music') || v.includes('Gospel / Religious only')) return true;
-    }
-    return Array.isArray(v) && v.length >= min;
-  }
-  if(Array.isArray(v)) return v.length>0;
-  return !!(v && String(v).trim()!=='');
-}
-
-/* ===================== RENDER (quiz) ===================== */
-function render(){
-  const totalR = getRenderableCount(); if(idx<0) idx=0; if(idx>totalR-1) idx=totalR-1;
-  const abs = currentRenderableIndexToAbsolute(idx); const q = QUESTIONS[abs];
-  $('qIdx').textContent = `Question ${getRenderableIdxFromAbs(abs)+1} / ${totalR}`;
-  $('qText').textContent = q.label; $('helper').textContent = q.required ? 'Required' : 'Optional';
-
-  const visibleQs = QUESTIONS.filter(shouldShow);
-  const answeredCount = visibleQs.filter(isAnswered).length;
-  const pct = Math.round((answeredCount / visibleQs.length) * 100);
-  $('bar').style.width = pct+'%'; $('progTxt').textContent = `${pct}% ready`;
-
-  const body = $('qBody'); body.innerHTML = '';
-
-  if(q.type==='text' || q.type==='text-sub'){
-    const wrap=document.createElement('div'); wrap.className='input-line';
-    const input=document.createElement('input'); input.type='text'; input.id='textInput';
-    input.placeholder=q.placeholder||''; input.value = answers[q.id]||'';
-    wrap.appendChild(input); body.appendChild(wrap);
-  }
-  else if(q.type==='file'){
-    const wrap=document.createElement('div'); wrap.className='input-line';
-    const input=document.createElement('input'); input.type='file'; input.id='fileInput'; input.accept='image/*';
-    const preview=document.createElement('img'); preview.className='preview'; preview.id='filePreview';
-    if(answers.photo){ preview.src = answers.photo; preview.style.display='block'; }
-    const hint=document.createElement('div'); hint.className='file-help'; hint.textContent='We will only use it to show on your Love Passport.';
-    input.addEventListener('change',(e)=>{
-      const file=e.target.files && e.target.files[0]; if(!file) return;
-      if(file.size > 5*1024*1024){ $('helper').textContent='File too large (max 5MB).'; e.target.value=''; return; }
-      const reader=new FileReader();
-      reader.onload=()=>{ answers.photo=reader.result; preview.src=reader.result; preview.style.display='block'; };
-      reader.readAsDataURL(file);
-    });
-    wrap.appendChild(input); body.appendChild(wrap); body.appendChild(preview); body.appendChild(hint);
-  }
-  else if(q.type==='select' || q.type==='select-sub'){
-    const wrap=document.createElement('div'); wrap.className='input-line';
-    const sel=document.createElement('select'); sel.id='selectInput';
-    const blank=document.createElement('option'); blank.value=''; blank.textContent='Choose…'; sel.appendChild(blank);
-    (q.options||[]).forEach(op=>{ const o=document.createElement('option'); o.value=op; o.textContent=op; if(answers[q.id]===op) o.selected=true; sel.appendChild(o); });
-    wrap.appendChild(sel); body.appendChild(wrap);
-  }
-  else if(q.type==='single' || q.type==='single-sub'){
-    const wrap=document.createElement('div'); wrap.className='opts';
-    (q.options||[]).forEach(op=>{
-      const row=document.createElement('label'); row.className='opt';
-      const input=document.createElement('input'); input.type='radio'; input.name='opt'; input.value=op;
-      if(answers[q.id]===op) input.checked=true; const span=document.createElement('span'); span.textContent=op;
-      row.appendChild(input); row.appendChild(span); wrap.appendChild(row);
-    }); body.appendChild(wrap);
-  }
-  else if(q.type==='multi'){
-    const wrap=document.createElement('div'); wrap.className='opts';
-    const cur=Array.isArray(answers[q.id])?answers[q.id]:[];
-    (q.options||[]).forEach(op=>{
-      const row=document.createElement('label'); row.className='opt';
-      const input=document.createElement('input'); input.type='checkbox'; input.name='optm'; input.value=op;
-      if(cur.includes(op)) input.checked=true; const span=document.createElement('span'); span.textContent=op;
-      row.appendChild(input); row.appendChild(span); wrap.appendChild(row);
-    }); body.appendChild(wrap);
-
-    if(q.id==='music'){
-      $('helper').textContent='Pick ≥ 3 styles OR select a single special option (Gospel only / I don’t listen / All vibes).';
-      wrap.addEventListener('change',(e)=>{
-        if(e.target && e.target.name==='optm'){
-          const boxes=[...wrap.querySelectorAll('input[name="optm"]')];
-          const specialVals=['All vibes','I don’t listen to music','Gospel / Religious only'];
-          const isSpecial=(x)=>specialVals.includes(x.value);
-          if(isSpecial(e.target) && e.target.checked){
-            boxes.forEach(x=>{ if(x!==e.target) x.checked=false; });
-          } else if(!isSpecial(e.target) && e.target.checked){
-            boxes.filter(isSpecial).forEach(x=>x.checked=false);
-          }
+      document.getElementById("saveBtn").addEventListener("click", ()=>{
+        const ok1 = validateIdentity();
+        const ok2 = validateDeal();
+        if(ok1 && ok2){
+          alert("Saved ✅ (demo). Hook this to your storage/API.");
         }
       });
-    } else if(q.minSelect){ $('helper').textContent = `${q.required?'Required — ':''}Pick at least ${q.minSelect}${q.required?'':' (optional)'}`; }
-  }
-
-  $('back').disabled = (idx===0);
-}
-
-function collectAndValidate(){
-  const abs=currentRenderableIndexToAbsolute(idx); const q=QUESTIONS[abs]; let v=null;
-  if(q.type==='text' || q.type==='text-sub'){ v=(document.getElementById('textInput')?.value||'').trim(); }
-  else if(q.type==='select' || q.type==='select-sub'){ v=(document.getElementById('selectInput')?.value||'').trim(); }
-  else if(q.type==='single' || q.type==='single-sub'){ const chk=document.querySelector('input[name="opt"]:checked'); v=chk?chk.value:''; }
-  else if(q.type==='multi'){ v=[...document.querySelectorAll('input[name="optm"]:checked')].map(x=>x.value); }
-  else if(q.type==='file'){ v=answers.photo||''; }
-
-  let bypassMin=false;
-  if(q.type==='multi' && q.id==='music' && Array.isArray(v)){
-    if(v.includes('All vibes')||v.includes('I don’t listen to music')||v.includes('Gospel / Religious only')) bypassMin=true;
-  }
-  const empty=(val)=>Array.isArray(val)?val.length===0:!val||String(val).trim()==='';
-  if(q.type==='multi'){
-    const min=q.minSelect||0, count=Array.isArray(v)?v.length:0, req=Math.max(1,min);
-    const needMin=q.required?(count<req):(count>0 && count<min);
-    if(!bypassMin && needMin){ $('helper').textContent=`Pick at least ${req} option${req>1?'s':''}.`; return false; }
-  } else if(q.type!=='file' && q.required && empty(v)){ $('helper').textContent='This question is required.'; return false; }
-
-  if(q.type!=='file'){
-    if(Array.isArray(v)) answers[q.id]=v; else if(!empty(v)) answers[q.id]=v; else delete answers[q.id];
-  }
-  if(q.id==='children' && v==='No'){ delete answers['childrenCount']; delete answers['childrenWith']; }
-  if(q.id==='childrenCount' && v==='1'){ delete answers['childrenWith']; }
-  if(q.id==='religionAff' && v!=='Other'){ delete answers['religionOther']; }
-  if(q.id==='petOwner' && v!=='Yes'){ delete answers['petType']; }
-
-  $('helper').textContent=''; return true;
-}
-function next(){ if(!collectAndValidate()) return; const totalR=getRenderableCount(); if(idx<totalR-1){ idx++; render(); } else { openResult(); } }
-function back(){ if(idx>0){ idx--; render(); } }
-$('next').addEventListener('click', next);
-$('back').addEventListener('click', back);
-render();
-
-/* ===================== RESULT + BOOK ===================== */
-function openResult(){
-  document.getElementById('quiz').style.display='none';
-  document.getElementById('result').style.display='block';
-  document.getElementById('bookWrap').style.display='block';
-  buildPassportBook();
-  updateBookView();
-}
-
-/* helpers */
-const get = (k)=>answers[k] ?? '—';
-const join = (k)=>Array.isArray(answers[k]) && answers[k].length ? answers[k].join(', ') : '—';
-function childrenLine(){
-  if(answers.children==='No') return 'No';
-  if(answers.children==='Yes'){
-    const c = answers.childrenCount || '?';
-    if(c==='1') return 'Yes — 1';
-    return `Yes — ${c} (${answers.childrenWith||'?'})`;
-  }
-  return '—';
-}
-function petsLine(){
-  if(answers.petOwner==='Yes') return answers.petType ? `Yes — ${answers.petType}` : 'Yes';
-  if(answers.petOwner==='No') return 'No';
-  if(answers.petOwner==='I am allergic to pets') return 'Allergic to pets';
-  if(answers.petOwner==='I don’t want pets') return 'I don’t want pets';
-  return '—';
-}
-
-/* ========== Build 6 pages ========== */
-let bookPages = []; let currentPage = 0;
-
-function el(tag, attrs={}, html=''){
-  const e=document.createElement(tag);
-  Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
-  if(html) e.innerHTML=html;
-  return e;
-}
-
-function pageShell(title, subtitle){
-  const p=el('div',{class:'pass-page'});
-  p.appendChild(el('h2',{class:'p-title'},title));
-  if(subtitle) p.appendChild(el('div',{class:'p-sub'},subtitle));
-  p.appendChild(el('div',{class:'gold-line'}));
-  return p;
-}
-
-function buildPassportBook(){
-  const book = document.getElementById('passportBook');
-  book.innerHTML=''; bookPages=[]; currentPage=0;
-
-  const serial = 'LP-2025-' + Math.floor(1000 + Math.random()*9000);
-  const issueDate = new Date().toLocaleDateString();
-
-  /* 1. Couverture */
-  const p1 = pageShell('LOVE PASSPORT','Multipage official booklet');
-  const coverBox = el('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:16px;'});
-  const heart = el('div',{class:'heart-big'});
-  const serialBox = el('div',{}, `<div style="margin-bottom:6px"><span class="serial">${serial}</span></div>
-    <div style="font-size:13px;color:#f7e7c6"><strong>Owner:</strong> ${get('name')}</div>
-    <div style="font-size:13px;color:#f7e7c6"><strong>Issued:</strong> ${issueDate}</div>`);
-  coverBox.appendChild(heart); coverBox.appendChild(serialBox);
-  p1.appendChild(coverBox);
-  p1.appendChild(el('div',{class:'footer-issuer'},'Issued by matchormoveon.com'));
-
-  /* 2. Identité */
-  const p2 = pageShell('IDENTITY','Holder information');
-  const top2 = el('div',{class:'grid-2'});
-  const left2 = el('div',{},`
-    <div class="item"><span>Name</span><strong>${get('name')}</strong></div>
-    <div class="grid-2" style="margin-top:10px">
-      <div class="item"><span>Age</span><strong>${get('age')}</strong></div>
-      <div class="item"><span>Height</span><strong>${get('height')}</strong></div>
-    </div>
-    <div class="item" style="margin-top:10px"><span>Location</span><strong>${get('country')}</strong></div>
-    <div class="item" style="margin-top:10px"><span>Languages</span><strong>${join('languages')}</strong></div>
-    <div class="item" style="margin-top:10px"><span>Profession</span><strong>${get('job')}</strong></div>
-    <div class="item" style="margin-top:10px"><span>Marital status</span><strong>${get('marital')}</strong></div>
-    <div style="margin-top:10px;color:#f7e7c6;font-size:12px"><strong>Issued:</strong> ${issueDate}</div>
-  `);
-  const right2 = el('div',{style:'display:flex;flex-direction:column;align-items:center;gap:12px;justify-content:flex-start'});
-  const ph = el('img',{class:'photo-round',alt:'photo'});
-  if(answers.photo) ph.src = answers.photo; right2.appendChild(ph);
-  right2.appendChild(el('div',{class:'item',style:'text-align:center'},`<span>Gender</span><strong>${answers.gender==='Other'? (answers.genderOther||'Other') : (answers.gender||'—')}</strong>`));
-  top2.appendChild(left2); top2.appendChild(right2); p2.appendChild(top2);
-
-  /* 3. Core Profile */
-  const p3 = pageShell('CORE PROFILE','Family, goals & logistics');
-  const g3 = el('div',{class:'grid-3'});
-  g3.innerHTML = `
-    <div class="item"><span>Children</span><strong>${childrenLine()}</strong></div>
-    <div class="item"><span>Identity</span><strong>${get('identity')}</strong></div>
-    <div class="item"><span>Money mindset</span><strong>${get('money')}</strong></div>
-    <div class="item"><span>Relationship goals</span><strong>${join('relationshipGoals')}</strong></div>
-    <div class="item"><span>Marriage plan</span><strong>${get('marriageTimeline')}</strong></div>
-    <div class="item"><span>Long distance</span><strong>${get('longDistance')}</strong></div>
-  `;
-  p3.appendChild(g3);
-
-  /* 4. Values & Vision */
-  const p4 = pageShell('VALUES & VISION','Beliefs, faith & loyalty');
-  const g4 = el('div',{class:'grid-3'});
-  const relAff = (answers.religionAff==='Other' ? (answers.religionOther||'Other') : (answers.religionAff||'—'));
-  g4.innerHTML = `
-    <div class="item"><span>Religion</span><strong>${relAff}</strong></div>
-    <div class="item"><span>Place of God</span><strong>${get('godPlace')}</strong></div>
-    <div class="item"><span>Alignment</span><strong>${get('religion')}</strong></div>
-    <div class="item"><span>Cross-culture</span><strong>${get('crossCulture')}</strong></div>
-    <div class="item"><span>Loyalty belief</span><strong>${get('loyalty')}</strong></div>
-    <div class="item"><span>Phone privacy</span><strong>${get('phonePrivacy')}</strong></div>
-  `;
-  p4.appendChild(g4);
-
-  /* 5. Lifestyle & Habits */
-  const p5 = pageShell('LIFESTYLE & HABITS','Daily rhythm & tastes');
-  const g5 = el('div',{class:'grid-3'});
-  let musicLine = join('music');
-  let hobbies = `${get('evening')} • ${join('selfDesc')}`;
-  g5.innerHTML = `
-    <div class="item"><span>Smoking</span><strong>${get('smoking')}</strong></div>
-    <div class="item"><span>Alcohol</span><strong>${get('alcohol')}</strong></div>
-    <div class="item"><span>Diet</span><strong>${get('diet')}</strong></div>
-    <div class="item"><span>Fitness</span><strong>${get('fitness')}</strong></div>
-    <div class="item"><span>Pets</span><strong>${petsLine()}</strong></div>
-    <div class="item"><span>Hobbies</span><strong>${hobbies}</strong></div>
-    <div class="item"><span>Music</span><strong>${musicLine}</strong></div>
-    <div class="item"><span>Public touch</span><strong>${get('publicTouch')}</strong></div>
-    <div class="item"><span>Intimacy light</span><strong>${get('lightPreference')}</strong></div>
-  `;
-  p5.appendChild(g5);
-
-  /* 6. Deal Breakers + Signature */
-  const p6 = pageShell('DEAL BREAKERS & SIGNATURE','Non-negotiables & statement');
-  const stampsWrap = el('div',{class:'stamps',id:'stamps'});
-  (answers.dealBreaker||[]).forEach(t=>{
-    const s=el('div',{class:'stamp'},t);
-    stampsWrap.appendChild(s);
-  });
-  p6.appendChild(stampsWrap);
-  p6.appendChild(el('div',{class:'gold-line'}));
-  const about = el('div',{class:'item'},`<span>Motto / About me</span><strong>${answers.aboutYou||'—'}</strong>`);
-  p6.appendChild(about);
-  p6.appendChild(el('div',{style:'margin-top:10px;color:#f7e7c6;font-size:12px'},`Generated: ${issueDate}`));
-  p6.appendChild(el('div',{class:'footer-issuer'},'Issued by matchormoveon.com'));
-
-  [p1,p2,p3,p4,p5,p6].forEach(p=>{ book.appendChild(p); bookPages.push(p); });
-}
-
-/* ===== Book navigation & indicator ===== */
-function updateBookView(){
-  bookPages.forEach((p,i)=>{ p.style.display = (i===currentPage)?'block':'none'; });
-  document.getElementById('pageIndicator').textContent = `Page ${currentPage+1} / ${bookPages.length}`;
-}
-document.getElementById('btnPrevPage').addEventListener('click', ()=>{ if(currentPage>0){ currentPage--; updateBookView(); }});
-document.getElementById('btnNextPage').addEventListener('click', ()=>{ if(currentPage<bookPages.length-1){ currentPage++; updateBookView(); }});
-document.addEventListener('keydown', (e)=>{
-  const wrap = document.getElementById('bookWrap');
-  if(wrap.style.display!=='none'){
-    if(e.key==='ArrowLeft'){ if(currentPage>0){ currentPage--; updateBookView(); } }
-    if(e.key==='ArrowRight'){ if(currentPage<bookPages.length-1){ currentPage++; updateBookView(); } }
-  }
-});
-
-/* Build/Refresh */
-document.getElementById('btnPreview').addEventListener('click', ()=>{
-  buildPassportBook();
-  updateBookView();
-});
-
-/* PDF multipages */
-document.getElementById('btnPdf').addEventListener('click', async ()=>{
-  if(bookPages.length===0) buildPassportBook();
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF({orientation:'p',unit:'px',format:'a4',compress:true});
-  for(let i=0;i<bookPages.length;i++){
-    const canvas = await html2canvas(bookPages[i], {scale:2, backgroundColor:'#0b0b0f'});
-    const imgData = canvas.toDataURL('image/png');
-    const pageW = pdf.internal.pageSize.getWidth();
-    const pageH = pdf.internal.pageSize.getHeight();
-    pdf.addImage(imgData,'PNG',0,0,pageW,pageH);
-    if(i<bookPages.length-1) pdf.addPage();
-  }
-  pdf.save('Love_Passport_MOMO.pdf');
-});
-
-function openResultIfAllAnswered(){
-  const allVisible = QUESTIONS.filter(shouldShow);
-  const ok = allVisible.every(isAnswered);
-  if(ok) openResult();
-}
-</script>
+      document.getElementById("previewBtn").addEventListener("click", ()=>{
+        if(validateIdentity() && validateDeal()){
+          alert("Preview ready 🚀 (wire up your A6 PDF/flipbook template).");
+        }
+      });
+    </script>
+  </div>
 </body>
-</html>
+
 
 
 

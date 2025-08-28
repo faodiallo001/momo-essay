@@ -14,6 +14,26 @@
   body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
   html{scroll-behavior:smooth}
 
+  .love-passport-btn {
+  background-color: transparent; /* transparent au départ */
+  color: #ff3b30; /* texte en rouge */
+  padding: 15px 30px;
+  border: 2px solid #ff3b30; /* contour rouge */
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.love-passport-btn:hover {
+  background-color: #ff3b30; /* rouge plein au hover */
+  color: white; /* texte devient blanc */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+
    /* FOOTER */
   .site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
   .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
@@ -582,6 +602,10 @@ function render(){
   btnPrev.disabled = (currentIndex===0);
   btnNext.textContent = (currentIndex===vis.length-1) ? "Finish" : "Next";
 }
+  <div id="summary">
+  <button id="downloadBtn" class="love-passport-btn">Get My Love Passport</button>
+</div>
+
 
 function validateCurrent(){
   const vis = visibleSteps();

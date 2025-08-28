@@ -260,13 +260,14 @@
     
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
   // === Helpers ===
   const $  = s => document.querySelector(s);
   const qs = n => new URLSearchParams(location.search).get(n);
   const uid = () => Array.from(crypto.getRandomValues(new Uint8Array(8)))
-                    .map(b=>b.toString(16).padStart(2,'0')).join('');
+                    .map(b => b.toString(16).padStart(2,'0')).join('');
   const wordCount = t => (t.trim().match(/\S+/g) || []).length;
-  const possessive = (n) => {
+  const possessive = n => {
     const name = (n || '').trim();
     if (!name) return 'Someone’s';
     const last = name.slice(-1).toLowerCase();
@@ -297,12 +298,12 @@ document.addEventListener('DOMContentLoaded', () => {
   bindCounter(initStory, count1);
   bindCounter(partnerStory, count2);
 
-  // === Storage (demo) ===
-  const LS   = id  => `fixCase:${id}`;
-  const load = id  => JSON.parse(localStorage.getItem(LS(id)) || 'null');
+  // === Storage helpers ===
+  const LS = id => `fixCase:${id}`;
+  const load = id => JSON.parse(localStorage.getItem(LS(id)) || 'null');
   const save = (id, data) => localStorage.setItem(LS(id), JSON.stringify(data));
 
-  // === STEP 1 (Initiator) ===
+  // === STEP 1: Initiator ===
   const formInitiator = $('#formInitiator');
   function handleInitiator(){
     const name  = $('#initName')?.value.trim();
@@ -310,46 +311,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const story = $('#initStory')?.value.trim();
     if(!name || !email || !story){ formInitiator?.reportValidity?.(); return; }
 
-    const id = uid(), ptok = uid();
+    const id = uid();
+    const ptok = uid();
     save(id, { id, ptok, initiator:{name,email,story}, createdAt: Date.now() });
 
-    // Share URL (same page with params)
-    const base = (location.origin && location.origin !== 'null')
-      ? location.origin + location.pathname
-      : location.pathname;
-    const url  = `${base}?case=${id}&role=partner&token=${ptok}`;
+    // Share URL
+    const base = (location.origin && location.origin !== 'null') ? location.origin + location.pathname : location.pathname;
+    const url = `${base}?case=${id}&role=partner&token=${ptok}`;
 
-    $('#shareUrl').textContent = url;
-    $('#waBtn').href  = `https://wa.me/?text=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
-    $('#smsBtn').href = `sms:&body=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
-    $('#copyBtn').onclick = async () => {
+    // Update share buttons
+    const shareUrlEl = $('#shareUrl');
+    if(shareUrlEl) shareUrlEl.textContent = url;
+    const waBtn = $('#waBtn'); if(waBtn) waBtn.href = `https://wa.me/?text=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
+    const smsBtn = $('#smsBtn'); if(smsBtn) smsBtn.href = `sms:&body=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
+    const copyBtn = $('#copyBtn');
+    if(copyBtn) copyBtn.onclick = async () => {
       try { await navigator.clipboard.writeText(url); } catch {}
       const m = $('#copiedMsg'); if(m){ m.style.display='inline'; setTimeout(()=>m.style.display='none',1500); }
     };
 
     step1?.classList.add('hidden');
     shareBlock?.classList.remove('hidden');
+
+    // Optionnel: redirection automatique
+    // window.location.href = url;
   }
-  if (formInitiator){
-    // Intercept submit + submit-button clicks to prevent reload
+
+  if(formInitiator){
     formInitiator.addEventListener('submit', e => { e.preventDefault(); handleInitiator(); });
     formInitiator.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn=>{
       btn.addEventListener('click', e => { e.preventDefault(); handleInitiator(); });
     });
   }
 
-  // === STEP 2 (Partner mode) ===
+  // === STEP 2: Partner ===
   const caseId = qs('case'), role = qs('role'), token = qs('token');
 
   function setPartnerHeading(name){
-    if (!step2) return;
+    if(!step2) return;
     const titleText = `${possessive(name)} Version of the Story`;
-    // First H2 inside #step2 (this is the "Their version..." heading in your HTML)
     let h2 = step2.querySelector('h2');
-    if (h2) {
-      h2.textContent = titleText;
-    } else {
-      // If missing for any reason, insert one at the top
+    if(h2) h2.textContent = titleText;
+    else {
       h2 = document.createElement('h2');
       h2.className = 'title-md';
       h2.textContent = titleText;
@@ -357,11 +360,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (caseId && role === 'partner'){
+  if(caseId && role === 'partner'){
     const rec = load(caseId);
 
     if(!rec || token !== rec.ptok){
-      [step1, shareBlock, step2, finalBlock].forEach(s=>s&&s.classList.add('hidden'));
+      [step1, shareBlock, step2, finalBlock].forEach(s=>s?.classList.add('hidden'));
       resultBlock?.classList.remove('hidden');
       $('#summary').textContent = 'Invalid or expired link. Ask your partner for a new one.';
       return;
@@ -372,10 +375,9 @@ document.addEventListener('DOMContentLoaded', () => {
     shareBlock?.classList.add('hidden');
     step2?.classList.remove('hidden');
 
-    // Set custom heading using the initiator's name
     setPartnerHeading(rec.initiator?.name);
 
-    // Show initiator’s text
+    // Show initiator’s story
     $('#theirVersion').textContent = rec.initiator.story;
 
     // Partner submit
@@ -413,22 +415,24 @@ Next (production):
 • mark the case as done`;
       };
     }
-    if (formPartner){
+
+    if(formPartner){
       formPartner.addEventListener('submit', e => { e.preventDefault(); handlePartner(); });
       formPartner.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn=>{
         btn.addEventListener('click', e => { e.preventDefault(); handlePartner(); });
       });
     }
   }
+
 });
 </script>
 
-
-  <script>
+<script>
+// === Autosize textareas ===
 (function(){
   function autosize(el){
     el.style.height = 'auto';
-    el.style.height = Math.min(800, el.scrollHeight) + 'px'; // limite haute 800px
+    el.style.height = Math.min(800, el.scrollHeight) + 'px';
   }
   ['initStory','partnerStory'].forEach(id=>{
     const el = document.getElementById(id);
@@ -438,9 +442,6 @@ Next (production):
   });
 })();
 </script>
-</body>
-</html>
-
 
 
 

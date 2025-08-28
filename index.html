@@ -56,23 +56,26 @@
   .subtitle{color:var(--muted);max-width:820px;margin:10px auto 34px;font-size:clamp(14px,1.6vw,18px)}
 
   /* =========================
-   GLASS BUTTONS — Desktop
+   GLASS GRID — Desktop
    ========================= */
 .glass-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(120px, 1fr));
-  gap: 22px;
-  justify-items: center;
+  display: flex;             /* horizontal */
+  justify-content: center;   /* centré */
+  gap: 30px;                 /* espace entre bulles */
   margin-top: 50px;
+  flex-wrap: nowrap;          /* reste sur une ligne */
 }
 
 .glass-item {
-  text-align: center;
+  text-align: center;        /* texte sous la bulle centré */
 }
 
+/* =========================
+   GLASS BUTTONS
+   ========================= */
 .glass-btn {
   position: relative;
-  width: min(100px, 15vw);
+  width: 100px;
   aspect-ratio: 1/1;
   border-radius: 999px;
   display: grid;
@@ -134,53 +137,32 @@
 }
 
 /* =========================
-   LABELS
-   ========================= */
-.labels {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(120px, 1fr));
-  gap: 22px;
-  justify-items: center;
-  margin-top: 10px;
-}
-
-.neon {
-  pointer-events: none;
-  font-weight: 700;
-  letter-spacing: .2px;
-  font-size: 14px;
-  color: #ffd6d6;
-  text-shadow: 0 0 10px rgba(255,59,48,.65), 0 0 4px rgba(255,59,48,.45);
-  border: 1px solid rgba(255,59,48,.45);
-  border-radius: 16px;
-  padding: 9px 14px;
-  background: rgba(255,59,48,.08);
-  box-shadow: 0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.18);
-}
-
-/* =========================
-   MOBILE RESPONSIVE
+   MOBILE RESPONSIVE — horizontal
    ========================= */
 @media (max-width: 860px) {
   .glass-grid {
-    grid-template-columns: 1fr; /* une colonne sur mobile */
-    gap: 18px;
+    gap: 15px;          /* moins d’espace */
   }
 
-  .labels {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
   .glass-btn {
-    width: 80px;  /* légèrement plus petit pour très petit écran */
+    width: 70px;        /* bulles plus petites */
   }
 
   .glass-text {
     font-size: 14px;
   }
 }
+
+@media (max-width: 480px) {
+  .glass-btn {
+    width: 60px;        /* très petit écran */
+  }
+
+  .glass-text {
+    font-size: 12px;
+  }
+}
+
 
 
   /* footer with columns */
@@ -301,6 +283,72 @@
     </div>
   </section>
 </main>
+
+  <div class="glass-grid">
+  <div class="glass-item">
+    <a href="love-passport.html" class="glass-btn" aria-label="Get My Love Passport">
+      <div class="heart-wrap" aria-hidden="true">
+        <svg viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="g1" cx="50%" cy="40%" r="70%">
+              <stop offset="0%" stop-color="#ffd9dc"/>
+              <stop offset="45%" stop-color="#ff5a5a"/>
+              <stop offset="100%" stop-color="#7c1414"/>
+            </radialGradient>
+          </defs>
+          <g>
+            <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#g1)"/>
+            <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
+          </g>
+        </svg>
+      </div>
+    </a>
+    <div class="glass-text">Get My Love Passport</div>
+  </div>
+
+  <div class="glass-item">
+    <a href="compatibility.html" class="glass-btn" aria-label="Compatibility Test">
+      <div class="heart-wrap" aria-hidden="true">
+        <svg viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="g2" cx="50%" cy="40%" r="70%">
+              <stop offset="0%" stop-color="#ffe3e6"/>
+              <stop offset="45%" stop-color="#ff6363"/>
+              <stop offset="100%" stop-color="#7c1414"/>
+            </radialGradient>
+          </defs>
+          <g>
+            <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#g2)"/>
+            <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
+          </g>
+        </svg>
+      </div>
+    </a>
+    <div class="glass-text">Compatibility Test</div>
+  </div>
+
+  <div class="glass-item">
+    <a href="fix.html" class="glass-btn" aria-label="Fix The Problem">
+      <div class="heart-wrap" aria-hidden="true">
+        <svg viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="g3" cx="50%" cy="40%" r="70%">
+              <stop offset="0%" stop-color="#ffe7ea"/>
+              <stop offset="45%" stop-color="#ff6c6c"/>
+              <stop offset="100%" stop-color="#7c1414"/>
+            </radialGradient>
+          </defs>
+          <g>
+            <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#g3)"/>
+            <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
+          </g>
+        </svg>
+      </div>
+    </a>
+    <div class="glass-text">Fix The Problem</div>
+  </div>
+</div>
+
 
  <!-- FOOTER -->
 <footer class="site-footer" id="footer">

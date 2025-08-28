@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Love Passport — Match or Move On</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
 <style>
-  :root{
-    --bg:#0b0b0f;           /* noir profond */
-    --text:#e9e2db;
-    --muted:#c9c2bb;
-    --rose:#ff3b30;         /* même accent que contact.html */
-    --ring:rgba(255,59,48,.45);
-    --glass:rgba(255,255,255,.04);
-    --border:rgba(255,255,255,.12);
-    --gold:#d4af37;         /* utilisé dans les pages passeport */
-  }
+  :root{ --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; --glass:rgba(255,255,255,.04); }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
+  html{scroll-behavior:smooth}
+
+   /* NAV + FOOTER + BG => mêmes styles que tu as déjà (je ne réécris pas ici, tu gardes ton code existant) */
 
   /* background layers (ton design) */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -51,59 +46,7 @@
 .nav-left a:hover{
   border-color:rgba(255,59,48,.45);
   background:rgba(255,59,48,.10);
-}
-
-      /* ========= LPQ (scoped) — Mobile-first ========= */
-      .lpq{--bg:#0b0b0f;--card:#101217;--line:#1f2230;--text:#eae7e3;--muted:#bdb8b2;--accent:#d61e49;--accent20:#d61e4926;--ok:#26c281;--warn:#ffa93a}
-      .lpq{color:var(--text);background:var(--bg);min-height:100dvh}
-      .lpq .wrap{max-width:980px;margin:0 auto;padding:20px 14px}
-      .lpq h1{font-size:clamp(26px,6vw,40px);letter-spacing:.5px;color:var(--accent);margin:10px 0 18px}
-      .lpq .section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px;margin:14px 0}
-      .lpq .badge{display:inline-block;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 8px;margin-bottom:8px}
-      .lpq .title{font-weight:800;color:#fff;margin:6px 0 10px;font-size:clamp(18px,4.5vw,26px)}
-      .lpq .sub{font-size:13px;color:var(--muted);margin:-4px 0 10px}
-      .lpq .field{display:flex;flex-direction:column;margin:10px 0}
-      .lpq .label{font-size:15px;font-weight:650;margin-bottom:8px}
-      .lpq input[type="text"],.lpq input[type="file"],.lpq textarea,.lpq select{
-        background:#0e1118;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px 12px;font-size:15px;outline:none
-      }
-      .lpq textarea{min-height:110px;resize:vertical}
-      .lpq .grid{display:grid;gap:12px}
-      .lpq .grid.two{grid-template-columns:1fr}
-      .lpq .grid.three{grid-template-columns:1fr}
-      @media(min-width:700px){.lpq .grid.two{grid-template-columns:1fr 1fr}.lpq .grid.three{grid-template-columns:1fr 1fr 1fr}}
-      /* Options en colonne, puces RONDES uniformes */
-      .lpq .options{display:flex;flex-direction:column;gap:10px}
-      .lpq .opt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none}
-      .lpq .opt input{
-        appearance:none;-webkit-appearance:none;-moz-appearance:none;width:20px;height:20px;border-radius:50%;
-        border:2px solid var(--accent);background:transparent;position:relative;top:2px;flex:0 0 20px;transition:.15s;
-        box-shadow:0 0 0 3px transparent
-      }
-      .lpq .opt input:hover{box-shadow:0 0 0 3px var(--accent20)}
-      .lpq .opt input:checked{background:var(--accent)}
-      .lpq .opt span{line-height:1.32}
-      .lpq .hint{font-size:12px;color:var(--muted);margin-top:6px}
-      .lpq .error{display:none;color:#ff6b6b;font-size:13px;margin-top:6px}
-      .lpq .show{display:block}
-      .lpq .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-      .lpq .btn{background:linear-gradient(180deg,#d61e49,#9f0f30);border:none;color:#fff;border-radius:999px;padding:12px 16px;font-weight:800;letter-spacing:.3px;cursor:pointer;box-shadow:0 10px 28px var(--accent20)}
-      .lpq .btn.secondary{background:#12141c;border:1px solid var(--line);color:#ddd}
-      .lpq .hidden{display:none !important}
-  
-  /* lang */ 
-  
-  .lang{position:relative}
-  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
-    border:1px solid var(--ring);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
-    text-shadow:0 0 8px rgba(255,59,48,.55)}
-  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
-    background:rgba(0,0,0,.7);border:1px solid var(--ring);border-radius:12px;padding:8px;
-    box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
-  .lang:hover .lang-menu{display:flex}
-  .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
-  .lang-menu a:hover{background:rgba(255,59,48,.12)}
-
+} 
   /* site footer (ton design) */
   .site-footer{margin-top:60px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
   .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
@@ -155,16 +98,95 @@
     padding: 60px 20px;
   }
   
+  /* = LOVE PASSPORT FORM = */
+  .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
+  .page{max-width:min(700px,94vw);width:100%}
+  .page h1{font-family:"Playfair Display",serif;font-size:clamp(32px,5vw,48px);line-height:1.1;margin:0 0 28px;text-align:center;color:#fff}
+
+  .progress{width:100%;height:10px;background:#222;border-radius:6px;overflow:hidden;margin-bottom:24px}
+  .progress-bar{height:100%;width:0;background:var(--rose);transition:width .35s ease}
+
+  .question-box{background:var(--glass);border:1px solid rgba(255,255,255,.1);border-radius:16px;
+    padding:28px 22px;margin-bottom:20px;box-shadow:0 0 14px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04)}
+  .question-box h2{font-size:1.3rem;margin:0 0 14px;font-family:"Playfair Display",serif}
+  .question-box input,
+  .question-box select{width:100%;padding:12px 14px;margin:6px 0 14px;border-radius:10px;border:none;
+    font-size:1rem;background:#1b1b1d;color:#fff}
+
+  .nav-buttons{display:flex;justify-content:space-between;gap:12px}
+  .nav-buttons button{flex:1;background:var(--rose);color:#fff;border:none;border-radius:10px;padding:12px;
+    font-size:1rem;font-weight:600;cursor:pointer;transition:opacity .25s}
+  .nav-buttons button:hover{opacity:.9}
+  .nav-buttons button[disabled]{opacity:.35;cursor:not-allowed}
+
+  @media (max-width:768px){
+    .page h1{font-size:clamp(24px,6vw,32px)}
+    .question-box{padding:20px 16px}
+  }
+
+  
+      /* ========= LPQ (scoped) — Mobile-first ========= */
+      .lpq{--bg:#0b0b0f;--card:#101217;--line:#1f2230;--text:#eae7e3;--muted:#bdb8b2;--accent:#d61e49;--accent20:#d61e4926;--ok:#26c281;--warn:#ffa93a}
+      .lpq{color:var(--text);background:var(--bg);min-height:100dvh}
+      .lpq .wrap{max-width:980px;margin:0 auto;padding:20px 14px}
+      .lpq h1{font-size:clamp(26px,6vw,40px);letter-spacing:.5px;color:var(--accent);margin:10px 0 18px}
+      .lpq .section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px;margin:14px 0}
+      .lpq .badge{display:inline-block;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 8px;margin-bottom:8px}
+      .lpq .title{font-weight:800;color:#fff;margin:6px 0 10px;font-size:clamp(18px,4.5vw,26px)}
+      .lpq .sub{font-size:13px;color:var(--muted);margin:-4px 0 10px}
+      .lpq .field{display:flex;flex-direction:column;margin:10px 0}
+      .lpq .label{font-size:15px;font-weight:650;margin-bottom:8px}
+      .lpq input[type="text"],.lpq input[type="file"],.lpq textarea,.lpq select{
+        background:#0e1118;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px 12px;font-size:15px;outline:none
+      }
+      .lpq textarea{min-height:110px;resize:vertical}
+      .lpq .grid{display:grid;gap:12px}
+      .lpq .grid.two{grid-template-columns:1fr}
+      .lpq .grid.three{grid-template-columns:1fr}
+      @media(min-width:700px){.lpq .grid.two{grid-template-columns:1fr 1fr}.lpq .grid.three{grid-template-columns:1fr 1fr 1fr}}
+      /* Options en colonne, puces RONDES uniformes */
+      .lpq .options{display:flex;flex-direction:column;gap:10px}
+      .lpq .opt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none}
+      .lpq .opt input{
+        appearance:none;-webkit-appearance:none;-moz-appearance:none;width:20px;height:20px;border-radius:50%;
+        border:2px solid var(--accent);background:transparent;position:relative;top:2px;flex:0 0 20px;transition:.15s;
+        box-shadow:0 0 0 3px transparent
+      }
+      .lpq .opt input:hover{box-shadow:0 0 0 3px var(--accent20)}
+      .lpq .opt input:checked{background:var(--accent)}
+      .lpq .opt span{line-height:1.32}
+      .lpq .hint{font-size:12px;color:var(--muted);margin-top:6px}
+      .lpq .error{display:none;color:#ff6b6b;font-size:13px;margin-top:6px}
+      .lpq .show{display:block}
+      .lpq .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+      .lpq .btn{background:linear-gradient(180deg,#d61e49,#9f0f30);border:none;color:#fff;border-radius:999px;padding:12px 16px;font-weight:800;letter-spacing:.3px;cursor:pointer;box-shadow:0 10px 28px var(--accent20)}
+      .lpq .btn.secondary{background:#12141c;border:1px solid var(--line);color:#ddd}
+      .lpq .hidden{display:none !important}
+  
+  /* lang */ 
+  
+  .lang{position:relative}
+  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
+    border:1px solid var(--ring);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
+    text-shadow:0 0 8px rgba(255,59,48,.55)}
+  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
+    background:rgba(0,0,0,.7);border:1px solid var(--ring);border-radius:12px;padding:8px;
+    box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
+  .lang:hover .lang-menu{display:flex}
+  .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
+  .lang-menu a:hover{background:rgba(255,59,48,.12)}
+  
 </style>
 </head>
+
 <body>
-
-<!-- background layers -->
-<canvas id="sparks"></canvas>
-<div class="bg-float" id="hearts"></div>
   
+<!-- background sparkles -->
+<canvas id="sparks"></canvas>
+<!-- floating hearts -->
+<div class="bg-float" id="hearts"></div>
 
-<!-- NAV -->
+  <!-- NAV -->
 <nav class="nav">
   <div class="nav-left"><a href="index.html">Home</a></div>
    <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
@@ -179,6 +201,37 @@
     </div>
   </div>
 </nav>
+
+<!-- NAV (reprends ton code nav existant) -->
+
+<main class="wrap">
+  <section class="page">
+    <h1>Love Passport</h1>
+    
+    <!-- progress bar -->
+    <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+
+    <!-- question container -->
+    <div class="question-box" id="question-container">
+      <h2 id="question-label">Question 1</h2>
+      <div id="question-inputs"></div>
+    </div>
+
+    <!-- nav buttons -->
+    <div class="nav-buttons">
+      <button id="prev-btn" onclick="prevQuestion()">Back</button>
+      <button id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER (reprends ton footer existant) -->
+<style>
+  <!-- background layers -->
+<canvas id="sparks"></canvas>
+<div class="bg-float" id="hearts"></div>
+  
+
 
   <!-- LOVE PASSPORT QUESTIONNAIRE -->
   <div class="lpq">

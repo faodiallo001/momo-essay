@@ -304,45 +304,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const save = (id, data) => localStorage.setItem(LS(id), JSON.stringify(data));
 
   // === STEP 1: Initiator ===
-  const formInitiator = $('#formInitiator');
   function handleInitiator(){
     const name  = $('#initName')?.value.trim();
     const email = $('#initEmail')?.value.trim();
     const story = $('#initStory')?.value.trim();
-    if(!name || !email || !story){ formInitiator?.reportValidity?.(); return; }
+    if(!name || !email || !story){ $('#formInitiator')?.reportValidity?.(); return; }
 
     const id = uid();
     const ptok = uid();
     save(id, { id, ptok, initiator:{name,email,story}, createdAt: Date.now() });
 
     // Share URL
-    const base = (location.origin && location.origin !== 'null') ? location.origin + location.pathname : location.pathname;
+    const base = location.origin + location.pathname;
     const url = `${base}?case=${id}&role=partner&token=${ptok}`;
 
     // Update share buttons
-    const shareUrlEl = $('#shareUrl');
-    if(shareUrlEl) shareUrlEl.textContent = url;
+    $('#shareUrl').textContent = url;
     const waBtn = $('#waBtn'); if(waBtn) waBtn.href = `https://wa.me/?text=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
     const smsBtn = $('#smsBtn'); if(smsBtn) smsBtn.href = `sms:&body=${encodeURIComponent('Please add your side so we can fix this together: ' + url)}`;
-    const copyBtn = $('#copyBtn');
-    if(copyBtn) copyBtn.onclick = async () => {
-      try { await navigator.clipboard.writeText(url); } catch {}
-      const m = $('#copiedMsg'); if(m){ m.style.display='inline'; setTimeout(()=>m.style.display='none',1500); }
+    const copyBtn = $('#copyBtn'); if(copyBtn) copyBtn.onclick = async ()=>{
+      try{await navigator.clipboard.writeText(url);}catch{}
+      const m = $('#copiedMsg'); if(m){m.style.display='inline';setTimeout(()=>m.style.display='none',1500);}
     };
 
     step1?.classList.add('hidden');
     shareBlock?.classList.remove('hidden');
-
-    // Optionnel: redirection automatique
-    // window.location.href = url;
   }
 
-  if(formInitiator){
-    formInitiator.addEventListener('submit', e => { e.preventDefault(); handleInitiator(); });
-    formInitiator.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn=>{
-      btn.addEventListener('click', e => { e.preventDefault(); handleInitiator(); });
-    });
-  }
+  // Brancher le bouton Initiator (type="button" pour zéro reload)
+  const saveBtn = $('#saveBtn');
+  if(saveBtn) saveBtn.addEventListener('click', handleInitiator);
 
   // === STEP 2: Partner ===
   const caseId = qs('case'), role = qs('role'), token = qs('token');
@@ -362,7 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if(caseId && role === 'partner'){
     const rec = load(caseId);
-
     if(!rec || token !== rec.ptok){
       [step1, shareBlock, step2, finalBlock].forEach(s=>s?.classList.add('hidden'));
       resultBlock?.classList.remove('hidden');
@@ -370,17 +360,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Show partner view
     step1?.classList.add('hidden');
     shareBlock?.classList.add('hidden');
     step2?.classList.remove('hidden');
 
     setPartnerHeading(rec.initiator?.name);
-
-    // Show initiator’s story
     $('#theirVersion').textContent = rec.initiator.story;
 
-    // Partner submit
     const formPartner = $('#formPartner');
     function handlePartner(){
       const name  = $('#partnerName')?.value.trim();
@@ -417,9 +403,9 @@ Next (production):
     }
 
     if(formPartner){
-      formPartner.addEventListener('submit', e => { e.preventDefault(); handlePartner(); });
-      formPartner.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(btn=>{
-        btn.addEventListener('click', e => { e.preventDefault(); handlePartner(); });
+      const partnerBtn = formPartner.querySelector('button[type="submit"], input[type="submit"]');
+      if(partnerBtn) partnerBtn.addEventListener('click', e=>{
+        e.preventDefault(); handlePartner();
       });
     }
   }
@@ -428,7 +414,6 @@ Next (production):
 </script>
 
 <script>
-// === Autosize textareas ===
 (function(){
   function autosize(el){
     el.style.height = 'auto';

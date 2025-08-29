@@ -374,21 +374,21 @@ const QUESTIONS = [
   {id:"languages",type:"multi", label:"8) Languages you speak (select ≥ 1)", required:true, min:1,
     options:["English","French","Spanish","Portuguese","Arabic","Chinese","Hindi","German","Turkish","Russian","Swahili"]},
   {id:"marital",  type:"single",label:"9) Current marital status", required:true, options:["Single","Married","Divorced","Widowed","It’s complicated"]},
-  {id:"politics", type:"single",label:"10) Political outlook (if any)", required:true,
-    options:["Conservative / right-leaning","Progressive / left-leaning","Centrist / mixed","Not politically engaged","Prefer not to say"]},
+  {id:"politics", type:"single",label:"10) Political outlook", required:true,
+    options:["Conservative / right-leaning","Progressive / left-leaning","Centrist / mixed","Not politically engaged"]},
   {id:"astro",    type:"select",label:"11) Zodiac sign (optional)", required:true, options:ASTRO},
   {id:"height",   type:"text",  label:"12) Height (optional)", required:false, placeholder:"170 cm / 5’7”"},
   {id:"job",      type:"text",  label:"13) Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
 
   // Money & Roles
   {id:"money",     type:"single",label:"14) How would you prefer to manage finances as a couple?", required:true,
-    options:["One joint account (share everything)","Separate accounts"]},
+    options:["One joint account (i love sharing everything)","Separate accounts"]},
   {id:"role",      type:"single",label:"15) Which relationship dynamic fits you best?", required:true,
     options:["Traditional roles","Independent partners","Balanced 50/50"]},
   {id:"housework", type:"single",label:"16) How would you like to divide household duties?", required:true,
-    options:["I handle most home tasks","Shared equally","I do some, not everything","Prefer a partner who enjoys it","Prefer hiring help"]},
+    options:["I handle most home tasks","Shared equally","I do some, not everything","Prefer hiring help"]},
   {id:"cooking",   type:"single",label:"17) How comfortable are you with cooking in daily life?", required:true,
-    options:["I don’t cook","I don’t know how to cook","I can learn","Can cook basics","Confident cook"]},
+    options:["I don’t know how to cook","Willing to learn","Can cook basics","Confident cook","i don't want to cook"]},
 
   // Kids
   {id:"hasKids",   type:"single",label:"18) Do you have children?", required:true, options:["No","Yes"]},
@@ -398,49 +398,47 @@ const QUESTIONS = [
     options:["Same partner","Different partners"], showIf:{id:"kidsCount", anyOf:["2","3","4","5+"]}},
   {id:"wantKids",  type:"single",label:"21) How do you see children in your future?", required:true, options:["Yes","Not sure","No"]},
   {id:"kidsTime",  type:"single",label:"22) If you want children, what timeline feels most aligned with you?", required:false,
-    options:["ASAP (≤12 months)","1–2 years","3–5 years",">5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
+    options:["1–2 years","3–5 years",">5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
 
   // Faith & culture
   {id:"religionAff", type:"single",label:"23) Religion or spiritual affiliation", required:true,
-    options:["Muslim (practicing)","Muslim (not practicing)","Christian (practicing)","Christian (not practicing)","Buddhist","Hindu","Vodun","Atheist","Other / prefer not to say"]},
+    options:["Muslim (practicing)","Muslim (not practicing)","Christian (practicing)","Christian (not practicing)","Buddhist","Hindu","Vodun","Atheist"]},
   {id:"crossCulture",type:"single",label:"24) Would you consider a serious relationship with someone from a different culture than yours?", required:true,
     options:["Yes","Maybe","No"]},
 
   // Lifestyle
-  {id:"smoking", type:"single",label:"25) Do you currently smoke?", required:true, options:["No","Sometimes","Daily"]},
-  {id:"alcohol", type:"single",label:"26) Alcohol use", required:true, options:["None","Socially","Often"]},
+  {id:"smoking", type:"single",label:"25) Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
+  {id:"alcohol", type:"single",label:"26) Do you drink?", required:true, options:["No","Sometimes","yes"]},
   // “Diet” reformulated to include lifestyle/religious practice
   {id:"diet",    type:"single",label:"27) Food & dietary practice", required:true,
-    options:["No specific restrictions","Halal","Vegetarian/Vegan","Pescatarian","Other"]},
-  {id:"fitness", type:"single",label:"28) How active are you, generally?", required:true, options:["Gym 3+ times/week","Active sometimes","Rarely"]},
+    options:["i eat everything","Halal","Vegetarian/Vegan","Pescatarian","Other"]},
+  {id:"fitness", type:"single",label:"28) How active are you, generally?", required:true, options:["Gym 3+ times/week","Active sometimes","Rarely","hate the gym"]},
 
   // Relationship model
   {id:"loyalty", type:"single",label:"29) Relationship model", required:true,
-    options:["Monogamy only","Polygamy (I am / I’m open)","Open relationship"]},
+    options:["Monogamy only","Polygamy only","Open relationship"]},
 
   // Love languages & feelings
-  {id:"loveLang",  type:"multi", label:"30) Your primary love languages (pick ≥ 2)", required:true, min:2,
-    options:["Words of affirmation","Quality time","Acts of service","Gifts","Physical touch"]},
-  {id:"feelLoved", type:"multi", label:"31) I feel loved when… (pick ≥ 2)", required:true, min:2,
+  {id:"feelLoved", type:"multi", label:"30) I feel loved when… (pick ≥ 2)", required:true, min:2,
     options:["I hear kind, affirming words","We spend quality time","My partner shows affection (touch)","I receive thoughtful gifts","My partner gives me money","My partner does helpful actions for me","I am prioritized in their plans"]},
-  {id:"showLove",  type:"multi", label:"32) How I show love (pick ≥ 2)", required:true, min:2,
+  {id:"showLove",  type:"multi", label:"31) How I show love (pick ≥ 2)", required:true, min:2,
     options:["I give gifts","I give money","I plan quality time","I am affectionate (touch)","I use loving words","I do helpful actions"]},
 
   // Ambition & energy
-  {id:"ambition",       type:"single",label:"33) How do you prioritize ambition and love in your life?", required:true,
+  {id:"ambition",       type:"single",label:"32) How do you prioritize ambition and love in your life?", required:true,
     options:["Money first, then love","Love first, then money","Both hand in hand"]},
-  {id:"partnerSuccess", type:"single",label:"34) If your partner becomes far more successful than you, how would you feel?", required:true,
+  {id:"partnerSuccess", type:"single",label:"33) If your partner becomes far more successful than you, how would you feel?", required:true,
     options:["Proud — it’s our win","Happy and motivated too","I’d feel uncomfortable with that"]},
-  {id:"conflict",       type:"single",label:"35) When conflicts happen, how do you usually respond?", required:true,
+  {id:"conflict",       type:"single",label:"34) When conflicts happen, how do you usually respond?", required:true,
     options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
-  {id:"energy",         type:"single",label:"36) Which best describes your social energy?", required:true, options:["Introvert","Extrovert","Ambivert"]},
+  {id:"energy",         type:"single",label:"35) Which best describes your social energy?", required:true, options:["Introvert","Extrovert","Ambivert"]},
 
   // Goals & logistics
-  {id:"relGoals",  type:"multi", label:"37) What are you looking for? (pick ≥ 1)", required:true, min:1,
+  {id:"relGoals",  type:"multi", label:"36) What are you looking for? (pick ≥ 1)", required:true, min:1,
     options:["Serious relationship","Marriage soon","Marriage someday","Casual dating","Friendship first"]},
-  {id:"marriage",  type:"single",label:"38) When would you like to get married?", required:true,
+  {id:"marriage",  type:"single",label:"37) When would you like to get married?", required:true,
     options:["ASAP (≤12 months)","In 1–2 years","In 3+ years","I’m not focused on marriage"]},
-  {id:"distance",  type:"single",label:"39) Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
+  {id:"distance",  type:"single",label:"38) Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
   {id:"relocate",  type:"single",label:"40) Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
   {id:"evening",   type:"single",label:"41) Your ideal evening", required:true, options:["Cozy movie night at home","Dinner out & good conversation","Game night with friends","Live music or a show"]},
 

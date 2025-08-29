@@ -368,7 +368,7 @@ const QUESTIONS = [
   {id:"age",      type:"select",label:"3) How old are you?", required:true, options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push("60+");return a;})()},
   {id:"residency",type:"select",label:"4) Country of residence", required:true, options:COUNTRIES},
   {id:"origin",   type:"select",label:"5) Country of origin", required:true, options:COUNTRIES},
-  {id:"instagram",type:"text",  label:"6) Instagram (optional)", required:false, placeholder:"@yourhandle"},
+  {id:"instagram",type:"text",  label:"6) Instagram", required:false, placeholder:"@yourhandle"},
   // Photo: upload instead of URL
   {id:"photo",    type:"file",  label:"7) Upload a recent, clear photo (JPG/PNG)", required:true, accept:"image/*", maxSizeMB:5},
   {id:"languages",type:"multi", label:"8) Languages you speak (select ≥ 1)", required:true, min:1,
@@ -377,7 +377,7 @@ const QUESTIONS = [
   {id:"politics", type:"single",label:"10) Political outlook", required:true,
     options:["Conservative / right-leaning","Progressive / left-leaning","Centrist / mixed","Not politically engaged"]},
   {id:"astro",    type:"select",label:"11) Zodiac sign (optional)", required:true, options:ASTRO},
-  {id:"height",   type:"text",  label:"12) Height (optional)", required:false, placeholder:"170 cm / 5’7”"},
+  {id:"height",   type:"text",  label:"12) Height", required:false, placeholder:"170 cm / 5’7”"},
   {id:"job",      type:"text",  label:"13) Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
 
   // Money & Roles

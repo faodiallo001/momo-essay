@@ -378,32 +378,40 @@ const QUESTIONS = [
     options:["Conservative / right-leaning","Progressive / left-leaning","Centrist / mixed","Not politically engaged"]},
   {id:"astro",    type:"select",label:"11) Zodiac sign (optional)", required:true, options:ASTRO},
   {id:"height",   type:"text",  label:"12) Height", required:false, placeholder:"170 cm / 5’7”"},
-  {id:"job",      type:"text",  label:"13) Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
+   {id:"job", type:"text", label:"13) Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
 
- // Money & Roles
-{ id:"money", type:"single", label:"14) How would you prefer to manage finances as a couple?", required:true,
-  options:["One joint account (i love sharing everything)","Separate accounts"]
-},
-{ id:"role", type:"single", label:"15) Which type of relationship dynamic do you prefer?", required:true,
-  options:[
-    "Traditional roles (Man provides fully, woman manages the home)",
-    "Independent partners but not equal (Man covers bit more e.g 75/25)",
-    "Balanced 50/50 (Equal financial and household contribution)"
-  ]
-},
-{ id:"housework", type:"single", label:"16) How would you like to divide household duties?", required:true,
-  options:["I handle most home tasks","Shared equally","Prefer hiring help"]
-},
-{ id:"cooking", type:"single", label:"17) How comfortable are you with cooking in daily life?", required:true,
-  options:[
-    "I don’t know how to cook and i don't want to",
-    "i don't know how to cook, but i'm Willing to learn",
-    "Can cook basics",
-    "Confident cook"]
-},
+  // Money & Roles
+  { id:"money", type:"single", label:"14) How would you prefer to manage finances as a couple?", required:true,
+    options:[
+      "One joint account (i love sharing everything)",
+      "Separate accounts"
+    ]
+  },
+  { id:"role", type:"single", label:"15) Which type of relationship dynamic do you prefer?", required:true,
+    options:[
+      "Traditional roles (Man provides fully, woman manages the home)",
+      "Independent partners but not equal (Man covers bit more e.g 75/25)",
+      "Balanced 50/50 (Equal financial and household contribution)"
+    ]
+  },
+  { id:"housework", type:"single", label:"16) How would you like to divide household duties?", required:true,
+    options:[
+      "I handle most home tasks",
+      "Shared equally",
+      "Prefer hiring help"
+    ]
+  },
+  { id:"cooking", type:"single", label:"17) How comfortable are you with cooking in daily life?", required:true,
+    options:[
+      "I don’t know how to cook and i don't want to",
+      "i don't know how to cook, but i'm Willing to learn",
+      "Can cook basics",
+      "Confident cook"
+    ]
+  },
 
   // Kids
-  {id:"hasKids",   type:"single",label:"18) Do you have children?", required:true, options:["No","Yes"]},
+  {id:"hasKids", type:"single", label:"18) Do you have children?", required:true, options:["No","Yes"]},
   {id:"kidsCount", type:"select",label:"19) How many children do you have?", required:true,
     options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
   {id:"kidsWith",  type:"single",label:"20) If you have multiple children, were they with the same partner or different partners?", required:true,

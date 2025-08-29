@@ -6,32 +6,65 @@
 <title>Compatibility Test — Match or Move On</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
 <style>
   :root{ --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; --glass:rgba(255,255,255,.04); }
-  *{box-sizing:border-box} html,body{height:100%}
+  *{box-sizing:border-box}
+  html,body{height:100%}
   body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
   html{scroll-behavior:smooth}
 
-  /* Layout */
-  .wrap{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 16px 96px}
-  .page{max-width:min(780px,94vw);width:100%}
-  h1{font-family:"Playfair Display",serif;text-align:center;margin:0 0 6px}
-  .lead{color:var(--muted);text-align:center;margin:4px 0 22px}
-  .intro{color:var(--muted);text-align:center;margin:0 0 18px;font-size:0.98rem}
+  /* ===== NAV (same vibe) ===== */
+  #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 
-  /* Progress */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+    padding:14px 24px;backdrop-filter:blur(8px);
+    background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
+               radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.10),transparent 60%);
+    border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav-left{justify-self:start}
+  .nav-left a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
+  .nav-left a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
+  .logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;
+    font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;white-space:nowrap;
+    text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
+  .logo-neon .accent{color:var(--rose)}
+  .nav-right{justify-self:end;display:flex;gap:18px;align-items:center}
+  .nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
+  .nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
+
+  .lang{position:relative;z-index:10}
+  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
+    border:1px solid rgba(255,59,48,.45);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
+    text-shadow:0 0 8px rgba(255,59,48,.55); user-select:none}
+  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
+    background:rgba(0,0,0,.8);border:1px solid rgba(255,59,48,.45);border-radius:12px;padding:8px;max-height:50vh;overflow:auto}
+  .lang.open .lang-menu{display:flex}
+  @media (hover:hover){ .lang:hover .lang-menu{display:flex} }
+  .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
+  .lang-menu a:hover{background:rgba(255,59,48,.12)}
+
+  /* ===== PAGE ===== */
+  .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
+  .page{max-width:min(780px,94vw);width:100%}
+  .page h1{font-family:"Playfair Display",serif;font-size:clamp(32px,5.2vw,56px);line-height:1.08;margin:0 0 8px;text-align:center}
+  .lead{color:var(--muted);text-align:center;margin:4px 0 10px}
+  .intro{color:var(--muted);text-align:center;margin:0 0 18px;font-size:.98rem}
+
+  /* ===== PROGRESS ===== */
   .progress{width:100%;height:10px;background:#1b1b1d;border-radius:999px;overflow:hidden;margin:0 0 8px;border:1px solid rgba(255,255,255,.08)}
   .progress-bar{height:100%;width:0;background:var(--rose);transition:width .35s ease}
   .progress-meta{font-size:.9rem;color:#bfb7b0;text-align:right;margin:0 0 16px}
   .q-index{display:block;color:#bfb7b0;font-size:.9rem;margin-bottom:6px}
 
-  /* Card */
+  /* ===== QUESTION CARD ===== */
   .question-box{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;
     padding:24px 18px;margin-bottom:14px;box-shadow:0 0 14px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04)}
   .section-title{font-family:"Playfair Display",serif;font-size:clamp(18px,3.6vw,24px);margin:0 0 12px;color:#fff}
   .q-title{font-weight:600;margin:12px 0 8px}
 
-  /* Inputs */
+  /* inputs */
   input[type="text"], input[type="email"], select{
     width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.10);
     background:#111214;color:#fff;font-size:1rem;outline:none
@@ -46,7 +79,7 @@
   .opt label{flex:1;cursor:pointer}
   .hint{font-size:.9rem;color:#bfb7b0;margin-top:6px}
 
-  /* Buttons (transparent like site nav hover) */
+  /* ===== NAV BUTTONS (transparent like nav hover) ===== */
   .nav-buttons{display:flex;gap:12px;margin-top:10px}
   .btn{flex:1;background:transparent;color:var(--rose);border:2px solid var(--rose);border-radius:12px;padding:12px 14px;
     font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s}
@@ -54,7 +87,7 @@
   .btn:disabled{opacity:.35;cursor:not-allowed}
   .btn.secondary{opacity:1}
 
-  /* Summary */
+  /* ===== SUMMARY ===== */
   .summary{display:none;background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px;margin-top:16px}
   .summary h3{margin:0 0 8px;font-family:"Playfair Display",serif}
   .row{display:flex;gap:10px;border-bottom:1px dashed rgba(255,255,255,.08);padding:8px 0}
@@ -62,40 +95,143 @@
   .k{color:#bfb7b0;min-width:220px}
   .v{flex:1}
 
-  @media (max-width:768px){ .wrap{padding-top:100px} .k{min-width:150px} }
+  /* ===== FOOTER ===== */
+  .site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
+    background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
+  .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
+  .site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
+  .site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
+  .site-footer .brand-title span{color:var(--rose)}
+  .site-footer .tag{margin:8px 0 10px;color:#cbbfb7;font-size:14px}
+  .site-footer .mail{color:#fff;text-decoration:none;font-weight:600}
+  .site-footer .mail:hover{color:var(--rose)}
+  .site-footer a{display:block;color:#e9e2db;text-decoration:none;margin:6px 0;font-weight:600}
+  .site-footer a:hover{color:var(--rose)}
+  .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
+  .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
+
+  /* mobile tweaks */
+  @media (max-width:768px){
+    .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
+    .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
+    .nav-left{order:1}
+    .nav-right{order:1;margin-left:auto;display:flex;gap:14px;align-items:center}
+    .wrap{padding-top:112px}
+    .page{max-width:94vw}
+    .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
+    .k{min-width:150px}
+  }
 </style>
 </head>
+
 <body>
+<!-- background sparkles -->
+<canvas id="sparks"></canvas>
+<div class="bg-float" id="hearts"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-left"><a href="index.html">Home</a></div>
+  <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
+  <div class="nav-right">
+    <a href="how-it-works.html">How it works</a>
+    <a href="contact.html">Contact</a>
+    <div class="lang" id="lang">
+      <div class="lang-current" id="langBtn">🇺🇸 EN ▾</div>
+      <div class="lang-menu" id="langMenu">
+        <a href="index-fr.html">🇫🇷 FR</a><a href="index-pt.html">🇵🇹 PT</a><a href="index-es.html">🇪🇸 ES</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <main class="wrap">
   <section class="page">
     <h1>Compatibility Test</h1>
     <p class="lead">Check real-world compatibility with your crush, partner, or someone new — softly, step by step.</p>
-    <p class="intro">Here you can compare values, lifestyle, goals, and deal-breakers. Answer honestly — we’ll summarize everything for you at the end.</p>
+    <p class="intro">Answer honestly. You’ll get a clean summary and a share link for your partner. If they use your link, we’ll compare both answers and draft an email for you two.</p>
 
+    <!-- progress -->
     <div class="progress"><div class="progress-bar" id="bar"></div></div>
-    <div class="progress-meta" id="meta">0.0% complete</div>
+    <div class="progress-meta"><span id="idx">Question 1 / 1</span> • <span id="meta">0.0% complete</span></div>
 
+    <!-- question card -->
     <div class="question-box" id="box">
-      <small class="q-index" id="idx">Question 1 / 1</small>
       <h2 class="section-title" id="section">Loading…</h2>
       <div id="inputs"></div>
       <div class="hint" id="hint"></div>
     </div>
 
-    <div class="nav-buttons">
+    <!-- nav buttons -->
+    <div class="nav-buttons" id="navBtns">
       <button class="btn secondary" id="prev" onclick="prevStep()">Back</button>
       <button class="btn" id="next" onclick="nextStep()">Next</button>
     </div>
 
+    <!-- summary -->
     <div class="summary" id="summary"></div>
   </section>
 </main>
 
-<script>
-/* ===================== COMPATIBILITY WIZARD ===================== */
-/* Code en anglais, logique claire, même look que ton site. */
+<!-- FOOTER -->
+<footer class="site-footer" id="footer">
+  <div class="f-wrap">
+    <div class="f-col brand">
+      <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
+      <p class="tag">Built for clarity, not confusion.</p>
+      <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
+    </div>
+    <nav class="f-col legal">
+      <h4>Legal</h4>
+      <a href="terms.html">Terms Policy</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies</a>
+    </nav>
+    <div class="f-col social">
+      <h4>Social</h4>
+      <div class="icons">
+        <a href="https://tiktok.com" aria-label="TikTok">Tiktok</a>
+        <a href="https://instagram.com" aria-label="Instagram">Instagram</a>
+        <a href="https://youtube.com" aria-label="YouTube">YouTube</a>
+      </div>
+    </div>
+  </div>
+  <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
+</footer>
 
-/* Countries (ISO common names) */
+<!-- sparkles -->
+<script>
+const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
+function size(){W=s.width=innerWidth;H=s.height=innerHeight;
+  const n=Math.min(180,Math.floor(W*H/11000));
+  PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));
+}
+function loop(){ctx.clearRect(0,0,W,H);
+  for(const p of PS){p.a+=.0028;p.x+=Math.cos(p.a)*p.s;p.y+=Math.sin(p.a)*p.s*.45;
+    if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;if(p.y>H+10)p.y=-10;
+    const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);g.addColorStop(0,`rgba(255,80,80,${p.o})`);g.addColorStop(1,'rgba(255,80,80,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}
+  requestAnimationFrame(loop);
+}
+addEventListener('resize',size);size();loop();
+</script>
+
+<!-- language dropdown -->
+<script>
+(function(){
+  const lang=document.getElementById('lang'), btn=document.getElementById('langBtn'), menu=document.getElementById('langMenu');
+  if(!lang||!btn||!menu) return;
+  function close(){ lang.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); lang.classList.toggle('open'); btn.setAttribute('aria-expanded',lang.classList.contains('open')); });
+  document.addEventListener('click', close);
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+
+<!-- ===================== COMPATIBILITY WIZARD ===================== -->
+<script>
+/* Countries */
 const COUNTRIES = [
 "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
 "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
@@ -122,8 +258,17 @@ const ASTRO = [
   "Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces","I don’t follow astrology"
 ];
 
-/* ===================== FULL QUESTION SET ===================== */
-/* Includes ALL Love Passport questions (no photo) + Email + Hygiene/Living/Car/Finance additions. */
+/* Hobbies / Sports lists */
+const HOBBIES = [
+  "Reading","Writing","Cooking/Baking","Photography","Gardening","Painting/Drawing","Music (playing)","Music (listening)",
+  "Dancing","Travel planning","Volunteering","Gaming","DIY/Crafts","Meditation","Podcasting","Learning languages","Fashion/Styling"
+];
+const SPORTS = [
+  "Gym/Weight training","Running","Walking/Hiking","Cycling","Swimming","Pilates","Yoga","Boxing","Tennis/Padel","Basketball",
+  "Football/Soccer","Volleyball","Dance fitness","CrossFit","Martial arts","None — I don’t practice sports"
+];
+
+/* ===================== Full Questions (Love Passport + adds; NO photo) ===================== */
 const QUESTIONS = [
   // Identity & Basics
   {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
@@ -142,7 +287,7 @@ const QUESTIONS = [
   {id:"height",   type:"text",  label:"Height (optional)", required:false, placeholder:"170 cm / 5’7”"},
   {id:"job",      type:"text",  label:"Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
 
-  // Money & Roles (use your exact wording)
+  // Money & Roles (keep your phrasing)
   {id:"money", type:"single", label:"How would you prefer to manage finances as a couple?", required:true,
     options:["One joint account (i love sharing everything)","Separate accounts"]},
   {id:"role",  type:"single", label:"Which type of relationship dynamic do you prefer?", required:true,
@@ -180,7 +325,7 @@ const QUESTIONS = [
   {id:"fitness", type:"single",label:"How active are you, generally?", required:true,
     options:["Gym 3+ times/week","Active sometimes","Rarely","I hate the gym"]},
 
-  // >>> Compatibility additions: Hygiene & Home
+  // Hygiene & Home care
   {id:"homeTidy", type:"single", label:"How would you describe your home care habits?", required:true, options:[
     "Very tidy — I clean and organize regularly",
     "Generally tidy — I clean weekly",
@@ -198,7 +343,7 @@ const QUESTIONS = [
   {id:"loyalty", type:"single",label:"Relationship model", required:true,
     options:["Monogamy only","Polygamy only","Open relationship"]},
 
-  // Love languages & feelings (LP version kept)
+  // Love languages & feelings
   {id:"feelLoved", type:"multi", label:"I feel loved when… (pick ≥ 2)", required:true, min:2,
     options:["I hear kind, affirming words","We spend quality time","My partner shows affection (touch)","I receive thoughtful gifts","My partner gives me money","My partner does helpful actions for me","I am prioritized in their plans"]},
   {id:"showLove",  type:"multi", label:"How I show love (pick ≥ 2)", required:true, min:2,
@@ -214,7 +359,7 @@ const QUESTIONS = [
   {id:"energy",         type:"single",label:"Which best describes your social energy?", required:true,
     options:["Introvert","Extrovert","Ambivert"]},
 
-  // Goals & logistics (LP)
+  // Goals & logistics
   {id:"relGoals",  type:"multi", label:"What are you looking for? (pick ≥ 1)", required:true, min:1,
     options:["Serious relationship","Marriage soon","Marriage someday","Casual dating","Friendship first"]},
   {id:"marriage",  type:"single",label:"When would you like to get married?", required:true,
@@ -222,7 +367,7 @@ const QUESTIONS = [
   {id:"distance",  type:"single",label:"Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
   {id:"relocate",  type:"single",label:"Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
 
-  // Ideal evening (extended with your romantic adds)
+  // Ideal evening (extended)
   {id:"evening",   type:"single",label:"How would you spend an ideal evening with someone you love", required:true, options:[
     "A cozy movie night at home",
     "A romantic dinner out & deep conversation",
@@ -236,19 +381,18 @@ const QUESTIONS = [
   {id:"favCountry",  type:"select",label:"What's your favorite country to visit", required:true, options:COUNTRIES},
   {id:"dreamCountry",type:"select",label:"What country do you dream of visiting", required:true, options:COUNTRIES},
 
-  // Pets (own + comfort)
+  // Pets
   {id:"ownPets",   type:"single",label:"Do you have any pets?", required:true, options:["No","Yes"]},
   {id:"petType",   type:"single",label:"If you have pets, which type?", required:true, options:["Dog","Cat","Both","Other"], showIf:{id:"ownPets", value:"Yes"}},
   {id:"petCount",  type:"select",label:"How many pets do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"ownPets", value:"Yes"}},
   {id:"petComfort",type:"single",label:"Would you be comfortable living with a partner who has pets?", required:true,
     options:["Yes — I’m comfortable living with pets","No — I can’t live with pets","I am allergic to pets","I don’t want pets in my home"]},
 
-  // Lifestyle details
+  // Lifestyle details + Living/Car/Finance
   {id:"sleep",   type:"single",label:"Your sleep rhythm", required:true, options:["Early sleeper","Night owl","Flexible (depends)"]},
   {id:"success", type:"single",label:"What does success mean to you?", required:true,
     options:["Financial independence","Building a family (spouse & children)","Creating a successful business","Being deeply aligned with my religion"]},
 
-  // >>> Compatibility additions: Living / Own place / Car / Finance
   {id:"living",      type:"single",label:"What is your current living arrangement?", required:true, options:[
     "I live alone (renting)","I live alone (owned)","I live with roommates","I live with my parents/family","Student housing / temporary","Other"
   ]},
@@ -290,38 +434,31 @@ const QUESTIONS = [
     "Someone obsessed with politics"
   ]},
 
+  // Hobbies & Sports (new, multi-select)
+  {id:"hobbies", type:"multi", label:"Hobbies you enjoy (pick ≥ 1)", required:true, min:1, options:HOBBIES},
+  {id:"sports",  type:"multi", label:"Sports/physical activities you practice (pick ≥ 1)", required:true, min:1, options:SPORTS},
+
   // About me last
   {id:"about", type:"text", label:"About me (3–6 sentences)", required:false, placeholder:"Write a short description"}
 ];
 
 /* ===== Step grouping (wizard) ===== */
 const STEPS = [
-  // Step 1 — Identity essentials
   ["fullName","email","gender","age","residency","origin","instagram","languages","marital","politics","astro","height","job"],
-  // Step 2 — Money & roles
   ["money","role","housework","cooking"],
-  // Step 3 — Kids & family
   ["hasKids","kidsCount","kidsWith","wantKids","kidsTime","religionAff","crossCulture"],
-  // Step 4 — Lifestyle + Hygiene
   ["smoking","alcohol","diet","fitness","homeTidy","grooming"],
-  // Step 5 — Relationship model & feelings
   ["loyalty","feelLoved","showLove"],
-  // Step 6 — Ambition & energy
   ["ambition","partnerSuccess","conflict","energy"],
-  // Step 7 — Goals & logistics + Ideal evening
   ["relGoals","marriage","distance","relocate","evening"],
-  // Step 8 — Travel & Pets
   ["travelLike","favCountry","dreamCountry","ownPets","petType","petCount","petComfort"],
-  // Step 9 — Lifestyle details + Living/Car/Finance
   ["sleep","success","living","ownPlace","car","finStability"],
-  // Step 10 — Privacy/Social/Intimacy/Deal breakers/About
-  ["phonePrivacy","socialPosting","dmRules","intimacy","dealBreakers","about"]
+  ["phonePrivacy","socialPosting","dmRules","intimacy","dealBreakers","hobbies","sports","about"]
 ];
 
 /* ===== State & Refs ===== */
 const state = {};
 let stepIndex = 0;
-
 const elBar=document.getElementById('bar');
 const elMeta=document.getElementById('meta');
 const elIdx=document.getElementById('idx');
@@ -329,13 +466,10 @@ const elSection=document.getElementById('section');
 const elInputs=document.getElementById('inputs');
 const elHint=document.getElementById('hint');
 const elSummary=document.getElementById('summary');
-const btnPrev=document.getElementById('prev');
-const btnNext=document.getElementById('next');
 
 /* ===== Helpers ===== */
 function findQuestion(id){ return QUESTIONS.find(q=>q.id===id); }
 function isEmail(x){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(x||"").trim()); }
-
 function isVisible(q){
   if(!q.showIf) return true;
   const v = state[q.showIf.id];
@@ -345,19 +479,15 @@ function isVisible(q){
 }
 function visibleInStep(ids){ return ids.filter(id=>{ const q=findQuestion(id); return q ? isVisible(q) : false; }); }
 function allVisibleIds(){ return STEPS.flatMap(visibleInStep); }
-
 function sectionName(i){
   return [
     "Identity","Money & Roles","Kids & Culture","Lifestyle & Hygiene",
     "Relationship Model & Feelings","Ambition & Energy","Goals & Logistics",
-    "Travel & Pets","Living, Car & Finance","Privacy, Intimacy & Deal Breakers"
+    "Travel & Pets","Living, Car & Finance","Privacy, Intimacy & More"
   ][i] || "Step";
 }
-
-/* Progress based on question count (global, not per step) */
 function questionNumberAtStep(){
-  let n = 0;
-  for(let i=0;i<stepIndex;i++){ n += visibleInStep(STEPS[i]).length; }
+  let n = 0; for(let i=0;i<stepIndex;i++){ n += visibleInStep(STEPS[i]).length; }
   return Math.min(n+1, Math.max(1, allVisibleIds().length));
 }
 function percentAtStep(){
@@ -372,29 +502,19 @@ function render(){
   const ids = visibleInStep(STEPS[stepIndex]);
   elInputs.innerHTML = "";
   elHint.textContent = "";
-
-  // Section title
   elSection.textContent = sectionName(stepIndex);
 
-  // Progress
   const totalQs = allVisibleIds().length;
   const qNum = questionNumberAtStep();
   const pct = percentAtStep();
-
   elBar.style.width = pct + "%";
   elMeta.textContent = pct.toFixed(1) + "% complete";
   elIdx.textContent = `Question ${qNum} / ${totalQs}`;
 
-  // Fields
   ids.forEach(id=>{
-    const q = findQuestion(id);
-    if(!q) return;
-
+    const q = findQuestion(id); if(!q) return;
     const group=document.createElement('div');
-    const h=document.createElement('div');
-    h.className='q-title';
-    h.textContent=q.label;
-    group.appendChild(h);
+    const h=document.createElement('div'); h.className='q-title'; h.textContent=q.label; group.appendChild(h);
 
     if(q.type==="single"){
       const wrap=document.createElement('div'); wrap.className='options';
@@ -431,10 +551,8 @@ function render(){
       group.appendChild(sel);
     }
     else if(q.type==="text"){
-      const inp=document.createElement('input');
-      inp.type = (q.validate==="email") ? "email" : "text";
-      inp.placeholder=q.placeholder||"";
-      if(state[q.id]) inp.value=state[q.id];
+      const inp=document.createElement('input'); inp.type = (q.validate==="email") ? "email" : "text";
+      inp.placeholder=q.placeholder||""; if(state[q.id]) inp.value=state[q.id];
       inp.addEventListener('input',e=>state[q.id]=e.target.value);
       group.appendChild(inp);
     }
@@ -442,92 +560,198 @@ function render(){
     elInputs.appendChild(group);
   });
 
-  btnPrev.disabled = (stepIndex===0);
-  btnNext.textContent = (stepIndex===STEPS.length-1) ? "Finish" : "Next";
+  document.getElementById('prev').disabled = (stepIndex===0);
+  document.getElementById('next').textContent = (stepIndex===STEPS.length-1) ? "Finish" : "Next";
 }
 
 /* ===== Validation ===== */
 function validateStep(){
   const ids = visibleInStep(STEPS[stepIndex]);
   for(const id of ids){
-    const q=findQuestion(id);
-    if(!q || !q.required) continue;
+    const q=findQuestion(id); if(!q || !q.required) continue;
     const v=state[id];
     if(q.type==="multi"){
       if(!Array.isArray(v) || v.length<(q.min||1)){
-        elHint.textContent="Please answer before continuing.";
-        return false;
+        elHint.textContent="Please answer before continuing."; return false;
       }
     }else{
-      if(!v){
-        elHint.textContent="Please answer before continuing.";
-        return false;
-      }
-      if(q.validate==="email" && !isEmail(v)){
-        elHint.textContent="Please enter a valid email address.";
-        return false;
-      }
+      if(!v){ elHint.textContent="Please answer before continuing."; return false; }
+      if(q.validate==="email" && !isEmail(v)){ elHint.textContent="Please enter a valid email address."; return false; }
     }
   }
-  elHint.textContent="";
-  return true;
+  elHint.textContent=""; return true;
 }
 
 /* ===== Nav ===== */
 function nextStep(){
   if(!validateStep()) return;
-  if(stepIndex<STEPS.length-1){
-    stepIndex++; render();
-  }else{
-    showSummary();
-  }
+  if(stepIndex<STEPS.length-1){ stepIndex++; render(); }
+  else { showSummary(); }
 }
 function prevStep(){ if(stepIndex>0){ stepIndex--; render(); } }
 
-/* ===== Summary ===== */
+/* ===== Share/Compare Logic (no backend) ===== */
+function uid(){ return Math.random().toString(36).slice(2)+Date.now().toString(36); }
+function saveSession(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
+function loadSession(key){ try{return JSON.parse(localStorage.getItem(key)||"null");}catch{return null;} }
+
+function computeCompatibility(a,b){
+  const weights = { // light weights; you peux ajuster
+    single:1, select:1, multi:1.2
+  };
+  let got=0, max=0;
+
+  QUESTIONS.forEach(q=>{
+    if(q.id==="fullName"||q.id==="email"||q.type==="text"&&q.required===false) return;
+    if(q.showIf){
+      const depA=a[q.showIf.id], depB=b[q.showIf.id];
+      if(q.showIf.value!==undefined){ if(depA!==q.showIf.value || depB!==q.showIf.value) return; }
+      if(q.showIf.anyOf){ if(!q.showIf.anyOf.includes(depA) || !q.showIf.anyOf.includes(depB)) return; }
+    }
+    const w = (q.type==="multi")?weights.multi:(q.type==="single"||q.type==="select")?weights.single:0;
+    if(w===0) return;
+    max += w;
+
+    const va=a[q.id], vb=b[q.id];
+    if(q.type==="multi"){
+      const A=new Set(Array.isArray(va)?va:[]), B=new Set(Array.isArray(vb)?vb:[]);
+      const inter=[...A].filter(x=>B.has(x)).length;
+      const union=new Set([...A,...B]).size || 1;
+      got += w * (inter/union);
+    }else{
+      got += (va && vb && va===vb) ? w : 0;
+    }
+  });
+
+  const pct = (max>0) ? Math.round((got/max)*100) : 0;
+  return pct;
+}
+
+/* ===== Summary & Share UI ===== */
 function showSummary(){
   document.getElementById('box').style.display='none';
-  document.querySelector('.nav-buttons').style.display='none';
+  document.getElementById('navBtns').style.display='none';
   elBar.style.width='100%'; elMeta.textContent='100.0% complete'; elIdx.textContent='';
 
   const wrap=elSummary; wrap.innerHTML='';
-  const h=document.createElement('h3'); h.textContent='Your Compatibility Answers'; wrap.appendChild(h);
+  const h=document.createElement('h3'); h.textContent='Your Answers'; wrap.appendChild(h);
 
   const allIds=allVisibleIds();
   allIds.forEach(id=>{
     const q=findQuestion(id); if(!q) return;
-    // Skip hidden ones by showIf dependency
     if(q.showIf){
       const vdep = state[q.showIf.id];
       if(q.showIf.value!==undefined && vdep!==q.showIf.value) return;
       if(q.showIf.anyOf && !q.showIf.anyOf.includes(vdep)) return;
     }
-    let val=state[id];
-    if(Array.isArray(val)) val=val.join(', ');
-    if(!val) val='—';
+    let val=state[id]; if(Array.isArray(val)) val=val.join(', '); if(!val) val='—';
     const row=document.createElement('div'); row.className='row';
     const k=document.createElement('div'); k.className='k'; k.textContent=q.label;
     const v=document.createElement('div'); v.className='v'; v.textContent=val;
     row.appendChild(k); row.appendChild(v); wrap.appendChild(row);
   });
 
-  // CTA Button (same style)
-  const cta=document.createElement('div'); cta.style.marginTop='14px';
-  const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Save / Export Answers';
-  btn.addEventListener('click',()=>alert('Export coming next ✨'));
-  cta.appendChild(btn); wrap.appendChild(cta);
+  // Share block
+  const invite=document.createElement('div'); invite.style.marginTop='16px';
+  const key = uid();
+  const base = location.origin + location.pathname;
+  const link = `${base}?partner=${encodeURIComponent(key)}`;
+
+  // Save primary answers
+  const payload = { role:"primary", createdAt:Date.now(), answers:state };
+  saveSession(`momo:${key}:primary`, payload);
+
+  const p=document.createElement('p');
+  p.textContent="Share this link with your partner so they can answer the same test. We’ll compare your results automatically:";
+  const a=document.createElement('a'); a.href=link; a.textContent=link; a.style.color="#ffd6d6"; a.target="_blank";
+
+  const copyBtn=document.createElement('button'); copyBtn.className='btn'; copyBtn.textContent='Copy link';
+  copyBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(link); copyBtn.textContent="Copied!"; setTimeout(()=>copyBtn.textContent="Copy link",1200);}catch{alert(link);} });
+
+  const emailBtn=document.createElement('button'); emailBtn.className='btn'; emailBtn.textContent='Invite by email';
+  emailBtn.addEventListener('click', ()=>{
+    const subj=encodeURIComponent("Match or Move On — Compatibility Test Invite");
+    const body=encodeURIComponent(`Hi,\n\nHere is our compatibility test link. Please open it and answer honestly — the app will compare our results at the end:\n\n${link}\n\nThank you!`);
+    const to = state.email ? state.email : "";
+    location.href=`mailto:${to}?subject=${subj}&body=${body}`;
+  });
+
+  invite.appendChild(p); invite.appendChild(a);
+  const btns=document.createElement('div'); btns.style.display='flex'; btns.style.gap='12px'; btns.style.marginTop='10px';
+  btns.appendChild(copyBtn); btns.appendChild(emailBtn);
+  invite.appendChild(btns);
+  wrap.appendChild(invite);
 
   wrap.style.display='block';
 }
 
+/* ===== Partner Mode (compare & email draft) ===== */
+function partnerModeIfAny(){
+  const url=new URL(location.href);
+  const partnerKey=url.searchParams.get('partner');
+  if(!partnerKey) return;
+
+  // Adjust headings to indicate partner flow
+  document.querySelector('.lead').textContent = "Partner mode — Answer the same questions to compare compatibility.";
+  document.querySelector('.intro').textContent = "This link was shared with you. Fill it out honestly; we’ll compute a simple compatibility score at the end.";
+
+  // On finish in partner mode: compute comparison and draft email
+  const originalShowSummary = showSummary;
+  showSummary = function(){
+    originalShowSummary();
+
+    // Load primary
+    const primary = loadSession(`momo:${partnerKey}:primary`);
+    const currentAnswers = { role:"partner", createdAt:Date.now(), answers:state };
+    saveSession(`momo:${partnerKey}:partner`, currentAnswers);
+
+    const wrap=elSummary;
+    const gap=document.createElement('div'); gap.style.height='10px'; wrap.appendChild(gap);
+
+    if(primary && primary.answers){
+      const score = computeCompatibility(primary.answers, currentAnswers.answers);
+      const h=document.createElement('h3'); h.textContent=`Compatibility Score: ${score}%`; wrap.appendChild(h);
+
+      const emailBtn=document.createElement('button'); emailBtn.className='btn'; emailBtn.textContent='Draft result email';
+      emailBtn.addEventListener('click', ()=>{
+        const yourName = currentAnswers.answers.fullName || "Partner";
+        const theirName = primary.answers.fullName || "You";
+        const to = [primary.answers.email, currentAnswers.answers.email].filter(Boolean).join(',');
+        const subj = encodeURIComponent(`Compatibility Results — ${theirName} & ${yourName} (${score}%)`);
+        const body = encodeURIComponent(
+`Hi ${theirName},
+
+We both completed the Match or Move On Compatibility Test.
+
+Compatibility Score: ${score}%
+
+We can review our answers together here (on your device):
+- Your session key: ${partnerKey}
+
+(If needed, we can export our answers from the page summary.)
+
+— Generated by Match or Move On`
+        );
+        location.href=`mailto:${to}?subject=${subj}&body=${body}`;
+      });
+      const btnWrap=document.createElement('div'); btnWrap.style.marginTop='10px';
+      btnWrap.appendChild(emailBtn); wrap.appendChild(btnWrap);
+    }else{
+      const note=document.createElement('p'); note.textContent="We couldn’t find the original answers for comparison. Ask your partner to re-send their link after finishing the test.";
+      wrap.appendChild(note);
+    }
+  };
+}
+
 /* ===== Init ===== */
-function safeInit(){ try{ render(); }catch(e){ console.error(e); elSection.textContent="Error loading the first step."; } }
+function safeInit(){ try{ render(); partnerModeIfAny(); }catch(e){ console.error(e); elSection.textContent="Error loading the first step."; } }
 if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', safeInit); } else { safeInit(); }
 
-/* Expose */
+/* Expose for buttons */
 window.nextStep=nextStep; window.prevStep=prevStep;
 </script>
 </body>
 </html>
+
 
 

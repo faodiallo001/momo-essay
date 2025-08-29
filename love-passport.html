@@ -15,26 +15,24 @@
   html{scroll-behavior:smooth}
 
   .love-passport-btn {
-  background-color: transparent; /* transparent au départ */
-  color: #ff3b30; /* texte en rouge */
-  padding: 15px 30px;
-  border: 2px solid #ff3b30; /* contour rouge */
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+    background-color: transparent;
+    color: #ff3b30;
+    padding: 15px 30px;
+    border: 2px solid #ff3b30;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .love-passport-btn:hover {
+    background-color: #ff3b30;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+  }
 
-.love-passport-btn:hover {
-  background-color: #ff3b30; /* rouge plein au hover */
-  color: white; /* texte devient blanc */
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-}
-
-
-   /* FOOTER */
+  /* FOOTER */
   .site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
   .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
     background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
@@ -141,13 +139,23 @@
 
   .opt label{flex:1;cursor:pointer}
 
-  /* nav buttons */
+  /* nav buttons — transparent + hover comme la nav */
   .nav-buttons{display:flex;gap:12px;margin-top:10px}
-  .btn{flex:1;background:var(--rose);color:#fff;border:none;border-radius:12px;padding:12px 14px;
-    font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .25s}
-  .btn.secondary{background:#232326}
+  .btn{
+    flex:1;
+    background:transparent;
+    color:#ffecec;
+    border:1px solid rgba(255,59,48,.45);
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:background .25s, border-color .25s, opacity .25s;
+  }
+  .btn.secondary{background:transparent}
+  .btn:hover{background:rgba(255,59,48,.10);border-color:rgba(255,59,48,.45)}
   .btn:disabled{opacity:.35;cursor:not-allowed}
-  .btn:hover{opacity:.92}
 
   /* summary */
   .summary{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px}
@@ -305,7 +313,6 @@ addEventListener('resize',size);size();loop();
 })();
 </script>
 <style>
-/* keyframes used by hearts */
 @keyframes floatUp{
   0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
   10%{opacity:1}
@@ -378,7 +385,7 @@ const QUESTIONS = [
     options:["Conservative / right-leaning","Progressive / left-leaning","Centrist / mixed","Not politically engaged"]},
   {id:"astro",    type:"select",label:"11) Zodiac sign (optional)", required:true, options:ASTRO},
   {id:"height",   type:"text",  label:"12) Height", required:false, placeholder:"170 cm / 5’7”"},
-   {id:"job", type:"text", label:"13) Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
+  {id:"job",      type:"text",  label:"13) Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
 
   // Money & Roles
   { id:"money", type:"single", label:"14) How would you prefer to manage finances as a couple?", required:true,
@@ -429,7 +436,6 @@ const QUESTIONS = [
   // Lifestyle
   {id:"smoking", type:"single",label:"25) Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
   {id:"alcohol", type:"single",label:"26) Do you drink?", required:true, options:["No","Sometimes","yes"]},
-  // “Diet” reformulated to include lifestyle/religious practice
   {id:"diet",    type:"single",label:"27) Food & dietary practice", required:true,
     options:["I eat everything","Halal","Vegetarian/Vegan","Pescatarian","Other"]},
   {id:"fitness", type:"single",label:"28) How active are you, generally?", required:true, options:["Gym 3+ times/week","Active sometimes","Rarely","I hate the gym"]},
@@ -546,6 +552,7 @@ const btnNext   = document.getElementById("next-btn");
 function findQuestion(id){ return QUESTIONS.find(q=>q.id===id); }
 
 function isVisible(q){
+  if (!q) return false;
   if (!q.showIf) return true;
   const ans = state[q.showIf.id];
   if (q.showIf.anyOf) return q.showIf.anyOf.includes(ans);
@@ -789,7 +796,7 @@ function showSummary(){
   elSummary.style.display="block";
 }
 
-/* ——— Safe init (évite “Loading…” bloqué) ——— */
+/* ——— Safe init ——— */
 function safeInit(){
   try { render(); }
   catch(e){
@@ -803,11 +810,12 @@ if (document.readyState === 'loading') {
   safeInit();
 }
 
-/* ——— Expose nav (boutons HTML) ——— */
+/* ——— Expose nav ——— */
 window.nextQ = nextQ;
 window.prevQ = prevQ;
 </script>
 </body>
 </html>
+
 
 

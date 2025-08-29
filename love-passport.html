@@ -201,7 +201,7 @@
 
     <!-- question -->
     <div class="question-box">
-      <small class="q-index" id="q-index">Question 1 / 50</small>
+      <small class="q-index" id="q-index">Question 1 / 54</small>
       <h2 class="q-title" id="q-title">Loading…</h2>
       <div id="q-inputs"></div>
       <div class="hint" id="q-hint"></div>
@@ -439,37 +439,37 @@ const QUESTIONS = [
   {id:"marriage",  type:"single",label:"37) When would you like to get married?", required:true,
     options:["ASAP (≤12 months)","In 1–2 years","In 3+ years","I’m not focused on marriage"]},
   {id:"distance",  type:"single",label:"38) Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
-  {id:"relocate",  type:"single",label:"40) Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
-  {id:"evening",   type:"single",label:"41) Your ideal evening", required:true, options:["Cozy movie night at home","Dinner out & good conversation","Game night with friends","Live music or a show"]},
+  {id:"relocate",  type:"single",label:"39) Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
+  {id:"evening",   type:"single",label:"40) Your ideal evening", required:true, options:["Cozy movie night at home","Dinner out & good conversation","Game night with friends","Live music or a show"]},
 
   // Travel
-  {id:"travelLike",  type:"single",label:"42) Do you enjoy traveling?", required:true, options:["Yes","No"]},
-  {id:"favCountry",  type:"select",label:"43) Favorite country to visit", required:true, options:COUNTRIES},
-  {id:"dreamCountry",type:"select",label:"44) Dream country to visit", required:true, options:COUNTRIES},
+  {id:"travelLike",  type:"single",label:"41) Do you enjoy traveling?", required:true, options:["Yes","No"]},
+  {id:"favCountry",  type:"select",label:"42) Favorite country to visit", required:true, options:COUNTRIES},
+  {id:"dreamCountry",type:"select",label:"43) Dream country to visit", required:true, options:COUNTRIES},
 
   // Pets (separated: own vs. comfortable with partner's pets)
-  {id:"ownPets",   type:"single",label:"45) Do you currently keep pets?", required:true, options:["No","Yes"]},
-  {id:"petType",   type:"single",label:"46) If you have pets, which type?", required:true, options:["Dog","Cat","Both","Other"], showIf:{id:"ownPets", value:"Yes"}},
-  {id:"petCount",  type:"select",label:"47) How many pets do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"ownPets", value:"Yes"}},
-  {id:"petComfort",type:"single",label:"48) Would you be comfortable living with a partner who has pets?", required:true,
+  {id:"ownPets",   type:"single",label:"44) Do you currently keep pets?", required:true, options:["No","Yes"]},
+  {id:"petType",   type:"single",label:"45) If you have pets, which type?", required:true, options:["Dog","Cat","Both","Other"], showIf:{id:"ownPets", value:"Yes"}},
+  {id:"petCount",  type:"select",label:"46) How many pets do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"ownPets", value:"Yes"}},
+  {id:"petComfort",type:"single",label:"47) Would you be comfortable living with a partner who has pets?", required:true,
     options:["Yes — I’m comfortable living with pets","No — I can’t live with pets","I am allergic to pets","I don’t want pets in my home"]},
 
   // Lifestyle details
-  {id:"sleep",   type:"single",label:"49) Your sleep rhythm", required:true, options:["Early sleeper","Night owl","Flexible (depends)"]},
-  {id:"success", type:"single",label:"50) What does success mean to you?", required:true,
+  {id:"sleep",   type:"single",label:"48) Your sleep rhythm", required:true, options:["Early sleeper","Night owl","Flexible (depends)"]},
+  {id:"success", type:"single",label:"49) What does success mean to you?", required:true,
     options:["Financial independence","Building a family (spouse & children)","Creating a successful business","Being deeply aligned with my religion"]},
 
   // Privacy & social + Intimacy + Deal-breakers
-  {id:"phonePrivacy", type:"single",label:"51) Phone privacy in a relationship", required:true,
+  {id:"phonePrivacy", type:"single",label:"50) Phone privacy in a relationship", required:true,
     options:["My phone is private, I don’t share passwords","I can share passwords if needed","My phone is fully open, no restrictions"]},
-  {id:"socialPosting",type:"single",label:"52) How do you feel about sharing your relationship on social media?", required:true,
+  {id:"socialPosting",type:"single",label:"51) How do you feel about sharing your relationship on social media?", required:true,
     options:["I want to post our couple photos freely","I prefer not posting couple photos at all","I’m fine if my partner posts, but I won’t post much","I don’t care, it’s not important to me"]},
-  {id:"dmRules",      type:"single",label:"53) DM boundaries and private conversations", required:true,
+  {id:"dmRules",      type:"single",label:"52) DM boundaries and private conversations", required:true,
     options:["Friendly DMs are okay (opposite sex included)","Only respectful/professional DMs are fine","No private DMs with the opposite sex at all"]},
-  {id:"intimacy",     type:"single",label:"54) Preferred pace for physical intimacy", required:true,
+  {id:"intimacy",     type:"single",label:"53) Preferred pace for physical intimacy", required:true,
     options:["Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"]},
 
-  {id:"dealBreakers", type:"multi", label:"55) I cannot accept… (pick ≥ 2)", required:true, min:2, options:[
+  {id:"dealBreakers", type:"multi", label:"54) I cannot accept… (pick ≥ 2)", required:true, min:2, options:[
     "Very different political opinions from mine",
     "Religion not aligned with mine",
     "Tries to change my faith/practice",

@@ -330,9 +330,10 @@ addEventListener('resize',size);size();loop();
 })();
 </script>
 
-<!-- ===== LOVE PASSPORT SCRIPT ===== -->
 <script>
-/* ============ QUESTIONS (50) ============ */
+/* ===================== LOVE PASSPORT (Clean JS) ===================== */
+
+/* ——— Countries (ISO common names) ——— */
 const COUNTRIES = [
 "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
 "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
@@ -356,110 +357,121 @@ const COUNTRIES = [
 ];
 
 const ASTRO = [
-  "Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces","I don’t believe in astrology"
+  "Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces","I don’t follow astrology"
 ];
 
+/* ——— Questionnaire (labels reformulés, photo en upload, pets séparés) ——— */
 const QUESTIONS = [
   // Identity & Basics
-  {id:"fullName", type:"text", label:"1) What’s your full name?", required:true, placeholder:"First and last name"},
-  {id:"gender", type:"select", label:"2) Your gender", required:true, options:["Man","Woman","Non-binary","Trans man","Trans woman","Intersex"]},
-  {id:"age", type:"select", label:"3) How old are you?", required:true, options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push("60+");return a;})()},
-  {id:"residency", type:"select", label:"4) Country where you live now", required:true, options:COUNTRIES},
-  {id:"origin", type:"select", label:"5) Your origin country", required:true, options:COUNTRIES},
-  {id:"instagram", type:"text", label:"6) Instagram handle (optional)", required:false, placeholder:"@yourhandle"},
-  {id:"photoUrl", type:"text", label:"7) Link to your photo (JPG/PNG)", required:true, placeholder:"https://..."},
-  {id:"languages", type:"multi", label:"8) Languages you speak (pick ≥ 1)", required:true, min:1,
+  {id:"fullName", type:"text",  label:"1) Please enter your full name", required:true, placeholder:"First and last name"},
+  {id:"gender",   type:"select",label:"2) Gender identity", required:true, options:["Man","Woman","Non-binary","Trans man","Trans woman","Intersex"]},
+  {id:"age",      type:"select",label:"3) How old are you?", required:true, options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push("60+");return a;})()},
+  {id:"residency",type:"select",label:"4) Country of residence", required:true, options:COUNTRIES},
+  {id:"origin",   type:"select",label:"5) Country of origin", required:true, options:COUNTRIES},
+  {id:"instagram",type:"text",  label:"6) Instagram (optional)", required:false, placeholder:"@yourhandle"},
+  // Photo: upload instead of URL
+  {id:"photo",    type:"file",  label:"7) Upload a recent, clear photo (JPG/PNG)", required:true, accept:"image/*", maxSizeMB:5},
+  {id:"languages",type:"multi", label:"8) Languages you speak (select ≥ 1)", required:true, min:1,
     options:["English","French","Spanish","Portuguese","Arabic","Chinese","Hindi","German","Turkish","Russian","Swahili"]},
-  {id:"marital", type:"single", label:"9) Marital status", required:true, options:["Single","Married","Divorced","Widowed","It’s complicated"]},
-  {id:"politics", type:"single", label:"10) Are you involved in politics?", required:true,
-    options:["Conservative / Right","Progressive / Left","Not interested in politics"]},
-  {id:"astro", type:"select", label:"11) What’s your astrology sign?", required:true, options:ASTRO},
-  {id:"height", type:"text", label:"12) Height (optional)", required:false, placeholder:"170 cm / 5’7”"},
-  {id:"job", type:"text", label:"13) What do you do for work?", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
+  {id:"marital",  type:"single",label:"9) Current marital status", required:true, options:["Single","Married","Divorced","Widowed","It’s complicated"]},
+  {id:"politics", type:"single",label:"10) Political outlook (if any)", required:true,
+    options:["Conservative / right-leaning","Progressive / left-leaning","Centrist / mixed","Not politically engaged","Prefer not to say"]},
+  {id:"astro",    type:"select",label:"11) Zodiac sign (optional)", required:true, options:ASTRO},
+  {id:"height",   type:"text",  label:"12) Height (optional)", required:false, placeholder:"170 cm / 5’7”"},
+  {id:"job",      type:"text",  label:"13) Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
 
   // Money & Roles
-  {id:"money", type:"single", label:"14) Money as a couple", required:true, options:["One joint account (share everything)","Separate accounts"]},
-  {id:"role", type:"single", label:"15) Which role feels like you?", required:true, options:["Tradwife / Traditional husband","Independent","Balanced 50/50"]},
-  {id:"housework", type:"single", label:"16) Household duties split", required:true, options:["I handle everything at home","Shared equally","I do some, not everything","I prefer a partner who enjoys it","I prefer hiring help"]},
-  {id:"cooking", type:"single", label:"17) In the kitchen, I…", required:true, options:["I don’t cook","I don’t know how to cook","I can learn","Can cook basics","Confident cook"]},
+  {id:"money",     type:"single",label:"14) How would you prefer to manage finances as a couple?", required:true,
+    options:["One joint account (share everything)","Separate accounts"]},
+  {id:"role",      type:"single",label:"15) Which relationship dynamic fits you best?", required:true,
+    options:["Traditional roles","Independent partners","Balanced 50/50"]},
+  {id:"housework", type:"single",label:"16) How would you like to divide household duties?", required:true,
+    options:["I handle most home tasks","Shared equally","I do some, not everything","Prefer a partner who enjoys it","Prefer hiring help"]},
+  {id:"cooking",   type:"single",label:"17) How comfortable are you with cooking in daily life?", required:true,
+    options:["I don’t cook","I don’t know how to cook","I can learn","Can cook basics","Confident cook"]},
 
   // Kids
-  {id:"hasKids", type:"single", label:"18) Do you have children?", required:true, options:["No","Yes"]},
-  {id:"kidsCount", type:"select", label:"19) How many children do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
-  {id:"kidsWith", type:"single", label:"20) Were they with the same partner or different partners?", required:true, options:["Same partner","Different partners"], showIfAny:[{id:"kidsCount", in:["2","3","4","5+"]}]},
-  {id:"wantKids", type:"single", label:"21) Do you want children in the future?", required:true, options:["Yes","Not sure","No"]},
-  {id:"kidsTime", type:"single", label:"22) If yes, what timeline feels right?", required:false, options:["ASAP (≤12 months)","1–2 years","3–5 years",">5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
+  {id:"hasKids",   type:"single",label:"18) Do you have children?", required:true, options:["No","Yes"]},
+  {id:"kidsCount", type:"select",label:"19) How many children do you have?", required:true,
+    options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
+  {id:"kidsWith",  type:"single",label:"20) If you have multiple children, were they with the same partner or different partners?", required:true,
+    options:["Same partner","Different partners"], showIf:{id:"kidsCount", anyOf:["2","3","4","5+"]}},
+  {id:"wantKids",  type:"single",label:"21) How do you see children in your future?", required:true, options:["Yes","Not sure","No"]},
+  {id:"kidsTime",  type:"single",label:"22) If you want children, what timeline feels most aligned with you?", required:false,
+    options:["ASAP (≤12 months)","1–2 years","3–5 years",">5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
 
   // Faith & culture
-  {id:"religionAff", type:"single", label:"23) What’s your religion?", required:true,
-    options:["Muslim (practicing)","Muslim (not practicing)","Christian (practicing)","Christian (not practicing)","Buddhist","Hindu","Vodun","Atheist"]},
-  {id:"crossCulture", type:"single", label:"24) Open to a partner from a different culture?", required:true, options:["Yes","Maybe","No"]},
+  {id:"religionAff", type:"single",label:"23) Religion or spiritual affiliation", required:true,
+    options:["Muslim (practicing)","Muslim (not practicing)","Christian (practicing)","Christian (not practicing)","Buddhist","Hindu","Vodun","Atheist","Other / prefer not to say"]},
+  {id:"crossCulture",type:"single",label:"24) Would you consider a serious relationship with someone from a different culture than yours?", required:true,
+    options:["Yes","Maybe","No"]},
 
   // Lifestyle
-  {id:"smoking", type:"single", label:"25) Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
-  {id:"alcohol", type:"single", label:"26) Do you drink alcohol?", required:true, options:["No","Socially","Often"]},
-  {id:"diet", type:"single", label:"27) Any diet preference?", required:true, options:["No restriction","Halal only","Vegetarian/Vegan","Pescatarian"]},
-  {id:"fitness", type:"single", label:"28) How active are you?", required:true, options:["Gym 3+ times/week","Active sometimes","Rarely"]},
+  {id:"smoking", type:"single",label:"25) Do you currently smoke?", required:true, options:["No","Sometimes","Daily"]},
+  {id:"alcohol", type:"single",label:"26) Alcohol use", required:true, options:["None","Socially","Often"]},
+  // “Diet” reformulated to include lifestyle/religious practice
+  {id:"diet",    type:"single",label:"27) Food & dietary practice", required:true,
+    options:["No specific restrictions","Halal","Vegetarian/Vegan","Pescatarian","Other"]},
+  {id:"fitness", type:"single",label:"28) How active are you, generally?", required:true, options:["Gym 3+ times/week","Active sometimes","Rarely"]},
 
-  // Loyalty
-  {id:"loyalty", type:"single", label:"29) Loyalty preference", required:true, options:[
-    "Loyalty is non-negotiable — monogamy only","I am polygamist / open to polygamy","Open relationship"]},
+  // Relationship model
+  {id:"loyalty", type:"single",label:"29) Relationship model", required:true,
+    options:["Monogamy only","Polygamy (I am / I’m open)","Open relationship"]},
 
   // Love languages & feelings
-  {id:"loveLang", type:"multi", label:"30) Your love languages (pick ≥ 2)", required:true, min:2, options:["Words of affirmation","Quality time","Acts of service","Gifts","Physical touch"]},
+  {id:"loveLang",  type:"multi", label:"30) Your primary love languages (pick ≥ 2)", required:true, min:2,
+    options:["Words of affirmation","Quality time","Acts of service","Gifts","Physical touch"]},
   {id:"feelLoved", type:"multi", label:"31) I feel loved when… (pick ≥ 2)", required:true, min:2,
     options:["I hear kind, affirming words","We spend quality time","My partner shows affection (touch)","I receive thoughtful gifts","My partner gives me money","My partner does helpful actions for me","I am prioritized in their plans"]},
-  {id:"showLove", type:"multi", label:"32) How I show love (pick ≥ 2)", required:true, min:2,
+  {id:"showLove",  type:"multi", label:"32) How I show love (pick ≥ 2)", required:true, min:2,
     options:["I give gifts","I give money","I plan quality time","I am affectionate (touch)","I use loving words","I do helpful actions"]},
 
   // Ambition & energy
-  {id:"ambition", type:"single", label:"33) Ambition in your life", required:true, options:["Money first, then love","Love first, then money","Both hand in hand"]},
-  {id:"partnerSuccess", type:"single", label:"34) If your partner becomes more successful than you…", required:true, options:["Proud — it’s our win","Happy and motivated too","I’d feel uncomfortable with that"]},
-  {id:"conflict", type:"single", label:"35) In conflict, I usually…", required:true, options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
-  {id:"energy", type:"single", label:"36) Are you more introvert or extrovert?", required:true, options:["Introvert","Extrovert","Ambivert"]},
+  {id:"ambition",       type:"single",label:"33) How do you prioritize ambition and love in your life?", required:true,
+    options:["Money first, then love","Love first, then money","Both hand in hand"]},
+  {id:"partnerSuccess", type:"single",label:"34) If your partner becomes far more successful than you, how would you feel?", required:true,
+    options:["Proud — it’s our win","Happy and motivated too","I’d feel uncomfortable with that"]},
+  {id:"conflict",       type:"single",label:"35) When conflicts happen, how do you usually respond?", required:true,
+    options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
+  {id:"energy",         type:"single",label:"36) Which best describes your social energy?", required:true, options:["Introvert","Extrovert","Ambivert"]},
 
   // Goals & logistics
-  {id:"relGoals", type:"multi", label:"37) What are you looking for? (pick ≥ 1)", required:true, min:1,
+  {id:"relGoals",  type:"multi", label:"37) What are you looking for? (pick ≥ 1)", required:true, min:1,
     options:["Serious relationship","Marriage soon","Marriage someday","Casual dating","Friendship first"]},
-  {id:"marriage", type:"single", label:"38) When do you want to get married?", required:true, options:["ASAP (≤12 months)","In 1–2 years","In 3+ years","I’m not focused on marriage"]},
-  {id:"distance", type:"single", label:"39) Open to long-distance?", required:true, options:["Yes","Maybe","No"]},
-  {id:"relocate", type:"single", label:"40) Open to relocating internationally?", required:true, options:["Yes","Maybe","No"]},
-  {id:"evening", type:"single", label:"41) Your ideal evening", required:true, options:["Cozy movie night at home","Dinner out & good conversation","Game night with friends","Live music or a show"]},
+  {id:"marriage",  type:"single",label:"38) When would you like to get married?", required:true,
+    options:["ASAP (≤12 months)","In 1–2 years","In 3+ years","I’m not focused on marriage"]},
+  {id:"distance",  type:"single",label:"39) Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
+  {id:"relocate",  type:"single",label:"40) Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
+  {id:"evening",   type:"single",label:"41) Your ideal evening", required:true, options:["Cozy movie night at home","Dinner out & good conversation","Game night with friends","Live music or a show"]},
 
   // Travel
-  {id:"travelLike", type:"single", label:"42) Do you like to travel?", required:true, options:["Yes","No"]},
-  {id:"favCountry", type:"select", label:"43) Favorite country to visit", required:true, options:COUNTRIES},
-  {id:"dreamCountry", type:"select", label:"44) Dream country", required:true, options:COUNTRIES},
+  {id:"travelLike",  type:"single",label:"42) Do you enjoy traveling?", required:true, options:["Yes","No"]},
+  {id:"favCountry",  type:"select",label:"43) Favorite country to visit", required:true, options:COUNTRIES},
+  {id:"dreamCountry",type:"select",label:"44) Dream country to visit", required:true, options:COUNTRIES},
 
-  // Pets
-  {id:"petOwner", type:"single", label:"45) Are you a pet owner?", required:true, options:["No","Yes","I am allergic to pets","I don’t want pets"]},
-  {id:"petType", type:"single", label:"46) Pet type (if owner)", required:true, options:["Dog","Cat","Both","Other"], showIf:{id:"petOwner", value:"Yes"}},
-  {id:"petCount", type:"select", label:"47) How many pets? (if owner)", required:true, options:["1","2","3","4","5+"], showIf:{id:"petOwner", value:"Yes"}},
+  // Pets (separated: own vs. comfortable with partner's pets)
+  {id:"ownPets",   type:"single",label:"45) Do you currently keep pets?", required:true, options:["No","Yes"]},
+  {id:"petType",   type:"single",label:"46) If you have pets, which type?", required:true, options:["Dog","Cat","Both","Other"], showIf:{id:"ownPets", value:"Yes"}},
+  {id:"petCount",  type:"select",label:"47) How many pets do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"ownPets", value:"Yes"}},
+  {id:"petComfort",type:"single",label:"48) Would you be comfortable living with a partner who has pets?", required:true,
+    options:["Yes — I’m comfortable living with pets","No — I can’t live with pets","I am allergic to pets","I don’t want pets in my home"]},
 
   // Lifestyle details
-  {id:"sleep", type:"single", label:"48) Sleeping style", required:true, options:["Early sleeper","Night owl","Flexible (depends)"]},
-  {id:"success", type:"single", label:"49) What is success to you?", required:true, options:[
-    "Financial independence","Building a family (spouse & children)","Creating a successful business","Being deeply aligned with my religion"
-  ]},
+  {id:"sleep",   type:"single",label:"49) Your sleep rhythm", required:true, options:["Early sleeper","Night owl","Flexible (depends)"]},
+  {id:"success", type:"single",label:"50) What does success mean to you?", required:true,
+    options:["Financial independence","Building a family (spouse & children)","Creating a successful business","Being deeply aligned with my religion"]},
 
   // Privacy & social + Intimacy + Deal-breakers
-  {id:"phonePrivacy", type:"single", label:"50) Phone privacy in a relationship", required:true, options:[
-    "My phone is private, I don’t share passwords","I can share passwords if needed","My phone is fully open, no restrictions"
-  ]},
+  {id:"phonePrivacy", type:"single",label:"51) Phone privacy in a relationship", required:true,
+    options:["My phone is private, I don’t share passwords","I can share passwords if needed","My phone is fully open, no restrictions"]},
+  {id:"socialPosting",type:"single",label:"52) How do you feel about sharing your relationship on social media?", required:true,
+    options:["I want to post our couple photos freely","I prefer not posting couple photos at all","I’m fine if my partner posts, but I won’t post much","I don’t care, it’s not important to me"]},
+  {id:"dmRules",      type:"single",label:"53) DM boundaries and private conversations", required:true,
+    options:["Friendly DMs are okay (opposite sex included)","Only respectful/professional DMs are fine","No private DMs with the opposite sex at all"]},
+  {id:"intimacy",     type:"single",label:"54) Preferred pace for physical intimacy", required:true,
+    options:["Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"]},
 
-  {id:"socialPosting", type:"single", label:"51) Couple on social media", required:true, options:[
-    "I want to post our couple photos freely","I prefer not posting couple photos at all","I’m fine if my partner posts, but I won’t post much","I don’t care, it’s not important to me"
-  ]},
-
-  {id:"dmRules", type:"single", label:"52) Rules for DMs and social interactions", required:true, options:[
-    "Friendly DMs are okay (opposite sex included)","Only respectful/professional DMs are fine","No private DMs with the opposite sex at all"
-  ]},
-
-  {id:"intimacy", type:"single", label:"53) Physical intimacy speed", required:true, options:[
-    "Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"
-  ]},
-
-  {id:"dealBreakers", type:"multi", label:"54) I cannot accept… (pick ≥ 2)", required:true, min:2, options:[
+  {id:"dealBreakers", type:"multi", label:"55) I cannot accept… (pick ≥ 2)", required:true, min:2, options:[
     "Very different political opinions from mine",
     "Religion not aligned with mine",
     "Tries to change my faith/practice",
@@ -478,12 +490,12 @@ const QUESTIONS = [
   ]},
 
   // About me last
-  {id:"about", type:"text", label:"55) About me (3–6 lines)", required:false, placeholder:"Write a short description"}
+  {id:"about", type:"text", label:"56) About me (3–6 sentences)", required:false, placeholder:"Write a short description"}
 ];
 
-// We will use exactly 50 steps shown to the user: we’ll group some at render time.
+/* ——— Steps (progression dynamique fondée sur visibilité) ——— */
 const STEPS = [
-  "fullName","gender","age","residency","origin","instagram","photoUrl","languages","marital","politics","astro","height","job",
+  "fullName","gender","age","residency","origin","instagram","photo","languages","marital","politics","astro","height","job",
   "money","role","housework","cooking",
   "hasKids","kidsCount","kidsWith","wantKids","kidsTime",
   "religionAff","crossCulture",
@@ -492,43 +504,36 @@ const STEPS = [
   "ambition","partnerSuccess","conflict","energy",
   "relGoals","marriage","distance","relocate","evening",
   "travelLike","favCountry","dreamCountry",
-  "petOwner","petType","petCount",
+  "ownPets","petType","petCount","petComfort",
   "sleep","success",
   "phonePrivacy","socialPosting","dmRules","intimacy",
   "dealBreakers","about"
 ];
-// The set above counts 55 ids, but conditional ones (kidsCount, kidsWith, kidsTime, petType, petCount) only appear when relevant.
-// We cap the progress to the number of *visible* steps so the user sees 100% at the end.
 
 const state = {};
 let currentIndex = 0;
 
-const elBar = document.getElementById("progress-bar");
-const elQIndex = document.getElementById("q-index");
-const elQTitle = document.getElementById("q-title");
+// UI refs
+const elBar     = document.getElementById("progress-bar");
+const elQIndex  = document.getElementById("q-index");
+const elQTitle  = document.getElementById("q-title");
 const elQInputs = document.getElementById("q-inputs");
-const elHint = document.getElementById("q-hint");
+const elHint    = document.getElementById("q-hint");
 const elSummary = document.getElementById("summary");
-const btnPrev = document.getElementById("prev-btn");
-const btnNext = document.getElementById("next-btn");
+const btnPrev   = document.getElementById("prev-btn");
+const btnNext   = document.getElementById("next-btn");
 
+// Helpers
 function findQuestion(id){ return QUESTIONS.find(q=>q.id===id); }
+
 function isVisible(q){
-  if(!q.showIf && !q.showIfAny) return true;
-  if(q.showIf){
-    const v = state[q.showIf.id];
-    return v === q.showIf.value;
-  }
-  if(q.showIfAny){
-    return q.showIfAny.some(cond=>{
-      const v = state[cond.id];
-      if(cond.in) return cond.in.includes(v);
-      if(cond.value!==undefined) return v===cond.value;
-      return !!v;
-    });
-  }
+  if (!q.showIf) return true;
+  const ans = state[q.showIf.id];
+  if (q.showIf.anyOf) return q.showIf.anyOf.includes(ans);
+  if (q.showIf.value !== undefined) return ans === q.showIf.value;
   return true;
 }
+
 function visibleSteps(){
   return STEPS.filter(id => {
     const q = findQuestion(id);
@@ -536,37 +541,40 @@ function visibleSteps(){
   });
 }
 
+function setHint(text){ elHint.textContent = text || ""; }
+function setProgress(i, total){
+  const pct = Math.round((i / Math.max(1,total-1)) * 100);
+  elBar.style.width = pct + "%";
+  elQIndex.textContent = `Question ${i+1} / ${total}`;
+}
+
+// Render current question
 function render(){
   const vis = visibleSteps();
-  if(currentIndex<0) currentIndex=0;
-  if(currentIndex>=vis.length) currentIndex=vis.length-1;
+  if (vis.length === 0) return;
+  if (currentIndex < 0) currentIndex = 0;
+  if (currentIndex >= vis.length) currentIndex = vis.length - 1;
 
   const qId = vis[currentIndex];
   const q = findQuestion(qId);
 
-  // progress
-  const pct = Math.round(((currentIndex)/Math.max(1,vis.length-1))*100);
-  elBar.style.width = pct + "%";
-  elQIndex.textContent = `Question ${currentIndex+1} / ${vis.length}`;
-
-  // label
+  setProgress(currentIndex, vis.length);
   elQTitle.textContent = q.label;
   elQInputs.innerHTML = "";
-  elHint.textContent = "";
+  setHint("");
 
-  // field
   if(q.type==="text"){
     const inp = document.createElement("input");
-    inp.type = (q.id==="photoUrl") ? "url" : "text";
+    inp.type = "text";
     inp.placeholder = q.placeholder || "";
     if(state[q.id]) inp.value = state[q.id];
-    inp.addEventListener("input", e=> state[q.id]=e.target.value.trim());
+    inp.addEventListener("input", e=> state[q.id]=e.target.value);
     elQInputs.appendChild(inp);
   }
   else if(q.type==="select"){
     const sel = document.createElement("select");
     const def = document.createElement("option");
-    def.value=""; def.textContent="Select...";
+    def.value=""; def.textContent="Select…";
     sel.appendChild(def);
     q.options.forEach(o=>{
       const op = document.createElement("option");
@@ -574,7 +582,7 @@ function render(){
       sel.appendChild(op);
     });
     if(state[q.id]) sel.value = state[q.id];
-    sel.addEventListener("change", e=> state[q.id]=e.target.value);
+    sel.addEventListener("change", e=> { state[q.id]=e.target.value; });
     elQInputs.appendChild(sel);
   }
   else if(q.type==="single"){
@@ -584,15 +592,14 @@ function render(){
       const row = document.createElement("div"); row.className="opt";
       const input = document.createElement("input"); input.type="radio"; input.name=q.id; input.value=o;
       if(state[q.id]===o) input.checked=true;
-      input.addEventListener("change", ()=> state[q.id]=o);
-      const lab = document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{input.checked=true; state[q.id]=o;});
+      input.addEventListener("change", ()=> { state[q.id]=o; });
+      const lab = document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{ input.checked=true; input.dispatchEvent(new Event('change')); });
       row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
     });
     elQInputs.appendChild(wrap);
   }
   else if(q.type==="multi"){
-    const wrap = document.createElement("div");
-    wrap.className = "options";
+    const wrap = document.createElement("div"); wrap.className="options";
     const selSet = new Set(Array.isArray(state[q.id])?state[q.id]:[]);
     q.options.forEach(o=>{
       const row = document.createElement("div"); row.className="opt multi";
@@ -602,15 +609,68 @@ function render(){
         if(input.checked) selSet.add(o); else selSet.delete(o);
         state[q.id]=Array.from(selSet);
       });
-      const lab = document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{input.checked=!input.checked; input.dispatchEvent(new Event('change'));});
+      const lab = document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{
+        input.checked = !input.checked; input.dispatchEvent(new Event('change'));
+      });
       row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
     });
     state[q.id]=Array.from(selSet);
     elQInputs.appendChild(wrap);
-    if(q.min) elHint.textContent = `Pick at least ${q.min}.`;
+    if(q.min) setHint(`Pick at least ${q.min}.`);
+  }
+  else if(q.type==="file"){
+    const wrap = document.createElement("div"); wrap.className="field";
+
+    const inp = document.createElement("input");
+    inp.type = "file";
+    inp.accept = q.accept || "image/*";
+
+    const preview = document.createElement("img");
+    preview.style.maxWidth = "140px";
+    preview.style.maxHeight = "140px";
+    preview.style.borderRadius = "10px";
+    preview.style.display = "none";
+    preview.style.marginTop = "10px";
+    preview.alt = "Photo preview";
+
+    // Restore preview if already uploaded
+    if(state[q.id] && state[q.id].dataUrl){
+      preview.src = state[q.id].dataUrl;
+      preview.style.display = "block";
+    }
+
+    inp.addEventListener("change", e=>{
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+
+      const maxMB = q.maxSizeMB || 5;
+      if(file.size > maxMB * 1024 * 1024){
+        setHint(`Please choose an image ≤ ${maxMB} MB.`);
+        inp.value = ""; preview.style.display = "none";
+        return;
+      }
+      if(!file.type.startsWith("image/")){
+        setHint("Please choose a valid image file (JPG/PNG).");
+        inp.value = ""; preview.style.display = "none";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const dataUrl = ev.target.result;
+        preview.src = dataUrl;
+        preview.style.display = "block";
+        state[q.id] = { name:file.name, type:file.type, size:file.size, dataUrl };
+        setHint("");
+      };
+      reader.readAsDataURL(file);
+    });
+
+    wrap.appendChild(inp);
+    wrap.appendChild(preview);
+    elQInputs.appendChild(wrap);
   }
 
-  // buttons
+  // Buttons
   btnPrev.disabled = (currentIndex===0);
   btnNext.textContent = (currentIndex===vis.length-1) ? "Finish" : "Next";
 }
@@ -620,22 +680,26 @@ function validateCurrent(){
   const qId = vis[currentIndex];
   const q = findQuestion(qId);
   if(!q.required) return true;
+
   const v = state[q.id];
   if(q.type==="text"){
-    return (v && v.trim().length>0);
+    return (v && String(v).trim().length>0);
   }
   if(q.type==="select" || q.type==="single"){
     return !!v;
   }
   if(q.type==="multi"){
-    return Array.isArray(v) && v.length>=(q.min||1);
+    return Array.isArray(v) && v.length >= (q.min || 1);
+  }
+  if(q.type==="file"){
+    return v && v.dataUrl;
   }
   return true;
 }
 
 function nextQ(){
   if(!validateCurrent()){
-    elHint.textContent = "Please answer before continuing.";
+    setHint("Please answer before continuing.");
     return;
   }
   const vis = visibleSteps();
@@ -648,15 +712,20 @@ function nextQ(){
 }
 
 function prevQ(){
-  if(currentIndex>0){ currentIndex--; render(); }
+  if(currentIndex>0){
+    currentIndex--;
+    render();
+  }
 }
 
 function showSummary(){
   const vis = visibleSteps();
   document.querySelector(".question-box").style.display="none";
   document.querySelector(".nav-buttons").style.display="none";
-  document.querySelector(".lead").textContent="Here is your Love Passport preview.";
-  document.getElementById("q-index").style.display="none";
+  const lead = document.querySelector(".lead");
+  if (lead) lead.textContent="Here is your Love Passport preview.";
+  const qIdx = document.getElementById("q-index");
+  if (qIdx) qIdx.style.display="none";
   elBar.style.width = "100%";
 
   const wrap = document.createElement("div");
@@ -667,21 +736,57 @@ function showSummary(){
   vis.forEach(id=>{
     const q = findQuestion(id);
     let val = state[id];
-    if(Array.isArray(val)) val = val.join(", ");
-    if(!val) val = "—";
     const row = document.createElement("div"); row.className="row";
     const k = document.createElement("div"); k.className="k"; k.textContent=q.label.replace(/^\d+\)\s*/,"");
-    const v = document.createElement("div"); v.className="v"; v.textContent=val;
+    const v = document.createElement("div"); v.className="v";
+
+    if (q.type==="file" && val && val.dataUrl){
+      const img = document.createElement("img");
+      img.src = val.dataUrl; img.alt = "Uploaded photo";
+      img.style.maxWidth="140px"; img.style.maxHeight="140px"; img.style.borderRadius="10px";
+      v.appendChild(img);
+    } else {
+      if(Array.isArray(val)) val = val.join(", ");
+      if(!val) val = "—";
+      v.textContent = val;
+    }
+
     row.appendChild(k); row.appendChild(v); wrap.appendChild(row);
   });
+
+  // CTA
+  const btnWrap = document.createElement("div");
+  btnWrap.style.marginTop = "16px";
+  const dlBtn = document.createElement("button");
+  dlBtn.id = "downloadBtn";
+  dlBtn.className = "love-passport-btn";
+  dlBtn.textContent = "Get My Love Passport";
+  dlBtn.addEventListener("click", ()=>{ alert("Download coming next ✨"); });
+  btnWrap.appendChild(dlBtn);
+  wrap.appendChild(btnWrap);
 
   elSummary.innerHTML="";
   elSummary.appendChild(wrap);
   elSummary.style.display="block";
 }
 
-// init
-render();
+/* ——— Safe init (évite “Loading…” bloqué) ——— */
+function safeInit(){
+  try { render(); }
+  catch(e){
+    console.error("Init error:", e);
+    elQTitle.textContent = "There was an error loading the first question.";
+  }
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', safeInit);
+} else {
+  safeInit();
+}
+
+/* ——— Expose nav (boutons HTML) ——— */
+window.nextQ = nextQ;
+window.prevQ = prevQ;
 </script>
 </body>
 </html>

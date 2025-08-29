@@ -6,7 +6,6 @@
 <title>Compatibility Test — Match or Move On</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
 <style>
   :root{ --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; --glass:rgba(255,255,255,.04); }
   *{box-sizing:border-box}
@@ -14,7 +13,7 @@
   body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
   html{scroll-behavior:smooth}
 
-  /* ===== NAV (same vibe) ===== */
+  /* NAV */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 
@@ -45,26 +44,24 @@
   .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
   .lang-menu a:hover{background:rgba(255,59,48,.12)}
 
-  /* ===== PAGE ===== */
+  /* PAGE */
   .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
   .page{max-width:min(780px,94vw);width:100%}
   .page h1{font-family:"Playfair Display",serif;font-size:clamp(32px,5.2vw,56px);line-height:1.08;margin:0 0 8px;text-align:center}
   .lead{color:var(--muted);text-align:center;margin:4px 0 10px}
   .intro{color:var(--muted);text-align:center;margin:0 0 18px;font-size:.98rem}
 
-  /* ===== PROGRESS ===== */
+  /* PROGRESS */
   .progress{width:100%;height:10px;background:#1b1b1d;border-radius:999px;overflow:hidden;margin:0 0 8px;border:1px solid rgba(255,255,255,.08)}
   .progress-bar{height:100%;width:0;background:var(--rose);transition:width .35s ease}
   .progress-meta{font-size:.9rem;color:#bfb7b0;text-align:right;margin:0 0 16px}
   .q-index{display:block;color:#bfb7b0;font-size:.9rem;margin-bottom:6px}
 
-  /* ===== QUESTION CARD ===== */
+  /* CARD */
   .question-box{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;
     padding:24px 18px;margin-bottom:14px;box-shadow:0 0 14px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04)}
-  .section-title{font-family:"Playfair Display",serif;font-size:clamp(18px,3.6vw,24px);margin:0 0 12px;color:#fff}
-  .q-title{font-weight:600;margin:12px 0 8px}
+  .q-title{font-family:"Playfair Display",serif;font-size:clamp(18px,3.6vw,24px);margin:0 0 12px;color:#fff}
 
-  /* inputs */
   input[type="text"], input[type="email"], select{
     width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.10);
     background:#111214;color:#fff;font-size:1rem;outline:none
@@ -79,15 +76,14 @@
   .opt label{flex:1;cursor:pointer}
   .hint{font-size:.9rem;color:#bfb7b0;margin-top:6px}
 
-  /* ===== NAV BUTTONS (transparent like nav hover) ===== */
+  /* NAV BTNS — transparent like nav hover */
   .nav-buttons{display:flex;gap:12px;margin-top:10px}
   .btn{flex:1;background:transparent;color:var(--rose);border:2px solid var(--rose);border-radius:12px;padding:12px 14px;
     font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s}
   .btn:hover{background:var(--rose);color:#fff;transform:translateY(-1px);box-shadow:0 6px 15px rgba(0,0,0,.25)}
   .btn:disabled{opacity:.35;cursor:not-allowed}
-  .btn.secondary{opacity:1}
 
-  /* ===== SUMMARY ===== */
+  /* SUMMARY */
   .summary{display:none;background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px;margin-top:16px}
   .summary h3{margin:0 0 8px;font-family:"Playfair Display",serif}
   .row{display:flex;gap:10px;border-bottom:1px dashed rgba(255,255,255,.08);padding:8px 0}
@@ -95,7 +91,7 @@
   .k{color:#bfb7b0;min-width:220px}
   .v{flex:1}
 
-  /* ===== FOOTER ===== */
+  /* FOOTER */
   .site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
   .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
     background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
@@ -111,7 +107,6 @@
   .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
   .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
 
-  /* mobile tweaks */
   @media (max-width:768px){
     .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
     .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
@@ -149,24 +144,25 @@
 <main class="wrap">
   <section class="page">
     <h1>Compatibility Test</h1>
-    <p class="lead">Check real-world compatibility with your crush, partner, or someone new — softly, step by step.</p>
-    <p class="intro">Answer honestly. You’ll get a clean summary and a share link for your partner. If they use your link, we’ll compare both answers and draft an email for you two.</p>
+    <p class="lead">Check real-world compatibility with your crush or partner — gently, one question at a time.</p>
+    <p class="intro">Answer honestly. You’ll get a share link for WhatsApp/SMS. If your partner uses it, we’ll compute a clean score and insights.</p>
 
     <!-- progress -->
     <div class="progress"><div class="progress-bar" id="bar"></div></div>
     <div class="progress-meta"><span id="idx">Question 1 / 1</span> • <span id="meta">0.0% complete</span></div>
 
-    <!-- question card -->
-    <div class="question-box" id="box">
-      <h2 class="section-title" id="section">Loading…</h2>
-      <div id="inputs"></div>
-      <div class="hint" id="hint"></div>
+    <!-- question -->
+    <div class="question-box">
+      <small class="q-index" id="qIndex">Question 1</small>
+      <h2 class="q-title" id="qTitle">Loading…</h2>
+      <div id="qInputs"></div>
+      <div class="hint" id="qHint"></div>
     </div>
 
     <!-- nav buttons -->
-    <div class="nav-buttons" id="navBtns">
-      <button class="btn secondary" id="prev" onclick="prevStep()">Back</button>
-      <button class="btn" id="next" onclick="nextStep()">Next</button>
+    <div class="nav-buttons">
+      <button class="btn" id="prevBtn" onclick="prevQ()">Back</button>
+      <button class="btn" id="nextBtn" onclick="nextQ()">Next</button>
     </div>
 
     <!-- summary -->
@@ -191,7 +187,7 @@
     <div class="f-col social">
       <h4>Social</h4>
       <div class="icons">
-        <a href="https://tiktok.com" aria-label="TikTok">Tiktok</a>
+        <a href="https://tiktok.com" aria-label="TikTok">TikTok</a>
         <a href="https://instagram.com" aria-label="Instagram">Instagram</a>
         <a href="https://youtube.com" aria-label="YouTube">YouTube</a>
       </div>
@@ -217,6 +213,52 @@ function loop(){ctx.clearRect(0,0,W,H);
 addEventListener('resize',size);size();loop();
 </script>
 
+<!-- floating hearts -->
+<script>
+(function(){
+  const LAYER=document.getElementById('hearts'); if(!LAYER) return;
+  const HEART=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
+    <defs><radialGradient id="hg" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ffd0d4"/><stop offset="45%" stop-color="#ff5252"/><stop offset="100%" stop-color="#7c1414"/></radialGradient></defs>
+    <g filter="drop-shadow(0 4px 10px rgba(255,80,80,.55))">
+      <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
+      <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
+    </g></svg>`);
+  const isM = matchMedia('(max-width:768px)').matches;
+  const COUNT=isM?12:18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
+  function spawn(svg){
+    const el=document.createElement('img');
+    el.src=`data:image/svg+xml;utf8,${svg}`; el.className='float-item';
+    el.style.left=Math.random()*100+'vw';
+    el.style.setProperty('--w',(MIN_W+Math.random()*(MAX_W-MIN_W))+'px');
+    el.style.setProperty('--x',(Math.random()*80-40)+'px');
+    el.style.setProperty('--t',(MIN_T+Math.random()*(MAX_T-MIN_T))+'s');
+    el.style.setProperty('--r',(Math.random()*40-20)+'deg');
+    el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
+    el.style.setProperty('--spin',(14+Math.random()*10)+'s');
+    el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
+    el.style.position='absolute';
+    el.style.top='100vh';
+    el.style.filter='drop-shadow(0 8px 18px rgba(255,59,48,.45))';
+    el.style.opacity='.95';
+    el.style.animation='floatUp var(--t) linear infinite, spin var(--spin) linear infinite';
+    LAYER.appendChild(el);
+  }
+  for(let i=0;i<COUNT;i++) spawn(HEART);
+})();
+</script>
+<style>
+@keyframes floatUp{
+  0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
+  10%{opacity:1}
+  100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}
+}
+@keyframes spin{
+  0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+  50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
+  100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+}
+</style>
+
 <!-- language dropdown -->
 <script>
 (function(){
@@ -229,9 +271,9 @@ addEventListener('resize',size);size();loop();
 })();
 </script>
 
-<!-- ===================== COMPATIBILITY WIZARD ===================== -->
+<!-- ===================== COMPATIBILITY WIZARD (1 question per screen) ===================== -->
 <script>
-/* Countries */
+/* ===== Data ===== */
 const COUNTRIES = [
 "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
 "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
@@ -253,12 +295,9 @@ const COUNTRIES = [
 "Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States",
 "Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
 ];
-
 const ASTRO = [
   "Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces","I don’t follow astrology"
 ];
-
-/* Hobbies / Sports lists */
 const HOBBIES = [
   "Reading","Writing","Cooking/Baking","Photography","Gardening","Painting/Drawing","Music (playing)","Music (listening)",
   "Dancing","Travel planning","Volunteering","Gaming","DIY/Crafts","Meditation","Podcasting","Learning languages","Fashion/Styling"
@@ -268,7 +307,7 @@ const SPORTS = [
   "Football/Soccer","Volleyball","Dance fitness","CrossFit","Martial arts","None — I don’t practice sports"
 ];
 
-/* ===================== Full Questions (Love Passport + adds; NO photo) ===================== */
+/* ===== Questions (Love Passport + Hygiene/Living/Car/Finance + Hobbies/Sports; NO photo) ===== */
 const QUESTIONS = [
   // Identity & Basics
   {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
@@ -287,19 +326,23 @@ const QUESTIONS = [
   {id:"height",   type:"text",  label:"Height (optional)", required:false, placeholder:"170 cm / 5’7”"},
   {id:"job",      type:"text",  label:"Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
 
-  // Money & Roles (keep your phrasing)
+  // Money & Roles (tes formulations conservées)
   {id:"money", type:"single", label:"How would you prefer to manage finances as a couple?", required:true,
     options:["One joint account (i love sharing everything)","Separate accounts"]},
   {id:"role",  type:"single", label:"Which type of relationship dynamic do you prefer?", required:true,
-    options:["Traditional roles (Man provides fully, woman manages the home)",
-             "Independent partners but not equal (Man covers bit more e.g 75/25)",
-             "Balanced 50/50 (Equal financial and household contribution)"]},
+    options:[
+      "Traditional roles (Man provides fully, woman manages the home)",
+      "Independent partners but not equal (Man covers bit more e.g 75/25)",
+      "Balanced 50/50 (Equal financial and household contribution)"
+    ]},
   {id:"housework", type:"single", label:"How would you like to divide household duties?", required:true,
     options:["I handle most home tasks","Shared equally","Prefer hiring help"]},
   {id:"cooking",   type:"single", label:"How comfortable are you with cooking in daily life?", required:true,
-    options:["I don’t know how to cook and i don't want to",
-             "i don't know how to cook, but i'm Willing to learn",
-             "Can cook basics","Confident cook"]},
+    options:[
+      "I don’t know how to cook and i don't want to",
+      "i don't know how to cook, but i'm Willing to learn",
+      "Can cook basics","Confident cook"
+    ]},
 
   // Kids
   {id:"hasKids",   type:"single", label:"Do you have children?", required:true, options:["No","Yes"]},
@@ -388,18 +431,15 @@ const QUESTIONS = [
   {id:"petComfort",type:"single",label:"Would you be comfortable living with a partner who has pets?", required:true,
     options:["Yes — I’m comfortable living with pets","No — I can’t live with pets","I am allergic to pets","I don’t want pets in my home"]},
 
-  // Lifestyle details + Living/Car/Finance
+  // Lifestyle details + Living/Car/Finance (réformulé pour éviter la tautologie)
   {id:"sleep",   type:"single",label:"Your sleep rhythm", required:true, options:["Early sleeper","Night owl","Flexible (depends)"]},
   {id:"success", type:"single",label:"What does success mean to you?", required:true,
     options:["Financial independence","Building a family (spouse & children)","Creating a successful business","Being deeply aligned with my religion"]},
 
-  {id:"living",      type:"single",label:"What is your current living arrangement?", required:true, options:[
-    "I live alone (renting)","I live alone (owned)","I live with roommates","I live with my parents/family","Student housing / temporary","Other"
+  {id:"living",   type:"single",label:"What is your current living arrangement?", required:true, options:[
+    "Live alone — renting","Live alone — own place","With roommates","With parents/family","Student/temporary housing","Other"
   ]},
-  {id:"ownPlace",    type:"single",label:"Do you currently have your own place?", required:true, options:[
-    "Yes — I rent","Yes — I own","No — I live with family","No — shared housing / roommates"
-  ]},
-  {id:"car",         type:"single",label:"Do you have a car?", required:true, options:["Yes","No","Not necessary where I live"]},
+  {id:"car",      type:"single",label:"Do you have a car?", required:true, options:["Yes","No","Not necessary where I live"]},
   {id:"finStability",type:"single",label:"How would you describe your financial stability?", required:true, options:[
     "Stable — I save monthly","Stable — mostly break even","In transition (building back up)","Prefer not to say"
   ]},
@@ -434,38 +474,31 @@ const QUESTIONS = [
     "Someone obsessed with politics"
   ]},
 
-  // Hobbies & Sports (new, multi-select)
+  // Hobbies & Sports
   {id:"hobbies", type:"multi", label:"Hobbies you enjoy (pick ≥ 1)", required:true, min:1, options:HOBBIES},
   {id:"sports",  type:"multi", label:"Sports/physical activities you practice (pick ≥ 1)", required:true, min:1, options:SPORTS},
 
-  // About me last
+  // About me
   {id:"about", type:"text", label:"About me (3–6 sentences)", required:false, placeholder:"Write a short description"}
 ];
 
-/* ===== Step grouping (wizard) ===== */
-const STEPS = [
-  ["fullName","email","gender","age","residency","origin","instagram","languages","marital","politics","astro","height","job"],
-  ["money","role","housework","cooking"],
-  ["hasKids","kidsCount","kidsWith","wantKids","kidsTime","religionAff","crossCulture"],
-  ["smoking","alcohol","diet","fitness","homeTidy","grooming"],
-  ["loyalty","feelLoved","showLove"],
-  ["ambition","partnerSuccess","conflict","energy"],
-  ["relGoals","marriage","distance","relocate","evening"],
-  ["travelLike","favCountry","dreamCountry","ownPets","petType","petCount","petComfort"],
-  ["sleep","success","living","ownPlace","car","finStability"],
-  ["phonePrivacy","socialPosting","dmRules","intimacy","dealBreakers","hobbies","sports","about"]
-];
+/* ===== One-question flow ===== */
+const STEPS = QUESTIONS.map(q=>q.id); // 1 par écran
 
 /* ===== State & Refs ===== */
 const state = {};
-let stepIndex = 0;
-const elBar=document.getElementById('bar');
-const elMeta=document.getElementById('meta');
-const elIdx=document.getElementById('idx');
-const elSection=document.getElementById('section');
-const elInputs=document.getElementById('inputs');
-const elHint=document.getElementById('hint');
-const elSummary=document.getElementById('summary');
+let currentIndex = 0;
+
+const elBar = document.getElementById('bar');
+const elMeta = document.getElementById('meta');
+const elIdx = document.getElementById('idx');
+const elQIndex = document.getElementById('qIndex');
+const elQTitle = document.getElementById('qTitle');
+const elQInputs = document.getElementById('qInputs');
+const elHint = document.getElementById('qHint');
+const elSummary = document.getElementById('summary');
+const btnPrev = document.getElementById('prevBtn');
+const btnNext = document.getElementById('nextBtn');
 
 /* ===== Helpers ===== */
 function findQuestion(id){ return QUESTIONS.find(q=>q.id===id); }
@@ -477,141 +510,153 @@ function isVisible(q){
   if(q.showIf.anyOf) return q.showIf.anyOf.includes(v);
   return true;
 }
-function visibleInStep(ids){ return ids.filter(id=>{ const q=findQuestion(id); return q ? isVisible(q) : false; }); }
-function allVisibleIds(){ return STEPS.flatMap(visibleInStep); }
-function sectionName(i){
-  return [
-    "Identity","Money & Roles","Kids & Culture","Lifestyle & Hygiene",
-    "Relationship Model & Feelings","Ambition & Energy","Goals & Logistics",
-    "Travel & Pets","Living, Car & Finance","Privacy, Intimacy & More"
-  ][i] || "Step";
+function visibleSteps(){
+  return STEPS.filter(id => {
+    const q = findQuestion(id);
+    return q ? isVisible(q) : false;
+  });
 }
-function questionNumberAtStep(){
-  let n = 0; for(let i=0;i<stepIndex;i++){ n += visibleInStep(STEPS[i]).length; }
-  return Math.min(n+1, Math.max(1, allVisibleIds().length));
-}
-function percentAtStep(){
-  const total = allVisibleIds().length;
-  if(total<=1) return 100;
-  const n = questionNumberAtStep();
-  return ((n-1)/(total-1))*100;
-}
+function percent(i,total){ return Math.round((i/Math.max(1,total-1))*100); }
 
 /* ===== Render ===== */
 function render(){
-  const ids = visibleInStep(STEPS[stepIndex]);
-  elInputs.innerHTML = "";
-  elHint.textContent = "";
-  elSection.textContent = sectionName(stepIndex);
+  const vis = visibleSteps();
+  if(vis.length===0) return;
+  if(currentIndex<0) currentIndex=0;
+  if(currentIndex>=vis.length) currentIndex=vis.length-1;
 
-  const totalQs = allVisibleIds().length;
-  const qNum = questionNumberAtStep();
-  const pct = percentAtStep();
+  const qId = vis[currentIndex];
+  const q = findQuestion(qId);
+
+  // progress
+  const pct = percent(currentIndex, vis.length);
   elBar.style.width = pct + "%";
   elMeta.textContent = pct.toFixed(1) + "% complete";
-  elIdx.textContent = `Question ${qNum} / ${totalQs}`;
+  elIdx.textContent = `Question ${currentIndex+1} / ${vis.length}`;
+  elQIndex.textContent = `Question ${currentIndex+1}`;
 
-  ids.forEach(id=>{
-    const q = findQuestion(id); if(!q) return;
-    const group=document.createElement('div');
-    const h=document.createElement('div'); h.className='q-title'; h.textContent=q.label; group.appendChild(h);
+  // label
+  elQTitle.textContent = q.label;
+  elQInputs.innerHTML = "";
+  elHint.textContent = "";
 
-    if(q.type==="single"){
-      const wrap=document.createElement('div'); wrap.className='options';
-      q.options.forEach(opt=>{
-        const row=document.createElement('div'); row.className='opt';
-        const input=document.createElement('input'); input.type='radio'; input.name=q.id; input.value=opt;
-        if(state[q.id]===opt) input.checked=true;
-        input.addEventListener('change',()=>{ state[q.id]=opt; });
-        const lab=document.createElement('label'); lab.textContent=opt; lab.addEventListener('click',()=>{ input.checked=true; input.dispatchEvent(new Event('change')); });
-        row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
+  // field types
+  if(q.type==="text"){
+    const inp = document.createElement("input");
+    inp.type = (q.validate==="email") ? "email" : "text";
+    inp.placeholder = q.placeholder || "";
+    if(state[q.id]) inp.value = state[q.id];
+    inp.addEventListener("input", e=> state[q.id]=e.target.value);
+    elQInputs.appendChild(inp);
+  }
+  else if(q.type==="select"){
+    const sel = document.createElement("select");
+    const def = document.createElement("option");
+    def.value=""; def.textContent="Select…";
+    sel.appendChild(def);
+    q.options.forEach(o=>{
+      const op = document.createElement("option");
+      op.value=o; op.textContent=o;
+      sel.appendChild(op);
+    });
+    if(state[q.id]) sel.value = state[q.id];
+    sel.addEventListener("change", e=> state[q.id]=e.target.value);
+    elQInputs.appendChild(sel);
+  }
+  else if(q.type==="single"){
+    const wrap = document.createElement("div");
+    wrap.className = "options";
+    q.options.forEach(o=>{
+      const row = document.createElement("div"); row.className="opt";
+      const input = document.createElement("input"); input.type="radio"; input.name=q.id; input.value=o;
+      if(state[q.id]===o) input.checked=true;
+      input.addEventListener("change", ()=> state[q.id]=o);
+      const lab = document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{input.checked=true; input.dispatchEvent(new Event('change'));});
+      row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
+    });
+    elQInputs.appendChild(wrap);
+  }
+  else if(q.type==="multi"){
+    const wrap = document.createElement("div");
+    wrap.className = "options";
+    const selSet = new Set(Array.isArray(state[q.id])?state[q.id]:[]);
+    q.options.forEach(o=>{
+      const row = document.createElement("div"); row.className="opt multi";
+      const input = document.createElement("input"); input.type="checkbox"; input.value=o;
+      if(selSet.has(o)) input.checked=true;
+      input.addEventListener("change", ()=>{
+        if(input.checked) selSet.add(o); else selSet.delete(o);
+        state[q.id]=Array.from(selSet);
       });
-      group.appendChild(wrap);
-    }
-    else if(q.type==="multi"){
-      const wrap=document.createElement('div'); wrap.className='options';
-      const sel=new Set(Array.isArray(state[q.id])?state[q.id]:[]);
-      q.options.forEach(opt=>{
-        const row=document.createElement('div'); row.className='opt multi';
-        const input=document.createElement('input'); input.type='checkbox'; input.value=opt;
-        if(sel.has(opt)) input.checked=true;
-        input.addEventListener('change',()=>{ input.checked?sel.add(opt):sel.delete(opt); state[q.id]=Array.from(sel); });
-        const lab=document.createElement('label'); lab.textContent=opt; lab.addEventListener('click',()=>{ input.checked=!input.checked; input.dispatchEvent(new Event('change')); });
-        row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
-      });
-      if(q.min) elHint.textContent=`Pick at least ${q.min}.`;
-      group.appendChild(wrap);
-    }
-    else if(q.type==="select"){
-      const sel=document.createElement('select');
-      const def=document.createElement('option'); def.value=""; def.textContent="Select…"; sel.appendChild(def);
-      q.options.forEach(o=>{const op=document.createElement('option'); op.value=o; op.textContent=o; sel.appendChild(op);});
-      if(state[q.id]) sel.value=state[q.id];
-      sel.addEventListener('change',e=>state[q.id]=e.target.value);
-      group.appendChild(sel);
-    }
-    else if(q.type==="text"){
-      const inp=document.createElement('input'); inp.type = (q.validate==="email") ? "email" : "text";
-      inp.placeholder=q.placeholder||""; if(state[q.id]) inp.value=state[q.id];
-      inp.addEventListener('input',e=>state[q.id]=e.target.value);
-      group.appendChild(inp);
-    }
+      const lab = document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{input.checked=!input.checked; input.dispatchEvent(new Event('change'));});
+      row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
+    });
+    state[q.id]=Array.from(selSet);
+    elQInputs.appendChild(wrap);
+    if(q.min) elHint.textContent = `Pick at least ${q.min}.`;
+  }
 
-    elInputs.appendChild(group);
-  });
-
-  document.getElementById('prev').disabled = (stepIndex===0);
-  document.getElementById('next').textContent = (stepIndex===STEPS.length-1) ? "Finish" : "Next";
+  // buttons
+  btnPrev.disabled = (currentIndex===0);
+  btnNext.textContent = (currentIndex===vis.length-1) ? "Finish" : "Next";
 }
 
 /* ===== Validation ===== */
-function validateStep(){
-  const ids = visibleInStep(STEPS[stepIndex]);
-  for(const id of ids){
-    const q=findQuestion(id); if(!q || !q.required) continue;
-    const v=state[id];
-    if(q.type==="multi"){
-      if(!Array.isArray(v) || v.length<(q.min||1)){
-        elHint.textContent="Please answer before continuing."; return false;
-      }
-    }else{
-      if(!v){ elHint.textContent="Please answer before continuing."; return false; }
-      if(q.validate==="email" && !isEmail(v)){ elHint.textContent="Please enter a valid email address."; return false; }
-    }
+function validateCurrent(){
+  const vis = visibleSteps();
+  const qId = vis[currentIndex];
+  const q = findQuestion(qId);
+  if(!q.required) return true;
+  const v = state[q.id];
+
+  if(q.type==="text"){
+    if(!v || !String(v).trim()) return false;
+    if(q.validate==="email" && !isEmail(v)) { elHint.textContent="Please enter a valid email."; return false; }
+    return true;
   }
-  elHint.textContent=""; return true;
+  if(q.type==="select" || q.type==="single"){
+    return !!v;
+  }
+  if(q.type==="multi"){
+    return Array.isArray(v) && v.length>=(q.min||1);
+  }
+  return true;
 }
 
 /* ===== Nav ===== */
-function nextStep(){
-  if(!validateStep()) return;
-  if(stepIndex<STEPS.length-1){ stepIndex++; render(); }
-  else { showSummary(); }
+function nextQ(){
+  if(!validateCurrent()){
+    elHint.textContent = "Please answer before continuing.";
+    return;
+  }
+  const vis = visibleSteps();
+  if(currentIndex < vis.length-1){
+    currentIndex++;
+    render();
+  }else{
+    showSummary();
+  }
 }
-function prevStep(){ if(stepIndex>0){ stepIndex--; render(); } }
+function prevQ(){ if(currentIndex>0){ currentIndex--; render(); } }
 
-/* ===== Share/Compare Logic (no backend) ===== */
+/* ===== Local compare + AI placeholder ===== */
 function uid(){ return Math.random().toString(36).slice(2)+Date.now().toString(36); }
 function saveSession(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
 function loadSession(key){ try{return JSON.parse(localStorage.getItem(key)||"null");}catch{return null;} }
 
 function computeCompatibility(a,b){
-  const weights = { // light weights; you peux ajuster
-    single:1, select:1, multi:1.2
-  };
+  const weights = { single:1, select:1, multi:1.2 };
   let got=0, max=0;
-
   QUESTIONS.forEach(q=>{
-    if(q.id==="fullName"||q.id==="email"||q.type==="text"&&q.required===false) return;
+    if(q.id==="fullName"||q.id==="email") return;
     if(q.showIf){
       const depA=a[q.showIf.id], depB=b[q.showIf.id];
       if(q.showIf.value!==undefined){ if(depA!==q.showIf.value || depB!==q.showIf.value) return; }
       if(q.showIf.anyOf){ if(!q.showIf.anyOf.includes(depA) || !q.showIf.anyOf.includes(depB)) return; }
     }
     const w = (q.type==="multi")?weights.multi:(q.type==="single"||q.type==="select")?weights.single:0;
-    if(w===0) return;
-    max += w;
-
+    if(!w) return;
+    max+=w;
     const va=a[q.id], vb=b[q.id];
     if(q.type==="multi"){
       const A=new Set(Array.isArray(va)?va:[]), B=new Set(Array.isArray(vb)?vb:[]);
@@ -622,133 +667,173 @@ function computeCompatibility(a,b){
       got += (va && vb && va===vb) ? w : 0;
     }
   });
-
-  const pct = (max>0) ? Math.round((got/max)*100) : 0;
-  return pct;
+  return (max>0)? Math.round((got/max)*100) : 0;
 }
 
-/* ===== Summary & Share UI ===== */
+/* ===== Summary + Share (WhatsApp / SMS / Copy) ===== */
 function showSummary(){
-  document.getElementById('box').style.display='none';
-  document.getElementById('navBtns').style.display='none';
-  elBar.style.width='100%'; elMeta.textContent='100.0% complete'; elIdx.textContent='';
+  document.querySelector(".question-box").style.display="none";
+  document.querySelector(".nav-buttons").style.display="none";
+  elBar.style.width = "100%"; elMeta.textContent="100.0% complete"; elIdx.textContent="";
 
-  const wrap=elSummary; wrap.innerHTML='';
-  const h=document.createElement('h3'); h.textContent='Your Answers'; wrap.appendChild(h);
+  const wrap=elSummary; wrap.innerHTML="";
+  const h=document.createElement("h3"); h.textContent="Your Answers"; wrap.appendChild(h);
 
-  const allIds=allVisibleIds();
-  allIds.forEach(id=>{
+  const visAll = visibleSteps();
+  visAll.forEach(id=>{
     const q=findQuestion(id); if(!q) return;
     if(q.showIf){
       const vdep = state[q.showIf.id];
       if(q.showIf.value!==undefined && vdep!==q.showIf.value) return;
       if(q.showIf.anyOf && !q.showIf.anyOf.includes(vdep)) return;
     }
-    let val=state[id]; if(Array.isArray(val)) val=val.join(', '); if(!val) val='—';
-    const row=document.createElement('div'); row.className='row';
-    const k=document.createElement('div'); k.className='k'; k.textContent=q.label;
-    const v=document.createElement('div'); v.className='v'; v.textContent=val;
+    let val=state[id]; if(Array.isArray(val)) val=val.join(", "); if(!val) val="—";
+    const row=document.createElement("div"); row.className="row";
+    const k=document.createElement("div"); k.className="k"; k.textContent=q.label;
+    const v=document.createElement("div"); v.className="v"; v.textContent=val;
     row.appendChild(k); row.appendChild(v); wrap.appendChild(row);
   });
 
-  // Share block
-  const invite=document.createElement('div'); invite.style.marginTop='16px';
+  // create partner link
   const key = uid();
   const base = location.origin + location.pathname;
   const link = `${base}?partner=${encodeURIComponent(key)}`;
+  saveSession(`momo:${key}:primary`, {role:"primary", createdAt:Date.now(), answers:state});
 
-  // Save primary answers
-  const payload = { role:"primary", createdAt:Date.now(), answers:state };
-  saveSession(`momo:${key}:primary`, payload);
+  const invite=document.createElement("div"); invite.style.marginTop="16px";
+  const p=document.createElement("p"); p.textContent="Share this link with your partner via WhatsApp or SMS:";
+  const a=document.createElement("a"); a.href=link; a.textContent=link; a.style.color="#ffd6d6"; a.target="_blank";
+  const btns=document.createElement("div"); btns.style.display="flex"; btns.style.gap="12px"; btns.style.marginTop="10px";
 
-  const p=document.createElement('p');
-  p.textContent="Share this link with your partner so they can answer the same test. We’ll compare your results automatically:";
-  const a=document.createElement('a'); a.href=link; a.textContent=link; a.style.color="#ffd6d6"; a.target="_blank";
+  const copyBtn=document.createElement("button"); copyBtn.className="btn"; copyBtn.textContent="Copy link";
+  copyBtn.addEventListener("click", async ()=>{ try{ await navigator.clipboard.writeText(link); copyBtn.textContent="Copied!"; setTimeout(()=>copyBtn.textContent="Copy link",1200);}catch{alert(link);} });
 
-  const copyBtn=document.createElement('button'); copyBtn.className='btn'; copyBtn.textContent='Copy link';
-  copyBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(link); copyBtn.textContent="Copied!"; setTimeout(()=>copyBtn.textContent="Copy link",1200);}catch{alert(link);} });
-
-  const emailBtn=document.createElement('button'); emailBtn.className='btn'; emailBtn.textContent='Invite by email';
-  emailBtn.addEventListener('click', ()=>{
-    const subj=encodeURIComponent("Match or Move On — Compatibility Test Invite");
-    const body=encodeURIComponent(`Hi,\n\nHere is our compatibility test link. Please open it and answer honestly — the app will compare our results at the end:\n\n${link}\n\nThank you!`);
-    const to = state.email ? state.email : "";
-    location.href=`mailto:${to}?subject=${subj}&body=${body}`;
+  const waBtn=document.createElement("button"); waBtn.className="btn"; waBtn.textContent="Share on WhatsApp";
+  waBtn.addEventListener("click", ()=>{
+    const text=encodeURIComponent(`Hey! Please take this compatibility test so we can compare our answers:\n${link}`);
+    window.open(`https://wa.me/?text=${text}`,'_blank');
   });
 
-  invite.appendChild(p); invite.appendChild(a);
-  const btns=document.createElement('div'); btns.style.display='flex'; btns.style.gap='12px'; btns.style.marginTop='10px';
-  btns.appendChild(copyBtn); btns.appendChild(emailBtn);
-  invite.appendChild(btns);
+  const smsBtn=document.createElement("button"); smsBtn.className="btn"; smsBtn.textContent="Share via SMS";
+  smsBtn.addEventListener("click", ()=>{
+    const body=encodeURIComponent(`Please take this compatibility test so we can compare:\n${link}`);
+    // iOS/Android handle sms: differently, sms:?body= works broadly
+    location.href=`sms:?&body=${body}`;
+  });
+
+  // Call-to-action for results after both answered (human label, no “AI” mention)
+  const goBtn=document.createElement("button"); goBtn.className="btn"; goBtn.textContent="See if we match — Let’s Go!!!";
+  goBtn.addEventListener("click", ()=>{
+    // If partner answers exist locally, compute now; else explain how
+    const partner = loadSession(`momo:${key}:partner`);
+    if(partner && partner.answers){
+      const score = computeCompatibility(state, partner.answers);
+      // Placeholder hook for OpenAI (server-side later)
+      analyzeWithAI(state, partner.answers, score).then(result=>{
+        showAIResult(score, result);
+      }).catch(()=>{
+        showAIResult(score, {highlights:["We’ll add deeper insights soon."],risks:["—"],advice:["—"]});
+      });
+    }else{
+      alert("Ask your partner to open your link first. Once they finish, click this button again to see your score.");
+    }
+  });
+
+  btns.appendChild(copyBtn); btns.appendChild(waBtn); btns.appendChild(smsBtn); btns.appendChild(goBtn);
+  invite.appendChild(p); invite.appendChild(a); invite.appendChild(btns);
   wrap.appendChild(invite);
 
-  wrap.style.display='block';
+  wrap.style.display="block";
 }
 
-/* ===== Partner Mode (compare & email draft) ===== */
+/* ===== Partner flow (fills same test via shared link) ===== */
 function partnerModeIfAny(){
   const url=new URL(location.href);
-  const partnerKey=url.searchParams.get('partner');
-  if(!partnerKey) return;
+  const key=url.searchParams.get('partner');
+  if(!key) return;
 
-  // Adjust headings to indicate partner flow
-  document.querySelector('.lead').textContent = "Partner mode — Answer the same questions to compare compatibility.";
-  document.querySelector('.intro').textContent = "This link was shared with you. Fill it out honestly; we’ll compute a simple compatibility score at the end.";
+  document.querySelector('.lead').textContent="Partner mode — answer the same questions to compare compatibility.";
+  document.querySelector('.intro').textContent="Fill it out honestly; we’ll show a clean score and insights at the end.";
 
-  // On finish in partner mode: compute comparison and draft email
-  const originalShowSummary = showSummary;
-  showSummary = function(){
-    originalShowSummary();
+  // Override summary to store partner + offer results
+  const originalShow=showSummary;
+  showSummary=function(){
+    originalShow();
 
-    // Load primary
-    const primary = loadSession(`momo:${partnerKey}:primary`);
-    const currentAnswers = { role:"partner", createdAt:Date.now(), answers:state };
-    saveSession(`momo:${partnerKey}:partner`, currentAnswers);
+    const primary = loadSession(`momo:${key}:primary`);
+    saveSession(`momo:${key}:partner`, {role:"partner", createdAt:Date.now(), answers:state});
 
     const wrap=elSummary;
     const gap=document.createElement('div'); gap.style.height='10px'; wrap.appendChild(gap);
 
     if(primary && primary.answers){
-      const score = computeCompatibility(primary.answers, currentAnswers.answers);
+      const score = computeCompatibility(primary.answers, state);
+
       const h=document.createElement('h3'); h.textContent=`Compatibility Score: ${score}%`; wrap.appendChild(h);
 
-      const emailBtn=document.createElement('button'); emailBtn.className='btn'; emailBtn.textContent='Draft result email';
-      emailBtn.addEventListener('click', ()=>{
-        const yourName = currentAnswers.answers.fullName || "Partner";
-        const theirName = primary.answers.fullName || "You";
-        const to = [primary.answers.email, currentAnswers.answers.email].filter(Boolean).join(',');
-        const subj = encodeURIComponent(`Compatibility Results — ${theirName} & ${yourName} (${score}%)`);
-        const body = encodeURIComponent(
-`Hi ${theirName},
-
-We both completed the Match or Move On Compatibility Test.
-
-Compatibility Score: ${score}%
-
-We can review our answers together here (on your device):
-- Your session key: ${partnerKey}
-
-(If needed, we can export our answers from the page summary.)
-
-— Generated by Match or Move On`
-        );
-        location.href=`mailto:${to}?subject=${subj}&body=${body}`;
+      // Same human CTA
+      const goBtn=document.createElement('button'); goBtn.className='btn'; goBtn.textContent='See if we match — Let’s Go!!!';
+      goBtn.addEventListener('click', ()=>{
+        analyzeWithAI(primary.answers, state, score).then(result=>{
+          showAIResult(score, result);
+        }).catch(()=>{
+          showAIResult(score, {highlights:["We’ll add deeper insights soon."],risks:["—"],advice:["—"]});
+        });
       });
       const btnWrap=document.createElement('div'); btnWrap.style.marginTop='10px';
-      btnWrap.appendChild(emailBtn); wrap.appendChild(btnWrap);
+      btnWrap.appendChild(goBtn); wrap.appendChild(btnWrap);
     }else{
-      const note=document.createElement('p'); note.textContent="We couldn’t find the original answers for comparison. Ask your partner to re-send their link after finishing the test.";
+      const note=document.createElement('p'); note.textContent="We couldn’t find the original answers yet. Ask your partner to finish their test and send the link again.";
       wrap.appendChild(note);
     }
   };
 }
 
-/* ===== Init ===== */
-function safeInit(){ try{ render(); partnerModeIfAny(); }catch(e){ console.error(e); elSection.textContent="Error loading the first step."; } }
+/* ===== Placeholder: plug your OpenAI API later (backend) =====
+   This keeps the UI label human (“See if we match — Let’s Go!!!”), no AI mention.
+   TODO: Send `answersA`, `answersB`, and `score` to your server endpoint that calls OpenAI.
+*/
+async function analyzeWithAI(answersA, answersB, score){
+  // Example payload (to use later server-side)
+  const payload = {answersA, answersB, score};
+  // TODO: fetch('/api/analyze', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)})
+  // For now, return a mock structure
+  return Promise.resolve({
+    highlights:[
+      "Strong alignment on relationship model and future goals.",
+      "Similar expectations about phone privacy and social posting."
+    ],
+    risks:[
+      "Potential tension on fitness/lifestyle pace.",
+      "Different views on relocation or long-distance."
+    ],
+    advice:[
+      "Schedule a conversation on kids timeline and career ambitions.",
+      "Agree on housework split for busy weeks ahead of time."
+    ]
+  });
+}
+
+function showAIResult(score, ai){
+  const box=document.createElement('div'); box.style.marginTop='16px';
+  box.innerHTML = `
+    <div class="row"><div class="k">Overall Compatibility</div><div class="v">${score}%</div></div>
+    <div class="row"><div class="k">Strong points</div><div class="v">${(ai.highlights||[]).join(' • ')||'—'}</div></div>
+    <div class="row"><div class="k">Watch-outs</div><div class="v">${(ai.risks||[]).join(' • ')||'—'}</div></div>
+    <div class="row"><div class="k">Next steps</div><div class="v">${(ai.advice||[]).join(' • ')||'—'}</div></div>
+  `;
+  elSummary.appendChild(box);
+}
+
+/* ===== Safe init ===== */
+function safeInit(){
+  try{ render(); partnerModeIfAny(); }
+  catch(e){ console.error(e); elQTitle.textContent="There was an error loading the first question."; }
+}
 if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', safeInit); } else { safeInit(); }
 
-/* Expose for buttons */
-window.nextStep=nextStep; window.prevStep=prevStep;
+/* Expose */
+window.nextQ=nextQ; window.prevQ=prevQ;
 </script>
 </body>
 </html>

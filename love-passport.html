@@ -386,9 +386,9 @@ const QUESTIONS = [
   {id:"role",      type:"single",label:"15) Which relationship dynamic fits you best?", required:true,
     options:["Traditional roles","Independent partners","Balanced 50/50"]},
   {id:"housework", type:"single",label:"16) How would you like to divide household duties?", required:true,
-    options:["I handle most home tasks","Shared equally","I do some, not everything","Prefer hiring help"]},
+    options:["I handle most home tasks","Shared equally","Prefer hiring help"]},
   {id:"cooking",   type:"single",label:"17) How comfortable are you with cooking in daily life?", required:true,
-    options:["I don’t know how to cook","Willing to learn","Can cook basics","Confident cook","i don't want to cook"]},
+    options:["I don’t know how to cook and i don't want to","i don't know how to cook, but i'm Willing to learn","Can cook basics","Confident cook"]},
 
   // Kids
   {id:"hasKids",   type:"single",label:"18) Do you have children?", required:true, options:["No","Yes"]},
@@ -396,7 +396,7 @@ const QUESTIONS = [
     options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
   {id:"kidsWith",  type:"single",label:"20) If you have multiple children, were they with the same partner or different partners?", required:true,
     options:["Same partner","Different partners"], showIf:{id:"kidsCount", anyOf:["2","3","4","5+"]}},
-  {id:"wantKids",  type:"single",label:"21) How do you see children in your future?", required:true, options:["Yes","Not sure","No"]},
+  {id:"wantKids",  type:"single",label:"21) Do you want children in the future?", required:true, options:["Yes","Not sure","No"]},
   {id:"kidsTime",  type:"single",label:"22) If you want children, what timeline feels most aligned with you?", required:false,
     options:["1–2 years","3–5 years",">5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
 
@@ -411,8 +411,8 @@ const QUESTIONS = [
   {id:"alcohol", type:"single",label:"26) Do you drink?", required:true, options:["No","Sometimes","yes"]},
   // “Diet” reformulated to include lifestyle/religious practice
   {id:"diet",    type:"single",label:"27) Food & dietary practice", required:true,
-    options:["i eat everything","Halal","Vegetarian/Vegan","Pescatarian","Other"]},
-  {id:"fitness", type:"single",label:"28) How active are you, generally?", required:true, options:["Gym 3+ times/week","Active sometimes","Rarely","hate the gym"]},
+    options:["I eat everything","Halal","Vegetarian/Vegan","Pescatarian","Other"]},
+  {id:"fitness", type:"single",label:"28) How active are you, generally?", required:true, options:["Gym 3+ times/week","Active sometimes","Rarely","I hate the gym"]},
 
   // Relationship model
   {id:"loyalty", type:"single",label:"29) Relationship model", required:true,
@@ -425,7 +425,7 @@ const QUESTIONS = [
     options:["I give gifts","I give money","I plan quality time","I am affectionate (touch)","I use loving words","I do helpful actions"]},
 
   // Ambition & energy
-  {id:"ambition",       type:"single",label:"32) How do you prioritize ambition and love in your life?", required:true,
+  {id:"ambition",       type:"single",label:"32)what comes first for you: love or ambition?", required:true,
     options:["Money first, then love","Love first, then money","Both hand in hand"]},
   {id:"partnerSuccess", type:"single",label:"33) If your partner becomes far more successful than you, how would you feel?", required:true,
     options:["Proud — it’s our win","Happy and motivated too","I’d feel uncomfortable with that"]},
@@ -437,18 +437,18 @@ const QUESTIONS = [
   {id:"relGoals",  type:"multi", label:"36) What are you looking for? (pick ≥ 1)", required:true, min:1,
     options:["Serious relationship","Marriage soon","Marriage someday","Casual dating","Friendship first"]},
   {id:"marriage",  type:"single",label:"37) When would you like to get married?", required:true,
-    options:["ASAP (≤12 months)","In 1–2 years","In 3+ years","I’m not focused on marriage"]},
+    options:["In 1–2 years","In 3+ years","I’m not focused on marriage"]},
   {id:"distance",  type:"single",label:"38) Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
   {id:"relocate",  type:"single",label:"39) Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
-  {id:"evening",   type:"single",label:"40) Your ideal evening", required:true, options:["Cozy movie night at home","Dinner out & good conversation","Game night with friends","Live music or a show"]},
+  {id:"evening",   type:"single",label:"40) How would you spend an ideal evening with someone you love", required:true, options:["A Cozy movie night at home","A romantic Dinner out & deep conversation","Going out for Live music or a permormance as a couple"]},
 
   // Travel
   {id:"travelLike",  type:"single",label:"41) Do you enjoy traveling?", required:true, options:["Yes","No"]},
-  {id:"favCountry",  type:"select",label:"42) Favorite country to visit", required:true, options:COUNTRIES},
-  {id:"dreamCountry",type:"select",label:"43) Dream country to visit", required:true, options:COUNTRIES},
+  {id:"favCountry",  type:"select",label:"42) What's your favorite country to visit", required:true, options:COUNTRIES},
+  {id:"dreamCountry",type:"select",label:"43) What country do you dream of visiting", required:true, options:COUNTRIES},
 
   // Pets (separated: own vs. comfortable with partner's pets)
-  {id:"ownPets",   type:"single",label:"44) Do you currently keep pets?", required:true, options:["No","Yes"]},
+  {id:"ownPets",   type:"single",label:"44) Do you have any pets?", required:true, options:["No","Yes"]},
   {id:"petType",   type:"single",label:"45) If you have pets, which type?", required:true, options:["Dog","Cat","Both","Other"], showIf:{id:"ownPets", value:"Yes"}},
   {id:"petCount",  type:"select",label:"46) How many pets do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"ownPets", value:"Yes"}},
   {id:"petComfort",type:"single",label:"47) Would you be comfortable living with a partner who has pets?", required:true,
@@ -484,7 +484,8 @@ const QUESTIONS = [
     "Big income gap — earns much less than me",
     "Big income gap — earns much more than me",
     "Sharing my private life on social media without my consent",
-    "Doesn’t take care of health"
+    "Doesn’t take care of health ( Gym and eating healthy ) ",
+    "Someone who is not family-oriented ( no close bond with parents or siblings)
   ]},
 
   // About me last

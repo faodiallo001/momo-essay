@@ -569,11 +569,12 @@ function visibleSteps(){
 }
 
 function setHint(text){ elHint.textContent = text || ""; }
-function setProgress(i, total){
+  function setProgress(i, total){
   const pct = Math.round((i / Math.max(1,total-1)) * 100);
   elBar.style.width = pct + "%";
-  elQIndex.textContent = `Question ${i+1} / ${total}`;
+  elQIndex.textContent = `Question ${i+1} / ${total}  •  ${pct}% complete`;
 }
+
 
 // Render current question
 function render(){
@@ -784,10 +785,10 @@ function showSummary(){
   // CTA
   const btnWrap = document.createElement("div");
   btnWrap.style.marginTop = "16px";
-  const dlBtn = document.createElement("button");
-  dlBtn.id = "downloadBtn";
-  dlBtn.className = "love-passport-btn";
-  dlBtn.textContent = "Get My Love Passport";
+ const dlBtn = document.createElement("button");
+dlBtn.id = "downloadBtn";
+dlBtn.className = "btn";   // même style que Next/Back
+dlBtn.textContent = "Get My Love Passport";
   dlBtn.addEventListener("click", ()=>{ alert("Download coming next ✨"); });
   btnWrap.appendChild(dlBtn);
   wrap.appendChild(btnWrap);

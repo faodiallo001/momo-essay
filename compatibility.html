@@ -649,10 +649,33 @@ function showShareForInitiator(link){
   if(isPartner){ shareBlock.style.display="none"; return; }
   shareBlock.style.display="block";
   shareInput.value=link;
-  copyBtn.onclick=async()=>{
-    try{ await navigator.clipboard.writeText(link); alert("Link copied!"); }
-    catch(e){ shareInput.select(); document.execCommand('copy'); alert("Link copied!"); }
-  };
+  
+  function flashCopied(btn, okText = "Copied ✓"){
+  const old = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = okText;
+  // petit feedback visuel
+  btn.style.borderColor = "rgba(255,59,48,.65)";
+  setTimeout(()=>{
+    btn.disabled = false;
+    btn.textContent = old;
+    btn.style.borderColor = "rgba(255,59,48,.28)";
+  }, 1600);
+}
+
+copyBtn.onclick = async (e)=>{
+  e.preventDefault(); // évite tout comportement par défaut
+  try{
+    await navigator.clipboard.writeText(link);
+    flashCopied(copyBtn);
+  }catch(err){
+    // fallback anciens navigateurs
+    shareInput.select();
+    const ok = document.execCommand('copy');
+    flashCopied(copyBtn, ok ? "Copied ✓" : "Copy failed");
+  }
+};
+
   waBtn.href="https://wa.me/?text="+encodeURIComponent(link);
   smsBtn.href="sms:?&body="+encodeURIComponent(link);
 }

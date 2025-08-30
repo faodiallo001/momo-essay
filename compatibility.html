@@ -145,6 +145,29 @@
 
 <!--main-->
 
+  <main class="wrap">
+  <section class="page">
+    <h1>Compatibility Test</h1>
+    <p class="lead">Answer step by step to see if you’re truly a match — or if it’s better to move on.</p>
+
+    <!-- Progress -->
+    <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+    <div id="pctDone" style="margin:6px 0 16px;color:#c9c2bb">0% complete</div>
+
+    <!-- Question box -->
+    <div class="question-box" id="q-box">
+      <small class="q-index" id="q-index">Question 1 / 1</small>
+      <h2 class="q-title" id="q-title">Loading…</h2>
+      <div id="q-inputs"></div>
+      <div class="hint" id="q-hint"></div>
+    </div>
+
+    <!-- Nav buttons (garde ton style global) -->
+    <div class="nav-buttons" id="nav-buttons">
+      <button class="btn secondary" id="prev-btn" onclick="prevQ()">Back</button>
+      <button class="btn" id="next-btn" onclick="nextQ()">Next</button>
+    </div>
+
 <footer class="site-footer" id="footer">
   <div class="f-wrap">
     <div class="f-col brand">

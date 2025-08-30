@@ -69,15 +69,37 @@
   .opt input:checked::after{content:"";position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%)}
   .hint{font-size:.9rem;color:#bfb7b0;margin-top:6px}
 
-  /* ===== NAV BUTTONS (ghost style) ===== */
-  .nav-buttons{display:flex;gap:12px;margin-top:10px}
-  .btn-ghost{
-    flex:1;display:inline-flex;align-items:center;justify-content:center;
-    padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;
-    background:transparent;border:2px solid var(--rose);color:var(--rose);transition:.25s;
-  }
-  .btn-ghost:hover{background:var(--rose);color:#fff;transform:translateY(-1px)}
-  .btn-ghost:disabled{opacity:.35;cursor:not-allowed}
+/* ===== NAV BUTTONS (ghost style) — alignés sur les liens du header ===== */
+.nav-buttons{display:flex;gap:12px;margin-top:10px}
+
+.btn-ghost{
+  flex:1;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;
+  background:transparent;
+  border:1px solid transparent;           /* comme les liens du header */
+  color:#ffecec;                           /* même couleur que Home/How it works/Contact */
+  text-decoration:none;                    /* pour les <a> */
+  transition:border-color .2s ease, background-color .2s ease, color .2s ease;
+}
+
+/* Hover = “transparent + trace rouge”, pas de fond plein rouge */
+.btn-ghost:hover{
+  border-color:rgba(255,59,48,.45);
+  background:rgba(255,59,48,.10);         /* léger tint transparent, identique au header */
+  color:#fff;
+  transform:none;                          /* on enlève le petit saut */
+}
+
+.btn-ghost:focus-visible{
+  outline:2px solid rgba(255,59,48,.55);
+  outline-offset:2px;
+}
+
+.btn-ghost:disabled{
+  opacity:.35;cursor:not-allowed;
+  background:transparent;border-color:rgba(255,255,255,.12);
+}
 
   /* ===== SUMMARY + SHARE ===== */
   .summary{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px}

@@ -77,29 +77,24 @@
   display:inline-flex;align-items:center;justify-content:center;
   padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;
   background:transparent;
-  border:1px solid transparent;           /* comme les liens du header */
-  color:#ffecec;                           /* même couleur que Home/How it works/Contact */
-  text-decoration:none;                    /* pour les <a> */
-  transition:border-color .2s ease, background-color .2s ease, color .2s ease;
+  color:#ffecec; text-decoration:none;
+  border:1px solid rgba(255,59,48,.28);           /* contour visible au repos */
+  box-shadow:0 0 0 1px rgba(255,59,48,.10) inset;  /* léger liseré interne */
+  transition:border-color .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
 }
-
-/* Hover = “transparent + trace rouge”, pas de fond plein rouge */
 .btn-ghost:hover{
   border-color:rgba(255,59,48,.45);
-  background:rgba(255,59,48,.10);         /* léger tint transparent, identique au header */
+  background:rgba(255,59,48,.10);                 /* tint transparent */
   color:#fff;
-  transform:none;                          /* on enlève le petit saut */
+  box-shadow:
+    0 0 0 1px rgba(255,59,48,.22) inset,
+    0 0 12px rgba(255,59,48,.18);                 /* petit glow extérieur */
 }
-
-.btn-ghost:focus-visible{
-  outline:2px solid rgba(255,59,48,.55);
-  outline-offset:2px;
-}
-
 .btn-ghost:disabled{
   opacity:.35;cursor:not-allowed;
-  background:transparent;border-color:rgba(255,255,255,.12);
+  background:transparent;border-color:rgba(255,255,255,.12); box-shadow:none;
 }
+
 
   /* ===== SUMMARY + SHARE ===== */
   .summary{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px}

@@ -168,6 +168,29 @@
       <button class="btn" id="next-btn" onclick="nextQ()">Next</button>
     </div>
 
+    <!-- Résumé final -->
+    <div id="summary" style="display:none;margin-top:18px"></div>
+
+    <!-- Bloc PARTAGE (initiateur seulement) -->
+    <div class="share-card" id="shareBlock" style="display:none;margin-top:18px">
+      <h4 class="share-title">Share your link</h4>
+      <div class="share-row">
+        <input id="shareLink" class="share-input" type="text" readonly>
+        <button id="copyBtn" class="btn-ghost">Copy link</button>
+      </div>
+      <div class="share-actions">
+        <a id="waBtn"  class="btn-ghost" target="_blank" rel="noopener">Share via WhatsApp</a>
+        <a id="smsBtn" class="btn-ghost">Share via SMS</a>
+      </div>
+    </div>
+
+    <!-- Bouton partenaire (LE SEUL qui doit lancer l’envoi email en arrière-plan) -->
+    <div id="partnerCTA" style="display:none;margin-top:18px">
+      <button id="letsGoBtn" class="btn-ghost">See if we match — Let’s Go!!!</button>
+    </div>
+  </section>
+</main>
+
 <footer class="site-footer" id="footer">
   <div class="f-wrap">
     <div class="f-col brand">

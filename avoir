@@ -1,0 +1,356 @@
+<!-- ========= À PARTIR DU <body> ========= -->
+
+<main class="wrap">
+  <section class="page">
+    <h1>Compatibility Test</h1>
+    <p class="lead">Answer step by step to see if you’re truly a match — or if it’s better to move on.</p>
+
+    <!-- Progress -->
+    <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+    <div id="pctDone" style="margin:6px 0 16px;color:#c9c2bb">0% complete</div>
+
+    <!-- Question box -->
+    <div class="question-box" id="q-box">
+      <small class="q-index" id="q-index">Question 1 / 1</small>
+      <h2 class="q-title" id="q-title">Loading…</h2>
+      <div id="q-inputs"></div>
+      <div class="hint" id="q-hint"></div>
+    </div>
+
+    <!-- Nav buttons (garde ton style global) -->
+    <div class="nav-buttons" id="nav-buttons">
+      <button class="btn secondary" id="prev-btn" onclick="prevQ()">Back</button>
+      <button class="btn" id="next-btn" onclick="nextQ()">Next</button>
+    </div>
+
+    <!-- Résumé final -->
+    <div id="summary" style="display:none;margin-top:18px"></div>
+
+    <!-- Bloc PARTAGE (initiateur seulement) -->
+    <div class="share-card" id="shareBlock" style="display:none;margin-top:18px">
+      <h4 class="share-title">Share your link</h4>
+      <div class="share-row">
+        <input id="shareLink" class="share-input" type="text" readonly>
+        <button id="copyBtn" class="btn-ghost">Copy link</button>
+      </div>
+      <div class="share-actions">
+        <a id="waBtn"  class="btn-ghost" target="_blank" rel="noopener">Share via WhatsApp</a>
+        <a id="smsBtn" class="btn-ghost">Share via SMS</a>
+      </div>
+    </div>
+
+    <!-- Bouton partenaire (LE SEUL qui doit lancer l’envoi email en arrière-plan) -->
+    <div id="partnerCTA" style="display:none;margin-top:18px">
+      <button id="letsGoBtn" class="btn-ghost">See if we match — Let’s Go!!!</button>
+    </div>
+  </section>
+</main>
+
+<!-- ========= SCRIPT ========= -->
+<script>
+/* -----------------------------------------------------------
+   0) COLLE ICI TES DONNÉES (tu remplaces ces 3 lignes) :
+      - const COUNTRIES = [ ... ];
+      - const QUESTIONS = [ ... ];
+      - const STEPS     = [ ... ];
+   ----------------------------------------------------------- */
+// // EXEMPLE vide (pour éviter les erreurs pendant que tu colles)
+// // Supprime cet exemple quand tu colles les vrais tableaux.
+window.COUNTRIES = window.COUNTRIES || [];
+window.QUESTIONS = window.QUESTIONS || []; // <-- TU COLLES ICI
+window.STEPS     = window.STEPS     || []; // <-- TU COLLES ICI
+
+/* -----------------------------------------------------------
+   1) Références UI
+   ----------------------------------------------------------- */
+const elBar     = document.getElementById("progress-bar");
+const elPct     = document.getElementById("pctDone");
+const elQBox    = document.getElementById("q-box");
+const elQIndex  = document.getElementById("q-index");
+const elQTitle  = document.getElementById("q-title");
+const elQInputs = document.getElementById("q-inputs");
+const elHint    = document.getElementById("q-hint");
+const elSummary = document.getElementById("summary");
+const btnPrev   = document.getElementById("prev-btn");
+const btnNext   = document.getElementById("next-btn");
+
+const shareBlock = document.getElementById('shareBlock');
+const shareInput = document.getElementById('shareLink');
+const copyBtn    = document.getElementById('copyBtn');
+const waBtn      = document.getElementById('waBtn');
+const smsBtn     = document.getElementById('smsBtn');
+
+const partnerCTA = document.getElementById('partnerCTA');
+const letsGoBtn  = document.getElementById('letsGoBtn');
+
+/* -----------------------------------------------------------
+   2) État + helpers de visibilité / progression
+   ----------------------------------------------------------- */
+const state = {};      // { id: value }
+let currentIndex = 0;
+
+function findQuestion(id){ return window.QUESTIONS.find(q=>q.id===id); }
+
+function isVisible(q){
+  if (!q) return false;
+  if (!q.showIf && !q.showIfAny) return true;
+  if (q.showIf){
+    const v = state[q.showIf.id];
+    if (Array.isArray(q.showIf.anyOf)) return q.showIf.anyOf.includes(v);
+    if ('value' in q.showIf) return v === q.showIf.value;
+  }
+  if (q.showIfAny){
+    return q.showIfAny.some(cond=>{
+      const v = state[cond.id];
+      if (cond.in) return cond.in.includes(v);
+      if ('value' in cond) return v === cond.value;
+      return !!v;
+    });
+  }
+  return true;
+}
+function visibleSteps(){
+  return (window.STEPS||[]).filter(id => isVisible(findQuestion(id)));
+}
+
+function isAnswered(q){
+  const v = state[q.id];
+  if (q.type === 'text')   return v && String(v).trim().length>0;
+  if (q.type === 'select' || q.type === 'single') return !!v;
+  if (q.type === 'multi')  return Array.isArray(v) && v.length >= (q.min || 1);
+  if (q.type === 'file')   return v && v.dataUrl;
+  return false;
+}
+function calcProgress(){
+  const vis = visibleSteps();
+  if (vis.length === 0) return 0;
+  const answered = vis.filter(id => isAnswered(findQuestion(id))).length;
+  return Math.floor((answered / vis.length) * 100);
+}
+function updateProgressUI(){
+  const vis = visibleSteps();
+  const pct = calcProgress();
+  elBar.style.width = pct + "%";
+  elPct.textContent = `${pct}% complete`;
+  elQIndex.textContent = `Question ${Math.min(currentIndex+1, vis.length)} / ${vis.length || 1}`;
+}
+
+/* -----------------------------------------------------------
+   3) Rendu d’une question
+   ----------------------------------------------------------- */
+function setHint(t){ elHint.textContent = t || ""; }
+
+function render(){
+  if (!Array.isArray(window.QUESTIONS) || !Array.isArray(window.STEPS) || window.STEPS.length===0){
+    // Pas encore collé le questionnaire : on masque la nav.
+    elQTitle.textContent = "Paste your QUESTIONS / STEPS arrays first.";
+    document.getElementById('nav-buttons').style.display='none';
+    updateProgressUI();
+    return;
+  }
+
+  const vis = visibleSteps();
+  if (vis.length === 0){
+    elQTitle.textContent = "No visible questions. Check your showIf rules.";
+    document.getElementById('nav-buttons').style.display='none';
+    updateProgressUI();
+    return;
+  }
+
+  if (currentIndex < 0) currentIndex = 0;
+  if (currentIndex >= vis.length) currentIndex = vis.length - 1;
+  const qId = vis[currentIndex];
+  const q = findQuestion(qId);
+
+  elQInputs.innerHTML = "";
+  setHint("");
+  elQTitle.textContent = q.label;
+
+  // Type: text / select / single / multi / file
+  if (q.type === "text"){
+    const inp = document.createElement("input");
+    inp.type = q.inputType || "text";
+    inp.placeholder = q.placeholder || "";
+    if (state[q.id]) inp.value = state[q.id];
+    inp.addEventListener("input", e=>{ state[q.id]=e.target.value; updateProgressUI(); });
+    elQInputs.appendChild(inp);
+  }
+  else if (q.type === "select"){
+    const sel = document.createElement("select");
+    const def = document.createElement("option");
+    def.value=""; def.textContent="Select…"; sel.appendChild(def);
+    (q.options||[]).forEach(o=>{
+      const op=document.createElement("option");
+      op.value=o; op.textContent=o; sel.appendChild(op);
+    });
+    if (state[q.id]) sel.value = state[q.id];
+    sel.addEventListener("change", e=>{ state[q.id]=e.target.value; updateProgressUI(); });
+    elQInputs.appendChild(sel);
+  }
+  else if (q.type === "single"){
+    const wrap = document.createElement("div"); wrap.className="options";
+    (q.options||[]).forEach(o=>{
+      const row=document.createElement("div"); row.className="opt";
+      const input=document.createElement("input"); input.type="radio"; input.name=q.id; input.value=o;
+      if(state[q.id]===o) input.checked=true;
+      input.addEventListener("change", ()=>{ state[q.id]=o; updateProgressUI(); });
+      const lab=document.createElement("label"); lab.textContent=o;
+      lab.addEventListener("click", ()=>{ input.checked=true; input.dispatchEvent(new Event('change')); });
+      row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
+    });
+    elQInputs.appendChild(wrap);
+  }
+  else if (q.type === "multi"){
+    const wrap = document.createElement("div"); wrap.className="options";
+    const selSet = new Set(Array.isArray(state[q.id])?state[q.id]:[]);
+    (q.options||[]).forEach(o=>{
+      const row=document.createElement("div"); row.className="opt multi";
+      const input=document.createElement("input"); input.type="checkbox"; input.value=o;
+      if(selSet.has(o)) input.checked=true;
+      input.addEventListener("change", ()=>{
+        if(input.checked){
+          // Limite max si définie
+          if (q.max && selSet.size >= q.max){ input.checked=false; return; }
+          selSet.add(o);
+        } else { selSet.delete(o); }
+        state[q.id]=Array.from(selSet); updateProgressUI();
+      });
+      const lab=document.createElement("label"); lab.textContent=o;
+      lab.addEventListener("click", ()=>{ input.checked=!input.checked; input.dispatchEvent(new Event('change')); });
+      row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
+    });
+    state[q.id]=Array.from(selSet);
+    elQInputs.appendChild(wrap);
+    if (q.min) setHint(`Pick at least ${q.min}${q.max?` (max ${q.max})`:""}.`);
+  }
+  else if (q.type === "file"){
+    const wrap = document.createElement("div"); wrap.className="field";
+    const inp = document.createElement("input");
+    inp.type="file"; inp.accept = q.accept || "image/*";
+    const preview=document.createElement("img");
+    Object.assign(preview.style,{maxWidth:"140px",maxHeight:"140px",borderRadius:"10px",display:"none",marginTop:"10px"});
+    if(state[q.id] && state[q.id].dataUrl){ preview.src=state[q.id].dataUrl; preview.style.display="block"; }
+    inp.addEventListener("change", e=>{
+      const file=e.target.files && e.target.files[0]; if(!file) return;
+      const maxMB=q.maxSizeMB||5;
+      if(file.size > maxMB*1024*1024){ setHint(`Please choose an image ≤ ${maxMB} MB.`); inp.value=""; preview.style.display="none"; return; }
+      if(!file.type.startsWith("image/")){ setHint("Please choose a valid image file (JPG/PNG)."); inp.value=""; preview.style.display="none"; return; }
+      const reader=new FileReader();
+      reader.onload = ev => { const dataUrl=ev.target.result; preview.src=dataUrl; preview.style.display="block"; state[q.id]={name:file.name,type:file.type,size:file.size,dataUrl}; setHint(""); updateProgressUI(); };
+      reader.readAsDataURL(file);
+    });
+    wrap.appendChild(inp); wrap.appendChild(preview); elQInputs.appendChild(wrap);
+  }
+
+  // Boutons
+  btnPrev.disabled = (currentIndex===0);
+  btnNext.textContent = (currentIndex===vis.length-1) ? "Finish" : "Next";
+
+  updateProgressUI();
+}
+
+/* -----------------------------------------------------------
+   4) Validation + navigation
+   ----------------------------------------------------------- */
+function validateCurrent(){
+  const vis = visibleSteps(); const q = findQuestion(vis[currentIndex]);
+  if(!q || !q.required) return true;
+  return isAnswered(q);
+}
+function nextQ(){
+  if(!validateCurrent()){ setHint("Please answer before continuing."); return; }
+  const vis = visibleSteps();
+  if(currentIndex < vis.length-1){ currentIndex++; render(); }
+  else{ showSummary(); }
+}
+function prevQ(){ if(currentIndex>0){ currentIndex--; render(); } }
+
+/* -----------------------------------------------------------
+   5) Summary + Partage / CTA partenaire
+   ----------------------------------------------------------- */
+const params = new URLSearchParams(location.search);
+const isPartner = params.has("partner");
+
+function computeShareLink(){
+  // ID simple (remplace si tu as déjà un back)
+  const rid = Math.random().toString(36).slice(2,10);
+  return `${location.origin}${location.pathname}?partner=${rid}`;
+}
+
+function showShareForInitiator(link){
+  if (!shareBlock) return;
+  shareBlock.style.display = isPartner ? "none" : "block";
+  if (isPartner) return;
+
+  shareInput.value = link;
+
+  copyBtn.onclick = async ()=>{
+    try{ await navigator.clipboard.writeText(link); alert("Link copied!"); }
+    catch(e){ shareInput.select(); document.execCommand('copy'); alert("Link copied!"); }
+  };
+  waBtn.href  = "https://wa.me/?text=" + encodeURIComponent(link);
+  smsBtn.href = "sms:?&body="       + encodeURIComponent(link);
+}
+
+function showPartnerCTA(){
+  // Visible seulement côté partenaire
+  partnerCTA.style.display = isPartner ? "block" : "none";
+  // Clic = tu déclenches ton appel (backend / email) sans montrer "send email"
+  letsGoBtn.onclick = ()=> {
+    // TODO: remplace par ton appel fetch() vers l’API (en arrière-plan)
+    alert("We’ll email both of you your compatibility result. ✨");
+  };
+}
+
+function showSummary(){
+  const vis = visibleSteps();
+  elQBox.style.display="none";
+  document.getElementById('nav-buttons').style.display="none";
+  elBar.style.width = "100%"; elPct.textContent = "100% complete";
+
+  const wrap = document.createElement("div");
+  wrap.className="summary";
+  const h = document.createElement("h3"); h.textContent="Your answers";
+  wrap.appendChild(h);
+
+  vis.forEach(id=>{
+    const q = findQuestion(id); if(!q) return;
+    let val = state[id];
+    const row = document.createElement("div"); row.className="row";
+    const k = document.createElement("div"); k.className="k"; k.textContent=q.label.replace(/^\d+\)\s*/,"");
+    const v = document.createElement("div"); v.className="v";
+    if (q.type==="file" && val && val.dataUrl){
+      const img=document.createElement("img"); img.src=val.dataUrl; img.alt="Photo"; Object.assign(img.style,{maxWidth:"140px",maxHeight:"140px",borderRadius:"10px"}); v.appendChild(img);
+    }else{
+      if (Array.isArray(val)) val = val.join(", ");
+      if (!val) val = "—";
+      v.textContent = val;
+    }
+    row.appendChild(k); row.appendChild(v); wrap.appendChild(row);
+  });
+
+  elSummary.innerHTML=""; elSummary.appendChild(wrap); elSummary.style.display="block";
+
+  // Partage si initiateur
+  const link = computeShareLink();
+  showShareForInitiator(link);
+
+  // CTA partenaire (bouton Let's Go)
+  showPartnerCTA();
+}
+
+/* -----------------------------------------------------------
+   6) Safe init
+   ----------------------------------------------------------- */
+function safeInit(){
+  try{ render(); }catch(e){ console.error(e); elQTitle.textContent="There was an error loading the first question."; }
+}
+if (document.readyState === "loading"){ document.addEventListener("DOMContentLoaded", safeInit); }
+else { safeInit(); }
+
+/* -----------------------------------------------------------
+   7) Expose nav
+   ----------------------------------------------------------- */
+window.nextQ = nextQ;
+window.prevQ = prevQ;
+</script>

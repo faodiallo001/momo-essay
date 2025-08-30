@@ -291,6 +291,7 @@ addEventListener('resize',size);size();loop();
 </script>
 
 <!-- ===================== COMPATIBILITY SCRIPT ===================== -->
+<!-- ===================== COMPATIBILITY SCRIPT (fixed) ===================== -->
 <script>
 const COUNTRIES = [
 "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
@@ -314,15 +315,13 @@ const COUNTRIES = [
 "Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
 ];
 
-/* ---------- QUESTIONS (exact wordings we agreed) ---------- */
+/* ---------- QUESTIONS (same wording) ---------- */
 const QUESTIONS = [
-  // Identity basics needed for sending result + context
   {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
   {id:"email",    type:"text",  label:"Your email (to receive your result)", required:true, placeholder:"you@email.com"},
   {id:"residency",type:"select",label:"Country of residence", required:true, options:COUNTRIES},
   {id:"origin",   type:"select",label:"Country of origin", required:true, options:COUNTRIES},
 
-  // Kids — present + future (with details we discussed)
   {id:"hasKids",  type:"single",label:"Do you currently have children?", required:true, options:["No","Yes"]},
   {id:"kidsCount",type:"select",label:"How many children do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
   {id:"kidsWith", type:"single",label:"If you have 2+ children, were they with the same partner or different partners?", required:true,
@@ -333,16 +332,12 @@ const QUESTIONS = [
   {id:"kidsTime", type:"single",label:"If yes, when do you imagine having kids?", required:false,
     options:["ASAP (≤12 months)","1–2 years","3–5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
 
-  // Faith & culture
   {id:"religionNeed", type:"single",label:"Does your partner need to share your religion?", required:true,
     options:["Yes — same religion","No — different is fine","Maybe — depends on practice"]},
   {id:"cultureNeed",  type:"single",label:"Does your partner need to share your culture?", required:true, options:["Yes","No","Maybe"]},
 
-  // Money & roles (explicit like Love Passport)
   {id:"moneyManage", type:"single",label:"How would you prefer to manage money in a relationship?", required:true, options:[
-    "One joint account (share everything)",
-    "Separate accounts",
-    "Each pays their own share, completely independent"
+    "One joint account (share everything)","Separate accounts","Each pays their own share, completely independent"
   ]},
   {id:"bills", type:"single",label:"When it comes to bills & expenses (including restaurants), who should pay?", required:true, options:[
     "Traditional (man pays fully; woman manages the home)",
@@ -350,15 +345,10 @@ const QUESTIONS = [
     "Each pays their own share, completely independent"
   ]},
 
-  // Home & hygiene
   {id:"homeClean", type:"single",label:"How do you usually keep your home?", required:true, options:[
-    "Very clean — I do it myself",
-    "Very clean — we hire help",
-    "Clean but sometimes messy",
-    "Messy — I don’t care much"
+    "Very clean — I do it myself","Very clean — we hire help","Clean but sometimes messy","Messy — I don’t care much"
   ]},
 
-  // Food & diet (fusion question to avoid tautology)
   {id:"dietFusion", type:"single",label:"Food & diet lifestyle — and do you expect your partner to share it?", required:true, options:[
     "I eat anything — my partner doesn’t need to match",
     "I try to eat healthy — I prefer my partner to share it",
@@ -369,7 +359,6 @@ const QUESTIONS = [
     "Other"
   ]},
 
-  // Lifestyle: sleep, pets, smoking, alcohol
   {id:"sleep",   type:"single",label:"What’s your usual sleep schedule?", required:true,
     options:["Early sleeper (before ~11pm)","Night owl (after midnight)","It varies depending on the day"]},
   {id:"petComfort", type:"single",label:"Would you be comfortable living with a partner who has pets?", required:true,
@@ -377,58 +366,44 @@ const QUESTIONS = [
   {id:"smoking", type:"single",label:"Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
   {id:"alcohol", type:"single",label:"Do you drink alcohol?", required:true, options:["No","Sometimes","Often"]},
 
-  // Living, car, stability
   {id:"living", type:"single",label:"What’s your current living situation?", required:true,
     options:["I live alone","I rent with roommates","I live with family","I own my place"]},
   {id:"car", type:"single",label:"Do you own a car?", required:true,
     options:["Yes","No","Not needed where I live","Planning to get one"]},
 
-  // Ambition & conflict & communication
   {id:"ambition", type:"single",label:"Which best describes you right now?", required:true,
     options:["I’m ambitious and working on it","I’m stable and comfortable","I’m still figuring things out"]},
   {id:"conflict", type:"single",label:"When conflicts happen, how do you usually respond?", required:true,
     options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
 
-  // Politics intensity (so your DB works)
   {id:"politicsTalk", type:"single",label:"How much do you talk about politics in daily life?", required:true,
     options:["Rarely","Sometimes","Often","A lot — every day"]},
 
-  // Sex (clear wording)
   {id:"sexImportance", type:"single",label:"How important is sex in a relationship for you?", required:true,
     options:["Very important — I need it often","Important — but not a top priority","Not so important for me"]},
   {id:"pace", type:"single",label:"Preferred pace for physical intimacy (relationship)", required:true,
     options:["Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"]},
 
-  // Distance & relocation
   {id:"distance", type:"single",label:"Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
   {id:"relocate", type:"single",label:"Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
 
-  // Evenings together (romance-focused set incl. your requests)
   {id:"evening", type:"single",label:"Your ideal evening with someone you love", required:true, options:[
-    "Cozy movie night at home",
-    "Romantic dinner out & deep conversation",
-    "Romantic beach walk",
-    "Outdoor movie / open-air cinema",
-    "Live music or a show as a couple"
+    "Cozy movie night at home","Romantic dinner out & deep conversation","Romantic beach walk","Outdoor movie / open-air cinema","Live music or a show as a couple"
   ]},
 
-  // Hobbies (max 3)
   {id:"hobbies", type:"multi",label:"What hobbies or activities do you enjoy? (Pick up to 3)", required:true, min:1, max:3, options:[
     "Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering","Other"
   ]},
 
-  // Type (max 3; special rule for “I don’t have a type”)
   {id:"type", type:"multi",label:"What’s your type? (Pick up to 3)", required:true, min:1, max:3, options:[
     "Blonde","Brunette","Black","Redhead","Arab","European","African","Asian","I don’t have a type"
   ]},
 
-  // Social boundaries & privacy
   {id:"phonePrivacy", type:"single",label:"In your relationship, do you prefer to share phone passwords or keep phones private?", required:true,
     options:["Share passwords","Keep phones private"]},
   {id:"dmRules", type:"single",label:"Would it bother you if your partner chats privately with people of the opposite sex on social media?", required:true,
     options:["Yes","No","It depends on the conversation"]},
 
-  // Deal-breakers (EXACT list)
   {id:"dealBreakers", type:"multi", label:"I cannot accept… (pick ≥ 5)", required:true, min:5, options:[
     "Someone obsessed with politics, talks about it all day long",
     "Cheating / infidelity",
@@ -450,7 +425,7 @@ const QUESTIONS = [
   ]}
 ];
 
-/* ===== Références UI ===== */
+/* ===== UI refs ===== */
 const elBar=document.getElementById("progress-bar");
 const elPct=document.getElementById("pctDone");
 const elQBox=document.getElementById("q-box");
@@ -469,19 +444,34 @@ const smsBtn=document.getElementById("smsBtn");
 const partnerCTA=document.getElementById("partnerCTA");
 const letsGoBtn=document.getElementById("letsGoBtn");
 
-/* ===== État + contexte ===== */
+/* ===== State & URL context ===== */
 const state={}; let currentIndex=0;
 const params=new URLSearchParams(location.search);
 const isPartner=params.has("partner");
 
 /* ===== Helpers ===== */
 function findQuestion(id){ return QUESTIONS.find(q=>q.id===id); }
-function visibleSteps(){ return STEPS.slice(); }
+function matchesShowIf(q){
+  if(q.showIf && state[q.showIf.id]!==q.showIf.value) return false;
+  if(q.showIfAny){
+    const ok=q.showIfAny.some(cond=>{
+      const v=state[cond.id];
+      if('in' in cond) return cond.in.includes(v);
+      if('value' in cond) return v===cond.value;
+      return false;
+    });
+    if(!ok) return false;
+  }
+  return true;
+}
+function visibleSteps(){
+  return QUESTIONS.filter(matchesShowIf).map(q=>q.id);
+}
 function isAnswered(q){
   const v=state[q.id];
   if(q.type==="text") return v && String(v).trim().length>0;
-  if(q.type==="single"||q.type==="select") return !!v;
-  if(q.type==="multi") return Array.isArray(v)&&v.length>=(q.min||1);
+  if(q.type==="single"||q.type==="select") return v!=null && v!=="";
+  if(q.type==="multi") return Array.isArray(v) && v.length>=(q.min||1);
   return false;
 }
 function calcProgress(){
@@ -498,9 +488,19 @@ function updateProgressUI(){
 }
 function setHint(t){ elHint.textContent=t||""; }
 
-/* ===== Rendu ===== */
+/* Remove answers of questions that became hidden */
+function pruneHiddenAnswers(){
+  const visible=new Set(visibleSteps());
+  for(const q of QUESTIONS){
+    if(!visible.has(q.id) && q.id in state){ delete state[q.id]; }
+  }
+}
+
+/* ===== Renderers ===== */
 function render(){
-  const vis=visibleSteps(); if(!vis.length){ elQTitle.textContent="No questions."; return; }
+  pruneHiddenAnswers();
+  const vis=visibleSteps(); 
+  if(!vis.length){ elQTitle.textContent="No questions."; return; }
   if(currentIndex<0) currentIndex=0;
   if(currentIndex>=vis.length) currentIndex=vis.length-1;
   const q=findQuestion(vis[currentIndex]);
@@ -511,33 +511,88 @@ function render(){
     const inp=document.createElement("input");
     inp.type=q.inputType||"text"; inp.placeholder=q.placeholder||"";
     if(state[q.id]) inp.value=state[q.id];
-    inp.addEventListener("input",e=>{state[q.id]=e.target.value; updateProgressUI();});
+    inp.addEventListener("input",(e)=>{ state[q.id]=e.target.value; updateAfterAnswer(q.id); });
     elQInputs.appendChild(inp);
-  }else if(q.type==="single"){
+  }
+  else if(q.type==="single"){
     const wrap=document.createElement("div"); wrap.className="options";
     q.options.forEach(o=>{
       const row=document.createElement("div"); row.className="opt";
       const input=document.createElement("input"); input.type="radio"; input.name=q.id; input.value=o;
       if(state[q.id]===o) input.checked=true;
-      input.addEventListener("change",()=>{state[q.id]=o; updateProgressUI();});
+      input.addEventListener("change",()=>{ state[q.id]=o; updateAfterAnswer(q.id,true); });
       const lab=document.createElement("label"); lab.textContent=o;
-      lab.addEventListener("click",()=>{input.checked=true; input.dispatchEvent(new Event('change'));});
+      lab.addEventListener("click",()=>{ input.checked=true; input.dispatchEvent(new Event('change'));});
       row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
     });
     elQInputs.appendChild(wrap);
   }
+  else if(q.type==="select"){
+    const sel=document.createElement("select");
+    const ph=document.createElement("option"); ph.value=""; ph.textContent="Select…"; sel.appendChild(ph);
+    q.options.forEach(o=>{
+      const opt=document.createElement("option"); opt.value=o; opt.textContent=o; sel.appendChild(opt);
+    });
+    if(state[q.id]) sel.value=state[q.id];
+    sel.addEventListener("change",()=>{ state[q.id]=sel.value; updateAfterAnswer(q.id,true); });
+    elQInputs.appendChild(sel);
+  }
+  else if(q.type==="multi"){
+    const wrap=document.createElement("div"); wrap.className="options";
+    const current=new Set(Array.isArray(state[q.id])?state[q.id]:[]);
+    const max=q.max||Infinity;
+    q.options.forEach(o=>{
+      const row=document.createElement("div"); row.className="opt";
+      const input=document.createElement("input"); input.type="checkbox"; input.value=o;
+      input.checked=current.has(o);
+      input.addEventListener("change",()=>{
+        const arr=new Set(Array.isArray(state[q.id])?state[q.id]:[]);
+        if(input.checked){
+          if(arr.size>=max && !arr.has(o)){ input.checked=false; setHint(`You can select up to ${max}.`); return; }
+          arr.add(o);
+        }else{
+          arr.delete(o);
+        }
+        state[q.id]=Array.from(arr);
+        setHint("");
+        updateAfterAnswer(q.id);
+      });
+      const lab=document.createElement("label"); lab.textContent=o;
+      lab.addEventListener("click",()=>{ input.click(); });
+      row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
+    });
+    elQInputs.appendChild(wrap);
+    if(q.min){ setHint(`Pick at least ${q.min}${Number.isFinite(max)?` (up to ${max})`:''}.`); }
+  }
+
   btnPrev.disabled=(currentIndex===0);
   btnNext.textContent=(currentIndex===vis.length-1)?"Finish":"Next";
   updateProgressUI();
 }
 
-/* ===== Nav ===== */
+/* After any answer: reflow visibility and keep user on a valid index */
+function updateAfterAnswer(changedId, hardReflow=false){
+  const before=visibleSteps();
+  pruneHiddenAnswers();
+  const after=visibleSteps();
+  // If current question disappeared, move to the nearest valid step
+  if(!after[currentIndex]) currentIndex=Math.max(0, Math.min(currentIndex, after.length-1));
+  // If structure changed (e.g., new step appeared/disappeared), re-render
+  if(hardReflow || before.join("|")!==after.join("|")) render(); else updateProgressUI();
+}
+
+/* ===== Navigation ===== */
 function validateCurrent(){
-  const vis=visibleSteps(); const q=findQuestion(vis[currentIndex]);
-  return q?.required ? isAnswered(q) : true;
+  const vis=visibleSteps(); const q=findQuestion(vis[currentIndex]); if(!q) return true;
+  if(!q.required) return true;
+  if(q.type==="multi"){
+    const arr=state[q.id]||[]; const need=q.min||1; 
+    if(arr.length<need){ setHint(`Please select at least ${need}.`); return false; }
+  }
+  return isAnswered(q);
 }
 function nextQ(){
-  if(!validateCurrent()){ setHint("Please answer before continuing."); return; }
+  if(!validateCurrent()){ if(!elHint.textContent) setHint("Please answer before continuing."); return; }
   const vis=visibleSteps();
   if(currentIndex<vis.length-1){ currentIndex++; render(); }
   else{ showSummary(); }
@@ -547,7 +602,10 @@ function prevQ(){ if(currentIndex>0){ currentIndex--; render(); } }
 /* ===== Share / CTA ===== */
 function computeShareLink(){
   const rid=Math.random().toString(36).slice(2,10);
-  return `${location.origin}${location.pathname}?partner=${rid}`;
+  const base=(location.origin && location.origin!=="null") 
+    ? (location.origin + location.pathname)
+    : (location.href.split("?")[0]);
+  return `${base}?partner=${rid}`;
 }
 function showShareForInitiator(link){
   if(isPartner){ shareBlock.style.display="none"; return; }
@@ -563,7 +621,7 @@ function showShareForInitiator(link){
 function showPartnerCTA(){
   partnerCTA.style.display=isPartner?"block":"none";
   letsGoBtn.onclick=()=>{
-    /* Branche ici ton fetch() backend pour envoyer les emails en arrière-plan */
+    // Hook your backend call here to email both partners the result
     alert("We’ll email both of you your compatibility result. ✨");
   };
 }
@@ -590,9 +648,9 @@ function showSummary(){
 
   elSummary.innerHTML=""; elSummary.appendChild(wrap); elSummary.style.display="block";
 
-  const link=computeShareLink();       // Initiateur : boutons de partage
+  const link=computeShareLink();
   showShareForInitiator(link);
-  showPartnerCTA();                    // Partenaire : bouton “Let’s Go”
+  showPartnerCTA();
 }
 
 /* ===== Init ===== */
@@ -600,7 +658,6 @@ function safeInit(){ try{ render(); }catch(e){ console.error(e); elQTitle.textCo
 if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", safeInit); }
 else{ safeInit(); }
 
-/* Expose */
 window.nextQ=nextQ; window.prevQ=prevQ;
 </script>
 </body>

@@ -95,6 +95,23 @@
   background:transparent;border-color:rgba(255,255,255,.12); box-shadow:none;
 }
 
+  /* FOOTER */
+  .site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
+    background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
+  .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
+  .site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
+  .site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
+  .site-footer .brand-title span{color:var(--rose)}
+  .site-footer .tag{margin:8px 0 10px;color:#cbbfb7;font-size:14px}
+  .site-footer .mail{color:#fff;text-decoration:none;font-weight:600}
+  .site-footer .mail:hover{color:var(--rose)}
+  .site-footer a{display:block;color:#e9e2db;text-decoration:none;margin:6px 0;font-weight:600}
+  .site-footer a:hover{color:var(--rose)}
+  .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
+  .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
+
+
 
   /* ===== SUMMARY + SHARE ===== */
   .summary{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px}

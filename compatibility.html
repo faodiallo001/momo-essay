@@ -292,19 +292,163 @@ addEventListener('resize',size);size();loop();
 
 <!-- ===================== COMPATIBILITY SCRIPT ===================== -->
 <script>
-/* === LANG CONSTANTS PLACEHOLDER ===================================
-   Colle ici tes grands tableaux (COUNTRIES, options traduites, etc.)
-   Exemple:
-   // const COUNTRIES = [ "France","Côte d’Ivoire", ... ];
-==================================================================== */
-
-/* ===== Questions minimales pour démarrer (remplace plus tard) ===== */
-const QUESTIONS = [
-  {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
-  {id:"email",    type:"text",  label:"Your email (to receive the result)", required:true, placeholder:"name@email.com", inputType:"email"},
-  {id:"agree",    type:"single",label:"Do you agree to share your answers for a match result?", required:true, options:["Yes","No"]},
+const COUNTRIES = [
+"Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
+"Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
+"Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon",
+"Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica","Côte d’Ivoire",
+"Croatia","Cuba","Cyprus","Czech Republic","Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic",
+"Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France",
+"Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
+"Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan",
+"Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya",
+"Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands",
+"Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar",
+"Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway",
+"Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania",
+"Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino",
+"Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
+"Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
+"Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago",
+"Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States",
+"Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
 ];
-const STEPS = ["fullName","email","agree"];
+
+/* ---------- QUESTIONS (exact wordings we agreed) ---------- */
+const QUESTIONS = [
+  // Identity basics needed for sending result + context
+  {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
+  {id:"email",    type:"text",  label:"Your email (to receive your result)", required:true, placeholder:"you@email.com"},
+  {id:"residency",type:"select",label:"Country of residence", required:true, options:COUNTRIES},
+  {id:"origin",   type:"select",label:"Country of origin", required:true, options:COUNTRIES},
+
+  // Kids — present + future (with details we discussed)
+  {id:"hasKids",  type:"single",label:"Do you currently have children?", required:true, options:["No","Yes"]},
+  {id:"kidsCount",type:"select",label:"How many children do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
+  {id:"kidsWith", type:"single",label:"If you have 2+ children, were they with the same partner or different partners?", required:true,
+    options:["Same partner","Different partners"], showIfAny:[{id:"kidsCount", in:["2","3","4","5+"]}]},
+
+  {id:"wantKids", type:"single",label:"Do you want to have children in the future?", required:true,
+    options:["Yes","No — I don’t want to be a parent","Not sure"]},
+  {id:"kidsTime", type:"single",label:"If yes, when do you imagine having kids?", required:false,
+    options:["ASAP (≤12 months)","1–2 years","3–5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
+
+  // Faith & culture
+  {id:"religionNeed", type:"single",label:"Does your partner need to share your religion?", required:true,
+    options:["Yes — same religion","No — different is fine","Maybe — depends on practice"]},
+  {id:"cultureNeed",  type:"single",label:"Does your partner need to share your culture?", required:true, options:["Yes","No","Maybe"]},
+
+  // Money & roles (explicit like Love Passport)
+  {id:"moneyManage", type:"single",label:"How would you prefer to manage money in a relationship?", required:true, options:[
+    "One joint account (share everything)",
+    "Separate accounts",
+    "Each pays their own share, completely independent"
+  ]},
+  {id:"bills", type:"single",label:"When it comes to bills & expenses (including restaurants), who should pay?", required:true, options:[
+    "Traditional (man pays fully; woman manages the home)",
+    "Independent partners but not equal (man covers a bit more — e.g., 75/25)",
+    "Each pays their own share, completely independent"
+  ]},
+
+  // Home & hygiene
+  {id:"homeClean", type:"single",label:"How do you usually keep your home?", required:true, options:[
+    "Very clean — I do it myself",
+    "Very clean — we hire help",
+    "Clean but sometimes messy",
+    "Messy — I don’t care much"
+  ]},
+
+  // Food & diet (fusion question to avoid tautology)
+  {id:"dietFusion", type:"single",label:"Food & diet lifestyle — and do you expect your partner to share it?", required:true, options:[
+    "I eat anything — my partner doesn’t need to match",
+    "I try to eat healthy — I prefer my partner to share it",
+    "I try to eat healthy — but it’s not required",
+    "I follow a strict healthy diet — I need my partner aligned",
+    "Vegetarian/Vegan — I prefer my partner to share it",
+    "Vegetarian/Vegan — alignment isn’t necessary",
+    "Other"
+  ]},
+
+  // Lifestyle: sleep, pets, smoking, alcohol
+  {id:"sleep",   type:"single",label:"What’s your usual sleep schedule?", required:true,
+    options:["Early sleeper (before ~11pm)","Night owl (after midnight)","It varies depending on the day"]},
+  {id:"petComfort", type:"single",label:"Would you be comfortable living with a partner who has pets?", required:true,
+    options:["Yes — I’m comfortable living with pets","No — I can’t live with pets","I am allergic to pets","I don’t want pets in my home"]},
+  {id:"smoking", type:"single",label:"Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
+  {id:"alcohol", type:"single",label:"Do you drink alcohol?", required:true, options:["No","Sometimes","Often"]},
+
+  // Living, car, stability
+  {id:"living", type:"single",label:"What’s your current living situation?", required:true,
+    options:["I live alone","I rent with roommates","I live with family","I own my place"]},
+  {id:"car", type:"single",label:"Do you own a car?", required:true,
+    options:["Yes","No","Not needed where I live","Planning to get one"]},
+
+  // Ambition & conflict & communication
+  {id:"ambition", type:"single",label:"Which best describes you right now?", required:true,
+    options:["I’m ambitious and working on it","I’m stable and comfortable","I’m still figuring things out"]},
+  {id:"conflict", type:"single",label:"When conflicts happen, how do you usually respond?", required:true,
+    options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
+
+  // Politics intensity (so your DB works)
+  {id:"politicsTalk", type:"single",label:"How much do you talk about politics in daily life?", required:true,
+    options:["Rarely","Sometimes","Often","A lot — every day"]},
+
+  // Sex (clear wording)
+  {id:"sexImportance", type:"single",label:"How important is sex in a relationship for you?", required:true,
+    options:["Very important — I need it often","Important — but not a top priority","Not so important for me"]},
+  {id:"pace", type:"single",label:"Preferred pace for physical intimacy (relationship)", required:true,
+    options:["Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"]},
+
+  // Distance & relocation
+  {id:"distance", type:"single",label:"Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
+  {id:"relocate", type:"single",label:"Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
+
+  // Evenings together (romance-focused set incl. your requests)
+  {id:"evening", type:"single",label:"Your ideal evening with someone you love", required:true, options:[
+    "Cozy movie night at home",
+    "Romantic dinner out & deep conversation",
+    "Romantic beach walk",
+    "Outdoor movie / open-air cinema",
+    "Live music or a show as a couple"
+  ]},
+
+  // Hobbies (max 3)
+  {id:"hobbies", type:"multi",label:"What hobbies or activities do you enjoy? (Pick up to 3)", required:true, min:1, max:3, options:[
+    "Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering","Other"
+  ]},
+
+  // Type (max 3; special rule for “I don’t have a type”)
+  {id:"type", type:"multi",label:"What’s your type? (Pick up to 3)", required:true, min:1, max:3, options:[
+    "Blonde","Brunette","Black","Redhead","Arab","European","African","Asian","I don’t have a type"
+  ]},
+
+  // Social boundaries & privacy
+  {id:"phonePrivacy", type:"single",label:"In your relationship, do you prefer to share phone passwords or keep phones private?", required:true,
+    options:["Share passwords","Keep phones private"]},
+  {id:"dmRules", type:"single",label:"Would it bother you if your partner chats privately with people of the opposite sex on social media?", required:true,
+    options:["Yes","No","It depends on the conversation"]},
+
+  // Deal-breakers (EXACT list)
+  {id:"dealBreakers", type:"multi", label:"I cannot accept… (pick ≥ 5)", required:true, min:5, options:[
+    "Someone obsessed with politics, talks about it all day long",
+    "Cheating / infidelity",
+    "Religion not aligned with mine",
+    "Tries to change my faith or practice",
+    "Jealous / possessive / controlling",
+    "Violence (physical, verbal, emotional)",
+    "Explosive temper / unmanaged anger",
+    "Disrespects waiters / service workers (lack of humility)",
+    "Already has children",
+    "Has children with different partners",
+    "Partner owns pets (dogs/cats) — I can’t handle it",
+    "Big income gap — earns much less than me",
+    "Big income gap — earns much more than me",
+    "Sharing my private life on social media without my consent",
+    "Doesn’t take care of health (Gym and eating healthy)",
+    "Someone who is not family-oriented (no close bond with parents or siblings)",
+    "Lives with family or with roommates"
+  ]}
+];
 
 /* ===== Références UI ===== */
 const elBar=document.getElementById("progress-bar");

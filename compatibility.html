@@ -8,12 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
   :root{ --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; --glass:rgba(255,255,255,.04); }
-  *{box-sizing:border-box}
-  html,body{height:100%}
+  *{box-sizing:border-box} html,body{height:100%}
   body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
   html{scroll-behavior:smooth}
 
-  /* NAV */
+  /* NAV (same look as LP) */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 
@@ -32,13 +31,13 @@
   .nav-right{justify-self:end;display:flex;gap:18px;align-items:center}
   .nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
   .nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
-
   .lang{position:relative;z-index:10}
   .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
     border:1px solid rgba(255,59,48,.45);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
     text-shadow:0 0 8px rgba(255,59,48,.55); user-select:none}
   .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
-    background:rgba(0,0,0,.8);border:1px solid rgba(255,59,48,.45);border-radius:12px;padding:8px;max-height:50vh;overflow:auto}
+    background:rgba(0,0,0,.8);border:1px solid rgba(255,59,48,.45);border-radius:12px;padding:8px;max-height:50vh;overflow:auto;
+    -webkit-overflow-scrolling:touch; box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
   .lang.open .lang-menu{display:flex}
   @media (hover:hover){ .lang:hover .lang-menu{display:flex} }
   .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
@@ -46,50 +45,52 @@
 
   /* PAGE */
   .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:120px 20px 92px}
-  .page{max-width:min(780px,94vw);width:100%}
+  .page{max-width:min(760px,94vw);width:100%}
   .page h1{font-family:"Playfair Display",serif;font-size:clamp(32px,5.2vw,56px);line-height:1.08;margin:0 0 8px;text-align:center}
-  .lead{color:var(--muted);text-align:center;margin:4px 0 10px}
-  .intro{color:var(--muted);text-align:center;margin:0 0 18px;font-size:.98rem}
+  .lead{color:var(--muted);text-align:center;margin:4px 0 22px}
 
   /* PROGRESS */
-  .progress{width:100%;height:10px;background:#1b1b1d;border-radius:999px;overflow:hidden;margin:0 0 8px;border:1px solid rgba(255,255,255,.08)}
+  .progress{width:100%;height:12px;background:#1b1b1d;border-radius:999px;overflow:hidden;margin:0 0 10px;border:1px solid rgba(255,255,255,.08)}
   .progress-bar{height:100%;width:0;background:var(--rose);transition:width .35s ease}
-  .progress-meta{font-size:.9rem;color:#bfb7b0;text-align:right;margin:0 0 16px}
-  .q-index{display:block;color:#bfb7b0;font-size:.9rem;margin-bottom:6px}
+  .progress-meta{display:flex;justify-content:space-between;color:#bfb7b0;font-size:.9rem;margin-bottom:14px}
 
-  /* CARD */
+  /* QUESTION CARD */
   .question-box{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;
-    padding:24px 18px;margin-bottom:14px;box-shadow:0 0 14px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04)}
-  .q-title{font-family:"Playfair Display",serif;font-size:clamp(18px,3.6vw,24px);margin:0 0 12px;color:#fff}
+    padding:26px 18px;margin-bottom:16px;box-shadow:0 0 14px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04)}
+  .q-title{font-family:"Playfair Display",serif;font-size:clamp(18px,3.8vw,24px);margin:0 0 12px;color:#fff}
+  .hint{font-size:.9rem;color:#bfb7b0;margin-top:6px}
 
-  input[type="text"], input[type="email"], select{
+  /* INPUTS */
+  input[type="text"], select{
     width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.10);
     background:#111214;color:#fff;font-size:1rem;outline:none
   }
   .options{display:grid;gap:10px}
   .opt{display:flex;align-items:center;gap:10px;background:#121215;border:1px solid rgba(255,255,255,.08);padding:10px 12px;border-radius:12px}
-  .opt input{appearance:none;width:18px;height:18px;border:2px solid #666;border-radius:50%;position:relative;cursor:pointer;background:transparent}
+  .opt input{appearance:none;width:18px;height:18px;border:2px solid #666;border-radius:50%;display:inline-block;position:relative;outline:none;cursor:pointer;background:transparent}
   .opt input:checked{border-color:var(--rose)}
   .opt input:checked::after{content:"";position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%)}
   .opt.multi input{border-color:#666}
+  .opt.multi input:checked{border-color:var(--rose)}
   .opt.multi input:checked::after{width:10px;height:10px}
   .opt label{flex:1;cursor:pointer}
-  .hint{font-size:.9rem;color:#bfb7b0;margin-top:6px}
 
-  /* NAV BTNS — transparent like nav hover */
+  /* BUTTONS (transparent like nav hover) */
   .nav-buttons{display:flex;gap:12px;margin-top:10px}
   .btn{flex:1;background:transparent;color:var(--rose);border:2px solid var(--rose);border-radius:12px;padding:12px 14px;
-    font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s}
-  .btn:hover{background:var(--rose);color:#fff;transform:translateY(-1px);box-shadow:0 6px 15px rgba(0,0,0,.25)}
+    font-size:1rem;font-weight:700;cursor:pointer;transition:all .3s}
+  .btn:hover{background:var(--rose);color:#fff;transform:translateY(-2px)}
   .btn:disabled{opacity:.35;cursor:not-allowed}
 
-  /* SUMMARY */
-  .summary{display:none;background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px;margin-top:16px}
-  .summary h3{margin:0 0 8px;font-family:"Playfair Display",serif}
-  .row{display:flex;gap:10px;border-bottom:1px dashed rgba(255,255,255,.08);padding:8px 0}
-  .row:last-child{border-bottom:none}
-  .k{color:#bfb7b0;min-width:220px}
-  .v{flex:1}
+  /* SUMMARY / SHARE */
+  .summary{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px}
+  .linkbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0}
+  .linkpill{padding:10px 14px;border:2px solid var(--rose);border-radius:12px;background:transparent;white-space:nowrap}
+  .copybtn{background:transparent;color:var(--rose);border:2px solid var(--rose);border-radius:12px;padding:8px 12px;font-weight:700;cursor:pointer}
+  .copybtn:hover{background:var(--rose);color:#fff}
+  .cta-final{width:100%;margin-top:14px;background:transparent;color:var(--rose);
+    border:2px solid var(--rose);border-radius:12px;padding:14px 16px;font-size:1.05rem;font-weight:800;cursor:pointer;transition:all .3s}
+  .cta-final:hover{background:var(--rose);color:#fff;transform:translateY(-2px)}
 
   /* FOOTER */
   .site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
@@ -107,25 +108,26 @@
   .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
   .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
 
+  /* MOBILE */
   @media (max-width:768px){
     .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
     .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
     .nav-left{order:1}
     .nav-right{order:1;margin-left:auto;display:flex;gap:14px;align-items:center}
+    .nav-left a,.nav-right a{font-size:14px}
+    .lang-current{font-size:12px;padding:6px 10px}
     .wrap{padding-top:112px}
-    .page{max-width:94vw}
+    .page h1{font-size:clamp(28px,8vw,34px)}
     .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
-    .k{min-width:150px}
+    .site-footer .icons a{margin:0 8px}
+    .site-footer .f-bottom{padding:10px 14px;font-size:12px}
   }
 </style>
 </head>
-
 <body>
-<!-- background sparkles -->
 <canvas id="sparks"></canvas>
 <div class="bg-float" id="hearts"></div>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-left"><a href="index.html">Home</a></div>
   <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
@@ -144,33 +146,26 @@
 <main class="wrap">
   <section class="page">
     <h1>Compatibility Test</h1>
-    <p class="lead">Check real-world compatibility with your crush or partner — gently, one question at a time.</p>
-    <p class="intro">Answer honestly. You’ll get a share link for WhatsApp/SMS. If your partner uses it, we’ll compute a clean score and insights.</p>
+    <p class="lead">Answer step by step to see if you’re truly a match — or if it’s better to move on.</p>
 
-    <!-- progress -->
-    <div class="progress"><div class="progress-bar" id="bar"></div></div>
-    <div class="progress-meta"><span id="idx">Question 1 / 1</span> • <span id="meta">0.0% complete</span></div>
+    <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="progress-meta"><span id="q-where">Question 1 / 1</span><span id="q-pct">0% complete</span></div>
 
-    <!-- question -->
     <div class="question-box">
-      <small class="q-index" id="qIndex">Question 1</small>
-      <h2 class="q-title" id="qTitle">Loading…</h2>
-      <div id="qInputs"></div>
-      <div class="hint" id="qHint"></div>
+      <h2 class="q-title" id="q-title">Loading…</h2>
+      <div id="q-inputs"></div>
+      <div class="hint" id="q-hint"></div>
     </div>
 
-    <!-- nav buttons -->
     <div class="nav-buttons">
-      <button class="btn" id="prevBtn" onclick="prevQ()">Back</button>
-      <button class="btn" id="nextBtn" onclick="nextQ()">Next</button>
+      <button class="btn" id="prev-btn" onclick="prevQ()">Back</button>
+      <button class="btn" id="next-btn" onclick="nextQ()">Next</button>
     </div>
 
-    <!-- summary -->
-    <div class="summary" id="summary"></div>
+    <div id="summary" style="display:none;margin-top:18px"></div>
   </section>
 </main>
 
-<!-- FOOTER -->
 <footer class="site-footer" id="footer">
   <div class="f-wrap">
     <div class="f-col brand">
@@ -178,31 +173,23 @@
       <p class="tag">Built for clarity, not confusion.</p>
       <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
     </div>
-
     <nav class="f-col legal">
       <h4>Legal</h4>
       <a href="terms.html">Terms Policy</a>
       <a href="privacy.html">Privacy Policy</a>
       <a href="cookies.html">Cookies</a>
     </nav>
-
     <div class="f-col social">
       <h4>Social</h4>
       <div class="icons">
         <a href="https://tiktok.com" aria-label="TikTok">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/></svg>
         </a>
         <a href="https://instagram.com" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/></svg>
         </a>
         <a href="https://youtube.com" aria-label="YouTube">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M23.5 6.2c-.2-1.2-.8-2.3-1.7-3-1-.8-2.2-.9-2.7-1C16.1 2 12 2 12 2s-4.1 0-7.1.2c-.5.1-1.7.2-2.7 1-1 .7-1.5 1.8-1.7 3C0 7.4 0 10 0 10s0 2.6.2 3.8c.2 1.2.8 2.3 1.7 3 1 .8 2.3.9 2.8 1C7.9 18 12 18 12 18s4.1 0 7.1-.2c.5-.1 1.7-.2 2.7-1 .9-.7 1.5-1.8 1.7-3 .2-1.2.2-3.8.2-3.8s0-2.6-.2-3.8zM9.5 14.6V7.4L15.5 11 9.5 14.6z"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1C17.6 2.5 12 2.5 12 2.5h-.1s-5.6 0-8.6.4c-.4.1-1.3.1-2.1 1-.6.7-.8 2.3-.8 2.3S0 8.1 0 10v1.9c0 1.9.4 3.8.4 3.8s.2 1.6.8 2.3c.8.9 1.9.8 2.4.9 1.7.2 7.4.3 7.4.3s5.6 0 8.6-.4c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.3.8-2.3s.4-1.9.4-3.8V10c0-1.9-.4-3.8-.4-3.8ZM9.5 14.6v-5.2l5 2.6-5 2.6Z"/></svg>
         </a>
       </div>
     </div>
@@ -210,7 +197,7 @@
   <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
 </footer>
 
-<!-- sparkles -->
+<!-- sparks bg -->
 <script>
 const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
 function size(){W=s.width=innerWidth;H=s.height=innerHeight;
@@ -250,10 +237,8 @@ addEventListener('resize',size);size();loop();
     el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
     el.style.setProperty('--spin',(14+Math.random()*10)+'s');
     el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
-    el.style.position='absolute';
-    el.style.top='100vh';
-    el.style.filter='drop-shadow(0 8px 18px rgba(255,59,48,.45))';
-    el.style.opacity='.95';
+    el.style.position='absolute'; el.style.top='100vh';
+    el.style.filter='drop-shadow(0 8px 18px rgba(255,59,48,.45))'; el.style.opacity='.95';
     el.style.animation='floatUp var(--t) linear infinite, spin var(--spin) linear infinite';
     LAYER.appendChild(el);
   }
@@ -273,7 +258,7 @@ addEventListener('resize',size);size();loop();
 }
 </style>
 
-<!-- language dropdown -->
+<!-- LANGUAGE DROPDOWN -->
 <script>
 (function(){
   const lang=document.getElementById('lang'), btn=document.getElementById('langBtn'), menu=document.getElementById('langMenu');
@@ -285,9 +270,9 @@ addEventListener('resize',size);size();loop();
 })();
 </script>
 
-<!-- ===================== COMPATIBILITY WIZARD (1 question per screen) ===================== -->
+<!-- ===================== COMPATIBILITY TEST SCRIPT ===================== -->
 <script>
-/* ===== Data ===== */
+/* ---------- Countries (ISO common names) ---------- */
 const COUNTRIES = [
 "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
 "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
@@ -309,548 +294,363 @@ const COUNTRIES = [
 "Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States",
 "Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
 ];
-const ASTRO = [
-  "Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces","I don’t follow astrology"
-];
-const HOBBIES = [
-  "Reading","Writing","Cooking/Baking","Photography","Gardening","Painting/Drawing","Music (playing)","Music (listening)",
-  "Dancing","Travel planning","Volunteering","Gaming","DIY/Crafts","Meditation","Podcasting","Learning languages","Fashion/Styling"
-];
-const SPORTS = [
-  "Gym/Weight training","Running","Walking/Hiking","Cycling","Swimming","Pilates","Yoga","Boxing","Tennis/Padel","Basketball",
-  "Football/Soccer","Volleyball","Dance fitness","CrossFit","Martial arts","None — I don’t practice sports"
-];
 
-/* ===== Questions (Love Passport + Hygiene/Living/Car/Finance + Hobbies/Sports; NO photo) ===== */
+/* ---------- QUESTIONS (exact wordings we agreed) ---------- */
 const QUESTIONS = [
-  // Identity & Basics
+  // Identity basics needed for sending result + context
   {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
-  {id:"email",    type:"text",  label:"Email (required — results can be sent here)", required:true, placeholder:"you@example.com", validate:"email"},
-  {id:"gender",   type:"select",label:"Your gender", required:true, options:["Man","Woman","Non-binary","Trans man","Trans woman","Intersex"]},
-  {id:"age",      type:"select",label:"How old are you?", required:true, options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push("60+");return a;})()},
+  {id:"email",    type:"text",  label:"Your email (to receive your result)", required:true, placeholder:"you@email.com"},
   {id:"residency",type:"select",label:"Country of residence", required:true, options:COUNTRIES},
   {id:"origin",   type:"select",label:"Country of origin", required:true, options:COUNTRIES},
-  {id:"instagram",type:"text",  label:"Instagram (optional)", required:false, placeholder:"@yourhandle"},
-  {id:"languages",type:"multi", label:"Languages you speak (pick ≥ 1)", required:true, min:1,
-    options:["English","French","Spanish","Portuguese","Arabic","Chinese","Hindi","German","Turkish","Russian","Swahili"]},
-  {id:"marital",  type:"single",label:"Current marital status", required:true, options:["Single","Married","Divorced","Widowed","It’s complicated"]},
-  {id:"politics", type:"single",label:"Political outlook", required:true,
-    options:["Conservative / right-leaning","Progressive / left-leaning","Centrist / mixed","Not politically engaged"]},
-  {id:"astro",    type:"select",label:"Zodiac sign (optional)", required:true, options:ASTRO},
-  {id:"height",   type:"text",  label:"Height (optional)", required:false, placeholder:"170 cm / 5’7”"},
-  {id:"job",      type:"text",  label:"Occupation", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer"},
 
-  // Money & Roles (tes formulations conservées)
-  {id:"money", type:"single", label:"How would you prefer to manage finances as a couple?", required:true,
-    options:["One joint account (i love sharing everything)","Separate accounts"]},
-  {id:"role",  type:"single", label:"Which type of relationship dynamic do you prefer?", required:true,
-    options:[
-      "Traditional roles (Man provides fully, woman manages the home)",
-      "Independent partners but not equal (Man covers bit more e.g 75/25)",
-      "Balanced 50/50 (Equal financial and household contribution)"
-    ]},
-  {id:"housework", type:"single", label:"How would you like to divide household duties?", required:true,
-    options:["I handle most home tasks","Shared equally","Prefer hiring help"]},
-  {id:"cooking",   type:"single", label:"How comfortable are you with cooking in daily life?", required:true,
-    options:[
-      "I don’t know how to cook and i don't want to",
-      "i don't know how to cook, but i'm Willing to learn",
-      "Can cook basics","Confident cook"
-    ]},
+  // Kids — present + future (with details we discussed)
+  {id:"hasKids",  type:"single",label:"Do you currently have children?", required:true, options:["No","Yes"]},
+  {id:"kidsCount",type:"select",label:"How many children do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
+  {id:"kidsWith", type:"single",label:"If you have 2+ children, were they with the same partner or different partners?", required:true,
+    options:["Same partner","Different partners"], showIfAny:[{id:"kidsCount", in:["2","3","4","5+"]}]},
 
-  // Kids
-  {id:"hasKids",   type:"single", label:"Do you have children?", required:true, options:["No","Yes"]},
-  {id:"kidsCount", type:"select", label:"How many children do you have?", required:true,
-    options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
-  {id:"kidsWith",  type:"single", label:"If you have multiple children, were they with the same partner or different partners?", required:true,
-    options:["Same partner","Different partners"], showIf:{id:"kidsCount", anyOf:["2","3","4","5+"]}},
-  {id:"wantKids",  type:"single", label:"Do you want children in the future?", required:true, options:["Yes","Not sure","No"]},
-  {id:"kidsTime",  type:"single", label:"If you want children, what timeline feels most aligned with you?", required:false,
-    options:["1–2 years","3–5 years",">5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
+  {id:"wantKids", type:"single",label:"Do you want to have children in the future?", required:true,
+    options:["Yes","No — I don’t want to be a parent","Not sure"]},
+  {id:"kidsTime", type:"single",label:"If yes, when do you imagine having kids?", required:false,
+    options:["ASAP (≤12 months)","1–2 years","3–5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
 
   // Faith & culture
-  {id:"religionAff", type:"single",label:"Religion or spiritual affiliation", required:true,
-    options:["Muslim (practicing)","Muslim (not practicing)","Christian (practicing)","Christian (not practicing)","Buddhist","Hindu","Vodun","Atheist"]},
-  {id:"crossCulture",type:"single",label:"Would you consider a serious relationship with someone from a different culture than yours?", required:true,
-    options:["Yes","Maybe","No"]},
+  {id:"religionNeed", type:"single",label:"Does your partner need to share your religion?", required:true,
+    options:["Yes — same religion","No — different is fine","Maybe — depends on practice"]},
+  {id:"cultureNeed",  type:"single",label:"Does your partner need to share your culture?", required:true, options:["Yes","No","Maybe"]},
 
-  // Lifestyle basics
-  {id:"smoking", type:"single",label:"Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
-  {id:"alcohol", type:"single",label:"Do you drink?", required:true, options:["No","Sometimes","yes"]},
-  {id:"diet",    type:"single",label:"Food & dietary practice", required:true,
-    options:["I eat everything","Halal","Vegetarian/Vegan","Pescatarian","Other"]},
-  {id:"fitness", type:"single",label:"How active are you, generally?", required:true,
-    options:["Gym 3+ times/week","Active sometimes","Rarely","I hate the gym"]},
-
-  // Hygiene & Home care
-  {id:"homeTidy", type:"single", label:"How would you describe your home care habits?", required:true, options:[
-    "Very tidy — I clean and organize regularly",
-    "Generally tidy — I clean weekly",
-    "Sometimes messy — I clean when I can",
-    "I don't prioritize cleaning much"
+  // Money & roles (explicit like Love Passport)
+  {id:"moneyManage", type:"single",label:"How would you prefer to manage money in a relationship?", required:true, options:[
+    "One joint account (share everything)",
+    "Separate accounts",
+    "Each pays their own share, completely independent"
   ]},
-  {id:"grooming", type:"single", label:"Personal hygiene & grooming", required:true, options:[
-    "High standard — daily shower, regular grooming",
-    "Moderate — consistent but low-maintenance",
-    "Minimal — I don't focus much on grooming",
-    "Fragrance-free / sensitive-skin approach"
+  {id:"bills", type:"single",label:"When it comes to bills & expenses (including restaurants), who should pay?", required:true, options:[
+    "Traditional (man pays fully; woman manages the home)",
+    "Independent partners but not equal (man covers a bit more — e.g., 75/25)",
+    "Each pays their own share, completely independent"
   ]},
 
-  // Relationship model
-  {id:"loyalty", type:"single",label:"Relationship model", required:true,
-    options:["Monogamy only","Polygamy only","Open relationship"]},
-
-  // Love languages & feelings
-  {id:"feelLoved", type:"multi", label:"I feel loved when… (pick ≥ 2)", required:true, min:2,
-    options:["I hear kind, affirming words","We spend quality time","My partner shows affection (touch)","I receive thoughtful gifts","My partner gives me money","My partner does helpful actions for me","I am prioritized in their plans"]},
-  {id:"showLove",  type:"multi", label:"How I show love (pick ≥ 2)", required:true, min:2,
-    options:["I give gifts","I give money","I plan quality time","I am affectionate (touch)","I use loving words","I do helpful actions"]},
-
-  // Ambition & energy
-  {id:"ambition",       type:"single",label:"what comes first for you: love or ambition?", required:true,
-    options:["Money first, then love","Love first, then money","Both hand in hand"]},
-  {id:"partnerSuccess", type:"single",label:"If your partner becomes far more successful than you, how would you feel?", required:true,
-    options:["Proud — it’s our win","Happy and motivated too","I’d feel uncomfortable with that"]},
-  {id:"conflict",       type:"single",label:"When conflicts happen, how do you usually respond?", required:true,
-    options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
-  {id:"energy",         type:"single",label:"Which best describes your social energy?", required:true,
-    options:["Introvert","Extrovert","Ambivert"]},
-
-  // Goals & logistics
-  {id:"relGoals",  type:"multi", label:"What are you looking for? (pick ≥ 1)", required:true, min:1,
-    options:["Serious relationship","Marriage soon","Marriage someday","Casual dating","Friendship first"]},
-  {id:"marriage",  type:"single",label:"When would you like to get married?", required:true,
-    options:["In 1–2 years","In 3+ years","I’m not focused on marriage"]},
-  {id:"distance",  type:"single",label:"Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
-  {id:"relocate",  type:"single",label:"Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
-
-  // Ideal evening (extended)
-  {id:"evening",   type:"single",label:"How would you spend an ideal evening with someone you love", required:true, options:[
-    "A cozy movie night at home",
-    "A romantic dinner out & deep conversation",
-    "Going out for live music or a performance as a couple",
-    "A peaceful romantic walk on the beach",
-    "Watching a movie together at the theater"
+  // Home & hygiene
+  {id:"homeClean", type:"single",label:"How do you usually keep your home?", required:true, options:[
+    "Very clean — I do it myself",
+    "Very clean — we hire help",
+    "Clean but sometimes messy",
+    "Messy — I don’t care much"
   ]},
 
-  // Travel
-  {id:"travelLike",  type:"single",label:"Do you enjoy traveling?", required:true, options:["Yes","No"]},
-  {id:"favCountry",  type:"select",label:"What's your favorite country to visit", required:true, options:COUNTRIES},
-  {id:"dreamCountry",type:"select",label:"What country do you dream of visiting", required:true, options:COUNTRIES},
+  // Food & diet (fusion question to avoid tautology)
+  {id:"dietFusion", type:"single",label:"Food & diet lifestyle — and do you expect your partner to share it?", required:true, options:[
+    "I eat anything — my partner doesn’t need to match",
+    "I try to eat healthy — I prefer my partner to share it",
+    "I try to eat healthy — but it’s not required",
+    "I follow a strict healthy diet — I need my partner aligned",
+    "Vegetarian/Vegan — I prefer my partner to share it",
+    "Vegetarian/Vegan — alignment isn’t necessary",
+    "Other"
+  ]},
 
-  // Pets
-  {id:"ownPets",   type:"single",label:"Do you have any pets?", required:true, options:["No","Yes"]},
-  {id:"petType",   type:"single",label:"If you have pets, which type?", required:true, options:["Dog","Cat","Both","Other"], showIf:{id:"ownPets", value:"Yes"}},
-  {id:"petCount",  type:"select",label:"How many pets do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"ownPets", value:"Yes"}},
-  {id:"petComfort",type:"single",label:"Would you be comfortable living with a partner who has pets?", required:true,
+  // Lifestyle: sleep, pets, smoking, alcohol
+  {id:"sleep",   type:"single",label:"What’s your usual sleep schedule?", required:true,
+    options:["Early sleeper (before ~11pm)","Night owl (after midnight)","It varies depending on the day"]},
+  {id:"petComfort", type:"single",label:"Would you be comfortable living with a partner who has pets?", required:true,
     options:["Yes — I’m comfortable living with pets","No — I can’t live with pets","I am allergic to pets","I don’t want pets in my home"]},
+  {id:"smoking", type:"single",label:"Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
+  {id:"alcohol", type:"single",label:"Do you drink alcohol?", required:true, options:["No","Sometimes","Often"]},
 
-  // Lifestyle details + Living/Car/Finance (réformulé pour éviter la tautologie)
-  {id:"sleep",   type:"single",label:"Your sleep rhythm", required:true, options:["Early sleeper","Night owl","Flexible (depends)"]},
-  {id:"success", type:"single",label:"What does success mean to you?", required:true,
-    options:["Financial independence","Building a family (spouse & children)","Creating a successful business","Being deeply aligned with my religion"]},
+  // Living, car, stability
+  {id:"living", type:"single",label:"What’s your current living situation?", required:true,
+    options:["I live alone","I rent with roommates","I live with family","I own my place"]},
+  {id:"car", type:"single",label:"Do you own a car?", required:true,
+    options:["Yes","No","Not needed where I live","Planning to get one"]},
 
-  {id:"living",   type:"single",label:"What is your current living arrangement?", required:true, options:[
-    "Live alone — renting","Live alone — own place","With roommates","With parents/family","Student/temporary housing","Other"
-  ]},
-  {id:"car",      type:"single",label:"Do you have a car?", required:true, options:["Yes","No","Not necessary where I live"]},
-  {id:"finStability",type:"single",label:"How would you describe your financial stability?", required:true, options:[
-    "Stable — I save monthly","Stable — mostly break even","In transition (building back up)","Prefer not to say"
-  ]},
+  // Ambition & conflict & communication
+  {id:"ambition", type:"single",label:"Which best describes you right now?", required:true,
+    options:["I’m ambitious and working on it","I’m stable and comfortable","I’m still figuring things out"]},
+  {id:"conflict", type:"single",label:"When conflicts happen, how do you usually respond?", required:true,
+    options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
 
-  // Privacy & social + Intimacy + Deal-breakers
-  {id:"phonePrivacy", type:"single",label:"Phone privacy in a relationship", required:true,
-    options:["My phone is private, I don’t share passwords","I can share passwords if needed","My phone is fully open, no restrictions"]},
-  {id:"socialPosting",type:"single",label:"How do you feel about sharing your relationship on social media?", required:true,
-    options:["I want to post our couple photos freely","I prefer not posting couple photos at all","I’m fine if my partner posts, but I won’t post much","I don’t care, it’s not important to me"]},
-  {id:"dmRules",      type:"single",label:"DM boundaries and private conversations", required:true,
-    options:["Friendly DMs are okay (opposite sex included)","Only respectful/professional DMs are fine","No private DMs with the opposite sex at all"]},
-  {id:"intimacy",     type:"single",label:"Preferred pace for physical intimacy", required:true,
+  // Politics intensity (so your DB works)
+  {id:"politicsTalk", type:"single",label:"How much do you talk about politics in daily life?", required:true,
+    options:["Rarely","Sometimes","Often","A lot — every day"]},
+
+  // Sex (clear wording)
+  {id:"sexImportance", type:"single",label:"How important is sex in a relationship for you?", required:true,
+    options:["Very important — I need it often","Important — but not a top priority","Not so important for me"]},
+  {id:"pace", type:"single",label:"Preferred pace for physical intimacy (relationship)", required:true,
     options:["Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"]},
 
-  {id:"dealBreakers", type:"multi", label:"I cannot accept… (pick ≥ 2)", required:true, min:2, options:[
-    "Very different political opinions from mine",
-    "Religion not aligned with mine",
-    "Tries to change my faith/practice",
+  // Distance & relocation
+  {id:"distance", type:"single",label:"Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
+  {id:"relocate", type:"single",label:"Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
+
+  // Evenings together (romance-focused set incl. your requests)
+  {id:"evening", type:"single",label:"Your ideal evening with someone you love", required:true, options:[
+    "Cozy movie night at home",
+    "Romantic dinner out & deep conversation",
+    "Romantic beach walk",
+    "Outdoor movie / open-air cinema",
+    "Live music or a show as a couple"
+  ]},
+
+  // Hobbies (max 3)
+  {id:"hobbies", type:"multi",label:"What hobbies or activities do you enjoy? (Pick up to 3)", required:true, min:1, max:3, options:[
+    "Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering","Other"
+  ]},
+
+  // Type (max 3; special rule for “I don’t have a type”)
+  {id:"type", type:"multi",label:"What’s your type? (Pick up to 3)", required:true, min:1, max:3, options:[
+    "Blonde","Brunette","Black","Redhead","Arab","European","African","Asian","I don’t have a type"
+  ]},
+
+  // Social boundaries & privacy
+  {id:"phonePrivacy", type:"single",label:"In your relationship, do you prefer to share phone passwords or keep phones private?", required:true,
+    options:["Share passwords","Keep phones private"]},
+  {id:"dmRules", type:"single",label:"Would it bother you if your partner chats privately with people of the opposite sex on social media?", required:true,
+    options:["Yes","No","It depends on the conversation"]},
+
+  // Deal-breakers (EXACT list)
+  {id:"dealBreakers", type:"multi", label:"I cannot accept… (pick ≥ 5)", required:true, min:5, options:[
+    "Someone obsessed with politics, talks about it all day long",
     "Cheating / infidelity",
+    "Religion not aligned with mine",
+    "Tries to change my faith or practice",
     "Jealous / possessive / controlling",
     "Violence (physical, verbal, emotional)",
     "Explosive temper / unmanaged anger",
-    "Disrespects waiters/service workers; lacks humility",
+    "Disrespects waiters / service workers (lack of humility)",
     "Already has children",
     "Has children with different partners",
     "Partner owns pets (dogs/cats) — I can’t handle it",
     "Big income gap — earns much less than me",
     "Big income gap — earns much more than me",
     "Sharing my private life on social media without my consent",
-    "Doesn’t take care of health ( Gym and eating healthy )",
-    "Someone who is not family-oriented ( no close bond with parents or siblings)",
-    "Someone obsessed with politics"
-  ]},
-
-  // Hobbies & Sports
-  {id:"hobbies", type:"multi", label:"Hobbies you enjoy (pick ≥ 1)", required:true, min:1, options:HOBBIES},
-  {id:"sports",  type:"multi", label:"Sports/physical activities you practice (pick ≥ 1)", required:true, min:1, options:SPORTS},
-
-  // About me
-  {id:"about", type:"text", label:"About me (3–6 sentences)", required:false, placeholder:"Write a short description"}
+    "Doesn’t take care of health (Gym and eating healthy)",
+    "Someone who is not family-oriented (no close bond with parents or siblings)",
+    "Lives with family or with roommates"
+  ]}
 ];
 
-/* ===== One-question flow ===== */
-const STEPS = QUESTIONS.map(q=>q.id); // 1 par écran
-
-/* ===== State & Refs ===== */
+/* ---------- Flow (dynamic visibility) ---------- */
 const state = {};
 let currentIndex = 0;
 
-const elBar = document.getElementById('bar');
-const elMeta = document.getElementById('meta');
-const elIdx = document.getElementById('idx');
-const elQIndex = document.getElementById('qIndex');
-const elQTitle = document.getElementById('qTitle');
-const elQInputs = document.getElementById('qInputs');
-const elHint = document.getElementById('qHint');
-const elSummary = document.getElementById('summary');
-const btnPrev = document.getElementById('prevBtn');
-const btnNext = document.getElementById('nextBtn');
+const elBar=document.getElementById("progress-bar");
+const elWhere=document.getElementById("q-where");
+const elPct=document.getElementById("q-pct");
+const elQTitle=document.getElementById("q-title");
+const elQInputs=document.getElementById("q-inputs");
+const elHint=document.getElementById("q-hint");
+const elSummary=document.getElementById("summary");
+const btnPrev=document.getElementById("prev-btn");
+const btnNext=document.getElementById("next-btn");
 
-/* ===== Helpers ===== */
 function findQuestion(id){ return QUESTIONS.find(q=>q.id===id); }
-function isEmail(x){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(x||"").trim()); }
+
 function isVisible(q){
-  if(!q.showIf) return true;
-  const v = state[q.showIf.id];
-  if(q.showIf.value!==undefined) return v===q.showIf.value;
-  if(q.showIf.anyOf) return q.showIf.anyOf.includes(v);
+  if(!q.showIf && !q.showIfAny) return true;
+  if(q.showIf){
+    const v = state[q.showIf.id];
+    return v === q.showIf.value;
+  }
+  if(q.showIfAny){
+    return q.showIfAny.some(cond=>{
+      const v = state[cond.id];
+      if(cond.in) return cond.in.includes(v);
+      if(cond.value!==undefined) return v===cond.value;
+      return !!v;
+    });
+  }
   return true;
 }
+
 function visibleSteps(){
-  return STEPS.filter(id => {
+  return QUESTIONS.map(q=>q.id).filter(id=>{
     const q = findQuestion(id);
     return q ? isVisible(q) : false;
   });
 }
-function percent(i,total){ return Math.round((i/Math.max(1,total-1))*100); }
 
-/* ===== Render ===== */
+function setProgress(){
+  const vis = visibleSteps();
+  const pct = Math.round((currentIndex+1)/vis.length*100);
+  elBar.style.width = pct + "%";
+  elWhere.textContent = `Question ${currentIndex+1} / ${vis.length}`;
+  elPct.textContent = `${pct}% complete`;
+}
+
+function setHint(text){ elHint.textContent = text || ""; }
+
+/* ---------- Render current ---------- */
 function render(){
   const vis = visibleSteps();
-  if(vis.length===0) return;
+  if(vis.length===0){ elQTitle.textContent="No questions."; return; }
   if(currentIndex<0) currentIndex=0;
   if(currentIndex>=vis.length) currentIndex=vis.length-1;
+  setProgress();
 
   const qId = vis[currentIndex];
   const q = findQuestion(qId);
-
-  // progress
-  const pct = percent(currentIndex, vis.length);
-  elBar.style.width = pct + "%";
-  elMeta.textContent = pct.toFixed(1) + "% complete";
-  elIdx.textContent = `Question ${currentIndex+1} / ${vis.length}`;
-  elQIndex.textContent = `Question ${currentIndex+1}`;
-
-  // label
   elQTitle.textContent = q.label;
-  elQInputs.innerHTML = "";
-  elHint.textContent = "";
+  elQInputs.innerHTML = ""; setHint("");
 
-  // field types
   if(q.type==="text"){
-    const inp = document.createElement("input");
-    inp.type = (q.validate==="email") ? "email" : "text";
-    inp.placeholder = q.placeholder || "";
-    if(state[q.id]) inp.value = state[q.id];
-    inp.addEventListener("input", e=> state[q.id]=e.target.value);
+    const inp=document.createElement("input");
+    inp.type="text"; inp.placeholder=q.placeholder||"";
+    if(state[q.id]) inp.value=state[q.id];
+    inp.addEventListener("input", e=> state[q.id]=e.target.value.trim());
     elQInputs.appendChild(inp);
   }
   else if(q.type==="select"){
-    const sel = document.createElement("select");
-    const def = document.createElement("option");
-    def.value=""; def.textContent="Select…";
-    sel.appendChild(def);
-    q.options.forEach(o=>{
-      const op = document.createElement("option");
-      op.value=o; op.textContent=o;
-      sel.appendChild(op);
-    });
-    if(state[q.id]) sel.value = state[q.id];
+    const sel=document.createElement("select");
+    const def=document.createElement("option"); def.value=""; def.textContent="Select…"; sel.appendChild(def);
+    q.options.forEach(o=>{ const op=document.createElement("option"); op.value=o; op.textContent=o; sel.appendChild(op); });
+    if(state[q.id]) sel.value=state[q.id];
     sel.addEventListener("change", e=> state[q.id]=e.target.value);
     elQInputs.appendChild(sel);
   }
   else if(q.type==="single"){
-    const wrap = document.createElement("div");
-    wrap.className = "options";
+    const wrap=document.createElement("div"); wrap.className="options";
     q.options.forEach(o=>{
-      const row = document.createElement("div"); row.className="opt";
-      const input = document.createElement("input"); input.type="radio"; input.name=q.id; input.value=o;
+      const row=document.createElement("div"); row.className="opt";
+      const input=document.createElement("input"); input.type="radio"; input.name=q.id; input.value=o;
       if(state[q.id]===o) input.checked=true;
       input.addEventListener("change", ()=> state[q.id]=o);
-      const lab = document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{input.checked=true; input.dispatchEvent(new Event('change'));});
+      const lab=document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{ input.checked=true; input.dispatchEvent(new Event('change')); });
       row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
     });
     elQInputs.appendChild(wrap);
   }
   else if(q.type==="multi"){
-    const wrap = document.createElement("div");
-    wrap.className = "options";
-    const selSet = new Set(Array.isArray(state[q.id])?state[q.id]:[]);
+    const wrap=document.createElement("div"); wrap.className="options";
+    const selSet=new Set(Array.isArray(state[q.id])?state[q.id]:[]);
     q.options.forEach(o=>{
-      const row = document.createElement("div"); row.className="opt multi";
-      const input = document.createElement("input"); input.type="checkbox"; input.value=o;
+      const row=document.createElement("div"); row.className="opt multi";
+      const input=document.createElement("input"); input.type="checkbox"; input.value=o;
       if(selSet.has(o)) input.checked=true;
       input.addEventListener("change", ()=>{
-        if(input.checked) selSet.add(o); else selSet.delete(o);
+        const max=q.max||999, min=q.min||0;
+        const isNoType=(q.id==="type" && o==="I don’t have a type");
+        if(input.checked){
+          // special rule: "I don’t have a type" blocks others
+          if(q.id==="type"){
+            if(isNoType){
+              selSet.clear(); selSet.add(o);
+              // uncheck all others visually
+              wrap.querySelectorAll('input[type="checkbox"]').forEach(ch=>{
+                if(ch.value!==o) ch.checked=false;
+              });
+            }else{
+              if(selSet.has("I don’t have a type")){
+                selSet.delete("I don’t have a type");
+                // uncheck that visually
+                wrap.querySelectorAll('input[type="checkbox"]').forEach(ch=>{
+                  if(ch.value==="I don’t have a type") ch.checked=false;
+                });
+              }
+              if(selSet.size>=max){ input.checked=false; return; }
+              selSet.add(o);
+            }
+          }else{
+            if(selSet.size>=max){ input.checked=false; return; }
+            selSet.add(o);
+          }
+        }else{
+          selSet.delete(o);
+        }
         state[q.id]=Array.from(selSet);
+        setHint((q.min && selSet.size<q.min)?`Pick at least ${q.min}.`:"");
       });
-      const lab = document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{input.checked=!input.checked; input.dispatchEvent(new Event('change'));});
+      const lab=document.createElement("label"); lab.textContent=o; lab.addEventListener("click", ()=>{
+        input.checked=!input.checked; input.dispatchEvent(new Event('change'));
+      });
       row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
     });
     state[q.id]=Array.from(selSet);
     elQInputs.appendChild(wrap);
-    if(q.min) elHint.textContent = `Pick at least ${q.min}.`;
+    if(q.min) setHint(`Pick at least ${q.min}.`);
+    if(q.max) setHint((selSet.size<q.min?`Pick at least ${q.min}. `:"")+`Up to ${q.max} selections.`);
   }
 
-  // buttons
   btnPrev.disabled = (currentIndex===0);
   btnNext.textContent = (currentIndex===vis.length-1) ? "Finish" : "Next";
 }
 
-/* ===== Validation ===== */
+/* ---------- Validation ---------- */
 function validateCurrent(){
-  const vis = visibleSteps();
-  const qId = vis[currentIndex];
-  const q = findQuestion(qId);
+  const vis=visibleSteps(); const q=findQuestion(vis[currentIndex]);
   if(!q.required) return true;
-  const v = state[q.id];
-
-  if(q.type==="text"){
-    if(!v || !String(v).trim()) return false;
-    if(q.validate==="email" && !isEmail(v)) { elHint.textContent="Please enter a valid email."; return false; }
-    return true;
-  }
-  if(q.type==="select" || q.type==="single"){
-    return !!v;
-  }
+  const v=state[q.id];
+  if(q.type==="text") return v && v.trim().length>0;
+  if(q.type==="select"||q.type==="single") return !!v;
   if(q.type==="multi"){
-    return Array.isArray(v) && v.length>=(q.min||1);
+    if(!Array.isArray(v)) return false;
+    if(q.min && v.length<q.min) return false;
+    if(q.max && v.length>q.max) return false;
+    return v.length>0;
   }
   return true;
 }
 
-/* ===== Nav ===== */
+/* ---------- Navigation ---------- */
 function nextQ(){
-  if(!validateCurrent()){
-    elHint.textContent = "Please answer before continuing.";
-    return;
-  }
-  const vis = visibleSteps();
-  if(currentIndex < vis.length-1){
-    currentIndex++;
-    render();
-  }else{
-    showSummary();
-  }
+  if(!validateCurrent()){ setHint("Please answer before continuing."); return; }
+  const vis=visibleSteps();
+  if(currentIndex<vis.length-1){ currentIndex++; render(); }
+  else { showSummary(); }
 }
 function prevQ(){ if(currentIndex>0){ currentIndex--; render(); } }
 
-/* ===== Local compare + AI placeholder ===== */
-function uid(){ return Math.random().toString(36).slice(2)+Date.now().toString(36); }
-function saveSession(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
-function loadSession(key){ try{return JSON.parse(localStorage.getItem(key)||"null");}catch{return null;} }
-
-function computeCompatibility(a,b){
-  const weights = { single:1, select:1, multi:1.2 };
-  let got=0, max=0;
-  QUESTIONS.forEach(q=>{
-    if(q.id==="fullName"||q.id==="email") return;
-    if(q.showIf){
-      const depA=a[q.showIf.id], depB=b[q.showIf.id];
-      if(q.showIf.value!==undefined){ if(depA!==q.showIf.value || depB!==q.showIf.value) return; }
-      if(q.showIf.anyOf){ if(!q.showIf.anyOf.includes(depA) || !q.showIf.anyOf.includes(depB)) return; }
-    }
-    const w = (q.type==="multi")?weights.multi:(q.type==="single"||q.type==="select")?weights.single:0;
-    if(!w) return;
-    max+=w;
-    const va=a[q.id], vb=b[q.id];
-    if(q.type==="multi"){
-      const A=new Set(Array.isArray(va)?va:[]), B=new Set(Array.isArray(vb)?vb:[]);
-      const inter=[...A].filter(x=>B.has(x)).length;
-      const union=new Set([...A,...B]).size || 1;
-      got += w * (inter/union);
-    }else{
-      got += (va && vb && va===vb) ? w : 0;
-    }
-  });
-  return (max>0)? Math.round((got/max)*100) : 0;
-}
-
-/* ===== Summary + Share (WhatsApp / SMS / Copy) ===== */
+/* ---------- Summary & CTA ---------- */
 function showSummary(){
   document.querySelector(".question-box").style.display="none";
   document.querySelector(".nav-buttons").style.display="none";
-  elBar.style.width = "100%"; elMeta.textContent="100.0% complete"; elIdx.textContent="";
+  document.querySelector(".lead").textContent="Great! Share this with your partner and then get your result.";
+  elBar.style.width="100%"; elWhere.style.display="none"; elPct.textContent="100% complete";
 
-  const wrap=elSummary; wrap.innerHTML="";
-  const h=document.createElement("h3"); h.textContent="Your Answers"; wrap.appendChild(h);
+  const wrap=document.createElement("div"); wrap.className="summary";
+  const h=document.createElement("h3"); h.textContent="Share your link"; wrap.appendChild(h);
 
-  const visAll = visibleSteps();
-  visAll.forEach(id=>{
-    const q=findQuestion(id); if(!q) return;
-    if(q.showIf){
-      const vdep = state[q.showIf.id];
-      if(q.showIf.value!==undefined && vdep!==q.showIf.value) return;
-      if(q.showIf.anyOf && !q.showIf.anyOf.includes(vdep)) return;
-    }
-    let val=state[id]; if(Array.isArray(val)) val=val.join(", "); if(!val) val="—";
-    const row=document.createElement("div"); row.className="row";
-    const k=document.createElement("div"); k.className="k"; k.textContent=q.label;
-    const v=document.createElement("div"); v.className="v"; v.textContent=val;
-    row.appendChild(k); row.appendChild(v); wrap.appendChild(row);
-  });
+  const link="https://matchormoveon.com/compatibility/abc123"; // TODO: replace with real link from backend
+  const box=document.createElement("div"); box.className="linkbox";
+  const pill=document.createElement("div"); pill.className="linkpill"; pill.textContent=link;
+  const copy=document.createElement("button"); copy.className="copybtn"; copy.textContent="Copy link";
+  copy.addEventListener("click", async()=>{ try{ await navigator.clipboard.writeText(link); copy.textContent="Copied!"; setTimeout(()=>copy.textContent="Copy link",1200);}catch(_){ alert("Copy failed. Long-press to copy."); }});
+  const wa=document.createElement("a"); wa.href=`https://wa.me/?text=${encodeURIComponent("Take our compatibility test: "+link)}`; wa.target="_blank"; wa.rel="noopener"; wa.textContent="Share via WhatsApp";
+  box.appendChild(pill); box.appendChild(copy); box.appendChild(wa); wrap.appendChild(box);
 
-  // create partner link
-  const key = uid();
-  const base = location.origin + location.pathname;
-  const link = `${base}?partner=${encodeURIComponent(key)}`;
-  saveSession(`momo:${key}:primary`, {role:"primary", createdAt:Date.now(), answers:state});
-
-  const invite=document.createElement("div"); invite.style.marginTop="16px";
-  const p=document.createElement("p"); p.textContent="Share this link with your partner via WhatsApp or SMS:";
-  const a=document.createElement("a"); a.href=link; a.textContent=link; a.style.color="#ffd6d6"; a.target="_blank";
-  const btns=document.createElement("div"); btns.style.display="flex"; btns.style.gap="12px"; btns.style.marginTop="10px";
-
-  const copyBtn=document.createElement("button"); copyBtn.className="btn"; copyBtn.textContent="Copy link";
-  copyBtn.addEventListener("click", async ()=>{ try{ await navigator.clipboard.writeText(link); copyBtn.textContent="Copied!"; setTimeout(()=>copyBtn.textContent="Copy link",1200);}catch{alert(link);} });
-
-  const waBtn=document.createElement("button"); waBtn.className="btn"; waBtn.textContent="Share on WhatsApp";
-  waBtn.addEventListener("click", ()=>{
-    const text=encodeURIComponent(`Hey! Please take this compatibility test so we can compare our answers:\n${link}`);
-    window.open(`https://wa.me/?text=${text}`,'_blank');
-  });
-
-  const smsBtn=document.createElement("button"); smsBtn.className="btn"; smsBtn.textContent="Share via SMS";
-  smsBtn.addEventListener("click", ()=>{
-    const body=encodeURIComponent(`Please take this compatibility test so we can compare:\n${link}`);
-    // iOS/Android handle sms: differently, sms:?body= works broadly
-    location.href=`sms:?&body=${body}`;
-  });
-
-  // Call-to-action for results after both answered (human label, no “AI” mention)
-  const goBtn=document.createElement("button"); goBtn.className="btn"; goBtn.textContent="See if we match — Let’s Go!!!";
-  goBtn.addEventListener("click", ()=>{
-    // If partner answers exist locally, compute now; else explain how
-    const partner = loadSession(`momo:${key}:partner`);
-    if(partner && partner.answers){
-      const score = computeCompatibility(state, partner.answers);
-      // Placeholder hook for OpenAI (server-side later)
-      analyzeWithAI(state, partner.answers, score).then(result=>{
-        showAIResult(score, result);
-      }).catch(()=>{
-        showAIResult(score, {highlights:["We’ll add deeper insights soon."],risks:["—"],advice:["—"]});
-      });
-    }else{
-      alert("Ask your partner to open your link first. Once they finish, click this button again to see your score.");
+  const btn=document.createElement("button"); btn.className="cta-final"; btn.textContent="See if we match — Let’s Go!";
+  btn.addEventListener("click", async()=>{
+    btn.disabled=true; btn.textContent="Working…";
+    try{
+      await sendResults(); // background: hook your API
+      btn.textContent="All set! Your result is on the way.";
+    }catch(e){
+      console.error(e); btn.disabled=false; btn.textContent="See if we match — Let’s Go!";
+      alert("Something went wrong. Please try again.");
     }
   });
+  wrap.appendChild(btn);
 
-  btns.appendChild(copyBtn); btns.appendChild(waBtn); btns.appendChild(smsBtn); btns.appendChild(goBtn);
-  invite.appendChild(p); invite.appendChild(a); invite.appendChild(btns);
-  wrap.appendChild(invite);
-
-  wrap.style.display="block";
+  elSummary.innerHTML=""; elSummary.appendChild(wrap); elSummary.style.display="block";
 }
 
-/* ===== Partner flow (fills same test via shared link) ===== */
-function partnerModeIfAny(){
-  const url=new URL(location.href);
-  const key=url.searchParams.get('partner');
-  if(!key) return;
-
-  document.querySelector('.lead').textContent="Partner mode — answer the same questions to compare compatibility.";
-  document.querySelector('.intro').textContent="Fill it out honestly; we’ll show a clean score and insights at the end.";
-
-  // Override summary to store partner + offer results
-  const originalShow=showSummary;
-  showSummary=function(){
-    originalShow();
-
-    const primary = loadSession(`momo:${key}:primary`);
-    saveSession(`momo:${key}:partner`, {role:"partner", createdAt:Date.now(), answers:state});
-
-    const wrap=elSummary;
-    const gap=document.createElement('div'); gap.style.height='10px'; wrap.appendChild(gap);
-
-    if(primary && primary.answers){
-      const score = computeCompatibility(primary.answers, state);
-
-      const h=document.createElement('h3'); h.textContent=`Compatibility Score: ${score}%`; wrap.appendChild(h);
-
-      // Same human CTA
-      const goBtn=document.createElement('button'); goBtn.className='btn'; goBtn.textContent='See if we match — Let’s Go!!!';
-      goBtn.addEventListener('click', ()=>{
-        analyzeWithAI(primary.answers, state, score).then(result=>{
-          showAIResult(score, result);
-        }).catch(()=>{
-          showAIResult(score, {highlights:["We’ll add deeper insights soon."],risks:["—"],advice:["—"]});
-        });
-      });
-      const btnWrap=document.createElement('div'); btnWrap.style.marginTop='10px';
-      btnWrap.appendChild(goBtn); wrap.appendChild(btnWrap);
-    }else{
-      const note=document.createElement('p'); note.textContent="We couldn’t find the original answers yet. Ask your partner to finish their test and send the link again.";
-      wrap.appendChild(note);
-    }
-  };
+/* ---------- Backend placeholder (hook OpenAI + Email here) ---------- */
+async function sendResults(){
+  // TODO:
+  // 1) POST state to your backend endpoint
+  // 2) Backend computes score + writes detailed analysis with OpenAI
+  // 3) Backend emails both partners with the result (HTML template)
+  await new Promise(r=>setTimeout(r,800)); // simulate
 }
 
-/* ===== Placeholder: plug your OpenAI API later (backend) =====
-   This keeps the UI label human (“See if we match — Let’s Go!!!”), no AI mention.
-   TODO: Send `answersA`, `answersB`, and `score` to your server endpoint that calls OpenAI.
-*/
-async function analyzeWithAI(answersA, answersB, score){
-  // Example payload (to use later server-side)
-  const payload = {answersA, answersB, score};
-  // TODO: fetch('/api/analyze', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)})
-  // For now, return a mock structure
-  return Promise.resolve({
-    highlights:[
-      "Strong alignment on relationship model and future goals.",
-      "Similar expectations about phone privacy and social posting."
-    ],
-    risks:[
-      "Potential tension on fitness/lifestyle pace.",
-      "Different views on relocation or long-distance."
-    ],
-    advice:[
-      "Schedule a conversation on kids timeline and career ambitions.",
-      "Agree on housework split for busy weeks ahead of time."
-    ]
-  });
-}
-
-function showAIResult(score, ai){
-  const box=document.createElement('div'); box.style.marginTop='16px';
-  box.innerHTML = `
-    <div class="row"><div class="k">Overall Compatibility</div><div class="v">${score}%</div></div>
-    <div class="row"><div class="k">Strong points</div><div class="v">${(ai.highlights||[]).join(' • ')||'—'}</div></div>
-    <div class="row"><div class="k">Watch-outs</div><div class="v">${(ai.risks||[]).join(' • ')||'—'}</div></div>
-    <div class="row"><div class="k">Next steps</div><div class="v">${(ai.advice||[]).join(' • ')||'—'}</div></div>
-  `;
-  elSummary.appendChild(box);
-}
-
-/* ===== Safe init ===== */
-function safeInit(){
-  try{ render(); partnerModeIfAny(); }
-  catch(e){ console.error(e); elQTitle.textContent="There was an error loading the first question."; }
-}
-if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', safeInit); } else { safeInit(); }
-
-/* Expose */
-window.nextQ=nextQ; window.prevQ=prevQ;
+/* ---------- Safe init ---------- */
+function safeInit(){ try{ render(); } catch(e){ console.error(e); elQTitle.textContent="Error loading the test."; } }
+if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", safeInit); } else { safeInit(); }
 </script>
 </body>
 </html>
+
 
 
 

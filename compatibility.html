@@ -12,6 +12,24 @@
   body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
   html{scroll-behavior:smooth}
 
+  <style>
+/* Bouton fantôme = même vibe que tes liens de nav : contour rose, fond transparent */
+.btn-ghost{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;
+  background:transparent;border:2px solid #ff3b30;color:#ff3b30;transition:.25s;
+}
+.btn-ghost:hover{background:#ff3b30;color:#fff;transform:translateY(-1px)}
+
+.share-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);
+  border-radius:16px;padding:16px}
+.share-row{display:flex;gap:10px;align-items:center}
+.share-input{
+  flex:1;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);
+  background:#111214;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.share-actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+
   /* NAV (same look as LP) */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
@@ -672,6 +690,174 @@ async function sendResults(){
 /* ---------- Safe init ---------- */
 function safeInit(){ try{ render(); } catch(e){ console.error(e); elQTitle.textContent="Error loading the test."; } }
 if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", safeInit); } else { safeInit(); }
+</script>
+
+<script>
+/* ========== PLACEHOLDERS POUR DÉMARRER ==========
+   Tu pourras remplacer QUESTIONS / STEPS plus tard par ta grande liste.
+*/
+const QUESTIONS = [
+  {id:"fullName", type:"text",   label:"Please enter your full name", required:true, placeholder:"First and last name"},
+  {id:"email",    type:"text",   label:"Your email (to receive the result)", required:true, placeholder:"name@email.com",
+    inputType:"email"},
+  {id:"agree",    type:"single", label:"Do you agree to share your answers for a match result?", required:true,
+    options:["Yes","No"]},
+];
+const STEPS = ["fullName","email","agree"];
+
+/* ===== Réfs UI ===== */
+const elBar=document.getElementById("progress-bar");
+const elPct=document.getElementById("pctDone");
+const elQBox=document.getElementById("q-box");
+const elQIndex=document.getElementById("q-index");
+const elQTitle=document.getElementById("q-title");
+const elQInputs=document.getElementById("q-inputs");
+const elHint=document.getElementById("q-hint");
+const elSummary=document.getElementById("summary");
+const btnPrev=document.getElementById("prev-btn");
+const btnNext=document.getElementById("next-btn");
+const shareBlock=document.getElementById("shareBlock");
+const shareInput=document.getElementById("shareLink");
+const copyBtn=document.getElementById("copyBtn");
+const waBtn=document.getElementById("waBtn");
+const smsBtn=document.getElementById("smsBtn");
+const partnerCTA=document.getElementById("partnerCTA");
+const letsGoBtn=document.getElementById("letsGoBtn");
+
+/* ===== État ===== */
+const state={}; let currentIndex=0;
+const params=new URLSearchParams(location.search);
+const isPartner=params.has("partner");
+
+/* ===== Helpers ===== */
+function findQuestion(id){ return QUESTIONS.find(q=>q.id===id); }
+function visibleSteps(){ return STEPS.slice(); }
+function isAnswered(q){
+  const v=state[q.id];
+  if(q.type==="text") return v && String(v).trim().length>0;
+  if(q.type==="single"||q.type==="select") return !!v;
+  if(q.type==="multi") return Array.isArray(v)&&v.length>=(q.min||1);
+  return false;
+}
+function calcProgress(){
+  const vis=visibleSteps();
+  const a=vis.filter(id=>isAnswered(findQuestion(id))).length;
+  return vis.length?Math.floor(a/vis.length*100):0;
+}
+function updateProgressUI(){
+  const vis=visibleSteps();
+  const pct=calcProgress();
+  elBar.style.width=pct+"%";
+  elPct.textContent=`${pct}% complete`;
+  elQIndex.textContent=`Question ${Math.min(currentIndex+1,vis.length)} / ${vis.length||1}`;
+}
+
+/* ===== Rendu ===== */
+function setHint(t){ elHint.textContent=t||""; }
+function render(){
+  const vis=visibleSteps(); if(!vis.length){ elQTitle.textContent="No questions."; return; }
+  if(currentIndex<0) currentIndex=0;
+  if(currentIndex>=vis.length) currentIndex=vis.length-1;
+  const q=findQuestion(vis[currentIndex]);
+
+  elQInputs.innerHTML=""; setHint(""); elQTitle.textContent=q.label;
+
+  if(q.type==="text"){
+    const inp=document.createElement("input");
+    inp.type=q.inputType||"text"; inp.placeholder=q.placeholder||"";
+    if(state[q.id]) inp.value=state[q.id];
+    inp.addEventListener("input",e=>{state[q.id]=e.target.value; updateProgressUI();});
+    elQInputs.appendChild(inp);
+  }else if(q.type==="single"){
+    const wrap=document.createElement("div"); wrap.className="options";
+    q.options.forEach(o=>{
+      const row=document.createElement("div"); row.className="opt";
+      const input=document.createElement("input"); input.type="radio"; input.name=q.id; input.value=o;
+      if(state[q.id]===o) input.checked=true;
+      input.addEventListener("change",()=>{state[q.id]=o; updateProgressUI();});
+      const lab=document.createElement("label"); lab.textContent=o;
+      lab.addEventListener("click",()=>{input.checked=true; input.dispatchEvent(new Event('change'));});
+      row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
+    });
+    elQInputs.appendChild(wrap);
+  }
+
+  btnPrev.disabled=(currentIndex===0);
+  btnNext.textContent=(currentIndex===vis.length-1)?"Finish":"Next";
+  updateProgressUI();
+}
+
+/* ===== Nav ===== */
+function validateCurrent(){
+  const vis=visibleSteps(); const q=findQuestion(vis[currentIndex]);
+  return q?.required ? isAnswered(q) : true;
+}
+function nextQ(){
+  if(!validateCurrent()){ setHint("Please answer before continuing."); return; }
+  const vis=visibleSteps();
+  if(currentIndex<vis.length-1){ currentIndex++; render(); }
+  else{ showSummary(); }
+}
+function prevQ(){ if(currentIndex>0){ currentIndex--; render(); } }
+
+/* ===== Share / CTA ===== */
+function computeShareLink(){
+  const rid=Math.random().toString(36).slice(2,10);
+  return `${location.origin}${location.pathname}?partner=${rid}`;
+}
+function showShareForInitiator(link){
+  if(isPartner){ shareBlock.style.display="none"; return; }
+  shareBlock.style.display="block";
+  shareInput.value=link;
+  copyBtn.onclick=async()=>{
+    try{ await navigator.clipboard.writeText(link); alert("Link copied!"); }
+    catch(e){ shareInput.select(); document.execCommand('copy'); alert("Link copied!"); }
+  };
+  waBtn.href="https://wa.me/?text="+encodeURIComponent(link);
+  smsBtn.href="sms:?&body="+encodeURIComponent(link);
+}
+function showPartnerCTA(){
+  partnerCTA.style.display=isPartner?"block":"none";
+  letsGoBtn.onclick=()=>{
+    // Branche ici ton fetch() backend pour envoyer les emails en arrière-plan
+    alert("We’ll email both of you your compatibility result. ✨");
+  };
+}
+
+/* ===== Summary ===== */
+function showSummary(){
+  elQBox.style.display="none";
+  document.getElementById("nav-buttons").style.display="none";
+  elBar.style.width="100%"; elPct.textContent="100% complete";
+
+  const vis=visibleSteps();
+  const wrap=document.createElement("div"); wrap.className="summary";
+  const h=document.createElement("h3"); h.textContent="Your answers";
+  wrap.appendChild(h);
+
+  vis.forEach(id=>{
+    const q=findQuestion(id); let val=state[id];
+    const row=document.createElement("div"); row.className="row";
+    const k=document.createElement("div"); k.className="k"; k.textContent=q.label;
+    const v=document.createElement("div"); v.className="v";
+    if(Array.isArray(val)) val=val.join(", "); if(!val) val="—";
+    v.textContent=val; row.appendChild(k); row.appendChild(v); wrap.appendChild(row);
+  });
+
+  elSummary.innerHTML=""; elSummary.appendChild(wrap); elSummary.style.display="block";
+
+  const link=computeShareLink();       // Initiateur : boutons de partage
+  showShareForInitiator(link);
+  showPartnerCTA();                    // Partenaire : bouton “Let’s Go”
+}
+
+/* ===== Init ===== */
+function safeInit(){ try{ render(); }catch(e){ console.error(e); elQTitle.textContent="Init error."; } }
+if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", safeInit); }
+else{ safeInit(); }
+
+/* Expose */
+window.nextQ=nextQ; window.prevQ=prevQ;
 </script>
 </body>
 </html>

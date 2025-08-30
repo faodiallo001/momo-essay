@@ -317,7 +317,8 @@ addEventListener('resize',size);size();loop();
 <script>
 const QUESTIONS = [
   {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
-  {id:"email",    type:"text",  label:"Your email (to receive your result)", required:true, placeholder:"you@email.com"},
+  {id:"email", type:"text", inputType:"email",
+ label:"Your email (to receive your result)", required:true, placeholder:"you@email.com"},
   {id:"residency",type:"select",label:"Country of residence", required:true, options:COUNTRIES},
   {id:"origin",   type:"select",label:"Country of origin", required:true, options:COUNTRIES},
 
@@ -423,8 +424,9 @@ const QUESTIONS = [
     "Someone who is not family-oriented (no close bond with parents or siblings)",
     "Lives with family or with roommates",
     "Smokes cigarettes or uses any drugs",
-    "Heavy drinker (frequent intoxication)",
+    "Uses substances (smokes, alcoholic, drugs, or any kind of addiction)",
     "Has a criminal record (any offense)"
+
   ]}
 ];
 

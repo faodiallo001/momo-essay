@@ -180,15 +180,32 @@ body{
 }
 
 /* ================== RESPONSIVE NAV ONLY ================== */
-@media (max-width:768px){
-  .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
-  .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
-  .nav-left{order:1}
-  .nav-right{order:1;margin-left:auto;display:flex;gap:14px;align-items:center}
-  .wrap{padding-top:112px}
-  .page{max-width:94vw}
-  .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
+/* ===== Ajustement Mobile: réduire taille des coeurs + labels ===== */
+@media (max-width: 640px){
+
+  /* réduire la taille des coeurs */
+  .hero .glass-btn{
+    width: 70px;     /* avant ~100px */
+    aspect-ratio: 1/1;
+  }
+  .hero .heart-wrap svg{
+    width: 85%;      /* garde une bonne proportion */
+    height: auto;
+  }
+
+  /* réduire un peu la taille du texte */
+  .hero .labels .neon{
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  /* rapprocher labels + coeurs pour éviter trop d'espace */
+  .hero .labels{
+    gap: 12px;
+    margin-top: 6px;
+  }
 }
+
 
 </style>
 </head>

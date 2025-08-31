@@ -156,6 +156,22 @@
     50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
     100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
   }
+
+/* --- LARGEURS DES COLONNES EN DESKTOP --- */
+.contact-grid{
+  display:grid;
+  /* avant: 1.1fr 1fr */
+  grid-template-columns: minmax(560px, 2fr) minmax(320px, 1fr);
+  gap:26px;
+  align-items:start;
+}
+
+/* un peu plus d’aisance sur le form en desktop */
+@media (min-width: 1024px){
+  .contact-card{ padding:22px; }
+  .contact-card textarea.input{ min-height: 200px; }
+}
+ 
 </style>
 </head>
 <body>
@@ -311,7 +327,8 @@ addEventListener('resize',size);size();loop();
     el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
     LAYER.appendChild(el);
   }
-  for(let i=0;i<COUNT)i++) spawn(HEART);
+  for (let i = 0; i < COUNT; i++) spawn(HEART);
+
 })();
 </script>
 

@@ -241,7 +241,39 @@ body{
     text-align: center;
   }
 }
+  /* ===== Centrage parfait des coeurs dans les bulles ===== */
+.glass-btn{
+  /* remplace le grid interne par un centrage flex ultra strict */
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+}
 
+.heart-wrap{
+  width:78%;
+  aspect-ratio:1/1;
+  display:flex;                  /* centre le SVG lui-même */
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+/* on neutralise tout décalage et on autorise un micro-nudge si besoin */
+.heart-wrap svg{
+  display:block;
+  margin:0;
+  transform: translateX(var(--heart-x, 0)) translateY(var(--heart-y, 0));
+  /* l'ombre ne déplace pas la boîte de mise en page */
+  filter: drop-shadow(0 6px 18px rgba(255,59,48,.45));
+}
+
+/* iPhone / petits écrans : légère correction optique (0.5–1px) */
+@media (max-width: 768px){
+  :root{
+    --heart-x: 0.8px;   /* ajuste à 0 / 0.5 / 1px selon ton oeil */
+    --heart-y: 0px;
+  }
+}
 
 
 </style>

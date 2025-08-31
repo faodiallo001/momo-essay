@@ -293,8 +293,19 @@ body{
     padding: 6px 8px;
   }
 }
-
-
+  
+/* Mode paysage */
+@media screen and (orientation: landscape) {
+  body {
+    transform: scale(0.85);     /* réduit un peu le contenu */
+    transform-origin: top center;
+  }
+  
+  .labels .neon{
+    font-size: 10px;            /* encore plus compact */
+    max-width: 80px;
+  }
+}
 
 </style>
 </head>

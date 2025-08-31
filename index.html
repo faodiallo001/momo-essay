@@ -180,31 +180,68 @@ body{
 }
 
 /* ================== RESPONSIVE NAV ONLY ================== */
-/* ===== Ajustement Mobile: réduire taille des coeurs + labels ===== */
-@media (max-width: 640px){
+/* ==== HOTFIX MOBILE (≤768px) : header/footer stables, grille 3 colonnes compacte ==== */
+@media (max-width: 768px){
 
-  /* réduire la taille des coeurs */
-  .hero .glass-btn{
-    width: 70px;     /* avant ~100px */
-    aspect-ratio: 1/1;
+  /* Header réversible et centré (évite le bazar des lignes qui sautent) */
+  .nav{
+    display:flex !important;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px 12px;
+    padding:10px 12px;
   }
-  .hero .heart-wrap svg{
-    width: 85%;      /* garde une bonne proportion */
-    height: auto;
+  .logo-neon{
+    order:0; width:100%; text-align:center;
+    font-size:clamp(16px,5.2vw,22px);
   }
+  .nav-left{ order:1; }
+  .nav-right{ order:1; margin-left:auto; display:flex; gap:14px; align-items:center; }
+  .nav-right a{ padding:6px 8px; }
 
-  /* réduire un peu la taille du texte */
-  .hero .labels .neon{
-    font-size: 0.8rem;
-    padding: 6px 10px;
-  }
+  /* Hero en flux normal (évite les déformations) */
+  .hero{ display:block !important; max-width: 94vw; margin: 0 auto; text-align:center; }
+  .title{ font-size: clamp(28px,8vw,40px); margin-bottom: 10px; }
+  .subtitle, .cta-sub{ font-size: 0.95rem; max-width: 92%; margin: 8px auto 18px; }
 
-  /* rapprocher labels + coeurs pour éviter trop d'espace */
-  .hero .labels{
-    gap: 12px;
+  /* Les 3 cœurs : toujours 3 colonnes mais plus petits */
+  .glass-grid{
+    display:grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items:center;
+    gap: 10px 14px;
+    max-width: 560px; margin: 0 auto;
+  }
+  .glass-btn{
+    width: 68px;               /* taille réduite */
+    aspect-ratio: 1 / 1;
+    border-radius: 999px;
+  }
+  .heart-wrap{ width: 78%; }   /* cœur bien proportionné */
+  .heart-wrap svg{ width:100%; height:auto; }
+
+  /* Labels sous les cœurs : même grille, compact */
+  .labels{
+    display:grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items:center;
+    gap: 8px 12px;
     margin-top: 6px;
+    max-width: 560px; margin-left:auto; margin-right:auto;
+  }
+  .labels .neon{
+    font-size: 0.82rem;
+    padding: 6px 8px;
+    white-space: nowrap;       /* évite le retour à la ligne */
+  }
+
+  /* Footer en 1 colonne propre */
+  .site-footer .f-wrap{
+    grid-template-columns: 1fr !important;
+    text-align: center;
   }
 }
+
 
 
 </style>

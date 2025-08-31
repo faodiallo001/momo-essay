@@ -275,6 +275,26 @@ body{
   }
 }
 
+  /* ===== Ajustement des labels sous les coeurs ===== */
+.labels .neon{
+  font-size: 13px;       /* un peu plus petit par défaut */
+  padding: 7px 10px;     /* moins large */
+  text-align: center;    /* texte centré si 2 lignes */
+  white-space: normal;   /* autoriser retour à la ligne */
+  max-width: 110px;      /* limite la largeur */
+  line-height: 1.2;      /* rapproche un peu les lignes */
+}
+
+/* Sur mobile : encore plus compact */
+@media (max-width: 640px){
+  .labels .neon{
+    font-size: 11.5px;
+    max-width: 90px;
+    padding: 6px 8px;
+  }
+}
+
+
 
 </style>
 </head>

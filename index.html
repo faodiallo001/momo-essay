@@ -125,37 +125,6 @@
 
 /* ===== HOME: empilement vertical & centrage ===== */
 
-/* Le bloc slogan (ta section .glass.grid) en plein centre, en colonne */
-.wrap > .glass.grid{
-  /* si .grid faisait 2 colonnes, on écrase */
-  display:block !important;
-  grid-template-columns: 1fr !important;
-
-  max-width: min(920px, 94vw);
-  margin: 72px auto 24px;
-  text-align: center;
-}
-
-/* Le h1 et le petit texte respirent mieux */
-.wrap > .glass.grid h1{ margin: 0 0 10px; }
-.wrap > .glass.grid p{
-  max-width: 720px;
-  margin: 8px auto 0;
-  font-size: 1.06rem;
-}
-
-/* Le bloc “Will you match or move on?” en-dessous, centré */
-.hero{
-  display:block;
-  max-width: min(920px, 94vw);
-  margin: 28px auto 80px;
-  text-align: center;
-}
-.hero .title{ margin: 0 0 8px; }
-.hero .cta-sub{
-  max-width: 680px;
-  margin: 6px auto 24px;
-}
 
 /* Tes 3 coeurs: on garde tes .glass-grid & .glass-btn, juste centrage */
 .hero .glass-grid{

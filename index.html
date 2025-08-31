@@ -122,6 +122,31 @@
     50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
     100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
   }
+
+.pass-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 16px;
+  padding: 28px 22px;
+  margin: 32px 0;
+  box-shadow: 0 6px 20px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04);
+}
+
+.pass-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+  color: #fff;
+}
+
+.hero h1 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(28px, 6vw, 50px);
+  margin: 0 0 12px;
+  color: #fff;
+}
+
+  
 </style>
 </head>
 <body>
@@ -148,9 +173,35 @@
 </nav>
 
 <main class="wrap">
+
+<section class="hero pass-card">
+  <h1 class="logo-neon">Love works <span class="accent">when it’s a match</span>.</h1>
+  <p class="lead">
+    At <strong>Match or Move On</strong>, we believe every person has a match.  
+    No one is wrong — it’s about alignment. Answer honestly, discover your style,  
+    and see if love truly works for you.
+  </p>
+</section>
+
+
+  <section class="manifesto pass-card">
+  <h2 class="pass-title">Our Belief</h2>
+  <ul>
+    <li>Love works when it’s a match.</li>
+    <li>Conflicts are usually misalignment — not bad people.</li>
+    <li>Honesty doesn’t shame, it frees.</li>
+    <li>Your match exists. Finding them starts with knowing yourself.</li>
+    <li>We don’t judge — we clarify.</li>
+  </ul>
+</section>
+
+
+  
   <section class="hero">
     <h1 class="title">Will you match or <span class="moveon">move on</span>?</h1>
     <p class="subtitle">This isn’t just a quiz — this is the mirror of your love story. Choose wisely.</p>
+
+    
 
     <!-- 3 small glass buttons -->
     <div class="glass-grid">

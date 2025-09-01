@@ -295,6 +295,20 @@ body{
     padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important;
   }
 }
+/* --- HERO CENTRÉ EN MOBILE, FOOTER PLUS BAS --- */
+@media (max-width:768px){
+  body .wrap{
+    min-height:100svh !important;     /* occupe toute la hauteur de l’écran */
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important; /* centre verticalement */
+    align-items:center !important;
+    padding: 0 16px !important;        /* plus de padding top/bottom fixe */
+  }
+  body .site-footer{
+    margin-top:40px !important;       /* footer descend en dehors de l’écran */
+  }
+}
 
   
 </style>

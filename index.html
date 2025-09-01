@@ -316,30 +316,30 @@ body{
   .site-footer{ margin-top: 120px; }
 }
 
-/* MOBILE HEIGHT FIX — scroll court + footer visible + héros un peu plus haut */
 @media (max-width:768px){
-  html, body{
-    height:auto;          /* ne fige pas la hauteur */
-    overflow-y:auto;      /* laisse un scroll léger pour atteindre le footer */
-  }
   .wrap{
-    /* occupe presque tout l'écran, mais pas bloqué */
-    min-height: calc(100svh - 140px);  /* svh = “safe viewport” pour iOS */
-    padding: 84px 16px 24px;            /* moins d’air en haut/bas */
+    min-height: calc(100svh - 100px); /* garde le footer visible */
+    padding: 100px 16px 40px;          /* espace en haut + bas équilibré */
     display:flex;
-    align-items:flex-start;             /* pousse le contenu vers le haut */
-    justify-content:flex-start;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;        /* pousse légèrement vers le haut */
   }
+
   .title{
-    margin-top: 4px;                    /* remonte encore un peu le titre */
+    margin-top: 10px;                  /* petit espace sous le header */
+    margin-bottom: 8px;
   }
+
   .subtitle{
-    margin: 8px auto 16px;              /* compact */
+    margin: 6px auto 20px;             /* pas trop d’espace */
   }
+
   .site-footer{
-    margin-top: 24px;                   /* footer proche, donc page courte */
+    margin-top: 32px;                  /* pas collé, mais proche */
   }
 }
+
 
 
 </style>

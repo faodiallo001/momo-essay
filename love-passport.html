@@ -377,13 +377,8 @@ const QUESTIONS = [
     options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push("60+");return a;})() },
   { id:"residency", type:"select", label:"4) Which country do you live in today?", required:true, options:COUNTRIES },
   { id:"origin", type:"select", label:"5) Which country are you originally from?", required:true, options:COUNTRIES },
-  {
-  id:"languages",
-  type:"multi",
-  label:"6) Languages you speak (select ≥ 1)",
-  required:true,
-  min:1,
-  options:[
+  { id:"languages",type:"multi",label:"6) Languages you speak (select ≥ 1)",required:true, min:1,
+    options:[
     "English",
     "French",
     "Spanish",
@@ -409,9 +404,7 @@ const QUESTIONS = [
     "Lingala",
     "Zulu",
     "Hausa",
-    "Other (please specify)"
-  ]
-}
+    "Other (please specify)" },
 
   { id:"marital", type:"single", label:"7) What’s your current marital status?", required:true,
     options:["Single","Married","Divorced","Widowed","It’s complicated"] },

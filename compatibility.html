@@ -369,176 +369,157 @@ const COUNTRIES = [
 "Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
 ];
 const QUESTIONS = [
-  // Identity & Basics
-  { id:"fullName", type:"text", label:"1) What’s your full name?", required:true, placeholder:"First and last name" },
-  { id:"gender", type:"select", label:"2) How do you identify yourself (gender)?", required:true,
-    options:["Man","Woman","Non-binary","Trans man","Trans woman","Intersex"] },
-  { id:"age", type:"select", label:"3) How old are you?", required:true,
-    options:(()=>{const a=[];for(let i=18;i<=60;i++)a.push(String(i));a.push("60+");return a;})() },
-  { id:"residency", type:"select", label:"4) Which country do you live in today?", required:true, options:COUNTRIES },
-  { id:"origin", type:"select", label:"5) Which country are you originally from?", required:true, options:COUNTRIES },
-  {
-  id:"languages",
-  type:"multi",
-  label:"6) Languages you speak (select ≥ 1)",
-  required:true,
-  min:1,
+  {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
+  {id:"email", type:"text", inputType:"email", label:"Your email (to receive your result)", required:true, placeholder:"you@email.com"},
+  {id:"residency", type:"select", label:"Country of residence", required:true, options:COUNTRIES},
+  {id:"origin", type:"select", label:"Country of origin", required:true, options:COUNTRIES},
+
+  { id:"partnerHeight", type:"single", label:"What’s your preference for a partner’s height?", required:true,
+   options:[
+    "Very tall (6’3+ / 1m90+)",
+    "Tall (above average)",
+    "Average height",
+    "Short (below average)",
+    "I don’t care about height"
+  ]
+},
+
+  
+{ id:"physicalType",type:"multi",label:"What’s your ideal physical look type? (Pick up to 3)", required:true,min:1,max:2,
   options:[
-    "English",
-    "French",
-    "Spanish",
-    "Portuguese",
-    "Arabic",
-    "Chinese (Mandarin)",
-    "Hindi",
-    "Bengali",
-    "Japanese",
-    "Korean",
-    "German",
-    "Russian",
-    "Italian",
-    "Turkish",
-    "Swahili",
-    "Dutch",
-    "Swedish",
-    "Norwegian",
-    "Danish",
-    "Finnish",
-    "Yoruba",
-    "Wolof",
-    "Lingala",
-    "Zulu",
-    "Hausa",
-    "Other (please specify)"
+    "Nordic / Scandinavian look (light hair, light eyes, fair skin)",
+    "Mediterranean look (olive skin, dark hair, green/brown eyes)",
+    "Eastern European look (Slavic features, fair to medium skin)",
+    "Black / African descent",
+    "Arab / Middle Eastern",
+    "Asian (East or South Asian)",
+    "Latino / Latina",
+    "Mixed race",
+    "Someone that looks like me",
+    "I don’t care about physical type",
+    "I don’t have a type"
   ]
 }
 
-  { id:"marital", type:"single", label:"7) What’s your current marital status?", required:true,
-    options:["Single","Married","Divorced","Widowed","It’s complicated"] },
-  { id:"job", type:"text", label:"8) What’s your occupation?", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer" },
-  { id:"instagram", type:"text", label:"9) Share your Instagram (optional)", required:false, placeholder:"@yourhandle" },
-  { id:"photo", type:"file", label:"10) Upload a recent photo of yourself", required:true, accept:"image/*", maxSizeMB:5 },
 
-  // Lifestyle & Habits
-  { id:"smoking", type:"single", label:"11) Do you smoke?", required:true, options:["No","Sometimes","Daily"] },
-  { id:"alcohol", type:"single", label:"12) Do you drink alcohol?", required:true, options:["No","Sometimes","Yes"] },
-  { id:"diet", type:"single", label:"13) How would you describe your food & diet lifestyle?", required:true,
-    options:["I eat everything","Halal","Vegetarian/Vegan","Pescatarian","Other"] },
-  { id:"dietPartner", type:"single", label:"14) Do you expect your partner to align with your diet?", required:true,
-    options:["Yes, it matters","No, I don’t mind","It would be nice but not necessary"] },
-  { id:"fitness", type:"single", label:"15) How active are you (fitness/sports)?", required:true,
-    options:["Gym 3+ times/week","Active sometimes","Rarely","I don’t like exercise"] },
-  { id:"hobbies", type:"multi", label:"16) What hobbies or activities do you enjoy most? (Pick up to 3)", required:true, min:1, max:3,
-    options:["Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering","Other"] },
-  { id:"sleep", type:"single", label:"17) How do you usually sleep?", required:true,
+  {id:"hasKids", type:"single", label:"Do you currently have children?", required:true, options:["No","Yes"]},
+  {id:"kidsCount", type:"select", label:"How many children do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
+  {id:"kidsWith", type:"single", label:"If you have 2+ children, were they with the same partner or different partners?", required:true,
+    options:["Same partner","Different partners"], showIfAny:[{ id:"kidsCount", "in":["2","3","4","5+"] }]},
+
+  {id:"wantKids", type:"single", label:"Do you want to have children in the future?", required:true,
+    options:["Yes","No — I don’t want to be a parent","Not sure"]},
+  {id:"kidsTime", type:"single", label:"If yes, when do you imagine having kids?", required:false,
+    options:["ASAP (≤12 months)","1–2 years","3–5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
+
+  {id:"religionNeed", type:"single", label:"Does your partner need to share your religion?", required:true,
+    options:["Yes — same religion","No — different is fine","Maybe — depends on practice"]},
+  {id:"cultureNeed", type:"single", label:"Does your partner need to share your culture?", required:true, options:["Yes","No","Maybe"]},
+
+  {id:"moneyManage", type:"single", label:"How would you prefer to manage money in a relationship?", required:true, options:[
+    "One joint account (share everything)","Separate accounts"
+  ]},
+  {id:"bills", type:"single", label:"What's your preferred relationship model?", required:true, options:[
+    "Traditional (man pays fully; woman manages the home)",
+    "Independent partners but not equal (man covers a bit more — e.g., 75/25)",
+    "Each pays their own share, completely independent 50/50 style"
+  ]},
+
+  {id:"homeClean", type:"single", label:"How do you usually keep your home?", required:true, options:[
+    "Very clean — I do it myself","Very clean — we hire help","Clean but sometimes messy","Messy — I don’t care much"
+  ]},
+
+  {id:"dietFusion", type:"single", label:"Food & diet lifestyle — and do you expect your partner to share it?", required:true, options:[
+    "I eat anything — my partner doesn’t need to match",
+    "I try to eat healthy — I prefer my partner to share it",
+    "I try to eat healthy — but it’s not required",
+    "I follow a strict healthy diet — I need my partner aligned",
+    "Vegetarian/Vegan — I prefer my partner to share it",
+    "Vegetarian/Vegan — alignment isn’t necessary",
+    "Other"
+  ]},
+
+  {id:"sleep", type:"single", label:"What’s your usual sleep schedule?", required:true,
+    options:["Early sleeper (before ~11pm)","Night owl (after midnight)","It varies depending on the day"]},
+  {id:"petComfort", type:"single", label:"Would you be comfortable living with a partner who has pets?", required:true,
+    options:["Yes — I’m comfortable living with pets","No — I can’t live with pets","I am allergic to pets","I don’t want pets in my home"]},
+  {id:"smoking", type:"single", label:"Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
+  {id:"alcohol", type:"single", label:"Do you drink alcohol?", required:true, options:["No","Sometimes","Often"]},
+
+  {id:"living", type:"single", label:"What’s your current living situation?", required:true,
+    options:["I live alone","I rent with roommates","I live with family","I own my place"]},
+  {id:"car", type:"single", label:"Do you own a car?", required:true,
+    options:["Yes","No","Not needed where I live","Planning to get one"]},
+  {id:"criminalRecord", type:"single", label:"Do you have a criminal record?", required:true, options:["No","Yes"]},
+
+  {id:"ambition", type:"single", label:"Which best describes you right now?", required:true,
+    options:["I’m ambitious and working on it","I’m stable and comfortable","I’m still figuring things out"]},
+  {id:"conflict", type:"single", label:"When conflicts happen, how do you usually respond?", required:true,
+    options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
+
+  {id:"politicsTalk", type:"single", label:"How much do you talk about politics in daily life?", required:true,
+    options:["Rarely","Sometimes","Often","A lot — every day"]},
+
+  {id:"sexImportance", type:"single", label:"How important is sex in a relationship for you?", required:true,
+    options:["Very important — I need it often","Important — but not a top priority","Not so important for me"]},
+  {id:"pace", type:"single", label:"Preferred pace for physical intimacy (relationship)", required:true,
+    options:["Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"]},
+
+  {
+    id:"feelLoved",
+    type:"multi",
+    label:"I feel most loved when… (pick ≥ 2)",
+    required:true,
+    min:2,
     options:[
-      "I usually sleep early (before 10–11pm)",
-      "I usually go to bed late (after midnight)",
-      "It changes depending on my days",
-      "I don’t have a stable sleep routine"
+      "I hear kind, affirming words",
+      "We spend quality time",
+      "My partner shows affection (touch)",
+      "I receive thoughtful gifts",
+      "My partner gives me money",
+      "My partner does helpful actions for me",
+      "I am prioritized in their plans"
+    ]
+  },
+  {
+    id:"showLove",
+    type:"multi",
+    label:"How I usually show love (pick ≥ 2)",
+    required:true,
+    min:2,
+    options:[
+      "I give gifts",
+      "I give money",
+      "I plan quality time",
+      "I am affectionate (touch)",
+      "I use loving words",
+      "I do helpful actions",
+      "I prioritize my partner in my plans"
     ]
   },
 
-  // Family & Kids
-  { id:"hasKids", type:"single", label:"18) Do you have children?", required:true, options:["No","Yes"] },
-  { id:"kidsCount", type:"select", label:"19) If yes, how many?", required:true,
-    options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"} },
-  { id:"kidsWith", type:"single", label:"20) If you have 2 or more, were they with the same partner or different partners?", required:true,
-    options:["Same partner","Different partners"], showIf:{id:"kidsCount", anyOf:["2","3","4","5+"]} },
-  { id:"wantKids", type:"single", label:"21) Do you want to have children in the future?", required:true,
-    options:["Yes","Not sure","No"] },
-  { id:"kidsTime", type:"single", label:"22) If yes, when do you imagine having them?", required:false,
-    options:["ASAP (≤12 months)","1–2 years","3–5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"} },
+  {id:"distance", type:"single", label:"Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
+  {id:"relocate", type:"single", label:"Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
 
-  // Faith & Values
-  { id:"religion", type:"single", label:"23) What’s your religion or spiritual belief?", required:true,
-    options:["Muslim (practicing)","Muslim (not practicing)","Christian (practicing)","Christian (not practicing)","Buddhist","Hindu","Vodun","Atheist","Other"] },
-  { id:"faithPartner", type:"single", label:"24) Is it important to you that your partner shares your faith?", required:true,
-    options:["Yes","No","Maybe"] },
-  { id:"culturePartner", type:"single", label:"25) Do you feel more comfortable with a partner who shares your traditions, or are you open to differences?", required:true,
-    options:["I prefer same culture","I’m open to different cultures","Doesn’t matter to me"] },
+  {id:"evening", type:"single", label:"Your ideal evening with someone you love", required:true, options:[
+    "Cozy movie night at home","Romantic dinner out & deep conversation","Romantic beach walk","Outdoor movie / open-air cinema","Live music or a show as a couple"
+  ]},
 
-  // Money & Roles
-  { id:"money", type:"single", label:"26) If you were in a serious relationship, how would you prefer to manage money?", required:true,
-    options:["One joint account (share everything)","Separate accounts"] },
-  { id:"role", type:"single", label:"27) If you were in a serious relationship, which dynamic feels right for you?", required:true,
-    options:[
-      "Traditional (man pays fully; woman manages the home)",
-      "Independent partners but not equal (man covers a bit more — 75/25)",
-      "Each pays their own share, completely independent 50/50 style"
-    ]
-  },
-  { id:"housework", type:"single", label:"28) How do you usually manage your home?", required:true,
-    options:[
-      "Very clean and organized — I do it myself",
-      "Very clean — I prefer hiring help when possible",
-      "Clean but sometimes messy",
-      "Messy — I don’t care much about tidiness"
-    ]
-  },
-  { id:"cooking", type:"single", label:"29) How comfortable are you with cooking in daily life?", required:true,
-    options:[
-      "I don’t know how to cook and I don’t want to",
-      "I don’t know how to cook, but I’m willing to learn",
-      "I can cook basics",
-      "I’m a confident cook"
-    ]
-  },
+  {id:"hobbies", type:"multi", label:"What hobbies or activities do you enjoy? (Pick up to 3)", required:true, min:1, max:3, options:[
+    "Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering","Other"
+  ]},
 
-  // Relationship & Intimacy
-  { id:"loyalty", type:"single", label:"30) Which relationship model feels right for you?", required:true,
-    options:["Monogamy only","Polygamy only","Open relationship"] },
-  { id:"sexImportance", type:"single", label:"31) How important is sex for you in a relationship?", required:true,
-    options:["Very important","Important but not top priority","Not so important for me"] },
-  { id:"pace", type:"single", label:"32) What pace of physical intimacy feels natural to you?", required:true,
-    options:["Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"] },
-  { id:"feelLoved", type:"multi", label:"33) How do you feel most loved? (pick ≥ 2)", required:true, min:2,
-    options:["Words of affirmation","Quality time","Affection (touch)","Gifts","Money support","Helpful actions","Being prioritized"] },
-  { id:"showLove", type:"multi", label:"34) How do you usually show love? (pick ≥ 2)", required:true, min:2,
-    options:["I give gifts","I give money","I plan quality time","I’m affectionate (touch)","I use loving words","I do helpful actions"] },
+  {id:"type", type:"multi", label:"What’s your type? (Pick up to 3)", required:true, min:1, max:3, options:[
+    "Blonde (woman) / Blond (man)","Brunette (woman) / Brown-haired (man)","Black (woman/man)","Redhead (woman/man)","Arab","European","African","Asian","I don’t have a type"
+  ]},
 
-  // Personality & Energy
-  { id:"traits", type:"multi", label:"35) Which words describe you best?", required:true, min:1,
-    options:["Shy","Funny","Adventurous","Romantic","Calm","Energetic","Ambitious","Serious","Optimistic","Other"] },
-  { id:"humor", type:"single", label:"36) What kind of humor makes you laugh the most?", required:true,
-    options:["Sarcasm","Dry humor","Slapstick","Playful / goofy","Intellectual humor","Other"] },
-  { id:"energy", type:"single", label:"37) Do you consider yourself introvert, extrovert, or ambivert?", required:true,
-    options:["Introvert","Extrovert","Ambivert"] },
-  { id:"partnerQualities", type:"multi", label:"38) What qualities are you looking for most in a partner? (pick up to 3)", required:true, min:1, max:3,
-    options:["Kindness","Loyalty","Ambition","Humor","Religious alignment","Family-oriented","Confidence","Other"] },
+  {id:"phonePrivacy", type:"single", label:"In your relationship, do you prefer to share phone passwords or keep phones private?", required:true,
+    options:["Share passwords","Keep phones private"]},
+  {id:"dmRules", type:"single", label:"Would it bother you if your partner chats privately with people of the opposite sex on social media?", required:true,
+    options:["Yes","No","It depends on the conversation"]},
 
-  // Ambition & Vision
-  { id:"lifePath", type:"single", label:"39) Right now, how would you describe your life path?", required:true,
-    options:["Ambitious and building","Stable and comfortable","Still figuring things out"] },
-  { id:"priority", type:"single", label:"40) What comes first for you: love, money, or both hand in hand?", required:true,
-    options:["Love first","Money first","Both equally important"] },
-  { id:"conflict", type:"single", label:"41) How do you usually react when conflicts happen?", required:true,
-    options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"] },
-  { id:"success", type:"single", label:"42) What does success mean to you?", required:true,
-    options:["Financial independence","Building a family","Creating a business","Living aligned with faith"] },
-
-  // Relationship Goals
-  { id:"relGoals", type:"multi", label:"43) What are you looking for at this stage of your life?", required:true, min:1,
-    options:["Serious relationship","Marriage soon","Marriage someday","Casual dating","Friendship first"] },
-  { id:"marriage", type:"single", label:"44) When would you like to get married?", required:true,
-    options:["In 1–2 years","In 3+ years","I’m not focused on marriage"] },
-  { id:"distance", type:"single", label:"45) Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"] },
-  { id:"relocate", type:"single", label:"46) Would you relocate internationally for love?", required:true, options:["Yes","Maybe","No"] },
-  { id:"firstDate", type:"single", label:"47) What’s your ideal first date?", required:true,
-    options:[
-      "A cozy coffee or tea together",
-      "A dinner out with conversation",
-      "Something active (bowling, hiking, dancing)",
-      "A cultural outing (museum, music, theater)",
-      "A walk by the beach at sunset 🌅",
-      "It’s too easy — surprise me ✨"
-    ]
-  },
-
-  // Social Life & Deal-Breakers
- 
   {id:"dealBreakers", type:"multi", label:"I cannot accept… (pick ≥ 5)", required:true, min:5, options:[
-    "Someone obsessed with politics",
+    "Someone obsessed with politics, talks about it all day long",
     "Cheating / infidelity",
     "Religion not aligned with mine",
     "Tries to change my faith or practice",
@@ -558,10 +539,11 @@ const QUESTIONS = [
     "Smokes cigarettes or uses any drugs",
     "Uses substances (smokes, alcoholic, drugs, or any kind of addiction)",
     "Has a criminal record (any offense)",
-    "someone that's not financially stable"
-
+    "Someone that’s not financially stable"
   ]}
 ];
+
+
 
 /* ===== UI refs ===== */
 const elBar=document.getElementById("progress-bar");

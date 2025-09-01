@@ -316,12 +316,19 @@ body{
   .site-footer{ margin-top: 120px; }
 }
 
+/* FORCE LA PAGE D'ACCUEIL À TENIR SUR UN SEUL ÉCRAN EN MOBILE */
 @media (max-width:768px){
-  .lead {
-    display:-webkit-box;
-    -webkit-line-clamp: 2; /* max 2 lignes */
-    -webkit-box-orient: vertical;
-    overflow:hidden;
+  body, html {
+    height: 100vh;         /* la page fait la hauteur de l’écran */
+    overflow: hidden;      /* désactive le scroll */
+  }
+
+  .wrap {
+    min-height: 100vh;     /* bloque le bloc principal à la hauteur écran */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* centre verticalement */
+    padding: 0 16px;          /* juste un petit padding sur les côtés */
   }
 }
 

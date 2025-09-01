@@ -340,32 +340,31 @@ body{
   }
 } 
 
-  /* ===== LAST-WORD MOBILE OVERRIDE (force le placement) ===== */
+ /* ===== LAST-WORD MOBILE OVERRIDE (force le placement) ===== */
 @media (max-width:768px){
   body .wrap{
-    /* redescend le contenu sous la nav fixe et safe area iOS */
-    padding: calc(100px + env(safe-area-inset-top)) 16px 36px !important;
-    min-height: calc(100svh - 120px) !important; /* laisse voir le footer */
+    /* pousse un peu le contenu vers le bas sous la nav */
+    padding: calc(120px + env(safe-area-inset-top)) 16px 40px !important;
+    /* laisse un petit scroll et garantit le footer visible */
+    min-height: calc(100svh - 135px) !important;
     display:flex !important;
     align-items:center !important;
     justify-content:flex-start !important;
   }
   body .title{
-    margin-top: 10px !important;
+    margin-top: 6px !important;     /* léger, on évite qu'il colle au haut */
     margin-bottom: 8px !important;
   }
   body .subtitle{
     margin: 6px auto 18px !important;
   }
   body .glass-grid{
-    margin-top: 8px !important; /* espace léger avant les bulles */
+    margin-top: 10px !important;    /* un petit souffle avant les bulles */
   }
   body .site-footer{
-    margin-top: 28px !important; /* footer proche mais pas collé */
+    margin-top: 28px !important;    /* footer proche mais pas collé */
   }
 }
-
-
 
 
 </style>

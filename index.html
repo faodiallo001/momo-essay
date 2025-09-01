@@ -18,9 +18,7 @@
        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
        background:var(--bg)}
 
-  #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-
+  /* ========== NAV ========== */
   .nav{position:fixed;top:0;left:0;right:0;z-index:6;
        display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
        padding:14px 24px;backdrop-filter:blur(8px);
@@ -38,10 +36,10 @@
                padding:8px 10px;border-radius:12px;border:1px solid transparent}
   .nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
 
+  /* ========== HERO ========== */
   .wrap{position:relative;z-index:2;min-height:100vh;
         display:flex;align-items:center;justify-content:center;
         padding:120px 20px 92px}
-
   .hero{max-width:min(1150px,94vw);text-align:center}
   .title{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.05;
          font-size:clamp(38px,6.2vw,86px);margin:0 0 10px;letter-spacing:.3px;
@@ -50,6 +48,7 @@
   .subtitle{color:var(--muted);max-width:820px;
             margin:10px auto 34px;font-size:clamp(14px,1.6vw,18px)}
 
+  /* ========== BULLES (cœurs) ========== */
   .glass-grid{display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));
               gap:22px;justify-items:center;max-width:900px;margin:0 auto}
   .glass-btn{position:relative;width:120px;aspect-ratio:1/1;border-radius:999px;
@@ -67,6 +66,7 @@
   .heart-wrap svg{width:100%;height:100%;display:block;
                   filter:drop-shadow(0 6px 18px rgba(255,59,48,.45))}
 
+  /* ========== LABELS ========== */
   .labels{display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));
           gap:22px;justify-items:center;margin-top:10px;max-width:900px;
           margin-left:auto;margin-right:auto}
@@ -77,18 +77,47 @@
         box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.18);
         text-align:center}
 
-  /* ===== Desktop-only adjustments (no mobile touched) ===== */
+  /* ========== FLOTTANTS (cœurs animés) ========== */
+  .float-item{
+    position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
+    filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
+    transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));
+    animation:floatUp var(--t,20s) linear infinite, spin var(--spin,18s) linear infinite;
+    will-change:transform,opacity
+  }
+  @keyframes floatUp{
+    0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
+    10%{opacity:1}
+    100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}
+  }
+  @keyframes spin{
+    0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+    50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
+    100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+  }
+
+  /* ========== MOBILE (inchangé) ========== */
+  @media (max-width: 768px){
+    /* ton ancien code mobile reste intact */
+  }
+
+  /* ========== DESKTOP AJUSTEMENTS ========== */
   @media (min-width: 769px){
-    .subtitle{margin-bottom:84px !important;}  /* ajoute de l’air */
-    .glass-grid{transform:translateY(48px);}   /* descend les bulles */
+    .subtitle{margin-bottom:84px !important;}   /* + air avant les bulles */
+    .glass-grid{margin-top:30px;}               /* descend le bloc */
+    .labels{margin-top:24px;}                   /* espace bulles ↔ labels */
     .labels .neon{
-      display:inline-flex;align-items:center;justify-content:center;
-      white-space:nowrap !important;          /* jamais de retour à la ligne */
-      min-height:48px;                        /* allongé verticalement */
-      padding:12px 20px;
+      white-space:nowrap !important;
+      min-height:46px;
+      padding:14px 20px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
   }
 </style>
+</head>
+
 </head>
 
 <body>

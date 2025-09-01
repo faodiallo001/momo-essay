@@ -272,6 +272,30 @@ body{
   }
 }
 
+/* --- PUSH FOOTER BELOW THE FOLD (mobile only) --- */
+@media (max-width:768px){
+  html, body{
+    height:auto !important;
+    min-height:100% !important;
+    overflow-y:auto !important; /* on garde un petit scroll */
+  }
+  body .wrap{
+    /* même placement qu'actuel, mais on étire un peu la hauteur pour
+       que le footer sorte du 1er écran */
+    padding-top: calc(124px + env(safe-area-inset-top)) !important;
+    padding-bottom: 36px !important;
+    min-height: calc(100svh + 60px) !important; /* << clé : 60px pousse le footer sous le fold */
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+  }
+  body .site-footer{
+    margin-top: 16px !important; /* espace normal au-dessus du footer */
+    padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
   
 </style>
 </head>

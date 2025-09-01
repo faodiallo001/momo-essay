@@ -415,6 +415,31 @@ const QUESTIONS = [
   // Lifestyle & Habits
   { id:"smoking", type:"single", label:"11) Do you smoke?", required:true, options:["No","Sometimes","Daily"] },
   { id:"alcohol", type:"single", label:"12) Do you drink alcohol?", required:true, options:["No","Sometimes","Yes"] },
+  { id:"partnerHeight", type:"single", label:"What’s your preference for a partner’s height?", required:true,
+     options:[
+    "Very tall (6’3+ / 1m90+)",
+    "Tall (above average)",
+    "Average height",
+    "Short (below average)",
+    "I don’t care about height"
+  ]
+},
+{ id:"physicalType", type:"multi", label:"What’s your ideal physical look type? (Pick up to 3)", required:true, min:1,  max:2,
+  options:[
+    "Nordic / Scandinavian look (light hair, light eyes, fair skin)",
+    "Mediterranean look (olive skin, dark hair, green/brown eyes)",
+    "Eastern European look (Slavic features, fair to medium skin)",
+    "Black / African descent",
+    "Arab / Middle Eastern",
+    "Asian (East or South Asian)",
+    "Latino / Latina",
+    "Mixed race",
+    "Someone that looks like me",
+    "I don’t care about physical type",
+    "I don’t have a type"
+  ]
+}
+
   { id:"diet", type:"single", label:"13) How would you describe your food & diet lifestyle?", required:true,
     options:["I eat everything","Halal","Vegetarian/Vegan","Pescatarian","Other"] },
   { id:"dietPartner", type:"single", label:"14) Do you expect your partner to align with your diet?", required:true,

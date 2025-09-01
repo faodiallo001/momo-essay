@@ -294,6 +294,36 @@ body{
   }
 }
 
+
+  /* ======== Desktop-only adjustments (≥769px) ======== */
+@media (min-width: 769px){
+
+  /* plus d'espace entre le titre/texte et les bulles */
+  .subtitle{ margin: 10px auto 52px; }   /* était 34px */
+  .glass-grid{ margin-top: 8px; }        /* pousse un peu plus bas */
+  .labels{ margin-top: 14px; }
+
+  /* bulles légèrement plus petites */
+  .glass-btn{ width: 110px; }            /* était 120px */
+
+  /* labels un peu plus confortables */
+  .labels .neon{
+    font-size: 14px;
+    padding: 9px 16px;
+  }
+
+  /* éviter la casse et “allonger” spécifiquement Fix the Problem */
+  .labels .neon:last-child{
+    white-space: nowrap;      /* reste sur une ligne */
+    min-width: 170px;         /* allonge sans toucher la limite */
+    text-align: center;
+  }
+
+  /* un peu plus d’air global sous le hero avant le footer */
+  .site-footer{ margin-top: 110px; }     /* était 90px */
+}
+
+
 </style>
 </head>
 <body>

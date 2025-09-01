@@ -316,21 +316,31 @@ body{
   .site-footer{ margin-top: 120px; }
 }
 
-/* FORCE LA PAGE D'ACCUEIL À TENIR SUR UN SEUL ÉCRAN EN MOBILE */
+/* MOBILE HEIGHT FIX — scroll court + footer visible + héros un peu plus haut */
 @media (max-width:768px){
-  body, html {
-    height: 100vh;         /* la page fait la hauteur de l’écran */
-    overflow: hidden;      /* désactive le scroll */
+  html, body{
+    height:auto;          /* ne fige pas la hauteur */
+    overflow-y:auto;      /* laisse un scroll léger pour atteindre le footer */
   }
-
-  .wrap {
-    min-height: 100vh;     /* bloque le bloc principal à la hauteur écran */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;  /* centre verticalement */
-    padding: 0 16px;          /* juste un petit padding sur les côtés */
+  .wrap{
+    /* occupe presque tout l'écran, mais pas bloqué */
+    min-height: calc(100svh - 140px);  /* svh = “safe viewport” pour iOS */
+    padding: 84px 16px 24px;            /* moins d’air en haut/bas */
+    display:flex;
+    align-items:flex-start;             /* pousse le contenu vers le haut */
+    justify-content:flex-start;
+  }
+  .title{
+    margin-top: 4px;                    /* remonte encore un peu le titre */
+  }
+  .subtitle{
+    margin: 8px auto 16px;              /* compact */
+  }
+  .site-footer{
+    margin-top: 24px;                   /* footer proche, donc page courte */
   }
 }
+
 
 </style>
 </head>

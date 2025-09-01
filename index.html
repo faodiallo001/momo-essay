@@ -238,6 +238,34 @@ body{
   body .glass-grid{margin-top:10px !important}
   body .site-footer{margin-top:28px !important}
 }
+
+  /* ===== FINAL MOBILE FIX: scroll court + footer atteignable ===== */
+@media (max-width:768px){
+  html, body{
+    height:auto !important;        /* pas de 100vh qui bloque */
+    min-height:100% !important;
+    overflow-y:auto !important;    /* scroll autorisé */
+  }
+  body .wrap{
+    min-height:auto !important;    /* retire la contrainte 100svh */
+    padding: calc(118px + env(safe-area-inset-top)) 16px 36px !important; /* héro un peu plus bas */
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+  }
+  body .title{ margin-top:8px !important; margin-bottom:8px !important; }
+  body .subtitle{ margin:6px auto 18px !important; }
+  body .glass-grid{ margin-top:10px !important; }
+
+  /* rapproche le footer et assure un peu d'espace en bas pour scroller */
+  body .site-footer{
+    margin-top:28px !important;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+  
 </style>
 </head>
 <body>

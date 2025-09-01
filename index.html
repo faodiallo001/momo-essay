@@ -265,6 +265,13 @@ body{
   }
 }
 
+/* MICRO TWEAK — descend légèrement le héros en mobile */
+@media (max-width:768px){
+  body .wrap{
+    padding-top: calc(138px + env(safe-area-inset-top)) !important; /* +20px vs avant */
+  }
+}
+
   
 </style>
 </head>

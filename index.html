@@ -338,7 +338,33 @@ body{
   .site-footer{
     margin-top: 32px;                  /* pas collé, mais proche */
   }
+} 
+
+  /* ===== LAST-WORD MOBILE OVERRIDE (force le placement) ===== */
+@media (max-width:768px){
+  body .wrap{
+    /* redescend le contenu sous la nav fixe et safe area iOS */
+    padding: calc(100px + env(safe-area-inset-top)) 16px 36px !important;
+    min-height: calc(100svh - 120px) !important; /* laisse voir le footer */
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+  }
+  body .title{
+    margin-top: 10px !important;
+    margin-bottom: 8px !important;
+  }
+  body .subtitle{
+    margin: 6px auto 18px !important;
+  }
+  body .glass-grid{
+    margin-top: 8px !important; /* espace léger avant les bulles */
+  }
+  body .site-footer{
+    margin-top: 28px !important; /* footer proche mais pas collé */
+  }
 }
+
 
 
 

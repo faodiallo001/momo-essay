@@ -86,7 +86,6 @@ body{
 
 /* ================== ROUND GLASS BUTTONS ================== */
 .glass-grid{
-  /* toujours 3 colonnes, même sur mobile */
   display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));
   gap:22px;justify-items:center;max-width:900px;margin:0 auto;
 }
@@ -123,7 +122,6 @@ body{
 
 /* ================== LABELS UNDER THE HEARTS ================== */
 .labels{
-  /* toujours 3 colonnes, alignées à la grille des cœurs */
   display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));
   gap:22px;justify-items:center;margin-top:10px;max-width:900px;margin-left:auto;margin-right:auto
 }
@@ -181,195 +179,67 @@ body{
 }
 
 /* ================== RESPONSIVE NAV ONLY ================== */
-/* ==== HOTFIX MOBILE (≤768px) : header/footer stables, grille 3 colonnes compacte ==== */
 @media (max-width: 768px){
-
   /* Header */
-  .nav{
-    display:flex !important;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:8px 12px;
-    padding:10px 12px;
-  }
-  .logo-neon{
-    order:0; width:100%; text-align:center;
-    font-size:clamp(16px,5.2vw,22px);
-  }
-  .nav-left{ order:1; }
-  .nav-right{ order:1; margin-left:auto; display:flex; gap:14px; align-items:center; }
-  .nav-right a{ padding:6px 8px; }
+  .nav{display:flex !important;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 12px}
+  .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
+  .nav-left{order:1}
+  .nav-right{order:1;margin-left:auto;display:flex;gap:14px;align-items:center}
+  .nav-right a{padding:6px 8px}
 
   /* Hero */
-  .hero{ display:block !important; max-width: 94vw; margin: 0 auto; text-align:center; }
-  .title{ font-size: clamp(28px,8vw,40px); margin-bottom: 10px; }
-  .subtitle, .cta-sub{ font-size: 0.95rem; max-width: 92%; margin: 8px auto 18px; }
+  .hero{display:block !important;max-width:94vw;margin:0 auto;text-align:center}
+  .title{font-size:clamp(28px,8vw,40px);margin-bottom:10px}
+  .subtitle,.cta-sub{font-size:.95rem;max-width:92%;margin:8px auto 18px}
 
   /* 3 cœurs */
-  .glass-grid{
-    display:grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items:center;
-    gap: 10px 14px;
-    max-width: 560px; margin: 0 auto;
-  }
-  .glass-btn{
-    width: 68px;
-    aspect-ratio: 1 / 1;
-    border-radius: 999px;
-  }
-  .heart-wrap{ width: 78%; }
-  .heart-wrap svg{ width:100%; height:auto; }
+  .glass-grid{display:grid !important;grid-template-columns:repeat(3,1fr);justify-items:center;gap:10px 14px;max-width:560px;margin:0 auto}
+  .glass-btn{width:68px;aspect-ratio:1/1;border-radius:999px}
+  .heart-wrap{width:78%}
+  .heart-wrap svg{width:100%;height:auto}
 
   /* Labels */
-  .labels{
-    display:grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items:center;
-    gap: 8px 12px;
-    margin-top: 6px;
-    max-width: 560px; margin-left:auto; margin-right:auto;
-  }
-  .labels .neon{
-    font-size: 0.82rem;
-    padding: 6px 8px;
-    white-space: nowrap;
-  }
+  .labels{display:grid !important;grid-template-columns:repeat(3,1fr);justify-items:center;gap:8px 12px;margin-top:6px;max-width:560px;margin-left:auto;margin-right:auto}
+  .labels .neon{font-size:.82rem;padding:6px 8px;white-space:nowrap}
 
   /* Footer */
-  .site-footer .f-wrap{
-    grid-template-columns: 1fr !important;
-    text-align: center;
-  }
+  .site-footer .f-wrap{grid-template-columns:1fr !important;text-align:center}
 }
 
-/* ===== Centrage parfait des coeurs dans les bulles ===== */
-.glass-btn{
-  display:flex !important;
-  align-items:center;
-  justify-content:center;
-}
-.heart-wrap{
-  width:78%;
-  aspect-ratio:1/1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-.heart-wrap svg{
-  display:block;
-  margin:0;
-  transform: translateX(var(--heart-x, 0)) translateY(var(--heart-y, 0));
-  filter: drop-shadow(0 6px 18px rgba(255,59,48,.45));
-}
-@media (max-width: 768px){
-  :root{
-    --heart-x: 0.8px;
-    --heart-y: 0px;
-  }
+/* Centrage des cœurs dans les bulles */
+.glass-btn{display:flex !important;align-items:center;justify-content:center}
+.heart-wrap{width:78%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative}
+.heart-wrap svg{display:block;margin:0;transform:translateX(var(--heart-x,0)) translateY(var(--heart-y,0));filter:drop-shadow(0 6px 18px rgba(255,59,48,.45))}
+@media (max-width:768px){ :root{ --heart-x:.8px; --heart-y:0px; } }
+
+/* Labels sous cœurs (base) */
+.labels .neon{font-size:13px;padding:7px 10px;text-align:center;white-space:normal;max-width:110px;line-height:1.2}
+@media (max-width:640px){ .labels .neon{font-size:11.5px;max-width:90px;padding:6px 8px} }
+
+/* Desktop only */
+@media (min-width:1025px){
+  .subtitle{margin-bottom:88px !important}
+  .glass-grid{margin-top:32px}
+  .labels{margin-top:24px}
+  .labels .neon{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap !important;min-height:48px;padding:12px 20px;line-height:1.2;font-size:14px;max-width:none !important}
+  .site-footer{margin-top:120px}
 }
 
-/* ===== Ajustement des labels sous les coeurs (base) ===== */
-.labels .neon{
-  font-size: 13px;
-  padding: 7px 10px;
-  text-align: center;
-  white-space: normal;
-  max-width: 110px;
-  line-height: 1.2;
-}
-@media (max-width: 640px){
-  .labels .neon{
-    font-size: 11.5px;
-    max-width: 90px;
-    padding: 6px 8px;
-  }
-}
-
-/* ======= DESKTOP-ONLY OVERRIDE (rien d'autre touché) ======= */
-@media (min-width: 1025px){
-  /* + air sous le sous-titre (descend visuellement les bulles) */
-  .subtitle{
-    margin-bottom: 88px !important;
-  }
-  /* descendre proprement le bloc des 3 bulles */
-  .glass-grid{
-    margin-top: 32px;
-  }
-  /* labels : plus hauts, jamais à la ligne, pas de largeur max */
-  .labels{
-    margin-top: 24px;
-  }
-  .labels .neon{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    white-space: nowrap !important;
-    min-height: 48px;
-    padding: 12px 20px;
-    line-height: 1.2;
-    font-size: 14px;
-    max-width: none !important; /* annule la limite 110px du style de base */
-  }
-  /* respirer avant le footer */
-  .site-footer{ margin-top: 120px; }
-}
-
-@media (max-width:768px){
-  .wrap{
-    min-height: calc(100svh - 100px); /* garde le footer visible */
-    padding: 100px 16px 40px;          /* espace en haut + bas équilibré */
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;        /* pousse légèrement vers le haut */
-  }
-
-  .title{
-    margin-top: 10px;                  /* petit espace sous le header */
-    margin-bottom: 8px;
-  }
-
-  .subtitle{
-    margin: 6px auto 20px;             /* pas trop d’espace */
-  }
-
-  .site-footer{
-    margin-top: 32px;                  /* pas collé, mais proche */
-  }
-} 
-
- /* ===== LAST-WORD MOBILE OVERRIDE (force le placement) ===== */
+/* ===== LAST-WORD MOBILE OVERRIDE (seul bloc modifié) ===== */
 @media (max-width:768px){
   body .wrap{
-    /* pousse un peu le contenu vers le bas sous la nav */
-    padding: calc(120px + env(safe-area-inset-top)) 16px 40px !important;
-    /* laisse un petit scroll et garantit le footer visible */
-    min-height: calc(100svh - 135px) !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:flex-start !important;
+    /* descend légèrement le héros et garde un scroll court */
+    padding: calc(124px + env(safe-area-inset-top)) 16px 36px !important;
+    min-height: calc(100svh - 140px) !important; /* footer visible */
+    display:flex !important; align-items:center !important; justify-content:flex-start !important;
   }
-  body .title{
-    margin-top: 6px !important;     /* léger, on évite qu'il colle au haut */
-    margin-bottom: 8px !important;
-  }
-  body .subtitle{
-    margin: 6px auto 18px !important;
-  }
-  body .glass-grid{
-    margin-top: 10px !important;    /* un petit souffle avant les bulles */
-  }
-  body .site-footer{
-    margin-top: 28px !important;    /* footer proche mais pas collé */
-  }
+  body .title{margin-top:8px !important;margin-bottom:8px !important}
+  body .subtitle{margin:6px auto 18px !important}
+  body .glass-grid{margin-top:10px !important}
+  body .site-footer{margin-top:28px !important}
 }
-
-
 </style>
 </head>
-  
 <body>
 
 <!-- background sparkles -->

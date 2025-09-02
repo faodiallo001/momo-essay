@@ -17,6 +17,20 @@
     font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)
   }
 
+ /* languages */
+  .lang{position:relative;z-index:10}
+  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
+    border:1px solid rgba(255,59,48,.45);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
+    text-shadow:0 0 8px rgba(255,59,48,.55); user-select:none}
+  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
+    background:rgba(0,0,0,.8);border:1px solid rgba(255,59,48,.45);border-radius:12px;padding:8px;max-height:50vh;overflow:auto}
+  .lang.open .lang-menu{display:flex}
+  @media (hover:hover){ .lang:hover .lang-menu{display:flex} }
+  .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
+  .lang-menu a:hover{background:rgba(255,59,48,.12)}
+
+
+  
   /* layers */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}

@@ -831,10 +831,13 @@ function openPassportPrint(lp){
 
         <div class="footer">Print to PDF (A6) — Share your Love Passport</div>
       </div>
-      <script>window.print()
+      <script>window.print()</script>
     </body></html>`;
+
+<script>
   w.document.open(); w.document.write(html); w.document.close();
 }
+  </script>
 <script>
 function downloadJSON(obj){
   const data = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj,null,2));

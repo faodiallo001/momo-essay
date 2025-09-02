@@ -834,7 +834,9 @@ function openPassportPrint(lp){
     </body></html>`;
   w.document.open(); w.document.write(html); w.document.close();
 }
+</script>
 
+<script>
 function downloadJSON(obj){
   const data = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj,null,2));
   const a = document.createElement('a');

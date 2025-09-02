@@ -340,7 +340,7 @@ addEventListener('resize',size);size();loop();
 </script>
 
 <script>
-/* ===================== LOVE PASSPORT (Clean JS) ===================== */
+/* ===================== LOVE PASSPORT: Questions + Helpers ===================== */
 
 /* ——— Countries (ISO common names) ——— */
 const COUNTRIES = [
@@ -365,12 +365,7 @@ const COUNTRIES = [
 "Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
 ];
 
-const ASTRO = [
-  "Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces","I don’t follow astrology"
-];
-
-/* ==== 1) QUESTIONS ==== */
-/* ==== 1) QUESTIONS (réécrites) ==== */
+/* ===================== 1) QUESTIONS ===================== */
 const QUESTIONS = [
   // Identity & Basics
   { id:"fullName", type:"text", label:"What’s your full name?", required:true, placeholder:"First and last name" },
@@ -383,7 +378,7 @@ const QUESTIONS = [
   { id:"languages",type:"multi",label:"Languages you speak (select ≥ 1)",required:true, min:1,
     options:["English","French","Spanish","Portuguese","Arabic","Chinese (Mandarin)","Hindi","Bengali","Japanese","Korean","German","Russian","Italian","Turkish","Swahili","Dutch","Swedish","Norwegian","Danish","Finnish","Yoruba","Wolof","Lingala","Pular/Fulani","Zulu","Hausa"] },
 
-  { id:"marital", type:"single", label:"What’s your current marital status?", required:true,
+  { id:"marital", type:"single", label:"What’s your relationship status?", required:true,
     options:["Single","Married","Divorced","Widowed","It’s complicated"] },
   { id:"job", type:"text", label:"What’s your occupation?", required:true, placeholder:"e.g., Nurse, Engineer, Freelancer" },
   { id:"instagram", type:"text", label:"Share your Instagram (optional)", required:false, placeholder:"@yourhandle" },
@@ -397,7 +392,7 @@ const QUESTIONS = [
   { id:"physicalType", type:"multi", label:"What’s your ideal physical look type? (Pick up to 3)", required:true, min:1, max:3,
     options:["Nordic / Scandinavian look","Mediterranean look","Eastern European look","Black / African descent","Arab / Middle Eastern","Asian (East or South Asian)","Latino / Latina","Mixed race","Someone that looks like me","I don’t care about physical type","I don’t have a type"] },
 
-  // Diet (première personne, sans “Other”)
+  // Diet (1ère personne, sans “Other”)
   { id:"diet", type:"single", label:"Which best describes your diet?", required:true,
     options:["I eat everything","I eat halal","I am vegan","I am pescatarian"] },
   { id:"dietPartner", type:"single", label:"Do you expect your partner to align with your diet?", required:true,
@@ -407,8 +402,14 @@ const QUESTIONS = [
     options:["Gym 3+ times/week","Active sometimes","Rarely","I don’t like exercise"] },
   { id:"hobbies", type:"multi", label:"What hobbies or activities do you enjoy most? (Pick up to 3)", required:true, min:1, max:3,
     options:["Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering"] },
+
+  // Sleep — on garde une phrase claire
   { id:"sleep", type:"single", label:"How do you usually sleep?", required:true,
-    options:["I usually sleep early (before 10–11pm)","I usually go to bed late (after midnight)","It changes depending on my days","I don’t have a stable sleep routine"] },
+    options:[
+      "I usually sleep early (before 10–11pm)",
+      "I usually go to bed late (after midnight)",
+      "I don’t have a stable sleep routine"
+    ] },
 
   // Family & Kids
   { id:"hasKids", type:"single", label:"Do you have children?", required:true, options:["No","Yes"] },
@@ -428,42 +429,46 @@ const QUESTIONS = [
   { id:"role", type:"single", label:"If serious relationship, which dynamic feels right?", required:true,
     options:["Traditional (man pays fully; woman manages home)","Independent but not equal (man covers ~75%)","Completely independent 50/50 style"] },
   { id:"housework", type:"single", label:"How do you usually manage your home?", required:true,
-    options:["Very clean — I do it myself","Very clean — hire help","Clean but sometimes messy","Messy — I don’t care much"] },
+    options:[
+      "My home is very clean (I do it myself)",
+      "My home is very clean (I hire help)",
+      "My home is sometimes a bit messy",
+      "I'm ok with my home being messy"
+    ] },
   { id:"cooking", type:"single", label:"How comfortable are you with cooking?", required:true,
     options:["I don’t cook and I don’t want to","I don’t cook but willing to learn","I can cook basics","I’m a confident cook"] },
 
   // Relationship & Intimacy
   { id:"loyalty", type:"single", label:"Which relationship style fits you?", required:true,
     options:["Monogamy only","Polygamy only","Open relationship"] },
-
   { id:"sexImportance", type:"single", label:"How important is sex?", required:true, options:["Very important","Important but not top priority","Not so important"] },
-  { id:"pace", type:"single", label:"What pace of intimacy feels natural?", required:true, options:["Very slowly","Normal rhythm","Fast (early if chemistry)","Only after marriage"] },
+  { id:"pace", type:"single", label:"How I approach intimacy", required:true,
+    options:["I prefer to take things slowly","I move at a comfortable pace","If the chemistry is right, I may move fast","Only after marriage"] },
 
-  // >>> Phrases complètes (réception de l’amour)
+  // Receiving love — phrases complètes
   { id:"feelLoved", type:"multi", label:"I feel most loved when… (pick ≥ 2)", required:true, min:2,
     options:[
       "I receive words of affirmation",
       "We spend quality time together",
       "You are affectionate with me",
-      "i receive money",
+      "I receive financial support",
       "You give me thoughtful gifts",
       "You do things to help me (acts of service)",
       "You make me a priority and show up for me"
     ] },
 
-  // >>> Phrases en “je” (comment je montre l’amour)
+  // Showing love — en “je”
   { id:"showLove", type:"multi", label:"How I usually show love (pick ≥ 2)", required:true, min:2,
     options:[
       "I give thoughtful gifts",
       "I support financially when I can",
       "I plan quality time",
-      "I give money",
       "I’m affectionate",
       "I use loving/affirming words",
       "I do acts of service"
     ] },
 
-  // Personality & Energy (sans “Other”, plus “Your personality”)
+  // Personality (on remplace “traits” par un libellé clair)
   { id:"traits", type:"multi", label:"Your personality (pick ≥ 1)", required:true, min:1,
     options:["Shy","Funny","Adventurous","Romantic","Calm","Energetic","Ambitious","Serious","Optimistic","Patient","Faithful","Generous","Impatient"] },
   { id:"humor", type:"single", label:"What kind of humor makes you laugh?", required:true,
@@ -485,7 +490,7 @@ const QUESTIONS = [
   { id:"distance", type:"single", label:"Would you consider long-distance?", required:true, options:["Yes","Maybe","No"] },
   { id:"relocate", type:"single", label:"Would you relocate for love?", required:true, options:["Yes","Maybe","No"] },
   { id:"firstDate", type:"single", label:"What’s your ideal first date?", required:true,
-    options:["Cozy coffee/tea","Dinner out","Something active","Cultural outing","Walk by the beach at sunset 🌅","Surprise me ✨"] },
+    options:["Cozy coffee/tea","Dinner out and good conversation","Something active","Cultural outing","Walk by the beach at sunset 🌅","Surprise me ✨"] },
 
   // Social Life & Deal-Breakers
   { id:"dealBreakers", type:"multi", label:"I cannot accept… (pick ≥ 5)", required:true, min:5,
@@ -500,7 +505,7 @@ const QUESTIONS = [
     ] }
 ];
 
-/* ==== 2) LP FIELD IDS ==== */
+/* ===================== 2) LP FIELD IDS ===================== */
 const LP_FIELD_IDS = [
   "photo","fullName","gender","age","residency","origin","languages","marital","job","instagram",
   "smoking","alcohol","diet","fitness","sleep","hobbies","partnerHeight","physicalType",
@@ -513,10 +518,10 @@ const LP_FIELD_IDS = [
   "dealBreakers"
 ];
 
-/* ==== 3) BG ONLY ==== */
+/* ===================== 3) BG ONLY (inchangé) ===================== */
 const BG_ONLY_IDS = ["dietPartner","faithPartner","culturePartner","money","role","phonePrivacy","dmRules","living","car","criminalRecord","politicsTalk"];
 
-/* ==== 4) HELPERS ==== */
+/* ===================== 4) HELPERS ===================== */
 function normalizeAnswers(raw) {
   const out = {};
   for (const q of QUESTIONS) {
@@ -528,24 +533,31 @@ function normalizeAnswers(raw) {
   return out;
 }
 function pickTopDealBreakers(all){ if(!Array.isArray(all))return[]; return all.slice(0,5); }
-function buildLovePassportSummary(ans){ const a=normalizeAnswers(ans),lp={}; for(const id of LP_FIELD_IDS){const v=a[id]; if(v){lp[id]=id==="dealBreakers"?pickTopDealBreakers(v):v;}} return lp;}
+function buildLovePassportSummary(ans){
+  const a=normalizeAnswers(ans), lp={};
+  for(const id of LP_FIELD_IDS){
+    const v=a[id];
+    if(v){
+      lp[id] = id==="dealBreakers" ? v : v; // on n’écrête plus ici; on affiche tout dans le PDF
+    }
+  }
+  return lp;
+}
 function buildBackgroundSummary(ans){return normalizeAnswers(ans);}
 function generateLPID(){const n=new Date();return `LP-${n.getFullYear()}${String(n.getMonth()+1).padStart(2,"0")}-${Math.random().toString(36).substr(2,5).toUpperCase()}`;}
 function quickCompatibilityScore(bgA,bgB){let s=50;const add=n=>s=Math.min(100,Math.max(0,s+n));if(bgA.religion===bgB.religion)add(6);if(bgA.wantKids===bgB.wantKids)add(6);return s;}
 
-/* ==== 5) EXPORT ==== */
+/* ===================== 5) EXPORT ===================== */
 window.MoMoLP={QUESTIONS,LP_FIELD_IDS,BG_ONLY_IDS,buildLovePassportSummary,buildBackgroundSummary,generateLPID,quickCompatibilityScore};
   
-</script> 
+</script>
 
 <script>
-/* ====== CONTROLEUR QUIZ + SUMMARY + BOUTONS ====== */
+/* ====== CONTROLLER + SUMMARY + PDF (friendly labels & sentences) ====== */
 
-// Raccourcis vers les données déjà définies
 const Q        = window.MoMoLP.QUESTIONS;
 const LP_IDS   = window.MoMoLP.LP_FIELD_IDS;
 
-// Hooks UI
 const elTitle   = document.getElementById('q-title');
 const elInputs  = document.getElementById('q-inputs');
 const elHint    = document.getElementById('q-hint');
@@ -556,10 +568,113 @@ const btnNext   = document.getElementById('next-btn');
 const elSummary = document.getElementById('summary');
 
 let answers = {};
-let flow = [];   // indices des questions visibles (dépendent des réponses)
-let pos  = 0;    // position courante dans flow
+let flow = [];
+let pos  = 0;
 
-/* ---------- Visibilité conditionnelle ---------- */
+/* ---------- Friendly labels for PREVIEW ---------- */
+const LABELS = {
+  fullName:"Full name", gender:"Gender", age:"Age",
+  residency:"Lives in", origin:"From", languages:"Languages",
+  marital:"Relationship status", job:"Occupation", instagram:"Instagram", photo:"Photo",
+  smoking:"Smoking", alcohol:"Alcohol", diet:"Diet",
+  fitness:"Fitness", sleep:"Sleep", hobbies:"Hobbies",
+  partnerHeight:"Partner height", physicalType:"Physical type",
+  hasKids:"Children", kidsCount:"Children (count)", kidsWith:"Children (with)",
+  wantKids:"Future children", kidsTime:"When",
+  religion:"Religion",
+  housework:"Home",
+  cooking:"Cooking",
+  loyalty:"Relationship style",
+  sexImportance:"Sex & intimacy — importance",
+  pace:"How I approach intimacy",
+  feelLoved:"I feel most loved when…",
+  showLove:"How I usually show love",
+  traits:"Your personality",
+  humor:"Humor", energy:"Social energy",
+  partnerQualities:"Top partner qualities",
+  lifePath:"Life path", priority:"Priority",
+  conflict:"In conflicts I usually…",
+  success:"Success means…",
+  relGoals:"Looking for", marriage:"Marriage timing",
+  distance:"Long-distance", relocate:"Relocate",
+  firstDate:"My ideal first date",
+  dealBreakers:"Deal-breakers"
+};
+
+/* ---------- Value -> friendly sentence (for the PDF) ---------- */
+function prettyValue(id, raw, lpAll, rawAll) {
+  if (raw == null) return '—';
+
+  const v = Array.isArray(raw) ? raw : String(raw);
+
+  // Arrays -> chips elsewhere; here join
+  if (Array.isArray(v)) return v.join(', ');
+
+  // Sleep: masque la réponse ambiguë
+  if (id === 'sleep') {
+    if (v === 'It changes depending on my days') return "I don’t have a stable sleep routine";
+    return v;
+  }
+
+  // Housework -> phrases claires
+  if (id === 'housework') {
+    if (v === 'Very clean — I do it myself')   return "My home is very clean — I do it myself";
+    if (v === 'Very clean — hire help')        return "My home is very clean — I hire help";
+    if (v === 'Clean but sometimes messy')     return "My home is sometimes a bit messy";
+    if (v === 'Messy — I don’t care much')     return "My home is messy and I don’t mind";
+    return v;
+  }
+
+  // Loyalty (relationship style)
+  if (id === 'loyalty') {
+    if (v === 'Monogamy only')     return "I want a monogamous relationship";
+    if (v === 'Polygamy only')     return "I want a polygamous relationship";
+    if (v === 'Open relationship') return "I’m open to an open relationship";
+    return v;
+  }
+
+  // Sex importance -> phrase
+  if (id === 'sexImportance') {
+    if (v === 'Very important')                        return "Sex is very important to me";
+    if (v === 'Important but not top priority')        return "Sex is important but not my top priority";
+    if (v === 'Not so important')                      return "Sex isn’t very important to me";
+    return v;
+  }
+
+  // Intimacy pace -> phrases
+  if (id === 'pace') {
+    if (v === 'Very slowly')                return "I prefer to take intimacy very slowly";
+    if (v === 'Normal rhythm')              return "I prefer to let intimacy develop naturally";
+    if (v === 'Fast (early if chemistry)')  return "If there’s strong chemistry, I can get intimate early";
+    if (v === 'Only after marriage')        return "I only become intimate after marriage";
+    return v;
+  }
+
+  // Children (hasKids + kidsCount)
+  if (id === 'hasKids') {
+    if (v === 'No') return "I don’t have children";
+    const c = rawAll.kidsCount;
+    if (c === '1') return "I have a child";
+    if (c && c !== '1') return `I have ${c} children`;
+    return "I have children";
+  }
+
+  // Want kids -> dépend si on a déjà des enfants
+  if (id === 'wantKids') {
+    const has = rawAll.hasKids === 'Yes';
+    if (v === 'Yes')      return has ? "I want more children" : "I want children";
+    if (v === 'Not sure') return has ? "I’m not sure about having more children" : "I’m not sure about having children";
+    if (v === 'No')       return has ? "I don’t want more children" : "I don’t want children";
+    return v;
+  }
+
+  // Relationship status wording pass-through
+  if (id === 'marital') return v; // label déjà “Relationship status”
+
+  return v;
+}
+
+/* ---------- Visibility / Flow ---------- */
 function visible(q) {
   if (!q.showIf && !q.showIfAny) return true;
 
@@ -572,14 +687,13 @@ function visible(q) {
   if (q.showIfAny) {
     return q.showIfAny.some(cond => {
       const v = answers[cond.id];
-      if (cond.in)       return (cond.in || []).includes(v);
+      if (cond.in)         return (cond.in || []).includes(v);
       if ('value' in cond) return v === cond.value;
       return !!v;
     });
   }
   return true;
 }
-
 function recomputeFlow() {
   const res = [];
   for (let i = 0; i < Q.length; i++) if (visible(Q[i])) res.push(i);
@@ -587,33 +701,25 @@ function recomputeFlow() {
   if (pos >= flow.length) pos = Math.max(0, flow.length - 1);
 }
 
-/* ---------- Rendu d'une question ---------- */
+/* ---------- Render a question ---------- */
 function render() {
   recomputeFlow();
 
-  // Si plus de question à afficher -> résumé
-  if (flow.length === 0 || pos >= flow.length) {
-    showSummary();
-    return;
-  }
+  if (flow.length === 0 || pos >= flow.length) { showSummary(); return; }
 
   const qi = flow[pos];
   const q  = Q[qi];
 
-  // Titre / index / reset zone
   elTitle.textContent = q.label || '';
   elInputs.innerHTML  = '';
   elHint.textContent  = '';
   elQIdx.textContent  = `Question ${pos + 1} / ${flow.length}`;
 
-  // Progression
   const pct = Math.round((pos / flow.length) * 100);
   elBar.style.width = `${pct}%`;
 
-  // Valeur actuelle
   const val = answers[q.id];
 
-  // Types d'inputs
   if (q.type === 'text') {
     const inp = document.createElement('input');
     inp.type = 'text';
@@ -628,7 +734,7 @@ function render() {
     if (q.accept) inp.accept = q.accept;
     inp.onchange = () => {
       const f = inp.files && inp.files[0];
-      answers[q.id] = f ? { name:f.name, size:f.size, type:f.type } : null; // méta simple
+      answers[q.id] = f ? { name:f.name, size:f.size, type:f.type } : null;
       refreshButtons();
       if (f) {
         const p = document.createElement('div'); p.className='hint';
@@ -643,9 +749,7 @@ function render() {
     const opt0 = document.createElement('option'); opt0.value=''; opt0.textContent='— Select —';
     sel.appendChild(opt0);
     (q.options || []).forEach(o => {
-      const op = document.createElement('option');
-      op.value = o; op.textContent = o;
-      sel.appendChild(op);
+      const op = document.createElement('option'); op.value = o; op.textContent = o; sel.appendChild(op);
     });
     sel.value = val || '';
     sel.onchange = () => { answers[q.id] = sel.value || undefined; refreshButtons(); };
@@ -685,7 +789,6 @@ function render() {
 
   refreshButtons();
 }
-
 function isAnswered(q){
   const v = answers[q.id];
   if (q.type === 'multi') {
@@ -696,7 +799,6 @@ function isAnswered(q){
   if (q.type === 'file') return !!(v && v.name);
   return (v !== undefined && v !== null && String(v).trim() !== '');
 }
-
 function refreshButtons(){
   btnPrev.disabled = (pos === 0);
   const q = Q[flow[pos]];
@@ -704,76 +806,73 @@ function refreshButtons(){
 }
 
 /* ---------- Navigation ---------- */
-window.nextQ = function(){
-  if (pos < flow.length - 1) { pos++; render(); }
-  else { showSummary(); }
-};
-window.prevQ = function(){
-  if (pos > 0) { pos--; render(); }
-};
+window.nextQ = function(){ if (pos < flow.length - 1) { pos++; render(); } else { showSummary(); } };
+window.prevQ = function(){ if (pos > 0) { pos--; render(); } };
 
-/* ---------- Résumé + Boutons de téléchargement ---------- */
+/* ---------- Summary (preview + downloads) ---------- */
 function showSummary(){
-  // 100% progression
   elBar.style.width = '100%';
 
-  // Masquer le formulaire
   const qb = document.querySelector('.question-box');
   const nb = document.querySelector('.nav-buttons');
   if (qb) qb.style.display = 'none';
   if (nb) nb.style.display = 'none';
 
-  // Construire le LP
-  const lp   = window.MoMoLP.buildLovePassportSummary(answers);
+  const lp = window.MoMoLP.buildLovePassportSummary(answers);
+  // ✅ forcer à garder TOUS les dealBreakers, même si la fonction en coupe 5
+  if (Array.isArray(answers.dealBreakers)) lp.dealBreakers = answers.dealBreakers.slice();
   const lpid = window.MoMoLP.generateLPID();
-  window.MoMoLP._lastLP = lp; // pour les téléchargements
+  window.MoMoLP._lastLP = lp;
 
-  // Boîte de résumé
   const box = document.createElement('div');
   box.className = 'summary';
-  box.innerHTML = `
-    <h3>Your Love Passport (preview)</h3>
-    <div class="row"><div class="k">LPID</div><div class="v">${lpid}</div></div>
-  `;
+  box.innerHTML = `<h3>Your Love Passport (preview)</h3>
+    <div class="row"><div class="k">LPID</div><div class="v">${lpid}</div></div>`;
 
-  // Lignes du résumé
   LP_IDS.forEach(id => {
     const v = lp[id];
-    if (!v) return;
+    if (!v || (Array.isArray(v) && v.length===0)) return;
     const row = document.createElement('div'); row.className = 'row';
-    const key = document.createElement('div'); key.className = 'k'; key.textContent = id;
+    const key = document.createElement('div'); key.className = 'k'; key.textContent = LABELS[id] || id;
     const val = document.createElement('div'); val.className = 'v';
     val.textContent = Array.isArray(v) ? v.join(', ')
-                  : (typeof v === 'object' ? JSON.stringify(v) : String(v));
+                 : (typeof v === 'object' ? JSON.stringify(v) : String(v));
     row.appendChild(key); row.appendChild(val);
     box.appendChild(row);
   });
 
-  // Boutons
   const actions = document.createElement('div');
   actions.id = 'dl-row';
   actions.className = 'share-actions';
   actions.style.marginTop = '14px';
   actions.innerHTML = `
     <button class="btn" id="dl-pdf">Download Love Passport (PDF)</button>
-    <button class="btn secondary" id="dl-json">Download JSON Summary</button>
-  `;
+    <button class="btn secondary" id="dl-json">Download JSON Summary</button>`;
   box.appendChild(actions);
 
-  // Injecter
   elSummary.innerHTML = '';
   elSummary.appendChild(box);
   elSummary.style.display = 'block';
 
-  // Listeners
-  document.getElementById('dl-pdf').onclick  = () => openPassportPrint(window.MoMoLP._lastLP || {});
+  document.getElementById('dl-pdf').onclick  = () => openPassportPrint(window.MoMoLP._lastLP || {}, answers);
   document.getElementById('dl-json').onclick = () => downloadJSON(window.MoMoLP._lastLP || {});
 }
 
-/* ---------- Impression A6 + JSON ---------- */
-function openPassportPrint(lp){
-  const w = window.open('', '_blank');
-  const safe = (v)=>Array.isArray(v)?v.join(', '):(v??'—');
+/* ---------- PDF (A6) ---------- */
+function openPassportPrint(lp, rawAll){
+  const safe = (x)=>Array.isArray(x)?x.join(', '):(x??'—');
+
+  function chipList(arr){ return (arr||[]).map(x=>`<span class="badge">${x}</span>`).join(''); }
+  function row(label, id){
+    const val = prettyValue(id, lp[id], lp, rawAll);
+    return `<div class="row"><div class="k">${label}</div><div class="v">${safe(val)}</div></div>`;
+  }
+
+  // Remap quelques paires pour affichage
+  const relStatus = lp.marital;
+  const children  = prettyValue('hasKids', lp.hasKids, lp, rawAll);
+  const futureKids= prettyValue('wantKids', lp.wantKids, lp, rawAll);
+
   const css = `
     <style>
       @page{ size: A6; margin:10mm }
@@ -782,7 +881,7 @@ function openPassportPrint(lp){
       h1{ font-family:"Playfair Display",serif; font-size:20px; margin:0 0 6px }
       h2{ font-size:14px; margin:12px 0 6px }
       .row{ display:flex; gap:8px; margin:4px 0 }
-      .k{ min-width:90px; color:#555 }
+      .k{ min-width:110px; color:#555 }
       .v{ flex:1 }
       .badge{ display:inline-block; border:1px solid #bbb; border-radius:999px; padding:3px 8px; margin:2px; font-size:11px }
       .muted{ color:#666; font-size:12px; margin-top:8px }
@@ -794,6 +893,7 @@ function openPassportPrint(lp){
       .chips{ margin-top:2px }
       .footer{ text-align:center; margin-top:8px; font-size:11px; color:#777 }
     </style>`;
+
   const html = `
     <html><head><meta charset="utf-8"><title>Love Passport</title>${css}</head>
     <body>
@@ -807,75 +907,102 @@ function openPassportPrint(lp){
         </div>
 
         <div class="grid">
-          <div class="row"><div class="k">Gender</div><div class="v">${safe(lp.gender)}</div></div>
-          <div class="row"><div class="k">Age</div><div class="v">${safe(lp.age)}</div></div>
-          <div class="row"><div class="k">Lives in</div><div class="v">${safe(lp.residency)}</div></div>
-          <div class="row"><div class="k">From</div><div class="v">${safe(lp.origin)}</div></div>
+          ${row('Relationship status','marital')}
+          ${row('Gender','gender')}
+          ${row('Age','age')}
+          ${row('Lives in','residency')}
+          ${row('From','origin')}
+
           <div class="full">
             <h2>Languages</h2>
-            <div class="chips">${(lp.languages||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+            <div class="chips">${chipList(lp.languages)}</div>
           </div>
-          <div class="row"><div class="k">Marital</div><div class="v">${safe(lp.marital)}</div></div>
-          <div class="row"><div class="k">Job</div><div class="v">${safe(lp.job)}</div></div>
-          <div class="row"><div class="k">Smoke</div><div class="v">${safe(lp.smoking)}</div></div>
-          <div class="row"><div class="k">Alcohol</div><div class="v">${safe(lp.alcohol)}</div></div>
-          <div class="row"><div class="k">Diet</div><div class="v">${safe(lp.diet)}</div></div>
-          <div class="row"><div class="k">Fitness</div><div class="v">${safe(lp.fitness)}</div></div>
-          <div class="row"><div class="k">Sleep</div><div class="v">${safe(lp.sleep)}</div></div>
+
+          ${row('Occupation','job')}
+          ${row('Smoking','smoking')}
+          ${row('Alcohol','alcohol')}
+          ${row('Diet','diet')}
+          ${row('Fitness','fitness')}
+          ${row('Sleep','sleep')}
+
           <div class="full">
             <h2>Hobbies</h2>
-            <div class="chips">${(lp.hobbies||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+            <div class="chips">${chipList(lp.hobbies)}</div>
           </div>
-          <div class="row"><div class="k">Partner height</div><div class="v">${safe(lp.partnerHeight)}</div></div>
+
+          ${row('Partner height','partnerHeight')}
           <div class="full">
             <h2>Physical type</h2>
-            <div class="chips">${(lp.physicalType||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+            <div class="chips">${chipList(lp.physicalType)}</div>
           </div>
-          <div class="row"><div class="k">Has kids</div><div class="v">${safe(lp.hasKids)}</div></div>
-          ${lp.kidsCount? `<div class="row"><div class="k">Kids</div><div class="v">${safe(lp.kidsCount)}</div></div>`:''}
-          ${lp.kidsWith?  `<div class="row"><div class="k">With</div><div class="v">${safe(lp.kidsWith)}</div></div>`:''}
-          <div class="row"><div class="k">Wants kids</div><div class="v">${safe(lp.wantKids)}</div></div>
-          <div class="row"><div class="k">Religion</div><div class="v">${safe(lp.religion)}</div></div>
-          <div class="row"><div class="k">Home</div><div class="v">${safe(lp.housework)}</div></div>
-          <div class="row"><div class="k">Cooking</div><div class="v">${safe(lp.cooking)}</div></div>
-          <div class="row"><div class="k">Model</div><div class="v">${safe(lp.loyalty)}</div></div>
-          <div class="row"><div class="k">Intimacy</div><div class="v">${safe(lp.pace)}</div></div>
+
+          ${row('Children','hasKids')}
+          ${lp.kidsCount ? row('Children (count)','kidsCount') : '' }
+          ${lp.kidsWith  ? row('Children (with)','kidsWith')   : '' }
+          ${row('Future children','wantKids')}
+          ${lp.kidsTime ? row('When','kidsTime') : '' }
+
+          ${row('Religion','religion')}
+          ${row('Home','housework')}
+          ${row('Cooking','cooking')}
+          ${row('Relationship style','loyalty')}
+          ${row('Sex & intimacy — importance','sexImportance')}
+          ${row('How I approach intimacy','pace')}
+
           <div class="full">
-            <h2>I feel loved when…</h2>
-            <div class="chips">${(lp.feelLoved||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+            <h2>I feel most loved when…</h2>
+            <div class="chips">${chipList(lp.feelLoved)}</div>
           </div>
+
           <div class="full">
-            <h2>How I show love</h2>
-            <div class="chips">${(lp.showLove||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+            <h2>How I usually show love</h2>
+            <div class="chips">${chipList(lp.showLove)}</div>
           </div>
+
           <div class="full">
-            <h2>Traits</h2>
-            <div class="chips">${(lp.traits||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+            <h2>Your personality</h2>
+            <div class="chips">${chipList(lp.traits)}</div>
           </div>
-          <div class="row"><div class="k">Energy</div><div class="v">${safe(lp.energy)}</div></div>
+
+          ${row('Social energy','energy')}
+
+          <div class="full">
+            <h2>Top partner qualities</h2>
+            <div class="chips">${chipList(lp.partnerQualities)}</div>
+          </div>
+
+          ${row('Life path','lifePath')}
+          ${row('Priority','priority')}
+          ${row('In conflicts I usually…','conflict')}
+          ${row('Success means…','success')}
+
           <div class="full">
             <h2>Looking for</h2>
-            <div class="chips">${(lp.relGoals||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+            <div class="chips">${chipList(lp.relGoals)}</div>
           </div>
-          <div class="row"><div class="k">First date</div><div class="v">${safe(lp.firstDate)}</div></div>
+
+          ${row('Marriage timing','marriage')}
+          ${row('Long-distance','distance')}
+          ${row('Relocate','relocate')}
+          ${row('My ideal first date','firstDate')}
+
           <div class="full">
-            <h2>Deal-breakers (top)</h2>
-            <div class="chips">${(lp.dealBreakers||[]).slice(0,5).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+            <h2>Deal-breakers</h2>
+            <div class="chips">${chipList(lp.dealBreakers)}</div>
           </div>
         </div>
 
-        <div class="footer">Print to PDF (A6) — Share your Love Passport</div>
+        <div class="footer">Print or save as PDF (A6) — Share your Love Passport</div>
       </div>
-          </body></html>`;
+    </body></html>`;
 
-  // ✅ on écrit la page et on ferme (sans AUCUN <script> ici)
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
+  const w = window.open('', '_blank');
+  w.document.open(); w.document.write(html); w.document.close();
+  // Optionnel si tu veux auto-ouvrir la boîte d’impression :
+  // try { setTimeout(() => { w.focus(); w.print(); }, 300); } catch(e){}
 }
 
-
-/* ---------- Téléchargement JSON ---------- */
+/* ---------- Download JSON ---------- */
 function downloadJSON(obj){
   const data = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj,null,2));
   const a = document.createElement('a');
@@ -886,14 +1013,12 @@ function downloadJSON(obj){
   a.remove();
 }
 
-/* ---------- Boot robuste ---------- */
+/* ---------- Boot ---------- */
 function boot(){ recomputeFlow(); render(); }
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', boot);
-} else {
-  boot();
-}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+else boot();
 </script>
+
 </body>
 </html>
 

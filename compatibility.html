@@ -35,6 +35,25 @@
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 
+  /* floating items (hearts) */
+  .float-item{
+    position:absolute;top:100vh;left:0;width:var(--w,48px);height:auto;opacity:.95;
+    filter:drop-shadow(0 8px 18px rgba(255,59,48,.45));
+    transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));
+    animation:floatUp var(--t,22s) linear infinite, spin var(--spin,18s) linear infinite;
+    will-change:transform,opacity
+  }
+  @keyframes floatUp{
+    0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
+    10%{opacity:1}
+    100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}
+  }
+  @keyframes spin{
+    0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+    50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
+    100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+  }
+
   /* NAV (cohérente avec le site) */
   .nav{
     position:fixed;top:0;left:0;right:0;z-index:6;display:grid;

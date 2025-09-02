@@ -702,10 +702,146 @@ function showSummary(){
   elSummary.appendChild(box);
   elSummary.style.display='block';
 }
-
-/* --- démarrage --- */
+  /* --- démarrage --- */
 recomputeFlow();
 render();
+</script>
+
+<script>
+// Sauvegarde le LP pour le bouton
+window.MoMoLP = window.MoMoLP || {};
+MoMoLP._lastLP = lp;   // <-- lp = ton objet Love Passport Summary
+
+// Ajoute les boutons si pas déjà ajoutés
+addDownloadButtons();
+</script>
+  <script>
+function addDownloadButtons(){
+  const box = document.getElementById('summary');
+  if(!box || box.querySelector('#dl-row')) return; // déjà ajouté
+  const row = document.createElement('div');
+  row.id = 'dl-row';
+  row.className = 'share-actions';
+  row.innerHTML = `
+    <button class="btn" id="dl-pdf">Download Love Passport (PDF)</button>
+    <button class="btn secondary" id="dl-json">Download JSON Summary</button>
+  `;
+  box.appendChild(row);
+
+  document.getElementById('dl-pdf').onclick = () => openPassportPrint(MoMoLP._lastLP || {});
+  document.getElementById('dl-json').onclick = () => downloadJSON(MoMoLP._lastLP || {});
+}
+
+// Ouvre une page "print-ready" (A6) que l’utilisateur peut enregistrer en PDF
+function openPassportPrint(lp){
+  const w = window.open('', '_blank');
+  const safe = (v)=>Array.isArray(v)?v.join(', '):(v??'—');
+  const css = `
+    <style>
+      @page{ size: A6; margin:10mm }
+      body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; color:#111; }
+      .card{ border:1px solid #ddd;border-radius:12px;padding:12px }
+      h1{ font-family:"Playfair Display",serif; font-size:20px; margin:0 0 6px }
+      h2{ font-size:14px; margin:12px 0 6px }
+      .row{ display:flex; gap:8px; margin:4px 0 }
+      .k{ min-width:90px; color:#555 }
+      .v{ flex:1 }
+      .badge{ display:inline-block; border:1px solid #bbb; border-radius:999px; padding:3px 8px; margin:2px; font-size:11px }
+      .muted{ color:#666; font-size:12px; margin-top:8px }
+      .top{ display:flex; align-items:center; gap:10px; }
+      .ph{ width:56px; height:56px; border-radius:10px; background:#eee; display:grid; place-items:center; font-size:12px; color:#999; overflow:hidden }
+      .title{ line-height:1.1 }
+      .grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px }
+      .full{ grid-column:1 / -1 }
+      .chips{ margin-top:2px }
+      .footer{ text-align:center; margin-top:8px; font-size:11px; color:#777 }
+    </style>`;
+  const html = `
+    <html><head><meta charset="utf-8"><title>Love Passport</title>${css}</head>
+    <body>
+      <div class="card">
+        <div class="top">
+          <div class="ph">${lp.photo ? '<img src="'+lp.photo+'" style="width:100%;height:100%;object-fit:cover"/>' : 'PHOTO'}</div>
+          <div>
+            <h1 class="title">${safe(lp.fullName)}</h1>
+            <div class="muted">Love Passport — Match or Move On</div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="row"><div class="k">Gender</div><div class="v">${safe(lp.gender)}</div></div>
+          <div class="row"><div class="k">Age</div><div class="v">${safe(lp.age)}</div></div>
+          <div class="row"><div class="k">Lives in</div><div class="v">${safe(lp.residency)}</div></div>
+          <div class="row"><div class="k">From</div><div class="v">${safe(lp.origin)}</div></div>
+          <div class="full">
+            <h2>Languages</h2>
+            <div class="chips">${(lp.languages||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+          </div>
+          <div class="row"><div class="k">Marital</div><div class="v">${safe(lp.marital)}</div></div>
+          <div class="row"><div class="k">Job</div><div class="v">${safe(lp.job)}</div></div>
+          <div class="row"><div class="k">Smoke</div><div class="v">${safe(lp.smoking)}</div></div>
+          <div class="row"><div class="k">Alcohol</div><div class="v">${safe(lp.alcohol)}</div></div>
+          <div class="row"><div class="k">Diet</div><div class="v">${safe(lp.diet)}</div></div>
+          <div class="row"><div class="k">Fitness</div><div class="v">${safe(lp.fitness)}</div></div>
+          <div class="row"><div class="k">Sleep</div><div class="v">${safe(lp.sleep)}</div></div>
+          <div class="full">
+            <h2>Hobbies</h2>
+            <div class="chips">${(lp.hobbies||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+          </div>
+          <div class="row"><div class="k">Partner height</div><div class="v">${safe(lp.partnerHeight)}</div></div>
+          <div class="full">
+            <h2>Physical type</h2>
+            <div class="chips">${(lp.physicalType||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+          </div>
+          <div class="row"><div class="k">Has kids</div><div class="v">${safe(lp.hasKids)}</div></div>
+          ${lp.kidsCount? `<div class="row"><div class="k">Kids</div><div class="v">${safe(lp.kidsCount)}</div></div>`:''}
+          ${lp.kidsWith?  `<div class="row"><div class="k">With</div><div class="v">${safe(lp.kidsWith)}</div></div>`:''}
+          <div class="row"><div class="k">Wants kids</div><div class="v">${safe(lp.wantKids)}</div></div>
+          <div class="row"><div class="k">Religion</div><div class="v">${safe(lp.religion)}</div></div>
+          <div class="row"><div class="k">Home</div><div class="v">${safe(lp.housework)}</div></div>
+          <div class="row"><div class="k">Cooking</div><div class="v">${safe(lp.cooking)}</div></div>
+          <div class="row"><div class="k">Model</div><div class="v">${safe(lp.loyalty)}</div></div>
+          <div class="row"><div class="k">Intimacy</div><div class="v">${safe(lp.pace)}</div></div>
+          <div class="full">
+            <h2>I feel loved when…</h2>
+            <div class="chips">${(lp.feelLoved||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+          </div>
+          <div class="full">
+            <h2>How I show love</h2>
+            <div class="chips">${(lp.showLove||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+          </div>
+          <div class="full">
+            <h2>Traits</h2>
+            <div class="chips">${(lp.traits||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+          </div>
+          <div class="row"><div class="k">Energy</div><div class="v">${safe(lp.energy)}</div></div>
+          <div class="full">
+            <h2>Looking for</h2>
+            <div class="chips">${(lp.relGoals||[]).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+          </div>
+          <div class="row"><div class="k">First date</div><div class="v">${safe(lp.firstDate)}</div></div>
+          <div class="full">
+            <h2>Deal-breakers (top)</h2>
+            <div class="chips">${(lp.dealBreakers||[]).slice(0,5).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+          </div>
+        </div>
+
+        <div class="footer">Print to PDF (A6) — Share your Love Passport</div>
+      </div>
+      <script>window.print()</script>
+    </body></html>`;
+  w.document.open(); w.document.write(html); w.document.close();
+}
+
+function downloadJSON(obj){
+  const data = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj,null,2));
+  const a = document.createElement('a');
+  a.href = data;
+  a.download = 'love-passport-summary.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
 </script>
 
 </body>

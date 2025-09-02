@@ -502,10 +502,13 @@ window.MoMoLP={QUESTIONS,LP_FIELD_IDS,BG_ONLY_IDS,buildLovePassportSummary,build
 </script> 
 
 <script>
-/* ====== SIMPLE CONTROLLER POUR AFFICHER LE QUIZ ====== */
-const Q = window.MoMoLP.QUESTIONS;
-const LP_IDS = window.MoMoLP.LP_FIELD_IDS;
+/* ====== CONTROLEUR QUIZ + SUMMARY + BOUTONS ====== */
 
+// Raccourcis vers les données déjà définies
+const Q        = window.MoMoLP.QUESTIONS;
+const LP_IDS   = window.MoMoLP.LP_FIELD_IDS;
+
+// Hooks UI
 const elTitle   = document.getElementById('q-title');
 const elInputs  = document.getElementById('q-inputs');
 const elHint    = document.getElementById('q-hint');
@@ -516,22 +519,23 @@ const btnNext   = document.getElementById('next-btn');
 const elSummary = document.getElementById('summary');
 
 let answers = {};
-let flow = [];     // indices visibles selon réponses
-let pos = 0;       // position dans flow (0..flow.length-1)
+let flow = [];   // indices des questions visibles (dépendent des réponses)
+let pos  = 0;    // position courante dans flow
 
-/* --- helpers visibilité --- */
+/* ---------- Visibilité conditionnelle ---------- */
 function visible(q) {
   if (!q.showIf && !q.showIfAny) return true;
-  // showIf {id, value}  ou  {id, anyOf:[...]}
+
   if (q.showIf) {
     const v = answers[q.showIf.id];
-    if ('value' in q.showIf) return v === q.showIf.value;
-    if ('anyOf' in q.showIf) return Array.isArray(q.showIf.anyOf) && q.showIf.anyOf.includes(v);
+    if ('value' in q.showIf)  return v === q.showIf.value;
+    if ('anyOf' in q.showIf)  return Array.isArray(q.showIf.anyOf) && q.showIf.anyOf.includes(v);
   }
+
   if (q.showIfAny) {
     return q.showIfAny.some(cond => {
       const v = answers[cond.id];
-      if (cond.in) return cond.in.includes(v);
+      if (cond.in)       return (cond.in || []).includes(v);
       if ('value' in cond) return v === cond.value;
       return !!v;
     });
@@ -541,36 +545,38 @@ function visible(q) {
 
 function recomputeFlow() {
   const res = [];
-  for (let i=0;i<Q.length;i++){
-    if (visible(Q[i])) res.push(i);
-  }
+  for (let i = 0; i < Q.length; i++) if (visible(Q[i])) res.push(i);
   flow = res;
   if (pos >= flow.length) pos = Math.max(0, flow.length - 1);
 }
 
-/* --- rendu d'une question --- */
+/* ---------- Rendu d'une question ---------- */
 function render() {
   recomputeFlow();
-  if (flow.length === 0) return showSummary();
 
-  // terminé ?
-  if (pos >= flow.length) return showSummary();
+  // Si plus de question à afficher -> résumé
+  if (flow.length === 0 || pos >= flow.length) {
+    showSummary();
+    return;
+  }
 
   const qi = flow[pos];
-  const q = Q[qi];
+  const q  = Q[qi];
 
+  // Titre / index / reset zone
   elTitle.textContent = q.label || '';
-  elInputs.innerHTML = '';
-  elHint.textContent = '';
-  elQIdx.textContent = `Question ${pos+1} / ${flow.length}`;
+  elInputs.innerHTML  = '';
+  elHint.textContent  = '';
+  elQIdx.textContent  = `Question ${pos + 1} / ${flow.length}`;
 
-  // barre progression
-  const pct = Math.round(((pos) / flow.length) * 100);
+  // Progression
+  const pct = Math.round((pos / flow.length) * 100);
   elBar.style.width = `${pct}%`;
 
-  // construire inputs selon type
+  // Valeur actuelle
   const val = answers[q.id];
 
+  // Types d'inputs
   if (q.type === 'text') {
     const inp = document.createElement('input');
     inp.type = 'text';
@@ -585,21 +591,22 @@ function render() {
     if (q.accept) inp.accept = q.accept;
     inp.onchange = () => {
       const f = inp.files && inp.files[0];
-      answers[q.id] = f ? {name:f.name, size:f.size, type:f.type} : null; // on stocke le méta simple
+      answers[q.id] = f ? { name:f.name, size:f.size, type:f.type } : null; // méta simple
       refreshButtons();
+      // Affiche le nom sélectionné
+      if (f) {
+        const p = document.createElement('div'); p.className='hint';
+        p.textContent = `Selected: ${f.name}`;
+        elInputs.appendChild(p);
+      }
     };
     elInputs.appendChild(inp);
-    if (val && val.name) {
-      const p = document.createElement('div'); p.className='hint';
-      p.textContent = `Selected: ${val.name}`;
-      elInputs.appendChild(p);
-    }
   }
   else if (q.type === 'select') {
     const sel = document.createElement('select');
     const opt0 = document.createElement('option'); opt0.value=''; opt0.textContent='— Select —';
     sel.appendChild(opt0);
-    (q.options||[]).forEach(o=>{
+    (q.options || []).forEach(o => {
       const op = document.createElement('option');
       op.value = o; op.textContent = o;
       sel.appendChild(op);
@@ -609,31 +616,31 @@ function render() {
     elInputs.appendChild(sel);
   }
   else if (q.type === 'single') {
-    const wrap = document.createElement('div'); wrap.className='options';
-    (q.options||[]).forEach(o=>{
-      const row = document.createElement('label'); row.className='opt';
-      const r = document.createElement('input'); r.type='radio'; r.name=q.id; r.value=o;
+    const wrap = document.createElement('div'); wrap.className = 'options';
+    (q.options || []).forEach(o => {
+      const row = document.createElement('label'); row.className = 'opt';
+      const r = document.createElement('input'); r.type = 'radio'; r.name = q.id; r.value = o;
       r.checked = val === o;
-      r.onchange = ()=>{ answers[q.id]=o; refreshButtons(); };
-      const lab = document.createElement('label'); lab.textContent=o;
+      r.onchange = () => { answers[q.id] = o; refreshButtons(); };
+      const lab = document.createElement('label'); lab.textContent = o;
       row.appendChild(r); row.appendChild(lab); wrap.appendChild(row);
     });
     elInputs.appendChild(wrap);
   }
   else if (q.type === 'multi') {
     const current = Array.isArray(val) ? val.slice() : [];
-    const wrap = document.createElement('div'); wrap.className='options';
-    (q.options||[]).forEach(o=>{
-      const row = document.createElement('label'); row.className='opt multi';
-      const c = document.createElement('input'); c.type='checkbox'; c.value=o;
+    const wrap = document.createElement('div'); wrap.className = 'options';
+    (q.options || []).forEach(o => {
+      const row = document.createElement('label'); row.className = 'opt multi';
+      const c = document.createElement('input'); c.type = 'checkbox'; c.value = o;
       c.checked = current.includes(o);
-      c.onchange = ()=>{
-        const arr = new Set(Array.isArray(answers[q.id])?answers[q.id]:[]);
-        if (c.checked) arr.add(o); else arr.delete(o);
-        answers[q.id] = Array.from(arr);
+      c.onchange = () => {
+        const set = new Set(Array.isArray(answers[q.id]) ? answers[q.id] : []);
+        if (c.checked) set.add(o); else set.delete(o);
+        answers[q.id] = Array.from(set);
         refreshButtons();
       };
-      const lab = document.createElement('label'); lab.textContent=o;
+      const lab = document.createElement('label'); lab.textContent = o;
       row.appendChild(c); row.appendChild(lab); wrap.appendChild(row);
     });
     elInputs.appendChild(wrap);
@@ -654,15 +661,14 @@ function isAnswered(q){
   return (v !== undefined && v !== null && String(v).trim() !== '');
 }
 
-function refreshButtons() {
+function refreshButtons(){
   btnPrev.disabled = (pos === 0);
   const q = Q[flow[pos]];
-  btnNext.disabled = !!q.required && !isAnswered(q);
+  btnNext.disabled = !!q?.required && !isAnswered(q);
 }
 
-/* --- navigation --- */
+/* ---------- Navigation ---------- */
 window.nextQ = function(){
-  // si on est sur la dernière, on bascule en résumé
   if (pos < flow.length - 1) { pos++; render(); }
   else { showSummary(); }
 };
@@ -670,38 +676,44 @@ window.prevQ = function(){
   if (pos > 0) { pos--; render(); }
 };
 
-/* --- résumé LP --- */
+/* ---------- Résumé + Boutons de téléchargement ---------- */
 function showSummary(){
-  // remplir à 100% la barre
+  // 100% progression
   elBar.style.width = '100%';
 
-  document.querySelector('.question-box').style.display='none';
-  document.querySelector('.nav-buttons').style.display='none';
+  // Masquer le formulaire
+  const qb = document.querySelector('.question-box');
+  const nb = document.querySelector('.nav-buttons');
+  if (qb) qb.style.display = 'none';
+  if (nb) nb.style.display = 'none';
 
-  const lp = window.MoMoLP.buildLovePassportSummary(answers);
+  // Construire le LP
+  const lp   = window.MoMoLP.buildLovePassportSummary(answers);
   const lpid = window.MoMoLP.generateLPID();
+  window.MoMoLP._lastLP = lp; // pour les téléchargements
 
-  // 🔴 sauvegarde pour les téléchargements
-  window.MoMoLP._lastLP = lp;
-
+  // Boîte de résumé
   const box = document.createElement('div');
   box.className = 'summary';
-  box.innerHTML = `<h3>Your Love Passport (preview)</h3>
+  box.innerHTML = `
+    <h3>Your Love Passport (preview)</h3>
     <div class="row"><div class="k">LPID</div><div class="v">${lpid}</div></div>
   `;
 
-  LP_IDS.forEach(id=>{
+  // Lignes du résumé
+  LP_IDS.forEach(id => {
     const v = lp[id];
     if (!v) return;
-    const row = document.createElement('div'); row.className='row';
-    const key = document.createElement('div'); key.className='k'; key.textContent = id;
-    const val = document.createElement('div'); val.className='v';
-    val.textContent = Array.isArray(v) ? v.join(', ') : (typeof v==='object'? JSON.stringify(v): String(v));
+    const row = document.createElement('div'); row.className = 'row';
+    const key = document.createElement('div'); key.className = 'k'; key.textContent = id;
+    const val = document.createElement('div'); val.className = 'v';
+    val.textContent = Array.isArray(v) ? v.join(', ')
+                  : (typeof v === 'object' ? JSON.stringify(v) : String(v));
     row.appendChild(key); row.appendChild(val);
     box.appendChild(row);
   });
 
-  // 🔴 zone boutons de téléchargement
+  // Boutons
   const actions = document.createElement('div');
   actions.id = 'dl-row';
   actions.className = 'share-actions';
@@ -712,33 +724,17 @@ function showSummary(){
   `;
   box.appendChild(actions);
 
+  // Injecter
   elSummary.innerHTML = '';
   elSummary.appendChild(box);
-  elSummary.style.display='block';
+  elSummary.style.display = 'block';
 
-  // 🔴 events
+  // Listeners
   document.getElementById('dl-pdf').onclick  = () => openPassportPrint(window.MoMoLP._lastLP || {});
   document.getElementById('dl-json').onclick = () => downloadJSON(window.MoMoLP._lastLP || {});
 }
 
-
-function addDownloadButtons(){
-  const box = document.getElementById('summary');
-  if(!box || box.querySelector('#dl-row')) return; // déjà ajouté
-  const row = document.createElement('div');
-  row.id = 'dl-row';
-  row.className = 'share-actions';
-  row.innerHTML = `
-    <button class="btn" id="dl-pdf">Download Love Passport (PDF)</button>
-    <button class="btn secondary" id="dl-json">Download JSON Summary</button>
-  `;
-  box.appendChild(row);
-
-  document.getElementById('dl-pdf').onclick = () => openPassportPrint(MoMoLP._lastLP || {});
-  document.getElementById('dl-json').onclick = () => downloadJSON(MoMoLP._lastLP || {});
-}
-
-// Ouvre une page "print-ready" (A6) que l’utilisateur peut enregistrer en PDF
+/* ---------- Impression A6 + JSON ---------- */
 function openPassportPrint(lp){
   const w = window.open('', '_blank');
   const safe = (v)=>Array.isArray(v)?v.join(', '):(v??'—');
@@ -767,7 +763,7 @@ function openPassportPrint(lp){
     <body>
       <div class="card">
         <div class="top">
-          <div class="ph">${lp.photo ? '<img src="'+lp.photo+'" style="width:100%;height:100%;object-fit:cover"/>' : 'PHOTO'}</div>
+          <div class="ph">PHOTO</div>
           <div>
             <h1 class="title">${safe(lp.fullName)}</h1>
             <div class="muted">Love Passport — Match or Move On</div>
@@ -838,10 +834,7 @@ function openPassportPrint(lp){
     </body></html>`;
   w.document.open(); w.document.write(html); w.document.close();
 }
-</script>
 
-<script>
-  
 function downloadJSON(obj){
   const data = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj,null,2));
   const a = document.createElement('a');
@@ -851,9 +844,8 @@ function downloadJSON(obj){
   a.click();
   a.remove();
 }
-</script>
 
-<script>
+/* ---------- Boot ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   recomputeFlow();
   render();

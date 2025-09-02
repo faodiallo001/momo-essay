@@ -2,169 +2,129 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Compatibility Test — Match or Move On</title>
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
 <style>
-  :root{ --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; --glass:rgba(255,255,255,.04); }
+  :root{ --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; --glass:rgba(255,255,255,.05); }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;color:var(--text);overflow-x:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
-  html{scroll-behavior:smooth}
+  body{
+    margin:0;color:var(--text);overflow-x:hidden;
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)
+  }
 
-  /* ===== NAV ===== */
+  /* layers */
   #sparks{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg-float{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-  .nav{position:fixed;top:0;left:0;right:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+
+  /* NAV (cohérente avec le site) */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:6;display:grid;
+    grid-template-columns:1fr auto 1fr;align-items:center;
     padding:14px 24px;backdrop-filter:blur(8px);
     background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)),
                radial-gradient(70% 50% at 50% 0%,rgba(255,59,48,.10),transparent 60%);
-    border-bottom:1px solid rgba(255,255,255,.06)}
+    border-bottom:1px solid rgba(255,255,255,.06)
+  }
   .nav-left{justify-self:start}
-  .nav-left a,.nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
-  .nav-left a:hover,.nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
-  .logo-neon{justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;
+  .nav-left a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
+  .nav-left a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
+  .logo-neon{
+    justify-self:center;font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.35px;
     font-size:clamp(18px,2.4vw,30px);color:#fff;text-transform:uppercase;white-space:nowrap;
-    text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)}
+    text-shadow:0 0 20px rgba(255,59,48,.65),0 0 8px rgba(255,59,48,.45)
+  }
   .logo-neon .accent{color:var(--rose)}
   .nav-right{justify-self:end;display:flex;gap:18px;align-items:center}
-  .lang{position:relative;z-index:10}
-  .lang-current{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.45);color:#fff;
-    border:1px solid rgba(255,59,48,.45);padding:6px 10px;border-radius:16px;font-weight:700;cursor:pointer;
-    text-shadow:0 0 8px rgba(255,59,48,.55); user-select:none}
-  .lang-menu{position:absolute;right:0;top:115%;display:none;flex-direction:column;gap:6px;
-    background:rgba(0,0,0,.8);border:1px solid rgba(255,59,48,.45);border-radius:12px;padding:8px;max-height:50vh;overflow:auto;
-    box-shadow:0 0 12px rgba(255,59,48,.35), inset 0 0 8px rgba(255,59,48,.25)}
-  .lang.open .lang-menu{display:flex}
-  @media (hover:hover){ .lang:hover .lang-menu{display:flex} }
-  .lang-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:10px}
-  .lang-menu a:hover{background:rgba(255,59,48,.12)}
+  .nav-right a{color:#ffecec;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:12px;border:1px solid transparent}
+  .nav-right a:hover{border-color:rgba(255,59,48,.45);background:rgba(255,59,48,.10)}
 
-  /* ===== PAGE WRAP ===== */
-  .wrap{position:relative;z-index:2;min-height:100vh;display:flex;justify-content:center;padding:120px 16px 96px}
-  .page{max-width:min(760px,94vw);width:100%}
-  .page h1{font-family:"Playfair Display",serif;font-size:clamp(32px,5.2vw,56px);line-height:1.08;margin:0 0 6px}
-  .lead{color:var(--muted);margin:4px 0 18px}
-
-  /* ===== PROGRESS ===== */
-  .progress{width:100%;height:10px;background:#1b1b1d;border-radius:999px;overflow:hidden;margin:0 0 8px;border:1px solid rgba(255,255,255,.08)}
-  .progress-bar{height:100%;width:0;background:var(--rose);transition:width .35s ease}
-  .pct{color:#cbbfb7;margin-bottom:12px}
-
-  /* ===== QUESTION CARD ===== */
-  .question-box{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;
-    padding:24px 16px;margin-bottom:14px;box-shadow:0 0 14px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04)}
-  .q-index{display:block;color:#bfb7b0;font-size:.9rem;margin-bottom:6px}
-  .q-title{font-family:"Playfair Display",serif;font-size:clamp(18px,3.8vw,24px);margin:0 0 12px;color:#fff}
-  input[type="text"], input[type="email"], select{
-    width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.10);
-    background:#111214;color:#fff;font-size:1rem;outline:none
+  /* PAGE */
+  .wrap{
+    position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    padding:120px 20px 92px
   }
-  .options{display:grid;gap:10px}
-  .opt{display:flex;align-items:center;gap:10px;background:#121215;border:1px solid rgba(255,255,255,.08);padding:10px 12px;border-radius:12px}
-  .opt input{appearance:none;width:18px;height:18px;border:2px solid #666;border-radius:50%;display:inline-block;position:relative;cursor:pointer;background:transparent}
-  .opt input:checked{border-color:var(--rose)}
-  .opt input:checked::after{content:"";position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%)}
-  .hint{font-size:.9rem;color:#bfb7b0;margin-top:6px}
+  .page{max-width:min(980px,94vw)}
+  .page h1{
+    font-family:"Playfair Display",serif;font-size:clamp(34px,5.6vw,56px);line-height:1.05;margin:0 0 8px;
+    text-shadow:0 0 16px rgba(255,59,48,.35)
+  }
+  .lead{color:var(--muted);margin:6px 0 22px;max-width:760px}
 
-/* ===== NAV BUTTONS (ghost style) — alignés sur les liens du header ===== */
-.nav-buttons{display:flex;gap:12px;margin-top:10px}
+  /* CARD */
+  .compat-card{
+    position:relative;background:var(--glass);
+    border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:22px;
+    box-shadow:0 0 14px rgba(255,59,48,.18), inset 0 0 12px rgba(255,255,255,.06);
+    overflow:hidden;max-width:560px;margin:0 auto
+  }
+  .compat-card::before{
+    content:"";position:absolute;inset:-2px;border-radius:20px;
+    background:conic-gradient(from 180deg, rgba(255,59,48,.55), rgba(255,59,48,.15), rgba(255,59,48,.55));
+    filter:blur(18px);opacity:.18;pointer-events:none;
+  }
 
-.btn-ghost{
-  flex:1;
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;
-  background:transparent;
-  color:#ffecec; text-decoration:none;
-  border:1px solid rgba(255,59,48,.28);           /* contour visible au repos */
-  box-shadow:0 0 0 1px rgba(255,59,48,.10) inset;  /* léger liseré interne */
-  transition:border-color .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.btn-ghost:hover{
-  border-color:rgba(255,59,48,.45);
-  background:rgba(255,59,48,.10);                 /* tint transparent */
-  color:#fff;
-  box-shadow:
-    0 0 0 1px rgba(255,59,48,.22) inset,
-    0 0 12px rgba(255,59,48,.18);                 /* petit glow extérieur */
-}
-.btn-ghost:disabled{
-  opacity:.35;cursor:not-allowed;
-  background:transparent;border-color:rgba(255,255,255,.12); box-shadow:none;
-}
+  .field{display:grid;gap:8px;margin-bottom:14px}
+  .field label{font-weight:600;color:#ffecec}
+  .input{
+    width:100%;padding:12px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);
+    background:rgba(0,0,0,.4);color:#fff;outline:none;font-size:16px
+  }
+  .input::placeholder{color:#bfb7b0}
+  .input:focus{
+    border-color:rgba(255,59,48,.65);
+    box-shadow:0 0 0 3px rgba(255,59,48,.18), 0 8px 24px rgba(255,59,48,.18) inset;
+    background:rgba(0,0,0,.5);
+  }
+
+  .hint{font-size:13px;color:#cbbfb7;margin:-4px 0 12px}
+  .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .btn{
+    display:inline-block;text-decoration:none;color:#fff;font-weight:700;border-radius:14px;
+    padding:12px 16px;border:1px solid rgba(255,59,48,.55);background:rgba(255,59,48,.18);cursor:pointer
+  }
+  .btn:hover{background:rgba(255,59,48,.24)}
+  .result{
+    margin-top:16px;border-radius:14px;padding:16px;background:rgba(255,59,48,.10);
+    box-shadow:inset 0 0 10px rgba(255,59,48,.22);display:none;text-align:center
+  }
+  .score{font-size:26px;font-weight:800;color:#fff;text-shadow:0 0 12px rgba(255,59,48,.55)}
+  .cta-mini{font-size:14px;color:#e8ddd5;margin-top:8px}
 
   /* FOOTER */
-  .site-footer{margin-top:90px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
-  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:140px;
+  .site-footer{margin-top:80px;background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+  .site-footer::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:120px;
     background:radial-gradient(60% 80% at 50% 100%, rgba(255,59,48,.15), transparent 70%);pointer-events:none}
-  .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
+  .site-footer .f-wrap{max-width:1200px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:18px}
   .site-footer .f-col h4{margin:0 0 10px;font-size:14px;color:#ffd6d6}
   .site-footer .brand-title{font-family:"Playfair Display",serif;font-weight:700}
   .site-footer .brand-title span{color:var(--rose)}
   .site-footer .tag{margin:8px 0 10px;color:#cbbfb7;font-size:14px}
-  .site-footer .mail{color:#fff;text-decoration:none;font-weight:600}
-  .site-footer .mail:hover{color:var(--rose)}
   .site-footer a{display:block;color:#e9e2db;text-decoration:none;margin:6px 0;font-weight:600}
   .site-footer a:hover{color:var(--rose)}
-  .site-footer .icons a{display:inline-block;margin-right:10px;font-size:18px;filter:drop-shadow(0 0 6px rgba(255,59,48,.35))}
   .site-footer .f-bottom{border-top:1px solid rgba(255,255,255,.08);text-align:center;padding:12px 16px;color:#b9b1aa}
-  
- /* MOBILE */
+
+  /* MOBILE */
   @media (max-width:768px){
     .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
     .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
     .nav-left{order:1}
     .nav-right{order:1;margin-left:auto;display:flex;gap:14px;align-items:center}
     .nav-left a,.nav-right a{font-size:14px}
-    .lang-current{font-size:12px;padding:6px 10px}
-
     .wrap{padding-top:112px}
-    .contact-grid{grid-template-columns:1fr}
-    .page h1{font-size:clamp(28px,8vw,34px)}
     .site-footer .f-wrap{grid-template-columns:1fr;text-align:center}
-    .site-footer .icons a{margin:0 8px}
     .site-footer .f-bottom{padding:10px 14px;font-size:12px}
-  }
-  @media (max-width:380px){
-    .nav-left a,.nav-right a{font-size:13px}
-    .lang-current{font-size:11px}
-  }
-
-
-  /* ===== SUMMARY + SHARE ===== */
-  .summary{background:var(--glass);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px}
-  .summary h3{margin:0 0 8px;font-family:"Playfair Display",serif}
-  .summary .row{display:flex;gap:10px;border-bottom:1px dashed rgba(255,255,255,.08);padding:8px 0}
-  .summary .row:last-child{border-bottom:none}
-  .summary .k{color:#bfb7b0;min-width:160px}
-  .summary .v{flex:1}
-
-  .share-card{background:var(--glass);border:1px solid rgba(255,255,255,.10);
-    border-radius:16px;padding:16px;margin-top:14px}
-  .share-card h4{margin:0 0 10px}
-  .share-row{display:flex;gap:10px;align-items:center}
-  .share-input{
-    flex:1;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);
-    background:#111214;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-  }
-  .share-actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
-  .cta-alone{margin-top:14px}
-  @media (max-width:768px){
-    .nav{display:flex;flex-wrap:wrap;gap:8px 12px;padding:10px 12px}
-    .logo-neon{order:0;width:100%;text-align:center;font-size:clamp(16px,5.2vw,22px)}
-    .nav-left{order:1}
-    .nav-right{order:1;margin-left:auto;display:flex;gap:14px;align-items:center}
-    .wrap{padding-top:112px}
   }
 </style>
 </head>
 <body>
 
-<!-- Sparks background -->
+<!-- background sparkles -->
 <canvas id="sparks"></canvas>
-<!-- Floating hearts -->
 <div class="bg-float" id="hearts"></div>
 
 <!-- NAV -->
@@ -174,106 +134,66 @@
   <div class="nav-right">
     <a href="how-it-works.html">How it works</a>
     <a href="contact.html">Contact</a>
-    <div class="lang" id="lang">
-      <div class="lang-current" id="langBtn">🇺🇸 EN ▾</div>
-      <div class="lang-menu" id="langMenu">
-        <!-- Ajoute ici tes liens de langues si besoin -->
-        <a href="#">🇫🇷 FR</a><a href="#">🇵🇹 PT</a><a href="#">🇪🇸 ES</a>
-      </div>
-    </div>
   </div>
 </nav>
 
 <main class="wrap">
   <section class="page">
-    <h1>Compatibility Test</h1>
-    <p class="lead">Answer step by step to see if you’re truly a match — or if it’s better to move on.</p>
+    <h1>Check Compatibility</h1>
+    <p class="lead">Here you can check faster — use your <b>Love Passport ID (LPID)</b> and your partner’s LPID for a quick match score.</p>
 
-    <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
-    <div class="pct" id="pctDone">0% complete</div>
-
-    <!-- QUESTION STEP -->
-    <div class="question-box" id="q-box">
-      <small class="q-index" id="q-index">Question 1 / 1</small>
-      <h2 class="q-title" id="q-title">Loading…</h2>
-      <div id="q-inputs"></div>
-      <div class="hint" id="q-hint"></div>
-    </div>
-
-    <!-- NAV BUTTONS -->
-    <div class="nav-buttons" id="nav-buttons">
-      <button class="btn-ghost" id="prev-btn" onclick="prevQ()">Back</button>
-      <button class="btn-ghost" id="next-btn" onclick="nextQ()">Next</button>
-    </div>
-
-    <!-- SUMMARY + SHARE -->
-    <div id="summary" style="display:none;margin-top:18px"></div>
-
-    <!-- SHARE BLOCK (Initiator only) -->
-    <div id="shareBlock" class="share-card" style="display:none">
-      <h4>Share your link</h4>
-      <div class="share-row">
-        <input id="shareLink" class="share-input" readonly value="https://matchormoveon.com/compatibility/abc123"/>
+    <div class="compat-card">
+      <div class="field">
+        <label for="myID">Your LPID</label>
+        <input class="input" id="myID" placeholder="e.g. LP-7FQ2-K9M3" autocomplete="off">
       </div>
-      <div class="share-actions">
-        <button class="btn-ghost" id="copyBtn">Copy link</button>
-        <a class="btn-ghost" id="waBtn" href="#" target="_blank" rel="noopener">Share via WhatsApp</a>
-        <a class="btn-ghost" id="smsBtn" href="#">Share via SMS</a>
-      </div>
-    </div>
 
-    <!-- PARTNER CTA (Partner only) -->
-    <div id="partnerCTA" class="cta-alone" style="display:none">
-      <button class="btn-ghost" id="letsGoBtn">See if we match — Let’s Go!!!</button>
+      <div class="field">
+        <label for="partnerID">Partner’s LPID</label>
+        <input class="input" id="partnerID" placeholder="e.g. LP-X4Z9-T1Q8" autocomplete="off">
+      </div>
+
+      <div class="hint">Tip: You’ll find your LPID on your Love Passport summary.</div>
+
+      <div class="actions">
+        <button class="btn" id="checkBtn">Check Compatibility</button>
+      </div>
+
+      <div id="result" class="result">
+        <!-- filled by JS -->
+      </div>
     </div>
   </section>
 </main>
 
-<!-- FOOTER -->
-<footer class="site-footer" id="footer">
+<footer class="site-footer">
   <div class="f-wrap">
     <div class="f-col brand">
       <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
       <p class="tag">Built for clarity, not confusion.</p>
-      <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
+      <a href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
     </div>
-
     <nav class="f-col legal">
       <h4>Legal</h4>
       <a href="terms.html">Terms Policy</a>
       <a href="privacy.html">Privacy Policy</a>
       <a href="cookies.html">Cookies</a>
     </nav>
-
     <div class="f-col social">
       <h4>Social</h4>
-      <div class="icons">
-        <a href="https://tiktok.com" aria-label="TikTok">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/>
-          </svg>
-        </a>
-        <a href="https://instagram.com" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/>
-          </svg>
-        </a>
-        <a href="https://youtube.com" aria-label="YouTube">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-            <path d="M23.5 6.2c-.2-1.2-.8-2.3-1.7-3-1-.8-2.2-.9-2.7-1C16.1 2 12 2 12 2s-4.1 0-7.1.2c-.5.1-1.7.2-2.7 1-1 .7-1.5 1.8-1.7 3C0 7.4 0 10 0 10s0 2.6.2 3.8c.2 1.2.8 2.3 1.7 3 1 .8 2.3.9 2.8 1C7.9 18 12 18 12 18s4.1 0 7.1-.2c.5-.1 1.7-.2 2.7-1 .9-.7 1.5-1.8 1.7-3 .2-1.2.2-3.8.2-3.8s0-2.6-.2-3.8zM9.5 14.6V7.4L15.5 11 9.5 14.6z"/>
-          </svg>
-        </a>
-      </div>
+      <a href="https://tiktok.com">TikTok</a>
+      <a href="https://instagram.com">Instagram</a>
+      <a href="https://youtube.com">YouTube</a>
     </div>
   </div>
   <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
 </footer>
 
-<!-- ===== SPARKS CANVAS ===== -->
+<!-- SPARKLES -->
 <script>
 const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
 function size(){W=s.width=innerWidth;H=s.height=innerHeight;
-  const n=Math.min(180,Math.floor(W*H/11000));
+  const n=Math.min(140,Math.floor(W*H/14000));
   PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));
 }
 function loop(){ctx.clearRect(0,0,W,H);
@@ -286,527 +206,36 @@ function loop(){ctx.clearRect(0,0,W,H);
 addEventListener('resize',size);size();loop();
 </script>
 
-<!-- FLOATING HEARTS -->
+<!-- COMPAT JS (MVP: score simulé) -->
 <script>
-(function(){
-  const LAYER=document.getElementById('hearts'); if(!LAYER) return;
-  const HEART=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
-    <defs><radialGradient id="hg" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ffd0d4"/><stop offset="45%" stop-color="#ff5252"/><stop offset="100%" stop-color="#7c1414"/></radialGradient></defs>
-    <g filter="drop-shadow(0 4px 10px rgba(255,80,80,.55))">
-      <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
-      <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
-    </g></svg>`);
-  const isM = matchMedia('(max-width:768px)').matches;
-  const COUNT=isM?12:18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
-  function spawn(svg){
-    const el=document.createElement('img');
-    el.src=`data:image/svg+xml;utf8,${svg}`; el.className='float-item';
-    el.style.left=Math.random()*100+'vw';
-    el.style.setProperty('--w',(MIN_W+Math.random()*(MAX_W-MIN_W))+'px');
-    el.style.setProperty('--x',(Math.random()*80-40)+'px');
-    el.style.setProperty('--t',(MIN_T+Math.random()*(MAX_T-MIN_T))+'s');
-    el.style.setProperty('--r',(Math.random()*40-20)+'deg');
-    el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
-    el.style.setProperty('--spin',(14+Math.random()*10)+'s');
-    el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
-    el.style.position='absolute';
-    el.style.top='100vh';
-    el.style.filter='drop-shadow(0 8px 18px rgba(255,59,48,.45))';
-    el.style.opacity='.95';
-    el.style.animation='floatUp var(--t) linear infinite, spin var(--spin) linear infinite';
-    LAYER.appendChild(el);
-  }
-  for(let i=0;i<COUNT;i++) spawn(HEART);
-})();
-</script>
-<style>
-@keyframes floatUp{
-  0%{transform:translateX(var(--x,0)) translateY(0) rotate(var(--r,0deg));opacity:0}
-  10%{opacity:1}
-  100%{transform:translateX(calc(var(--x,0) + 40px)) translateY(-120vh) rotate(var(--rEnd,360deg));opacity:0}
-}
-@keyframes spin{
-  0%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
-  50%{filter:drop-shadow(0 12px 26px rgba(255,59,48,.60))}
-  100%{filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
-}
-</style>
+document.getElementById('checkBtn').addEventListener('click', ()=>{
+  const myID=document.getElementById('myID').value.trim();
+  const partnerID=document.getElementById('partnerID').value.trim();
+  const box=document.getElementById('result');
 
-<!-- ===== LANG DROPDOWN (petit JS) ===== -->
-<script>
-(function(){
-  const lang=document.getElementById('lang'), btn=document.getElementById('langBtn'), menu=document.getElementById('langMenu');
-  if(!lang||!btn||!menu) return;
-  function close(){ lang.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
-  btn.addEventListener('click', (e)=>{ e.stopPropagation(); lang.classList.toggle('open'); btn.setAttribute('aria-expanded',lang.classList.contains('open')); });
-  document.addEventListener('click', close);
-  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
-})();
+  if(!myID || !partnerID){
+    box.style.display='block';
+    box.innerHTML='⚠️ Please enter both LPIDs.';
+    return;
+  }
+
+  // TODO: remplacer par appel API réel plus tard
+  const score=Math.floor(Math.random()*41)+60; // 60–100
+  box.style.display='block';
+  box.innerHTML = `
+    <div class="score">${score}% match</div>
+    <div class="cta-mini" style="margin-top:10px">
+      Want to know why it’s ${score}%?<br>
+      Discover the strengths and the challenges of your match.<br>
+      <strong>Unlock full report for $4.99</strong>.
+    </div>
+  `;
+});
 </script>
 
-<!-- ===================== COMPATIBILITY SCRIPT ===================== -->
-<!-- ===================== COMPATIBILITY SCRIPT (fixed) ===================== -->
-<script>
-const COUNTRIES = [
-"Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
-"Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
-"Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon",
-"Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica","Côte d’Ivoire",
-"Croatia","Cuba","Cyprus","Czech Republic","Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic",
-"Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France",
-"Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
-"Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan",
-"Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya",
-"Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands",
-"Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar",
-"Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway",
-"Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania",
-"Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino",
-"Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
-"Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
-"Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago",
-"Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States",
-"Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
-];
-const QUESTIONS = [
-  
-  {id:"fullName", type:"text",  label:"Please enter your full name", required:true, placeholder:"First and last name"},
-  {id:"email", type:"text", inputType:"email", label:"Your email (to receive your result)", required:true, placeholder:"you@email.com"},
-  {id:"residency", type:"select", label:"Country of residence", required:true, options:COUNTRIES},
-  {id:"origin", type:"select", label:"Country of origin", required:true, options:COUNTRIES},
-
-  { id:"partnerHeight", type:"single", label:"What’s your preference for a partner’s height?", required:true,
-   options:[
-    "Very tall (6’3+ / 1m90+)",
-    "Tall (above average)",
-    "Average height",
-    "Short (below average)",
-    "I don’t care about height"
-  ]
-},
-
-  
-{ id:"physicalType",type:"multi",label:"What’s your ideal physical look type? (Pick up to 3)", required:true,min:1, max:2,
-  options:[
-    "Nordic / Scandinavian look (light hair, light eyes, fair skin)",
-    "Mediterranean look (olive skin, dark hair, green/brown eyes)",
-    "Eastern European look (Slavic features, fair to medium skin)",
-    "Black / African descent",
-    "Arab / Middle Eastern",
-    "Asian (East or South Asian)",
-    "Latino / Latina",
-    "Mixed race",
-    "Someone that looks like me",
-    "I don’t care about physical type",
-    "I don’t have a type"
-  ]
-},
-
-
-  {id:"hasKids", type:"single", label:"Do you currently have children?", required:true, options:["No","Yes"]},
-  {id:"kidsCount", type:"select", label:"How many children do you have?", required:true, options:["1","2","3","4","5+"], showIf:{id:"hasKids", value:"Yes"}},
-  {id:"kidsWith", type:"single", label:"If you have 2+ children, were they with the same partner or different partners?", required:true,
-    options:["Same partner","Different partners"], showIfAny:[{ id:"kidsCount", "in":["2","3","4","5+"] }]},
-
-  {id:"wantKids", type:"single", label:"Do you want to have children in the future?", required:true,
-    options:["Yes","No — I don’t want to be a parent","Not sure"]},
-  {id:"kidsTime", type:"single", label:"If yes, when do you imagine having kids?", required:false,
-    options:["ASAP (≤12 months)","1–2 years","3–5 years","When it happens"], showIf:{id:"wantKids", value:"Yes"}},
-
-  {id:"religionNeed", type:"single", label:"Does your partner need to share your religion?", required:true,
-    options:["Yes — same religion","No — different is fine","Maybe — depends on practice"]},
-  {id:"cultureNeed", type:"single", label:"Does your partner need to share your culture?", required:true, options:["Yes","No","Maybe"]},
-
-  {id:"moneyManage", type:"single", label:"How would you prefer to manage money in a relationship?", required:true, options:[
-    "One joint account (share everything)","Separate accounts"
-  ]},
-  {id:"bills", type:"single", label:"What's your preferred relationship model?", required:true, options:[
-    "Traditional (man pays fully; woman manages the home)",
-    "Independent partners but not equal (man covers a bit more — e.g., 75/25)",
-    "Each pays their own share, completely independent 50/50 style"
-  ]},
-
-  {id:"homeClean", type:"single", label:"How do you usually keep your home?", required:true, options:[
-    "Very clean — I do it myself","Very clean — we hire help","Clean but sometimes messy","Messy — I don’t care much"
-  ]},
-
-  {id:"dietFusion", type:"single", label:"Food & diet lifestyle — and do you expect your partner to share it?", required:true, options:[
-    "I eat anything — my partner doesn’t need to match",
-    "I try to eat healthy — I prefer my partner to share it",
-    "I try to eat healthy — but it’s not required",
-    "I follow a strict healthy diet — I need my partner aligned",
-    "Vegetarian/Vegan — I prefer my partner to share it",
-    "Vegetarian/Vegan — alignment isn’t necessary",
-    "Other"
-  ]},
-
-  {id:"sleep", type:"single", label:"What’s your usual sleep schedule?", required:true,
-    options:["Early sleeper (before ~11pm)","Night owl (after midnight)","It varies depending on the day"]},
-  {id:"petComfort", type:"single", label:"Would you be comfortable living with a partner who has pets?", required:true,
-    options:["Yes — I’m comfortable living with pets","No — I can’t live with pets","I am allergic to pets","I don’t want pets in my home"]},
-  {id:"smoking", type:"single", label:"Do you smoke?", required:true, options:["No","Sometimes","Daily"]},
-  {id:"alcohol", type:"single", label:"Do you drink alcohol?", required:true, options:["No","Sometimes","Often"]},
-
-  {id:"living", type:"single", label:"What’s your current living situation?", required:true,
-    options:["I live alone","I rent with roommates","I live with family","I own my place"]},
-  {id:"car", type:"single", label:"Do you own a car?", required:true,
-    options:["Yes","No","Not needed where I live","Planning to get one"]},
-  {id:"criminalRecord", type:"single", label:"Do you have a criminal record?", required:true, options:["No","Yes"]},
-
-  {id:"ambition", type:"single", label:"Which best describes you right now?", required:true,
-    options:["I’m ambitious and working on it","I’m stable and comfortable","I’m still figuring things out"]},
-  {id:"conflict", type:"single", label:"When conflicts happen, how do you usually respond?", required:true,
-    options:["Talk it through calmly","Take a pause, then talk","I raise my voice","I walk away to cool off"]},
-
-  {id:"politicsTalk", type:"single", label:"How much do you talk about politics in daily life?", required:true,
-    options:["Rarely","Sometimes","Often","A lot — every day"]},
-
-  {id:"sexImportance", type:"single", label:"How important is sex in a relationship for you?", required:true,
-    options:["Very important — I need it often","Important — but not a top priority","Not so important for me"]},
-  {id:"pace", type:"single", label:"Preferred pace for physical intimacy (relationship)", required:true,
-    options:["Very slowly (weeks/months)","Normal rhythm (we see how it goes)","Fast (early if chemistry)","Only after marriage"]},
-
-  {
-    id:"feelLoved",
-    type:"multi",
-    label:"I feel most loved when… (pick ≥ 2)",
-    required:true,
-    min:2,
-    options:[
-      "I hear kind, affirming words",
-      "We spend quality time",
-      "My partner shows affection (touch)",
-      "I receive thoughtful gifts",
-      "My partner gives me money",
-      "My partner does helpful actions for me",
-      "I am prioritized in their plans"
-    ]
-  }, 
-  
-  {
-    id:"showLove",
-    type:"multi",
-    label:"How I usually show love (pick ≥ 2)",
-    required:true,
-    min:2,
-    options:[
-      "I give gifts",
-      "I give money",
-      "I plan quality time",
-      "I am affectionate (touch)",
-      "I use loving words",
-      "I do helpful actions",
-      "I prioritize my partner in my plans"
-    ]
-  },
-
-  {id:"distance", type:"single", label:"Would you consider a long-distance relationship?", required:true, options:["Yes","Maybe","No"]},
-  {id:"relocate", type:"single", label:"Would you relocate internationally for a partner?", required:true, options:["Yes","Maybe","No"]},
-
-  {id:"evening", type:"single", label:"Your ideal evening with someone you love", required:true, options:[
-    "Cozy movie night at home","Romantic dinner out & deep conversation","Romantic beach walk","Outdoor movie / open-air cinema","Live music or a show as a couple"
-  ]},
-
-  {id:"hobbies", type:"multi", label:"What hobbies or activities do you enjoy? (Pick up to 3)", required:true, min:1, max:3, options:[
-    "Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering","Other"
-  ]},
-
-  {id:"type", type:"multi", label:"What’s your type? (Pick up to 3)", required:true, min:1, max:3, options:[
-    "Blonde (woman) / Blond (man)","Brunette (woman) / Brown-haired (man)","Black (woman/man)","Redhead (woman/man)","Arab","European","African","Asian","I don’t have a type"
-  ]},
-
-  {id:"phonePrivacy", type:"single", label:"In your relationship, do you prefer to share phone passwords or keep phones private?", required:true,
-    options:["Share passwords","Keep phones private"]},
-  {id:"dmRules", type:"single", label:"Would it bother you if your partner chats privately with people of the opposite sex on social media?", required:true,
-    options:["Yes","No","It depends on the conversation"]},
-
-  {id:"dealBreakers", type:"multi", label:"I cannot accept… (pick ≥ 5)", required:true, min:5, options:[
-    "Someone obsessed with politics, talks about it all day long",
-    "Cheating / infidelity",
-    "Religion not aligned with mine",
-    "Tries to change my faith or practice",
-    "Jealous / possessive / controlling",
-    "Violence (physical, verbal, emotional)",
-    "Explosive temper / unmanaged anger",
-    "Disrespects waiters / service workers (lack of humility)",
-    "Already has children",
-    "Has children with different partners",
-    "Partner owns pets (dogs/cats) — I can’t handle it",
-    "Big income gap — earns much less than me",
-    "Big income gap — earns much more than me",
-    "Sharing my private life on social media without my consent",
-    "Doesn’t take care of health (Gym and eating healthy)",
-    "Someone who is not family-oriented (no close bond with parents or siblings)",
-    "Lives with family or with roommates",
-    "Smokes cigarettes or uses any drugs",
-    "Uses substances (smokes, alcoholic, drugs, or any kind of addiction)",
-    "Has a criminal record (any offense)",
-    "Someone that’s not financially stable"
-  ]}
-];
-
-
-
-/* ===== UI refs ===== */
-const elBar=document.getElementById("progress-bar");
-const elPct=document.getElementById("pctDone");
-const elQBox=document.getElementById("q-box");
-const elQIndex=document.getElementById("q-index");
-const elQTitle=document.getElementById("q-title");
-const elQInputs=document.getElementById("q-inputs");
-const elHint=document.getElementById("q-hint");
-const elSummary=document.getElementById("summary");
-const btnPrev=document.getElementById("prev-btn");
-const btnNext=document.getElementById("next-btn");
-const shareBlock=document.getElementById("shareBlock");
-const shareInput=document.getElementById("shareLink");
-const copyBtn=document.getElementById("copyBtn");
-const waBtn=document.getElementById("waBtn");
-const smsBtn=document.getElementById("smsBtn");
-const partnerCTA=document.getElementById("partnerCTA");
-const letsGoBtn=document.getElementById("letsGoBtn");
-
-/* ===== State & URL context ===== */
-const state={}; let currentIndex=0;
-const params=new URLSearchParams(location.search);
-const isPartner=params.has("partner");
-
-/* ===== Helpers ===== */
-function findQuestion(id){ return QUESTIONS.find(q=>q.id===id); }
-function matchesShowIf(q){
-  if(q.showIf && state[q.showIf.id]!==q.showIf.value) return false;
-  if(q.showIfAny){
-    const ok=q.showIfAny.some(cond=>{
-      const v=state[cond.id];
-      if('in' in cond) return cond.in.includes(v);
-      if('value' in cond) return v===cond.value;
-      return false;
-    });
-    if(!ok) return false;
-  }
-  return true;
-}
-function visibleSteps(){
-  return QUESTIONS.filter(matchesShowIf).map(q=>q.id);
-}
-function isAnswered(q){
-  const v=state[q.id];
-  if(q.type==="text") return v && String(v).trim().length>0;
-  if(q.type==="single"||q.type==="select") return v!=null && v!=="";
-  if(q.type==="multi") return Array.isArray(v) && v.length>=(q.min||1);
-  return false;
-}
-function calcProgress(){
-  const vis=visibleSteps();
-  const a=vis.filter(id=>isAnswered(findQuestion(id))).length;
-  return vis.length?Math.floor(a/vis.length*100):0;
-}
-function updateProgressUI(){
-  const vis=visibleSteps();
-  const pct=calcProgress();
-  elBar.style.width=pct+"%";
-  elPct.textContent=`${pct}% complete`;
-  elQIndex.textContent=`Question ${Math.min(currentIndex+1,vis.length)} / ${vis.length||1}`;
-}
-function setHint(t){ elHint.textContent=t||""; }
-
-/* Remove answers of questions that became hidden */
-function pruneHiddenAnswers(){
-  const visible=new Set(visibleSteps());
-  for(const q of QUESTIONS){
-    if(!visible.has(q.id) && q.id in state){ delete state[q.id]; }
-  }
-}
-
-/* ===== Renderers ===== */
-function render(){
-  pruneHiddenAnswers();
-  const vis=visibleSteps(); 
-  if(!vis.length){ elQTitle.textContent="No questions."; return; }
-  if(currentIndex<0) currentIndex=0;
-  if(currentIndex>=vis.length) currentIndex=vis.length-1;
-  const q=findQuestion(vis[currentIndex]);
-
-  elQInputs.innerHTML=""; setHint(""); elQTitle.textContent=q.label;
-
-  if(q.type==="text"){
-    const inp=document.createElement("input");
-    inp.type=q.inputType||"text"; inp.placeholder=q.placeholder||"";
-    if(state[q.id]) inp.value=state[q.id];
-    inp.addEventListener("input",(e)=>{ state[q.id]=e.target.value; updateAfterAnswer(q.id); });
-    elQInputs.appendChild(inp);
-  }
-  else if(q.type==="single"){
-    const wrap=document.createElement("div"); wrap.className="options";
-    q.options.forEach(o=>{
-      const row=document.createElement("div"); row.className="opt";
-      const input=document.createElement("input"); input.type="radio"; input.name=q.id; input.value=o;
-      if(state[q.id]===o) input.checked=true;
-      input.addEventListener("change",()=>{ state[q.id]=o; updateAfterAnswer(q.id,true); });
-      const lab=document.createElement("label"); lab.textContent=o;
-      lab.addEventListener("click",()=>{ input.checked=true; input.dispatchEvent(new Event('change'));});
-      row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
-    });
-    elQInputs.appendChild(wrap);
-  }
-  else if(q.type==="select"){
-    const sel=document.createElement("select");
-    const ph=document.createElement("option"); ph.value=""; ph.textContent="Select…"; sel.appendChild(ph);
-    q.options.forEach(o=>{
-      const opt=document.createElement("option"); opt.value=o; opt.textContent=o; sel.appendChild(opt);
-    });
-    if(state[q.id]) sel.value=state[q.id];
-    sel.addEventListener("change",()=>{ state[q.id]=sel.value; updateAfterAnswer(q.id,true); });
-    elQInputs.appendChild(sel);
-  }
-  else if(q.type==="multi"){
-    const wrap=document.createElement("div"); wrap.className="options";
-    const current=new Set(Array.isArray(state[q.id])?state[q.id]:[]);
-    const max=q.max||Infinity;
-    q.options.forEach(o=>{
-      const row=document.createElement("div"); row.className="opt";
-      const input=document.createElement("input"); input.type="checkbox"; input.value=o;
-      input.checked=current.has(o);
-      input.addEventListener("change",()=>{
-        const arr=new Set(Array.isArray(state[q.id])?state[q.id]:[]);
-        if(input.checked){
-          if(arr.size>=max && !arr.has(o)){ input.checked=false; setHint(`You can select up to ${max}.`); return; }
-          arr.add(o);
-        }else{
-          arr.delete(o);
-        }
-        state[q.id]=Array.from(arr);
-        setHint("");
-        updateAfterAnswer(q.id);
-      });
-      const lab=document.createElement("label"); lab.textContent=o;
-      lab.addEventListener("click",()=>{ input.click(); });
-      row.appendChild(input); row.appendChild(lab); wrap.appendChild(row);
-    });
-    elQInputs.appendChild(wrap);
-    if(q.min){ setHint(`Pick at least ${q.min}${Number.isFinite(max)?` (up to ${max})`:''}.`); }
-  }
-
-  btnPrev.disabled=(currentIndex===0);
-  btnNext.textContent=(currentIndex===vis.length-1)?"Finish":"Next";
-  updateProgressUI();
-}
-
-/* After any answer: reflow visibility and keep user on a valid index */
-function updateAfterAnswer(changedId, hardReflow=false){
-  const before=visibleSteps();
-  pruneHiddenAnswers();
-  const after=visibleSteps();
-  // If current question disappeared, move to the nearest valid step
-  if(!after[currentIndex]) currentIndex=Math.max(0, Math.min(currentIndex, after.length-1));
-  // If structure changed (e.g., new step appeared/disappeared), re-render
-  if(hardReflow || before.join("|")!==after.join("|")) render(); else updateProgressUI();
-}
-
-/* ===== Navigation ===== */
-function validateCurrent(){
-  const vis=visibleSteps(); const q=findQuestion(vis[currentIndex]); if(!q) return true;
-  if(!q.required) return true;
-  if(q.type==="multi"){
-    const arr=state[q.id]||[]; const need=q.min||1; 
-    if(arr.length<need){ setHint(`Please select at least ${need}.`); return false; }
-  }
-  return isAnswered(q);
-}
-function nextQ(){
-  if(!validateCurrent()){ if(!elHint.textContent) setHint("Please answer before continuing."); return; }
-  const vis=visibleSteps();
-  if(currentIndex<vis.length-1){ currentIndex++; render(); }
-  else{ showSummary(); }
-}
-function prevQ(){ if(currentIndex>0){ currentIndex--; render(); } }
-
-/* ===== Share / CTA ===== */
-function computeShareLink(){
-  const rid=Math.random().toString(36).slice(2,10);
-  const base=(location.origin && location.origin!=="null") 
-    ? (location.origin + location.pathname)
-    : (location.href.split("?")[0]);
-  return `${base}?partner=${rid}`;
-}
-function showShareForInitiator(link){
-  if(isPartner){ shareBlock.style.display="none"; return; }
-  shareBlock.style.display="block";
-  shareInput.value=link;
-  
-  function flashCopied(btn, okText = "Copied ✓"){
-  const old = btn.textContent;
-  btn.disabled = true;
-  btn.textContent = okText;
-  // petit feedback visuel
-  btn.style.borderColor = "rgba(255,59,48,.65)";
-  setTimeout(()=>{
-    btn.disabled = false;
-    btn.textContent = old;
-    btn.style.borderColor = "rgba(255,59,48,.28)";
-  }, 1600);
-}
-
-copyBtn.onclick = async (e)=>{
-  e.preventDefault(); // évite tout comportement par défaut
-  try{
-    await navigator.clipboard.writeText(link);
-    flashCopied(copyBtn);
-  }catch(err){
-    // fallback anciens navigateurs
-    shareInput.select();
-    const ok = document.execCommand('copy');
-    flashCopied(copyBtn, ok ? "Copied ✓" : "Copy failed");
-  }
-};
-
-  waBtn.href="https://wa.me/?text="+encodeURIComponent(link);
-  smsBtn.href="sms:?&body="+encodeURIComponent(link);
-}
-function showPartnerCTA(){
-  partnerCTA.style.display=isPartner?"block":"none";
-  letsGoBtn.onclick=()=>{
-    // Hook your backend call here to email both partners the result
-    alert("We’ll email both of you your compatibility result. ✨");
-  };
-}
-
-/* ===== Summary ===== */
-function showSummary(){
-  elQBox.style.display="none";
-  document.getElementById("nav-buttons").style.display="none";
-  elBar.style.width="100%"; elPct.textContent="100% complete";
-
-  const vis=visibleSteps();
-  const wrap=document.createElement("div"); wrap.className="summary";
-  const h=document.createElement("h3"); h.textContent="Your answers";
-  wrap.appendChild(h);
-
-  vis.forEach(id=>{
-    const q=findQuestion(id); let val=state[id];
-    const row=document.createElement("div"); row.className="row";
-    const k=document.createElement("div"); k.className="k"; k.textContent=q.label;
-    const v=document.createElement("div"); v.className="v";
-    if(Array.isArray(val)) val=val.join(", "); if(!val) val="—";
-    v.textContent = val; row.appendChild(k); row.appendChild(v); wrap.appendChild(row);
-  });
-
-  elSummary.innerHTML=""; elSummary.appendChild(wrap); elSummary.style.display="block";
-
-  const link=computeShareLink();
-  showShareForInitiator(link);
-  showPartnerCTA();
-}
-
-/* ===== Init ===== */
-function safeInit(){ try{ render(); }catch(e){ console.error(e); elQTitle.textContent="Init error."; } }
-if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", safeInit); }
-else{ safeInit(); }
-
-window.nextQ=nextQ; window.prevQ=prevQ;
-</script>
 </body>
 </html>
+
 
 
 

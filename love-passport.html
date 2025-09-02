@@ -499,6 +499,213 @@ function quickCompatibilityScore(bgA,bgB){let s=50;const add=n=>s=Math.min(100,M
 /* ==== 5) EXPORT ==== */
 window.MoMoLP={QUESTIONS,LP_FIELD_IDS,BG_ONLY_IDS,buildLovePassportSummary,buildBackgroundSummary,generateLPID,quickCompatibilityScore};
   
+</script> 
+
+<script>
+/* ====== SIMPLE CONTROLLER POUR AFFICHER LE QUIZ ====== */
+const Q = window.MoMoLP.QUESTIONS;
+const LP_IDS = window.MoMoLP.LP_FIELD_IDS;
+
+const elTitle   = document.getElementById('q-title');
+const elInputs  = document.getElementById('q-inputs');
+const elHint    = document.getElementById('q-hint');
+const elQIdx    = document.getElementById('q-index');
+const elBar     = document.getElementById('progress-bar');
+const btnPrev   = document.getElementById('prev-btn');
+const btnNext   = document.getElementById('next-btn');
+const elSummary = document.getElementById('summary');
+
+let answers = {};
+let flow = [];     // indices visibles selon réponses
+let pos = 0;       // position dans flow (0..flow.length-1)
+
+/* --- helpers visibilité --- */
+function visible(q) {
+  if (!q.showIf && !q.showIfAny) return true;
+  // showIf {id, value}  ou  {id, anyOf:[...]}
+  if (q.showIf) {
+    const v = answers[q.showIf.id];
+    if ('value' in q.showIf) return v === q.showIf.value;
+    if ('anyOf' in q.showIf) return Array.isArray(q.showIf.anyOf) && q.showIf.anyOf.includes(v);
+  }
+  if (q.showIfAny) {
+    return q.showIfAny.some(cond => {
+      const v = answers[cond.id];
+      if (cond.in) return cond.in.includes(v);
+      if ('value' in cond) return v === cond.value;
+      return !!v;
+    });
+  }
+  return true;
+}
+
+function recomputeFlow() {
+  const res = [];
+  for (let i=0;i<Q.length;i++){
+    if (visible(Q[i])) res.push(i);
+  }
+  flow = res;
+  if (pos >= flow.length) pos = Math.max(0, flow.length - 1);
+}
+
+/* --- rendu d'une question --- */
+function render() {
+  recomputeFlow();
+  if (flow.length === 0) return showSummary();
+
+  // terminé ?
+  if (pos >= flow.length) return showSummary();
+
+  const qi = flow[pos];
+  const q = Q[qi];
+
+  elTitle.textContent = q.label || '';
+  elInputs.innerHTML = '';
+  elHint.textContent = '';
+  elQIdx.textContent = `Question ${pos+1} / ${flow.length}`;
+
+  // barre progression
+  const pct = Math.round(((pos) / flow.length) * 100);
+  elBar.style.width = `${pct}%`;
+
+  // construire inputs selon type
+  const val = answers[q.id];
+
+  if (q.type === 'text') {
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.placeholder = q.placeholder || '';
+    inp.value = val || '';
+    inp.oninput = () => { answers[q.id] = inp.value.trim(); refreshButtons(); };
+    elInputs.appendChild(inp);
+  }
+  else if (q.type === 'file') {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    if (q.accept) inp.accept = q.accept;
+    inp.onchange = () => {
+      const f = inp.files && inp.files[0];
+      answers[q.id] = f ? {name:f.name, size:f.size, type:f.type} : null; // on stocke le méta simple
+      refreshButtons();
+    };
+    elInputs.appendChild(inp);
+    if (val && val.name) {
+      const p = document.createElement('div'); p.className='hint';
+      p.textContent = `Selected: ${val.name}`;
+      elInputs.appendChild(p);
+    }
+  }
+  else if (q.type === 'select') {
+    const sel = document.createElement('select');
+    const opt0 = document.createElement('option'); opt0.value=''; opt0.textContent='— Select —';
+    sel.appendChild(opt0);
+    (q.options||[]).forEach(o=>{
+      const op = document.createElement('option');
+      op.value = o; op.textContent = o;
+      sel.appendChild(op);
+    });
+    sel.value = val || '';
+    sel.onchange = () => { answers[q.id] = sel.value || undefined; refreshButtons(); };
+    elInputs.appendChild(sel);
+  }
+  else if (q.type === 'single') {
+    const wrap = document.createElement('div'); wrap.className='options';
+    (q.options||[]).forEach(o=>{
+      const row = document.createElement('label'); row.className='opt';
+      const r = document.createElement('input'); r.type='radio'; r.name=q.id; r.value=o;
+      r.checked = val === o;
+      r.onchange = ()=>{ answers[q.id]=o; refreshButtons(); };
+      const lab = document.createElement('label'); lab.textContent=o;
+      row.appendChild(r); row.appendChild(lab); wrap.appendChild(row);
+    });
+    elInputs.appendChild(wrap);
+  }
+  else if (q.type === 'multi') {
+    const current = Array.isArray(val) ? val.slice() : [];
+    const wrap = document.createElement('div'); wrap.className='options';
+    (q.options||[]).forEach(o=>{
+      const row = document.createElement('label'); row.className='opt multi';
+      const c = document.createElement('input'); c.type='checkbox'; c.value=o;
+      c.checked = current.includes(o);
+      c.onchange = ()=>{
+        const arr = new Set(Array.isArray(answers[q.id])?answers[q.id]:[]);
+        if (c.checked) arr.add(o); else arr.delete(o);
+        answers[q.id] = Array.from(arr);
+        refreshButtons();
+      };
+      const lab = document.createElement('label'); lab.textContent=o;
+      row.appendChild(c); row.appendChild(lab); wrap.appendChild(row);
+    });
+    elInputs.appendChild(wrap);
+    if (q.min) elHint.textContent = `Pick at least ${q.min}.`;
+  }
+
+  refreshButtons();
+}
+
+function isAnswered(q){
+  const v = answers[q.id];
+  if (q.type === 'multi') {
+    if (!Array.isArray(v)) return false;
+    if (q.min && v.length < q.min) return false;
+    return v.length > 0;
+  }
+  if (q.type === 'file') return !!(v && v.name);
+  return (v !== undefined && v !== null && String(v).trim() !== '');
+}
+
+function refreshButtons() {
+  btnPrev.disabled = (pos === 0);
+  const q = Q[flow[pos]];
+  btnNext.disabled = !!q.required && !isAnswered(q);
+}
+
+/* --- navigation --- */
+window.nextQ = function(){
+  // si on est sur la dernière, on bascule en résumé
+  if (pos < flow.length - 1) { pos++; render(); }
+  else { showSummary(); }
+};
+window.prevQ = function(){
+  if (pos > 0) { pos--; render(); }
+};
+
+/* --- résumé LP --- */
+function showSummary(){
+  // remplir à 100% la barre
+  elBar.style.width = '100%';
+
+  document.querySelector('.question-box').style.display='none';
+  document.querySelector('.nav-buttons').style.display='none';
+
+  const lp = window.MoMoLP.buildLovePassportSummary(answers);
+  const lpid = window.MoMoLP.generateLPID();
+
+  const box = document.createElement('div');
+  box.className = 'summary';
+  box.innerHTML = `<h3>Your Love Passport (preview)</h3>
+    <div class="row"><div class="k">LPID</div><div class="v">${lpid}</div></div>
+  `;
+
+  LP_IDS.forEach(id=>{
+    const v = lp[id];
+    if (!v) return;
+    const row = document.createElement('div'); row.className='row';
+    const key = document.createElement('div'); key.className='k'; key.textContent = id;
+    const val = document.createElement('div'); val.className='v';
+    val.textContent = Array.isArray(v) ? v.join(', ') : (typeof v==='object'? JSON.stringify(v): String(v));
+    row.appendChild(key); row.appendChild(val);
+    box.appendChild(row);
+  });
+
+  elSummary.innerHTML = '';
+  elSummary.appendChild(box);
+  elSummary.style.display='block';
+}
+
+/* --- démarrage --- */
+recomputeFlow();
+render();
 </script>
 
 </body>

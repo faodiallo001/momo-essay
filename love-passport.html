@@ -720,9 +720,8 @@ function showSummary(){
   document.getElementById('dl-pdf').onclick  = () => openPassportPrint(window.MoMoLP._lastLP || {});
   document.getElementById('dl-json').onclick = () => downloadJSON(window.MoMoLP._lastLP || {});
 }
-</script>
 
-  <script>
+
 function addDownloadButtons(){
   const box = document.getElementById('summary');
   if(!box || box.querySelector('#dl-row')) return; // déjà ajouté
@@ -839,7 +838,10 @@ function openPassportPrint(lp){
     </body></html>`;
   w.document.open(); w.document.write(html); w.document.close();
 }
+</script>
 
+<script>
+  
 function downloadJSON(obj){
   const data = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj,null,2));
   const a = document.createElement('a');

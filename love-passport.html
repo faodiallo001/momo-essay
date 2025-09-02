@@ -681,6 +681,9 @@ function showSummary(){
   const lp = window.MoMoLP.buildLovePassportSummary(answers);
   const lpid = window.MoMoLP.generateLPID();
 
+  // 🔴 sauvegarde pour les téléchargements
+  window.MoMoLP._lastLP = lp;
+
   const box = document.createElement('div');
   box.className = 'summary';
   box.innerHTML = `<h3>Your Love Passport (preview)</h3>
@@ -698,23 +701,27 @@ function showSummary(){
     box.appendChild(row);
   });
 
+  // 🔴 zone boutons de téléchargement
+  const actions = document.createElement('div');
+  actions.id = 'dl-row';
+  actions.className = 'share-actions';
+  actions.style.marginTop = '14px';
+  actions.innerHTML = `
+    <button class="btn" id="dl-pdf">Download Love Passport (PDF)</button>
+    <button class="btn secondary" id="dl-json">Download JSON Summary</button>
+  `;
+  box.appendChild(actions);
+
   elSummary.innerHTML = '';
   elSummary.appendChild(box);
   elSummary.style.display='block';
+
+  // 🔴 events
+  document.getElementById('dl-pdf').onclick  = () => openPassportPrint(window.MoMoLP._lastLP || {});
+  document.getElementById('dl-json').onclick = () => downloadJSON(window.MoMoLP._lastLP || {});
 }
-  /* --- démarrage --- */
-recomputeFlow();
-render();
 </script>
 
-<script>
-// Sauvegarde le LP pour le bouton
-window.MoMoLP = window.MoMoLP || {};
-MoMoLP._lastLP = lp;   // <-- lp = ton objet Love Passport Summary
-
-// Ajoute les boutons si pas déjà ajoutés
-addDownloadButtons();
-</script>
   <script>
 function addDownloadButtons(){
   const box = document.getElementById('summary');

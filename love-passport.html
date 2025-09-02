@@ -594,7 +594,6 @@ function render() {
       const f = inp.files && inp.files[0];
       answers[q.id] = f ? { name:f.name, size:f.size, type:f.type } : null; // méta simple
       refreshButtons();
-      // Affiche le nom sélectionné
       if (f) {
         const p = document.createElement('div'); p.className='hint';
         p.textContent = `Selected: ${f.name}`;
@@ -833,12 +832,10 @@ function openPassportPrint(lp){
       </div>
       <script>window.print()</script>
     </body></html>`;
-
-<script>
   w.document.open(); w.document.write(html); w.document.close();
 }
-  </script>
-<script>
+
+/* ---------- Téléchargement JSON ---------- */
 function downloadJSON(obj){
   const data = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj,null,2));
   const a = document.createElement('a');
@@ -849,16 +846,15 @@ function downloadJSON(obj){
   a.remove();
 }
 
-
-/* ---------- Boot ---------- */
-document.addEventListener('DOMContentLoaded', () => {
-  recomputeFlow();
-  render();
-});
+/* ---------- Boot robuste ---------- */
+function boot(){ recomputeFlow(); render(); }
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+}
 </script>
-
 </body>
 </html>
-
 
 

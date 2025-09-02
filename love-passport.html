@@ -370,6 +370,7 @@ const ASTRO = [
 ];
 
 /* ==== 1) QUESTIONS ==== */
+/* ==== 1) QUESTIONS (réécrites) ==== */
 const QUESTIONS = [
   // Identity & Basics
   { id:"fullName", type:"text", label:"What’s your full name?", required:true, placeholder:"First and last name" },
@@ -395,14 +396,17 @@ const QUESTIONS = [
     options:["Very tall (6’3+ / 1m90+)","Tall (above average)","Average height","Short (below average)","I don’t care about height"] },
   { id:"physicalType", type:"multi", label:"What’s your ideal physical look type? (Pick up to 3)", required:true, min:1, max:3,
     options:["Nordic / Scandinavian look","Mediterranean look","Eastern European look","Black / African descent","Arab / Middle Eastern","Asian (East or South Asian)","Latino / Latina","Mixed race","Someone that looks like me","I don’t care about physical type","I don’t have a type"] },
-  { id:"diet", type:"single", label:"How would you describe your food & diet lifestyle?", required:true,
-    options:["I eat everything","Halal","Vegetarian/Vegan","Pescatarian","Other"] },
+
+  // Diet (première personne, sans “Other”)
+  { id:"diet", type:"single", label:"Which best describes your diet?", required:true,
+    options:["I eat everything","I eat halal","I am vegan","I am pescatarian"] },
   { id:"dietPartner", type:"single", label:"Do you expect your partner to align with your diet?", required:true,
     options:["Yes, it matters","No, I don’t mind","It would be nice but not necessary"] },
+
   { id:"fitness", type:"single", label:"How active are you (fitness/sports)?", required:true,
     options:["Gym 3+ times/week","Active sometimes","Rarely","I don’t like exercise"] },
   { id:"hobbies", type:"multi", label:"What hobbies or activities do you enjoy most? (Pick up to 3)", required:true, min:1, max:3,
-    options:["Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering","Other"] },
+    options:["Gym / Fitness","Running","Pilates","Yoga","Hiking","Dancing","Reading","Cooking","Travel","Movies / Series","Gaming","Photography","Volunteering"] },
   { id:"sleep", type:"single", label:"How do you usually sleep?", required:true,
     options:["I usually sleep early (before 10–11pm)","I usually go to bed late (after midnight)","It changes depending on my days","I don’t have a stable sleep routine"] },
 
@@ -415,7 +419,7 @@ const QUESTIONS = [
 
   // Faith & Values
   { id:"religion", type:"single", label:"What’s your religion or spiritual belief?", required:true,
-    options:["Muslim (practicing)","Muslim (not practicing)","Christian (practicing)","Christian (not practicing)","Buddhist","Hindu","Vodun","Atheist","Other"] },
+    options:["Muslim (practicing)","Muslim (not practicing)","Christian (practicing)","Christian (not practicing)","Buddhist","Hindu","Vodun","Atheist"] },
   { id:"faithPartner", type:"single", label:"Is it important that your partner shares your faith?", required:true, options:["Yes","No","Maybe"] },
   { id:"culturePartner", type:"single", label:"Do you prefer same culture or open to differences?", required:true, options:["I prefer same culture","I’m open to different cultures","Doesn’t matter to me"] },
 
@@ -429,20 +433,44 @@ const QUESTIONS = [
     options:["I don’t cook and I don’t want to","I don’t cook but willing to learn","I can cook basics","I’m a confident cook"] },
 
   // Relationship & Intimacy
-  { id:"loyalty", type:"single", label:"Which relationship model feels right?", required:true, options:["Monogamy only","Polygamy only","Open relationship"] },
+  { id:"loyalty", type:"single", label:"Which relationship style fits you?", required:true,
+    options:["Monogamy only","Polygamy only","Open relationship"] },
+
   { id:"sexImportance", type:"single", label:"How important is sex?", required:true, options:["Very important","Important but not top priority","Not so important"] },
   { id:"pace", type:"single", label:"What pace of intimacy feels natural?", required:true, options:["Very slowly","Normal rhythm","Fast (early if chemistry)","Only after marriage"] },
-  { id:"feelLoved", type:"multi", label:"How do you feel most loved? (pick ≥ 2)", required:true, min:2, options:["Words of affirmation","Quality time","Affection (touch)","Gifts","Money support","Helpful actions","Being prioritized"] },
-  { id:"showLove", type:"multi", label:"How do you usually show love? (pick ≥ 2)", required:true, min:2, options:["I give gifts","I give money","I plan quality time","I’m affectionate","I use loving words","I do helpful actions"] },
 
-  // Personality & Energy
-  { id:"traits", type:"multi", label:"Which words describe you best?", required:true, min:1,
-    options:["Shy","Funny","Adventurous","Romantic","Calm","Energetic","Ambitious","Serious","Optimistic","Patient","Faithful","Generous","Impatient","Other"] },
+  // >>> Phrases complètes (réception de l’amour)
+  { id:"feelLoved", type:"multi", label:"I feel most loved when… (pick ≥ 2)", required:true, min:2,
+    options:[
+      "I receive words of affirmation",
+      "We spend quality time together",
+      "You are affectionate with me",
+      "i receive money",
+      "You give me thoughtful gifts",
+      "You do things to help me (acts of service)",
+      "You make me a priority and show up for me"
+    ] },
+
+  // >>> Phrases en “je” (comment je montre l’amour)
+  { id:"showLove", type:"multi", label:"How I usually show love (pick ≥ 2)", required:true, min:2,
+    options:[
+      "I give thoughtful gifts",
+      "I support financially when I can",
+      "I plan quality time",
+      "I give money",
+      "I’m affectionate",
+      "I use loving/affirming words",
+      "I do acts of service"
+    ] },
+
+  // Personality & Energy (sans “Other”, plus “Your personality”)
+  { id:"traits", type:"multi", label:"Your personality (pick ≥ 1)", required:true, min:1,
+    options:["Shy","Funny","Adventurous","Romantic","Calm","Energetic","Ambitious","Serious","Optimistic","Patient","Faithful","Generous","Impatient"] },
   { id:"humor", type:"single", label:"What kind of humor makes you laugh?", required:true,
-    options:["Sarcasm","Dry humor","Slapstick","Playful/goofy","Intellectual","Other"] },
+    options:["Sarcasm","Dry humor","Slapstick","Playful/goofy","Intellectual"] },
   { id:"energy", type:"single", label:"Are you introvert, extrovert, or ambivert?", required:true, options:["Introvert","Extrovert","Ambivert"] },
-  { id:"partnerQualities", type:"multi", label:"What qualities do you look for in a partner? (pick up to 3)", required:true, min:1, max:3,
-    options:["Kindness","Loyalty","Ambition","Humor","Religious alignment","Family-oriented","Confidence","Other"] },
+  { id:"partnerQualities", type:"multi", label:"Top qualities you want in a partner (pick up to 3)", required:true, min:1, max:3,
+    options:["Kindness","Loyalty","Ambition","Humor","Religious alignment","Family-oriented","Confidence"] },
 
   // Ambition & Vision
   { id:"lifePath", type:"single", label:"How would you describe your life path?", required:true, options:["Ambitious and building","Stable and comfortable","Still figuring it out"] },
@@ -461,7 +489,15 @@ const QUESTIONS = [
 
   // Social Life & Deal-Breakers
   { id:"dealBreakers", type:"multi", label:"I cannot accept… (pick ≥ 5)", required:true, min:5,
-    options:["Someone obsessed with politics","Cheating / infidelity","Religion not aligned with mine","Tries to change my faith","Jealous/possessive/controlling","Violence","Explosive temper","Disrespects service workers","Already has children","Has children with different partners","Partner owns pets","Big income gap (less)","Big income gap (more)","Shares my private life online","Doesn’t take care of health","Not family-oriented","Lives with family/roommates","Smokes or uses drugs","Any addiction","Has a criminal record","Not financially stable","Doesn’t like to communicate openly","Doesn’t chase woman/man"] }
+    options:[
+      "Someone obsessed with politics","Cheating / infidelity","Religion not aligned with mine","Tries to change my faith",
+      "Jealous/possessive/controlling","Violence","Explosive temper","Disrespects service workers",
+      "Already has children","Has children with different partners","Partner owns pets",
+      "Big income gap (less)","Big income gap (more)","Shares my private life online",
+      "Doesn’t take care of health","Not family-oriented","Lives with family/roommates",
+      "Smokes or uses drugs","Any addiction","Has a criminal record",
+      "Not financially stable","Doesn’t like to communicate openly","Doesn’t chase woman/man"
+    ] }
 ];
 
 /* ==== 2) LP FIELD IDS ==== */

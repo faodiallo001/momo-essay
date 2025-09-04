@@ -227,46 +227,53 @@ toggleView.onclick=()=>{document.body.classList.toggle('viewall'); toggleView.te
 document.getElementById('dl').onclick = async () => {
   const { jsPDF } = window.jspdf;
 
-  // Attendre les polices pour un rendu net
-  if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch(e){} }
-
-  // A6 dimensions
+  // Géométrie A6
   const MM_TO_PT = 72 / 25.4;
   const W_MM = 105, H_MM = 148;
   const W_PT = W_MM * MM_TO_PT;
   const H_PT = H_MM * MM_TO_PT;
 
-  // Résolution cible ~300 DPI
-  const DPI = 300;
-  const IN_PER_MM = 1 / 25.4;
-  const W_PX = Math.round(W_MM * IN_PER_MM * DPI); // ~1240 px
-  const H_PX = Math.round(H_MM * IN_PER_MM * DPI); // ~1748 px
+  // Pixels HD (~300 dpi)
+  const W_PX = 1240;
+  const H_PX = 1748;
 
-  const pdf = new jsPDF({ unit: 'pt', format: [W_PT, H_PT], orientation: 'portrait' });
+  const pdf = new jsPDF({ unit: 'pt', format: [W_PT, H_PT] });
 
-  for (let k = 0; k < pages.length; k++) {
-    // Capture haute résolution
-    const canvas = await html2canvas(pages[k], {
-      backgroundColor: '#000',
+  async function renderPage(el) {
+    const clone = el.cloneNode(true);
+    clone.style.width = W_PX + "px";
+    clone.style.height = H_PX + "px";
+    clone.style.position = "fixed";
+    clone.style.left = "-20000px";
+    clone.style.top = "0";
+    document.body.appendChild(clone);
+
+    const canvas = await html2canvas(clone, {
+      backgroundColor: "#000",
       useCORS: true,
-      allowTaint: false,
+      scale: 1, // capture 1:1 car on force déjà W×H HD
       width: W_PX,
-      height: H_PX,
-      windowWidth: W_PX,
-      windowHeight: H_PX,
-      scale: 1 // on fixe width/height directement
+      height: H_PX
     });
 
-    const img = canvas.toDataURL('image/jpeg', 0.98); // qualité élevée
-    if (k > 0) pdf.addPage([W_PT, H_PT], 'portrait');
-    pdf.addImage(img, 'JPEG', 0, 0, W_PT, H_PT);
+    document.body.removeChild(clone);
+    return canvas.toDataURL("image/jpeg", 0.98);
   }
 
-  pdf.save('Love_Passport_A6_HD.pdf');
+  const els = document.querySelectorAll(".page");
+  for (let k = 0; k < els.length; k++) {
+    const img = await renderPage(els[k]);
+    if (k > 0) pdf.addPage([W_PT, H_PT]);
+    pdf.addImage(img, "JPEG", 0, 0, W_PT, H_PT);
+  }
+
+  pdf.save("Love_Passport_A6_HD.pdf");
 };
+
 </script>
 </body>
 </html>
+
 
 
 

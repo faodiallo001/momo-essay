@@ -3,54 +3,89 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Love Passport — A6 (No Boundaries)</title>
+<title>Love Passport — A6 (v3 Seamless)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root{ --bg:#0b0b0d; --text:#e9e2db; --muted:#c9c2bb; --rose:#ff3b30; }
 @page { size:A6; margin:0; }
 html,body{background:#0b0b0d;margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;overflow-x:hidden}
+
+/* Top controls */
 .controls{position:sticky;top:0;z-index:20;background:linear-gradient(#0b0b0d,rgba(11,11,13,.5));padding:10px 12px;display:flex;gap:8px;justify-content:center;border-bottom:1px solid rgba(255,255,255,.06)}
 .btn{background:transparent;color:var(--rose);border:1px solid var(--rose);padding:9px 12px;border-radius:999px;font-weight:700;letter-spacing:.02em;cursor:pointer;transition:.2s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 0 18px rgba(255,59,48,.25);background:rgba(255,59,48,.08)}
+
+/* Viewport (1 page at a time) */
 .viewport{max-width:360px;margin:16px auto;padding:0 8px;position:relative}
-.page{position:relative;width:297px;height:420px;margin:0 auto;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06);isolation:isolate;display:none}
+.page{position:relative;width:297px;height:420px;margin:10px auto;background:#000;border-radius:12px;overflow:hidden;
+      box-shadow:0 12px 28px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06);isolation:isolate;display:none}
 .page.active{display:block}
+
+/* View All mode */
 .viewall .page{display:inline-block;margin:8px}
 .viewall .viewport{max-width:1120px}
 .gallery{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.counter{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
-.nav{display:flex;gap:8px;justify-content:center;margin:6px 0}
+
+/* Footer nav */
+.counter{font-size:12px;color:var(--muted);text-align:center;margin:8px 0 10px}
+.nav{display:flex;gap:8px;justify-content:center;margin:8px 0 16px}
 .nav .btn.small{padding:6px 10px;font-weight:600}
-@media print{ body{background:#000}.controls,.nav,.counter{display:none!important}.viewport{max-width:none}.gallery{display:block}.page{display:block;width:105mm;height:148mm;border-radius:0;box-shadow:none;page-break-after:always}}
+
+/* Print */
+@media print{
+  body{background:#000}
+  .controls,.nav,.counter{display:none!important}
+  .viewport{max-width:none}
+  .gallery{display:block}
+  .page{display:block;width:105mm;height:148mm;border-radius:0;box-shadow:none;page-break-after:always;margin:0 auto}
+}
+
+/* Covers (glossy) */
 .cover,.back{
   background:
     radial-gradient(120% 120% at 110% -10%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 40%),
     linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,.08) 60%, rgba(255,255,255,0) 100%),
     #020203;
 }
-.pad{position:relative;z-index:1;padding:22px;height:100%;display:flex;flex-direction:column;justify-content:space-between}
+
+/* Stable internal grid: top | content | bottom */
+.pad{
+  position:relative; z-index:1; padding:20px 20px 18px;
+  height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:12px;
+}
+
 .title{font-family:"Playfair Display",serif;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 .title.red{color:var(--rose);text-shadow:0 0 26px rgba(255,59,48,.25)}
-.lp-id{font-size:12px;letter-spacing:.2em;color:var(--muted);text-align:center}
+.lp-id{font-size:12px;letter-spacing:.02em;color:var(--muted);text-align:center}
 .lp-id .code{color:var(--text);font-weight:600;letter-spacing:.06em}
-.center{text-align:center}
+
 .inside{background:#050506}
-.section-title{font-family:"Playfair Display",serif;font-size:16px;font-weight:800;letter-spacing:.06em;margin:0 0 10px;color:var(--rose)}
-.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;font-size:12px}
+.section-title{font-family:"Playfair Display",serif;font-size:16px;font-weight:800;letter-spacing:.06em;margin:0;color:var(--rose)}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;font-size:12px}
 .k{color:var(--muted)} .v{color:var(--text);font-weight:600}
+.summary{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));
+         padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.06);margin:2px 0 0}
 .badge{display:inline-block;padding:6px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:11px;margin:4px 6px 0 0;background:rgba(255,255,255,.03)}
-.summary{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.06)}
-.row{display:flex;gap:14px;align-items:center}
+.row{display:flex;gap:12px;align-items:center}
 .avatar{width:86px;height:86px;border-radius:10px;background:#111;object-fit:cover;border:1px solid rgba(255,255,255,.12);box-shadow:0 6px 16px rgba(0,0,0,.45)}
 .muted{color:var(--muted);font-size:12px}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
-.wm{position:absolute;inset:0;opacity:.12}
-.wm svg{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);filter:blur(.3px)}
+
+/* Watermark (very subtle, does not interfere) */
+.wm{ position:absolute; inset:0; pointer-events:none; opacity:.08; }
+.wm svg{ position:absolute; left:50%; top:48%; transform:translate(-50%,-50%); filter:blur(.4px); }
+
+/* Optional hearts layer (kept for toggle) */
 .hearts{position:absolute;inset:0;overflow:hidden;z-index:0;opacity:.28}
 .heart{position:absolute;width:12px;height:12px;background:var(--rose);transform:rotate(45deg);border-radius:2px;box-shadow:0 0 12px rgba(255,59,48,.35);animation:floatUp 12s linear infinite}
 .heart::before,.heart::after{content:"";position:absolute;width:12px;height:12px;background:var(--rose);border-radius:50%}
 .heart::before{left:-6px;top:0}.heart::after{top:-6px;left:0}
 @keyframes floatUp{0%{transform:translateY(110%) rotate(45deg) scale(.7);opacity:0}10%{opacity:.45}100%{transform:translateY(-20%) rotate(45deg) scale(1.05);opacity:0}}
+
+/* Cover heart */
 svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
 </style>
 </head>
@@ -68,17 +103,21 @@ svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,
   <div class="gallery" id="gallery">
     <!-- 1 — COVER -->
     <section class="page cover active" data-page="1">
-      <div class="pad" style="justify-content:center;text-align:center;z-index:2">
-        <h1 class="title red" style="font-size:22px;margin:0 0 18px;">LOVE PASSPORT</h1>
-        <svg class="heart-lg" viewBox="0 0 200 200" aria-hidden="true">
-          <defs>
-            <radialGradient id="g" cx="60%" cy="35%" r="60%">
-              <stop offset="0%" stop-color="#ff7a70"/><stop offset="40%" stop-color="#ff3b30"/><stop offset="85%" stop-color="#a91510"/>
-            </radialGradient>
-          </defs>
-          <path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="url(#g)"/>
-        </svg>
-        <p class="lp-id" style="margin-top:18px;">LPID: <span class="code mono" id="lp-id">LP-23A9-7XQ4</span></p>
+      <div class="pad">
+        <div></div>
+        <div style="display:grid;place-items:center;gap:18px;text-align:center">
+          <h1 class="title red" style="font-size:22px;margin:0;">LOVE PASSPORT</h1>
+          <svg class="heart-lg" viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <radialGradient id="g" cx="60%" cy="35%" r="60%">
+                <stop offset="0%" stop-color="#ff7a70"/><stop offset="40%" stop-color="#ff3b30"/><stop offset="85%" stop-color="#a91510"/>
+              </radialGradient>
+            </defs>
+            <path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="url(#g)"/>
+          </svg>
+          <p class="lp-id">LPID: <span class="code mono" id="lp-id">LP-23A9-7XQ4</span></p>
+        </div>
+        <div></div>
       </div>
     </section>
 
@@ -90,6 +129,8 @@ svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,
       <div class="pad">
         <div>
           <h2 class="section-title">Profile & Identity</h2>
+        </div>
+        <div>
           <div class="row" style="margin:6px 0 12px">
             <img class="avatar" id="photo" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop" alt="">
             <div>
@@ -107,8 +148,11 @@ svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,
             <div class="k">Marital</div><div class="v" id="marital">Single</div>
             <div class="k">Kids</div><div class="v" id="kids">No</div>
           </div>
+          <div class="summary" style="margin-top:10px">
+            Self-intro: <span id="bio">Ambitious, kind, and family-oriented.</span>
+          </div>
         </div>
-        <div class="summary">Self-intro: <span id="bio">Ambitious, kind, and family-oriented.</span></div>
+        <div></div>
       </div>
     </section>
 
@@ -116,8 +160,8 @@ svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,
     <section class="page inside" data-page="3">
       <div class="wm"><svg viewBox="0 0 200 200" width="160" height="160"><path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="#ff3b30"/></svg></div>
       <div class="pad">
+        <div><h2 class="section-title">Values & Lifestyle</h2></div>
         <div>
-          <h2 class="section-title">Values & Lifestyle</h2>
           <div class="kv">
             <div class="k">Faith</div><div class="v" id="faith">Central</div>
             <div class="k">Prayer</div><div class="v" id="prayer">Daily</div>
@@ -126,14 +170,15 @@ svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,
             <div class="k">Smoking</div><div class="v" id="smoke">No</div>
             <div class="k">Alcohol</div><div class="v" id="alcohol">No</div>
           </div>
-        </div>
-        <div style="margin-top:12px">
-          <h3 class="section-title" style="margin:0">Hobbies</h3>
-          <div id="hobbies">
-            <span class="badge">Working</span><span class="badge">Shopping</span><span class="badge">Social media</span>
-            <span class="badge">Music</span><span class="badge">Travel</span>
+          <div style="margin-top:12px">
+            <h3 class="section-title" style="margin:0">Hobbies</h3>
+            <div id="hobbies">
+              <span class="badge">Working</span><span class="badge">Shopping</span><span class="badge">Social media</span>
+              <span class="badge">Music</span><span class="badge">Travel</span>
+            </div>
           </div>
         </div>
+        <div></div>
       </div>
     </section>
 
@@ -141,11 +186,11 @@ svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,
     <section class="page inside" data-page="4">
       <div class="wm"><svg viewBox="0 0 200 200" width="160" height="160"><path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="#ff3b30"/></svg></div>
       <div class="pad">
+        <div><h2 class="section-title">Deal Breakers</h2></div>
         <div>
-          <h2 class="section-title">Deal Breakers</h2>
           <div class="summary" id="dealBreakers">Smokes, never exercises, heavy drinker, disrespects faith, constant jealousy, financial irresponsibility.</div>
         </div>
-        <div style="margin-top:auto">
+        <div>
           <div class="badge">LP • 2025</div>
           <div class="badge">Verified</div>
           <div class="badge">MoMo</div>
@@ -157,30 +202,35 @@ svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,
     <section class="page inside" data-page="5">
       <div class="wm"><svg viewBox="0 0 200 200" width="160" height="160"><path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="#ff3b30"/></svg></div>
       <div class="pad">
+        <div><h2 class="section-title">Personal Notes</h2></div>
         <div>
-          <h2 class="section-title">Personal Notes</h2>
           <div class="summary" id="notes">“We both want a peaceful, faith-centered home. Sundays = family; Fridays = date night.”</div>
-        </div>
-        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end">
-          <div>
-            <h3 class="section-title" style="margin:0 0 6px">Signature</h3>
-            <div style="height:36px;border-bottom:1px solid rgba(255,255,255,.25)"></div>
-            <div class="muted" style="margin-top:4px">Signed on: <span id="signedOn">2025-09-04</span></div>
+          <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end">
+            <div>
+              <h3 class="section-title" style="margin:0 0 6px">Signature</h3>
+              <div style="height:36px;border-bottom:1px solid rgba(255,255,255,.25)"></div>
+              <div class="muted" style="margin-top:4px">Signed on: <span id="signedOn">2025-09-04</span></div>
+            </div>
+            <div>
+              <h3 class="section-title" style="margin:0 0 6px">Share</h3>
+              <div style="width:72px;height:72px;background:linear-gradient(135deg,#111,#222);border:1px solid rgba(255,255,255,.15);border-radius:6px;display:grid;place-items:center;font-size:10px;color:#c9c2bb">QR / ID</div>
+              <div class="muted" style="margin-top:4px">LPID: <span class="mono" id="lpIdShare">LP-23A9-7XQ4</span></div>
+            </div>
           </div>
-          <div>
-            <h3 class="section-title" style="margin:0 0 6px">Share</h3>
-            <div style="width:72px;height:72px;background:linear-gradient(135deg,#111,#222);border:1px solid rgba(255,255,255,.15);border-radius:6px;display:grid;place-items:center;font-size:10px;color:#c9c2bb">QR / ID</div>
-            <div class="muted" style="margin-top:4px">LPID: <span class="mono" id="lpIdShare">LP-23A9-7XQ4</span></div>
-          </div>
         </div>
+        <div></div>
       </div>
     </section>
 
     <!-- 6 — BACK COVER -->
     <section class="page back" data-page="6">
-      <div class="pad" style="justify-content:center;text-align:center">
-        <p class="title red" style="font-size:14px;letter-spacing:.15em;margin:0 0 6px">Visit: www.matchormoveon.com</p>
-        <p class="lp-id" style="margin:0">© Match or Move On • Generated by AI</p>
+      <div class="pad">
+        <div></div>
+        <div style="text-align:center">
+          <p class="title red" style="font-size:14px;letter-spacing:.15em;margin:0 0 6px">Visit: www.matchormoveon.com</p>
+          <p class="lp-id" style="margin:0">© Match or Move On • Generated by AI</p>
+        </div>
+        <div></div>
       </div>
     </section>
   </div>
@@ -192,28 +242,63 @@ svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,
   </div>
 </div>
 
+<!-- Export libs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+
 <script>
 const pages = Array.from(document.querySelectorAll('.page'));
 let idx = 0;
 const count = document.getElementById('count');
 const viewport = document.getElementById('viewport');
 
-function show(i){ idx=(i+pages.length)%pages.length; pages.forEach((p,k)=>p.classList.toggle('active',k===idx)); count.textContent=`Page ${idx+1} of ${pages.length}`;}
+function show(i){
+  idx=(i+pages.length)%pages.length;
+  pages.forEach((p,k)=>p.classList.toggle('active',k===idx));
+  count.textContent=`Page ${idx+1} of ${pages.length}`;
+}
 show(0);
+
+// arrows
 document.getElementById('prev').onclick=()=>show(idx-1);
 document.getElementById('next').onclick=()=>show(idx+1);
 document.getElementById('p2').onclick=()=>show(idx-1);
 document.getElementById('n2').onclick=()=>show(idx+1);
+
+// swipe
 let sx=0; viewport.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
 viewport.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40){dx<0?show(idx+1):show(idx-1)}},{passive:true});
-document.getElementById('toggleHearts').onclick=()=>{document.querySelectorAll('.hearts').forEach(h=>h.style.display=(h.style.display==='none'?'block':'none'));};
-let viewAll=false; document.getElementById('toggleView').onclick=()=>{viewAll=!viewAll; document.body.classList.toggle('viewall',viewAll); document.getElementById('toggleView').textContent=viewAll?'View One-by-One':'View All'; if(!viewAll) show(idx);};
-document.getElementById('dl').onclick=async()=>{const {jsPDF}=window.jspdf; const pdf=new jsPDF({unit:'mm',format:'a6',orientation:'portrait'}); for(let i=0;i<pages.length;i++){const canvas=await html2canvas(pages[i],{scale:2,backgroundColor:'#000'}); const img=canvas.toDataURL('image/jpeg',0.92); if(i>0) pdf.addPage('a6','portrait'); pdf.addImage(img,'JPEG',0,0,105,148);} pdf.save('Love_Passport_A6.pdf');};
+
+// hearts toggle
+document.getElementById('toggleHearts').onclick=()=>{
+  document.querySelectorAll('.hearts').forEach(h=>h.style.display=(h.style.display==='none'?'block':'none'));
+};
+
+// view all toggle
+let viewAll=false;
+document.getElementById('toggleView').onclick=()=>{
+  viewAll=!viewAll;
+  document.body.classList.toggle('viewall',viewAll);
+  document.getElementById('toggleView').textContent = viewAll ? 'View One-by-One' : 'View All';
+  if(!viewAll) show(idx);
+};
+
+// PDF export
+document.getElementById('dl').onclick=async()=>{
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({unit:'mm',format:'a6',orientation:'portrait'});
+  for(let i=0;i<pages.length;i++){
+    const canvas=await html2canvas(pages[i],{scale:2,backgroundColor:'#000'});
+    const img=canvas.toDataURL('image/jpeg',0.92);
+    if(i>0) pdf.addPage('a6','portrait');
+    pdf.addImage(img,'JPEG',0,0,105,148);
+  }
+  pdf.save('Love_Passport_A6.pdf');
+};
 </script>
 </body>
 </html>
+
 
 
 

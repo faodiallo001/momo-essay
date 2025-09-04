@@ -1,1 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Love Passport — A6 Template</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0b0d;
+    --text:#e9e2db;
+    --muted:#c9c2bb;
+    --rose:#ff3b30; /* Rouge site */
+    --shine:#ffffff;
+    --glass:rgba(255,255,255,.06);
+  }
+
+  /* === Page sizing (A6 = 105 x 148 mm) === */
+  @page { size: A6; margin: 0; }
+  html,body{background:#0b0b0d;margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  .book {
+    display:grid;
+    gap:16px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    padding:24px;
+    max-width:1120px;
+    margin:0 auto;
+  }
+  .page {
+    position:relative;
+    width: 297px;   /* ≈ A6 @ 72–96dpi (preview only) */
+    height: 420px;  /* preview height */
+    background:#000;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:
+      0 12px 28px rgba(0,0,0,.55),
+      inset 0 0 0 1px rgba(255,255,255,.06);
+    isolation:isolate;
+  }
+  /* Print: one page per sheet, full-bleed */
+  @media print {
+    body { background:#000; }
+    .book { display:block; padding:0; }
+    .page { width:105mm; height:148mm; border-radius:0; box-shadow:none; page-break-after:always; }
+    .controls { display:none !important; }
+  }
+
+  /* === Shiny black “3D” cover effect === */
+  .cover, .back {
+    background:
+      radial-gradient(120% 120% at 110% -10%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 40%),
+      linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,.08) 60%, rgba(255,255,255,0) 100%),
+      #020203;
+  }
+  .cover::after, .back::after{
+    /* glossy streak */
+    content:"";
+    position:absolute; inset:-30% -40% auto auto;
+    width:60%; height:160%;
+    transform:rotate(18deg);
+    background:linear-gradient( to right, rgba(255,255,255,.02), rgba(255,255,255,.22), rgba(255,255,255,.02) );
+    filter: blur(6px);
+    mix-blend-mode:screen; opacity:.65; pointer-events:none;
+  }
+
+  /* Floating subtle hearts (can be reused from site if needed) */
+  .hearts {
+    position:absolute; inset:0; overflow:hidden; z-index:0; opacity:.35;
+  }
+  .heart {
+    position:absolute; width:12px; height:12px;
+    background: var(--rose);
+    transform: rotate(45deg);
+    border-radius:2px;
+    box-shadow: 0 0 12px rgba(255,59,48,.35);
+    animation: floatUp 12s linear infinite;
+  }
+  .heart::before, .heart::after{
+    content:""; position:absolute; width:12px; height:12px; background:var(--rose); border-radius:50%;
+  }
+  .heart::before{ left:-6px; top:0; }
+  .heart::after{ top:-6px; left:0; }
+  @keyframes floatUp {
+    0% { transform: translateY(110%) rotate(45deg) scale(.7); opacity:.0; }
+    10%{ opacity:.5; }
+    100%{ transform: translateY(-20%) rotate(45deg) scale(1.05); opacity:0; }
+  }
+
+  /* Utility to sprinkle multiple hearts */
+  .hearts .heart:nth-child(1){ left:8%;  animation-duration:14s; animation-delay: -2s; }
+  .hearts .heart:nth-child(2){ left:22%; animation-duration:11s; animation-delay: -6s; }
+  .hearts .heart:nth-child(3){ left:37%; animation-duration:13s; animation-delay: -9s; }
+  .hearts .heart:nth-child(4){ left:56%; animation-duration:12s; animation-delay: -3s; }
+  .hearts .heart:nth-child(5){ left:74%; animation-duration:15s; animation-delay:-10s; }
+  .hearts .heart:nth-child(6){ left:89%; animation-duration:12s; animation-delay: -1s; }
+
+  /* === Content blocks === */
+  .pad { position:relative; z-index:1; padding:22px; height:100%; display:flex; flex-direction:column; justify-content:space-between; }
+
+  .title { font-family:"Playfair Display", serif; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+  .title.red { color:var(--rose); text-shadow: 0 0 26px rgba(255,59,48,.25); }
+
+  /* Cover layout */
+  .cover .center {
+    display:grid; place-items:center; gap:16px; text-align:center; margin-top:44px;
+  }
+  .big-heart {
+    width:140px; aspect-ratio:1/1; position:relative; display:inline-block;
+    transform: rotate(45deg);
+    background: radial-gradient(60% 60% at 70% 30%, #ff7a70 0%, #ff3b30 35%, #a91510 70%);
+    filter: drop-shadow(0 12px 24px rgba(255,59,48,.35));
+    border-radius:12px;
+  }
+  .big-heart::before, .big-heart::after{
+    content:""; position:absolute; width:140px; height:140px; background:inherit; border-radius:50%;
+  }
+  .big-heart::before{ left:-70px; top:0; }
+  .big-heart::after { top:-70px; left:0; }
+
+  .lp-id { font-size:12px; letter-spacing:.2em; color:var(--muted); text-align:center; opacity:.9; }
+  .lp-id .code { color:var(--text); font-weight:600; letter-spacing:.06em; }
+
+  /* Inside pages shared */
+  .inside { background: #050506; }
+  .inside .pad{ padding:20px 18px; }
+
+  .section-title {
+    font-family:"Playfair Display", serif; font-size:16px; font-weight:800; letter-spacing:.06em;
+    margin:0 0 10px; color:var(--rose);
+  }
+  .kv {
+    display:grid; grid-template-columns: 1fr 1fr; gap:10px 14px; font-size:12px;
+  }
+  .kv .k { color:var(--muted); }
+  .kv .v { color:var(--text); font-weight:600; }
+
+  .badge {
+    display:inline-block; padding:6px 10px; border:1px solid rgba(255,255,255,.12);
+    border-radius:999px; font-size:11px; margin:4px 6px 0 0; background:rgba(255,255,255,.03);
+  }
+
+  .summary {
+    margin-top:auto; font-size:12px; line-height:1.5; color:var(--text);
+    background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+    padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,.06);
+  }
+
+  .score {
+    font-weight:800; font-size:28px; letter-spacing:.04em; color:#fff; text-shadow:0 0 18px rgba(255,59,48,.35);
+  }
+  .meter {
+    height:8px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; margin-top:6px;
+  }
+  .meter > i{
+    display:block; height:100%; width:72%; background:linear-gradient(90deg, #7a1111, var(--rose));
+    box-shadow:0 0 14px rgba(255,59,48,.45) inset;
+  }
+
+  /* Back cover “seal” */
+  .seal {
+    margin:auto; display:grid; place-items:center; gap:10px; text-align:center;
+  }
+  .seal .ring{
+    width:140px; height:140px; border-radius:50%;
+    background:
+      radial-gradient(90px 90px at 50% 50%, rgba(255,255,255,.18), rgba(255,255,255,0) 60%),
+      radial-gradient(60px 60px at 40% 30%, rgba(255,255,255,.12), rgba(255,255,255,0) 60%),
+      conic-gradient(from 0deg, rgba(255,255,255,.12), rgba(255,255,255,0) 120deg, rgba(255,255,255,.18), rgba(255,255,255,0));
+    border:1px solid rgba(255,255,255,.12);
+    position:relative;
+  }
+  .seal .ring::after{
+    content:"❤";
+    position:absolute; inset:0; display:grid; place-items:center; color:var(--rose);
+    font-size:44px; text-shadow:0 0 24px rgba(255,59,48,.4);
+  }
+  .footer-note{ font-size:10px; color:var(--muted); text-align:center; }
+
+  /* Controls */
+  .controls{ position:sticky; top:0; z-index:10; background:linear-gradient(#0b0b0d, rgba(11,11,13,.5)); padding:12px 16px; display:flex; gap:10px; justify-content:center; border-bottom:1px solid rgba(255,255,255,.06); }
+  .btn{
+    background:transparent; color:var(--rose); border:1px solid var(--rose); padding:10px 14px;
+    border-radius:999px; font-weight:700; letter-spacing:.02em; cursor:pointer;
+    transition:.2s transform,.2s box-shadow,.2s background;
+  }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 0 18px rgba(255,59,48,.25); background:rgba(255,59,48,.08); }
+  .btn:active{ transform:translateY(0); }
+
+  .avatar{
+    width:86px; height:86px; border-radius:10px; background:#111; object-fit:cover; border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 6px 16px rgba(0,0,0,.45);
+  }
+  .row{ display:flex; gap:14px; align-items:center; }
+  .muted{ color:var(--muted); font-size:12px; }
+  .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button class="btn" id="dl">Download Love Passport (A6 PDF)</button>
+  <button class="btn" id="toggleHearts">Toggle Hearts</button>
+</div>
+
+<div class="book" id="book">
+
+  <!-- PAGE 1: COVER -->
+  <section class="page cover" data-page="1">
+    <div class="hearts" aria-hidden="true">
+      <i class="heart"></i><i class="heart"></i><i class="heart"></i>
+      <i class="heart"></i><i class="heart"></i><i class="heart"></i>
+    </div>
+    <div class="pad">
+      <div></div>
+      <div class="center">
+        <h1 class="title red" style="font-size:22px;margin:0;">LOVE PASSPORT</h1>
+        <span class="big-heart"></span>
+      </div>
+      <p class="lp-id">LPID: <span class="code mono" id="lp-id">LP-23A9-7XQ4</span></p>
+    </div>
+  </section>
+
+  <!-- PAGE 2: PROFILE -->
+  <section class="page inside" data-page="2">
+    <div class="hearts" aria-hidden="true">
+      <i class="heart"></i><i class="heart"></i><i class="heart"></i>
+    </div>
+    <div class="pad">
+      <div>
+        <h2 class="section-title">Profile & Identity</h2>
+        <div class="row" style="margin:6px 0 12px">
+          <img class="avatar" id="photo" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop" alt="">
+          <div>
+            <div style="font-weight:800;font-size:18px" id="fullName">Amina K.</div>
+            <div class="muted" id="ageCountry">25 • Brazil</div>
+            <div class="badge mono" id="religion">Muslim (practicing)</div>
+          </div>
+        </div>
+        <div class="kv">
+          <div class="k">Languages</div><div class="v" id="langs">English, French, Portuguese</div>
+          <div class="k">Origin</div><div class="v" id="origin">Benin</div>
+          <div class="k">Lives In</div><div class="v" id="residency">São Paulo</div>
+          <div class="k">Diet</div><div class="v" id="diet">No pork</div>
+          <div class="k">Marital</div><div class="v" id="marital">Single</div>
+          <div class="k">Kids</div><div class="v" id="kids">No</div>
+        </div>
+      </div>
+      <div class="summary">
+        Short self-intro: <span id="bio">Ambitious, kind, and family-oriented. Looking for a grounded partner who values faith and growth.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 3: LIFESTYLE & VALUES -->
+  <section class="page inside" data-page="3">
+    <div class="hearts" aria-hidden="true">
+      <i class="heart"></i><i class="heart"></i><i class="heart"></i>
+    </div>
+    <div class="pad">
+      <div>
+        <h2 class="section-title">Lifestyle & Values</h2>
+        <div class="kv">
+          <div class="k">Work Style</div><div class="v" id="workStyle">Hard-working, loves building</div>
+          <div class="k">Fitness</div><div class="v" id="fitness">Gym 3x/week</div>
+          <div class="k">Politics</div><div class="v" id="politics">Not into politics</div>
+          <div class="k">Financial View</div><div class="v" id="finance">Saver • Builder</div>
+          <div class="k">Prayer</div><div class="v" id="prayer">Daily</div>
+          <div class="k">Smoking/Alcohol</div><div class="v" id="smokeAlcohol">No/No</div>
+        </div>
+
+        <h3 class="section-title" style="margin-top:14px">Hobbies</h3>
+        <div id="hobbies">
+          <span class="badge">Working</span>
+          <span class="badge">Shopping</span>
+          <span class="badge">Social media</span>
+          <span class="badge">Music</span>
+          <span class="badge">Travel</span>
+        </div>
+      </div>
+      <div class="summary">
+        <strong>Deal Breakers:</strong>
+        <span id="dealBreakers">Smokes, never exercises, heavy drinker, disrespects faith.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 4: COMPATIBILITY SNAPSHOT -->
+  <section class="page inside" data-page="4">
+    <div class="hearts" aria-hidden="true">
+      <i class="heart"></i><i class="heart"></i><i class="heart"></i>
+    </div>
+    <div class="pad">
+      <div>
+        <h2 class="section-title">Compatibility Snapshot</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;font-size:12px">
+          <div class="k">You + Partner</div><div class="v" id="pair">Amina + “Partner”</div>
+          <div class="k">Match Style</div><div class="v" id="matchStyle">Values match • Growth</div>
+          <div class="k">Conflict</div><div class="v" id="conflict">Low to medium</div>
+          <div class="k">Lifestyle Fit</div><div class="v" id="lifeFit">High</div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="score" id="score">82%</div>
+          <div class="meter"><i style="width:82%"></i></div>
+          <div class="muted" style="margin-top:6px">*Score auto-généré par l’IA selon vos réponses.</div>
+        </div>
+      </div>
+      <div class="summary" id="aiSummary">
+        Emotional read: Strong potential. Shared goals and respect for boundaries. Keep communication steady; schedule weekly check-ins and active listening.
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 5: NOTES & PLEDGE -->
+  <section class="page inside" data-page="5">
+    <div class="hearts" aria-hidden="true">
+      <i class="heart"></i><i class="heart"></i><i class="heart"></i>
+    </div>
+    <div class="pad">
+      <div>
+        <h2 class="section-title">Personal Notes</h2>
+        <div class="summary" id="notes">
+          “We both want a peaceful, faith-centered home. Sundays = family; Fridays = date night. Non-negotiables are honesty, prayer, and kindness.”
+        </div>
+      </div>
+      <div>
+        <h2 class="section-title" style="margin-top:12px">Love Pledge</h2>
+        <div class="summary" id="pledge">
+          I promise to choose peace, protect our dignity, and speak with respect even when we disagree.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 6: BACK COVER (seal) -->
+  <section class="page back" data-page="6">
+    <div class="hearts" aria-hidden="true">
+      <i class="heart"></i><i class="heart"></i><i class="heart"></i>
+    </div>
+    <div class="pad">
+      <div></div>
+      <div class="seal">
+        <div class="ring"></div>
+        <div class="title red" style="font-size:14px;">Soft Is Strong</div>
+      </div>
+      <div class="footer-note">© Match or Move On • Generated by AI</div>
+    </div>
+  </section>
+
+</div>
+
+<!-- jsPDF + html2canvas for export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNa5lHkGJt3r0oV3nWQn8q2lZpQz3Dq0jI1tYHq2wTtZrG6VQkCq3v3M1z6Eo6mD1n3o2mH6x2Qv6l8lUO8cQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-/G6vLrQWk5NQkzVZl1vI18o9dXw5z6m3L1WkJQOe5m1tYw1IY2y7KfE8F8xO5v0GqO5tEDvQm5Y7sS7vK+8sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  // Toggle hearts animation (if you want static background for printing)
+  const toggleBtn = document.getElementById('toggleHearts');
+  let heartsOn = true;
+  toggleBtn.addEventListener('click', () => {
+    heartsOn = !heartsOn;
+    document.querySelectorAll('.hearts').forEach(h => h.style.display = heartsOn ? 'block' : 'none');
+  });
+
+  // Export all .page elements as A6 PDF (portrait)
+  document.getElementById('dl').addEventListener('click', async () => {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit:'mm', format:'a6', orientation:'portrait' });
+    const pages = [...document.querySelectorAll('.page')];
+
+    for (let i=0; i<pages.length; i++){
+      const el = pages[i];
+
+      // Temporarily scale up for sharper capture
+      const scale = 2; // tweak 2–3 if needed
+      const canvas = await html2canvas(el, { scale, backgroundColor: '#000' });
+      const imgData = canvas.toDataURL('image/jpeg', 0.92);
+
+      // A6 pixels at 300dpi ≈ 1240 x 1748; we just fit by mm size
+      const w = 105, h = 148;
+      if (i>0) pdf.addPage('a6','portrait');
+      pdf.addImage(imgData, 'JPEG', 0, 0, w, h);
+    }
+    pdf.save('Love_Passport_A6.pdf');
+  });
+
+  // Example: inject your dynamic data here later from the questionnaire/AI
+  // document.getElementById('fullName').textContent = user.fullName;
+  // document.getElementById('score').textContent   = user.score + '%';
+  // document.querySelector('.meter > i').style.width = user.score + '%';
+</script>
+</body>
+</html>
 

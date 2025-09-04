@@ -10,23 +10,23 @@
   html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
   .bar{position:sticky;top:0;z-index:3;display:flex;gap:10px;justify-content:center;padding:10px;border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(#0b0b0d,rgba(11,11,13,.5))}
   .btn{background:transparent;color:var(--rose);border:1px solid var(--rose);padding:9px 12px;border-radius:999px;font-weight:700;cursor:pointer}
+  .btn[disabled]{opacity:.5;cursor:not-allowed}
   .wrap{max-width:1100px;margin:16px auto;padding:0 10px}
   .cap{font-size:12px;color:var(--mut);text-align:center;margin:8px 0}
   .grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
   /* aperçu A6 écran */
   .card{width:297px;height:420px;background:#000;border-radius:12px;overflow:hidden;
         box-shadow:0 12px 28px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06)}
-  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 </style>
 </head>
 <body>
 
 <div class="bar">
-  <button class="btn" id="dl">Download Love Passport (A6 PDF)</button>
+  <button class="btn" id="dl" disabled>Download Love Passport (A6 PDF)</button>
 </div>
 
 <div class="wrap">
-  <div class="cap">Vector preview (SVG) — what you see is what goes to PDF (A6)</div>
+  <div class="cap">Vector preview (SVG) — what you see goes to PDF (A6)</div>
   <div class="grid" id="gallery"></div>
 </div>
 
@@ -65,11 +65,10 @@ const PREVIEW = { w:297, h:420 };
 
 /* ================= HELPERS ================= */
 async function toDataURL(url){
-  try {
-    const res = await fetch(url,{mode:'cors'});
-    const blob = await res.blob();
+  try{
+    const res = await fetch(url,{mode:'cors'}); const blob = await res.blob();
     return await new Promise(ok=>{const r=new FileReader(); r.onload=()=>ok(r.result); r.readAsDataURL(blob);});
-  } catch(e){ return null; }
+  }catch(e){return null;}
 }
 function svgEl(name, attrs={}){const el=document.createElementNS('http://www.w3.org/2000/svg',name); for(const[k,v]of Object.entries(attrs)) el.setAttribute(k,v); return el;}
 function t(parent,x,y,txt,opts={}){const el=svgEl('text',{x,y,fill:opts.fill||'#f2ece7','font-family':opts.ff||'Inter, Arial','font-size':opts.fs||'12','font-weight':opts.fw||'600','letter-spacing':opts.ls||'0'}); el.textContent=txt; parent.appendChild(el); return el;}
@@ -77,62 +76,56 @@ function badge(parent,x,y,txt){const padX=10,padY=7,fs=12;const g=svgEl('g');par
 function glossyBackground(defs){const lg=svgEl('linearGradient',{id:'gloss',x1:'0%',y1:'0%',x2:'100%',y2:'100%'});lg.appendChild(svgEl('stop',{offset:'0%','stop-color':'rgba(255,255,255,0.08)'}));lg.appendChild(svgEl('stop',{offset:'45%','stop-color':'rgba(255,255,255,0)'}));defs.appendChild(lg);}
 function heartGrad(defs){const rg=svgEl('radialGradient',{id:'hgrad',cx:'50%',cy:'38%',r:'55%'});rg.appendChild(svgEl('stop',{offset:'0%','stop-color':'#ff9790'}));rg.appendChild(svgEl('stop',{offset:'40%','stop-color':'#ff3b30'}));rg.appendChild(svgEl('stop',{offset:'85%','stop-color':'#8e1712'}));defs.appendChild(rg);}
 
-/* ====== Tampon style passeport ====== */
-function stamp(parent, x, y, label, rot= -18){
-  const g = svgEl('g',{transform:`translate(${x},${y}) rotate(${rot})`, opacity:'0.8'});
-  const R=14;
-  g.appendChild(svgEl('circle',{cx:0,cy:0,r:R,fill:'rgba(255,59,48,.08)',stroke:'#ff3b30','stroke-width':'1.6'}));
-  t(g,0,4,label,{fs:9,fw:'800',ff:'Inter, Arial',fill:'#ff3b30'}).setAttribute('text-anchor','middle');
+/* ====== Tampon DENIED (rectangle incliné) ====== */
+function stampDenied(parent, x, y, rot = -10){
+  const g = svgEl('g',{transform:`translate(${x},${y}) rotate(${rot})`, opacity:'0.9'});
+  const w=78,h=22,r=5;
+  g.appendChild(svgEl('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:r,ry:r,fill:'rgba(255,59,48,.12)',stroke:'#ff3b30','stroke-width':'1.6'}));
+  const lab=t(g,0,5,'DENIED',{fs:12,fw:'800',fill:'#ff3b30'}); lab.setAttribute('text-anchor','middle');
   parent.appendChild(g);
 }
 
 /* ================= PAGES ================= */
-// 1 — Cover (coeur centré, LPID un peu plus haut)
+// 1 — Cover
 function pageCover(){
   const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
   const defs=svgEl('defs'); svg.appendChild(defs); glossyBackground(defs); heartGrad(defs);
   svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'#020203'}));
   svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
   t(svg,s.w/2,78,'LOVE PASSPORT',{fs:24,fw:'800',ff:'Playfair Display, serif',fill:'#ff3b30'}).setAttribute('text-anchor','middle');
-  // coeur parfaitement centré
-  const g=svgEl('g',{transform:`translate(${s.w/2},${s.h/2+6})`}); // léger +6 vers le bas
+  const g=svgEl('g',{transform:`translate(${s.w/2},${s.h/2+6})`});
   const path='M0,58 L-48,8 A30,30 0 0 1 0,-20 A30,30 0 0 1 48,8 Z';
-  const heart=svgEl('path',{d:path,fill:'url(#hgrad)'}); g.appendChild(heart); svg.appendChild(g);
-  // LPID légèrement plus haut (pas collé bas)
-  const lp=t(svg,s.w/2,s.h-64,`LPID: ${DATA.lpid}`,{fs:12,fw:'800'}); lp.setAttribute('text-anchor','middle');
+  g.appendChild(svgEl('path',{d:path,fill:'url(#hgrad)'})); svg.appendChild(g);
+  t(svg,s.w/2,s.h-64,`LPID: ${DATA.lpid}`,{fs:12,fw:'800'}).setAttribute('text-anchor','middle');
   return svg;
 }
 
-// 2 — Profile & Identity (respire + occupe la page)
+// 2 — Profile & Identity
 function pageIdentity(photoDataUrl){
   const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
   const defs=svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
   svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'#050506'}));
   svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
   t(svg,20,36,'Profile & Identity',{fs:17,fw:'800',ff:'Playfair Display, serif',fill:'#ff3b30'});
-  // bloc tête
-  const avatarSize=60;
+  const avatar=60;
   if(photoDataUrl){
-    const ph=svgEl('image',{href:photoDataUrl,x:20,y:48,width:avatarSize,height:avatarSize,preserveAspectRatio:'xMidYMid slice'}); svg.appendChild(svgEl('rect',{x:20,y:48,width:avatarSize,height:avatarSize,rx:10,ry:10,fill:'none',stroke:'rgba(255,255,255,.22)'})); svg.appendChild(ph);
+    const ph=svgEl('image',{href:photoDataUrl,x:20,y:48,width:avatar,height:avatar,preserveAspectRatio:'xMidYMid slice'});
+    svg.appendChild(svgEl('rect',{x:20,y:48,width:avatar,height:avatar,rx:10,ry:10,fill:'none',stroke:'rgba(255,255,255,.22)'})); svg.appendChild(ph);
   } else {
-    svg.appendChild(svgEl('rect',{x:20,y:48,width:avatarSize,height:avatarSize,rx:10,ry:10,fill:'rgba(255,255,255,.06)',stroke:'rgba(255,255,255,.22)'}));
+    svg.appendChild(svgEl('rect',{x:20,y:48,width:avatar,height:avatar,rx:10,ry:10,fill:'rgba(255,255,255,.06)',stroke:'rgba(255,255,255,.22)'}));
     t(svg,50,82,'PHOTO',{fs:11,fw:'800'}).setAttribute('text-anchor','middle');
   }
-  t(svg,20+avatarSize+12,66,DATA.fullName,{fs:17,fw:'800'});
-  t(svg,20+avatarSize+12,86,DATA.ageCountry,{fs:13,fw:'700',fill:'#e0dad3'});
+  t(svg,20+avatar+12,66,DATA.fullName,{fs:17,fw:'800'});
+  t(svg,20+avatar+12,86,DATA.ageCountry,{fs:13,fw:'700',fill:'#e0dad3'});
 
-  // tableau élargi pour occuper la page
-  const x1=20, x2=150, top=124, lh=24; // interligne plus grand
-  const kf={fs:13,fw:'600',fill:'#c9c2bb'}, vf={fs:13,fw:'800'};
-  const rows=[
-    ['Religion',DATA.religion],['LPID',DATA.lpid],['Languages',DATA.langs],
-    ['Origin',DATA.origin],['Lives in',DATA.residency],['Marital',DATA.marital],['Kids',DATA.kids]
-  ];
-  rows.forEach((r,i)=>{t(svg,x1,top+i*lh,r[0],kf); t(svg,x2,top+i*lh,r[1],vf);});
+  const x1=20,x2=150,top=124,lh=24,kf={fs:13,fw:'600',fill:'#c9c2bb'},vf={fs:13,fw:'800'};
+  [['Religion',DATA.religion],['LPID',DATA.lpid],['Languages',DATA.langs],
+   ['Origin',DATA.origin],['Lives in',DATA.residency],['Marital',DATA.marital],['Kids',DATA.kids]
+  ].forEach((r,i)=>{t(svg,x1,top+i*lh,r[0],kf); t(svg,x2,top+i*lh,r[1],vf);});
   return svg;
 }
 
-// 3 — Values & Lifestyle (respire + grandes badges)
+// 3 — Values & Lifestyle
 function pageValues(){
   const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
   const defs=svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
@@ -140,9 +133,8 @@ function pageValues(){
   svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
   t(svg,20,36,'Values & Lifestyle',{fs:17,fw:'800',ff:'Playfair Display, serif',fill:'#ff3b30'});
   const x1=20,x2=170,top=68,lh=24,kf={fs:13,fw:'600',fill:'#c9c2bb'},vf={fs:13,fw:'800'};
-  [
-    ['Faith',DATA.faith],['Prayer',DATA.prayer],['Work style',DATA.workStyle],
-    ['Fitness',DATA.fitness],['Smoking',DATA.smoke],['Alcohol',DATA.alcohol],['Diet',DATA.diet]
+  [['Faith',DATA.faith],['Prayer',DATA.prayer],['Work style',DATA.workStyle],
+   ['Fitness',DATA.fitness],['Smoking',DATA.smoke],['Alcohol',DATA.alcohol],['Diet',DATA.diet]
   ].forEach((r,i)=>{t(svg,x1,top+i*lh,r[0],kf); t(svg,x2,top+i*lh,r[1],vf);});
   t(svg,20, top+lh*8, 'Hobbies', {fs:15,fw:'800',ff:'Playfair Display, serif',fill:'#ff3b30'});
   let x=20, y=top+lh*8+12;
@@ -150,7 +142,7 @@ function pageValues(){
   return svg;
 }
 
-// 4 — Deal Breakers (avec tampons)
+// 4 — Deal Breakers (avec tampons DENIED)
 function pageDeal(){
   const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
   const defs=svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
@@ -160,14 +152,13 @@ function pageDeal(){
 
   const items = DATA.dealBreakers.split(',').map(s=>s.trim()).filter(Boolean);
   const startY=70, step=34;
-  const labels = ['NOPE','NEVER','RED FLAG','NOPE','NEVER','RED FLAG'];
 
   items.forEach((txt,idx)=>{
     const y = startY + idx*step;
-    // tampon à gauche du texte
-    stamp(svg, 36, y-10, labels[idx%labels.length], idx%2 ? 16 : -16);
+    // tampon "DENIED" à gauche
+    stampDenied(svg, 40, y-8, idx%2 ? 12 : -12);
     // texte
-    t(svg, 60, y, txt, {fs:13, fw:'700'});
+    t(svg, 70, y, txt, {fs:13, fw:'700'});
   });
 
   return svg;
@@ -180,18 +171,15 @@ function pageVerify(){
   svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'#050506'}));
   svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
   t(svg,20,36,'Verify & Share',{fs:17,fw:'800',ff:'Playfair Display, serif',fill:'#ff3b30'});
-
-  // Rien au milieu: juste bas de page
-  // date en bas gauche
+  // Bas de page uniquement
   t(svg,20, s.h-24, `Signed on: ${DATA.signedOn}`, {fs:12,fw:'800'});
-  // QR en bas droit
   const qrX = s.w - 20 - 78, qrY = s.h - 20 - 78;
   svg.appendChild(svgEl('rect',{x:qrX,y:qrY,width:78,height:78,rx:8,ry:8,fill:'rgba(255,255,255,.04)',stroke:'rgba(255,255,255,.2)'}));
   t(svg, qrX+39, qrY+44, 'QR', {fs:12,fw:'800'}).setAttribute('text-anchor','middle');
   return svg;
 }
 
-// 6 — Back cover (centré + libellé demandé)
+// 6 — Back cover (centré + texte demandé)
 function pageBack(){
   const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
   const defs=svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
@@ -204,41 +192,41 @@ function pageBack(){
 }
 
 /* ================= BUILD & EXPORT ================= */
+let PAGES = [];
+
 async function buildAll(){
-  const photo = await toDataURL(DATA.photoUrl); // si null => placeholder
-  const pages = [ pageCover(), pageIdentity(photo), pageValues(), pageDeal(), pageVerify(), pageBack() ];
   const gal = document.getElementById('gallery'); gal.innerHTML='';
-  pages.forEach(svg=>{ const card=document.createElement('div'); card.className='card'; card.appendChild(svg); gal.appendChild(card); });
-  return pages;
+  // photo → dataURL; si ça rate, on continue
+  const photo = await toDataURL(DATA.photoUrl);
+  PAGES = [ pageCover(), pageIdentity(photo), pageValues(), pageDeal(), pageVerify(), pageBack() ];
+  PAGES.forEach(svg=>{ const card=document.createElement('div'); card.className='card'; card.appendChild(svg); gal.appendChild(card); });
+  // enable download une fois prêt
+  document.getElementById('dl').disabled = false;
 }
 
-async function downloadPDF(pages){
+function downloadPDF(){
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({ unit:'pt', format:[A6.w_pt, A6.h_pt], orientation:'portrait' });
-  for(let i=0;i<pages.length;i++){
+  for(let i=0;i<PAGES.length;i++){
     if(i>0) pdf.addPage([A6.w_pt, A6.h_pt],'portrait');
     const scaleX = A6.w_pt / PREVIEW.w, scaleY = A6.h_pt / PREVIEW.h;
-    svg2pdf(pages[i], pdf, { x:0, y:0, width:A6.w_pt, height:A6.h_pt, assumePt:true, scale:Math.min(scaleX,scaleY) });
+    svg2pdf(PAGES[i], pdf, { x:0, y:0, width:A6.w_pt, height:A6.h_pt, assumePt:true, scale:Math.min(scaleX,scaleY) });
   }
-  // robustesse : tentative save(), sinon bloburl
-  try { pdf.save('Love_Passport_A6.pdf'); }
+  try{ pdf.save('Love_Passport_A6.pdf'); }
   catch(e){
-    const url = pdf.output('bloburl'); const w = window.open(url,'_blank'); if(!w){ const a=document.createElement('a'); a.href=url; a.download='Love_Passport_A6.pdf'; document.body.appendChild(a); a.click(); a.remove(); }
+    const blob = pdf.output('blob'); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'Love_Passport_A6.pdf';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   }
 }
 
 /* boot */
-let PAGES=[];
-buildAll().then(p=>PAGES=p);
-document.getElementById('dl').addEventListener('click', async ()=>{
-  if(!PAGES.length) PAGES = await buildAll();
-  // attendre les polices pour du texte net
-  if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch(_){}} 
-  await downloadPDF(PAGES);
-});
+buildAll();
+document.getElementById('dl').addEventListener('click', downloadPDF);
 </script>
 </body>
 </html>
+
 
 
 

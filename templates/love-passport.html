@@ -3,276 +3,272 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Love Passport — A6 (v4 Minimal • HD export)</title>
+<title>Love Passport — A6 Vector PDF</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
-:root{ --bg:#0b0b0d; --ink:#e9e2db; --mut:#c9c2bb; --rose:#ff3b30; }
-@page { size: A6; margin: 0; }
-html,body{margin:0;background:#0b0b0d;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;overflow-x:hidden}
-
-/* top controls */
-.controls{position:sticky;top:0;z-index:20;background:linear-gradient(#0b0b0d,rgba(11,11,13,.5));padding:10px 12px;display:flex;gap:8px;justify-content:center;border-bottom:1px solid rgba(255,255,255,.06)}
-.btn{background:transparent;color:var(--rose);border:1px solid var(--rose);padding:9px 12px;border-radius:999px;font-weight:700;letter-spacing:.02em;cursor:pointer;transition:.2s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 0 18px rgba(255,59,48,.25);background:rgba(255,59,48,.08)}
-
-/* viewport */
-.viewport{max-width:360px;margin:16px auto;padding:0 8px;position:relative}
-.page{position:relative;width:297px;height:420px;margin:10px auto;background:#000;border-radius:12px;overflow:hidden;
-      box-shadow:0 12px 28px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06);isolation:isolate;display:none}
-.page.active{display:block}
-
-/* view-all */
-.viewall .page{display:inline-block;margin:8px}
-.viewall .viewport{max-width:1120px}
-.gallery{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-
-/* footer nav */
-.counter{font-size:12px;color:var(--mut);text-align:center;margin:8px 0 10px}
-.nav{display:flex;gap:8px;justify-content:center;margin:8px 0 16px}
-.nav .small{padding:6px 10px;font-weight:600}
-
-/* print */
-@media print{
-  .controls,.nav,.counter{display:none!important}
-  .viewport{max-width:none}
-  .gallery{display:block}
-  .page{display:block;width:105mm;height:148mm;border-radius:0;box-shadow:none;page-break-after:always;margin:0 auto}
-}
-
-/* glossy covers */
-.cover,.back{
-  background:
-    radial-gradient(120% 120% at 110% -10%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 40%),
-    linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,.08) 60%, rgba(255,255,255,0) 100%),
-    #020203;
-}
-
-/* stable grid: top | body | bottom */
-.pad{position:relative;z-index:1;padding:20px;height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:12px}
-
-/* titles */
-.h{font-family:"Playfair Display",serif;font-weight:800;letter-spacing:.06em;color:var(--rose);margin:0}
-.h.sm{font-size:14px}.h.md{font-size:16px}.h.lg{font-size:22px;text-transform:uppercase;text-align:center;text-shadow:0 0 24px rgba(255,59,48,.25)}
-
-/* table */
-.kv{display:grid;grid-template-columns:1fr 1.1fr;gap:8px 14px;font-size:12px}
-.k{color:var(--mut)} .v{color:var(--ink);font-weight:600}
-
-/* chips */
-.badge{display:inline-block;padding:6px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:11px;margin:4px 6px 0 0;background:rgba(255,255,255,.03)}
-
-/* watermark heart (very subtle) */
-.wm{position:absolute;inset:0;pointer-events:none;opacity:.07}
-.wm svg{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);filter:blur(.45px)}
-
-/* misc */
-.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
-.small{font-size:12px;color:var(--mut)}
-.hr{height:1px;background:rgba(255,255,255,.08);margin:8px 0}
-.box{border:1px solid rgba(255,255,255,.10);border-radius:10px;padding:10px;background:rgba(255,255,255,.03)}
-
-/* cover heart */
-svg.heart-lg{width:120px;height:120px;filter:drop-shadow(0 8px 18px rgba(255,59,48,.45))}
+  :root{--bg:#0b0b0d;--ink:#f2ece7;--mut:#c9c2bb;--rose:#ff3b30}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  .bar{position:sticky;top:0;z-index:3;display:flex;gap:10px;justify-content:center;padding:10px;border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(#0b0b0d,rgba(11,11,13,.5))}
+  .btn{background:transparent;color:var(--rose);border:1px solid var(--rose);padding:9px 12px;border-radius:999px;font-weight:700;cursor:pointer}
+  .wrap{max-width:1100px;margin:16px auto;padding:0 10px}
+  .grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  /* aperçu: A6 écran (297×420 px) */
+  .card{width:297px;height:420px;background:#000;border-radius:12px;overflow:hidden;
+        box-shadow:0 12px 28px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06)}
+  .cap{font-size:12px;color:var(--mut);text-align:center;margin:8px 0}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 </style>
 </head>
 <body>
 
-<div class="controls">
-  <button class="btn" id="prev">◀ Prev</button>
-  <button class="btn" id="next">Next ▶</button>
-  <button class="btn" id="toggleView">View All</button>
-  <button class="btn" id="dl">Download PDF (A6)</button>
+<div class="bar">
+  <button class="btn" id="dl">Download Love Passport (A6 PDF)</button>
 </div>
 
-<div class="viewport" id="viewport">
-  <div class="gallery" id="gallery">
-
-    <!-- 1 — COVER -->
-    <section class="page cover active" data-page="1">
-      <div class="pad">
-        <div></div>
-        <div style="display:grid;place-items:center;gap:16px">
-          <h1 class="h lg">LOVE PASSPORT</h1>
-          <svg class="heart-lg" viewBox="0 0 200 200" aria-hidden="true">
-            <defs><radialGradient id="g" cx="60%" cy="35%" r="60%">
-              <stop offset="0%" stop-color="#ff7a70"/><stop offset="40%" stop-color="#ff3b30"/><stop offset="85%" stop-color="#a91510"/>
-            </radialGradient></defs>
-            <path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="url(#g)"/>
-          </svg>
-          <div class="small">LPID: <span class="mono" id="lp-top">LP-23A9-7XQ4</span></div>
-        </div>
-        <div></div>
-      </div>
-    </section>
-
-    <!-- 2 — IDENTITY -->
-    <section class="page inside" data-page="2">
-      <div class="wm"><svg viewBox="0 0 200 200" width="160" height="160"><path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="#ff3b30"/></svg></div>
-      <div class="pad">
-        <div><h2 class="h md">Profile & Identity</h2></div>
-        <div>
-          <div class="kv">
-            <div class="k">Name</div><div class="v" id="fullName">Amina K.</div>
-            <div class="k">Age • Country</div><div class="v" id="ageCountry">25 • Brazil</div>
-            <div class="k">Religion</div><div class="v" id="religion">Muslim (practicing)</div>
-            <div class="k">LPID</div><div class="v mono" id="lp-inline">LP-23A9-7XQ4</div>
-            <div class="k">Languages</div><div class="v" id="langs">English, French, Portuguese</div>
-            <div class="k">Origin</div><div class="v" id="origin">Benin</div>
-            <div class="k">Lives in</div><div class="v" id="residency">São Paulo</div>
-            <div class="k">Marital</div><div class="v" id="marital">Single</div>
-            <div class="k">Kids</div><div class="v" id="kids">No</div>
-          </div>
-        </div>
-        <div></div>
-      </div>
-    </section>
-
-    <!-- 3 — VALUES / LIFESTYLE -->
-    <section class="page inside" data-page="3">
-      <div class="wm"><svg viewBox="0 0 200 200" width="160" height="160"><path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="#ff3b30"/></svg></div>
-      <div class="pad">
-        <div><h2 class="h md">Values & Lifestyle</h2></div>
-        <div>
-          <div class="kv">
-            <div class="k">Faith</div><div class="v" id="faith">Central</div>
-            <div class="k">Prayer</div><div class="v" id="prayer">Daily</div>
-            <div class="k">Work style</div><div class="v" id="workStyle">Hard-working, builder</div>
-            <div class="k">Fitness</div><div class="v" id="fitness">Gym 3×/week</div>
-            <div class="k">Smoking</div><div class="v" id="smoke">No</div>
-            <div class="k">Alcohol</div><div class="v" id="alcohol">No</div>
-            <div class="k">Diet</div><div class="v" id="diet">No pork</div>
-          </div>
-          <div class="hr"></div>
-          <div>
-            <div class="h sm" style="margin-bottom:6px">Hobbies</div>
-            <div id="hobbies">
-              <span class="badge">Working</span><span class="badge">Shopping</span><span class="badge">Social media</span>
-              <span class="badge">Music</span><span class="badge">Travel</span>
-            </div>
-          </div>
-        </div>
-        <div></div>
-      </div>
-    </section>
-
-    <!-- 4 — DEAL BREAKERS -->
-    <section class="page inside" data-page="4">
-      <div class="wm"><svg viewBox="0 0 200 200" width="160" height="160"><path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="#ff3b30"/></svg></div>
-      <div class="pad">
-        <div><h2 class="h md">Deal Breakers</h2></div>
-        <div>
-          <div class="box" id="dealBreakers">Smokes, never exercises, heavy drinker, disrespects faith, constant jealousy, financial irresponsibility.</div>
-        </div>
-        <div></div>
-      </div>
-    </section>
-
-    <!-- 5 — VERIFY & SHARE (bottom: signed on + QR + LPID) -->
-    <section class="page inside" data-page="5">
-      <div class="wm"><svg viewBox="0 0 200 200" width="160" height="160"><path d="M100 180 L20 90 A45 45 0 0 1 100 30 A45 45 0 0 1 180 90 Z" fill="#ff3b30"/></svg></div>
-      <div class="pad">
-        <div><h2 class="h md">Verify & Share</h2></div>
-        <div>
-          <div class="small">This page confirms your LPID and creation date.</div>
-        </div>
-        <div>
-          <div style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end">
-            <div class="small">Signed on: <span class="mono" id="signedOn">2025-09-04</span></div>
-            <div style="display:grid;justify-items:center;gap:6px">
-              <div style="width:72px;height:72px;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:linear-gradient(135deg,#111,#222);display:grid;place-items:center;font-size:10px;color:#c9c2bb">QR / ID</div>
-              <div class="small">LPID: <span class="mono" id="lp-qr">LP-23A9-7XQ4</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6 — BACK COVER -->
-    <section class="page back" data-page="6">
-      <div class="pad">
-        <div></div>
-        <div style="text-align:center">
-          <p class="h sm" style="letter-spacing:.18em">VISIT:</p>
-          <p class="h md" style="letter-spacing:.12em">WWW.MATCHORMOVEON.COM</p>
-          <p class="small" style="margin-top:6px">© Match or Move On • Generated by AI</p>
-        </div>
-        <div></div>
-      </div>
-    </section>
-
-  </div>
-
-  <div class="counter"><span id="count">Page 1 of 6</span></div>
-  <div class="nav">
-    <button class="btn small" id="p2">◀ Prev</button>
-    <button class="btn small" id="n2">Next ▶</button>
-  </div>
+<div class="wrap">
+  <div class="cap">Vector preview (SVG) — what you see is what goes to PDF (A6)</div>
+  <div class="grid" id="gallery"></div>
 </div>
 
-<!-- libs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+<!-- libs (vector) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/svg2pdf.js@2.2.3/dist/svg2pdf.min.js" crossorigin="anonymous"></script>
 
 <script>
-const pages=[...document.querySelectorAll('.page')];
-let i=0; const count=document.getElementById('count'); const viewport=document.getElementById('viewport');
-function show(n){ i=(n+pages.length)%pages.length; pages.forEach((p,k)=>p.classList.toggle('active',k===i)); count.textContent=`Page ${i+1} of ${pages.length}`;}
-show(0);
-prev.onclick=()=>show(i-1); next.onclick=()=>show(i+1); p2.onclick=()=>show(i-1); n2.onclick=()=>show(i+1);
-let sx=0; viewport.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
-viewport.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40){dx<0?show(i+1):show(i-1)}},{passive:true});
-toggleView.onclick=()=>{document.body.classList.toggle('viewall'); toggleView.textContent=document.body.classList.contains('viewall')?'View One-by-One':'View All'; if(!document.body.classList.contains('viewall')) show(i);};
-
-/* ===== HD DOWNLOAD (A6 ~300 DPI) ===== */
-document.getElementById('dl').onclick = async () => {
-  const { jsPDF } = window.jspdf;
-
-  // Géométrie A6
-  const MM_TO_PT = 72 / 25.4;
-  const W_MM = 105, H_MM = 148;
-  const W_PT = W_MM * MM_TO_PT;
-  const H_PT = H_MM * MM_TO_PT;
-
-  // Pixels HD (~300 dpi)
-  const W_PX = 1240;
-  const H_PX = 1748;
-
-  const pdf = new jsPDF({ unit: 'pt', format: [W_PT, H_PT] });
-
-  async function renderPage(el) {
-    const clone = el.cloneNode(true);
-    clone.style.width = W_PX + "px";
-    clone.style.height = H_PX + "px";
-    clone.style.position = "fixed";
-    clone.style.left = "-20000px";
-    clone.style.top = "0";
-    document.body.appendChild(clone);
-
-    const canvas = await html2canvas(clone, {
-      backgroundColor: "#000",
-      useCORS: true,
-      scale: 1, // capture 1:1 car on force déjà W×H HD
-      width: W_PX,
-      height: H_PX
-    });
-
-    document.body.removeChild(clone);
-    return canvas.toDataURL("image/jpeg", 0.98);
-  }
-
-  const els = document.querySelectorAll(".page");
-  for (let k = 0; k < els.length; k++) {
-    const img = await renderPage(els[k]);
-    if (k > 0) pdf.addPage([W_PT, H_PT]);
-    pdf.addImage(img, "JPEG", 0, 0, W_PT, H_PT);
-  }
-
-  pdf.save("Love_Passport_A6_HD.pdf");
+/* ========= CONFIG / DATA (exemple) ========= */
+const DATA = {
+  lpid: 'LP-23A9-7XQ4',
+  fullName: 'Amina K.',
+  ageCountry: '25 • Brazil',
+  religion: 'Muslim (practicing)',
+  langs: 'English, French, Portuguese',
+  origin: 'Benin',
+  residency: 'São Paulo',
+  marital: 'Single',
+  kids: 'No',
+  faith: 'Central',
+  prayer: 'Daily',
+  workStyle: 'Hard-working, builder',
+  fitness: 'Gym 3×/week',
+  smoke: 'No',
+  alcohol: 'No',
+  diet: 'No pork',
+  hobbies: ['Working','Shopping','Social media','Music','Travel'],
+  dealBreakers: 'Smokes, never exercises, heavy drinker, disrespects faith, constant jealousy, financial irresponsibility.',
+  signedOn: new Date().toISOString().slice(0,10),
+  // remplace par la vraie photo si tu veux :
+  photoUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=900&auto=format&fit=crop'
 };
 
+/* ========= CONSTANTES PDF ========= */
+const MM_TO_PT = 72/25.4;
+const A6 = { w_mm:105, h_mm:148, w_pt:105*MM_TO_PT, h_pt:148*MM_TO_PT };
+// Pour l’aperçu écran : on garde 297×420 px (ratio A6)
+const PREVIEW = { w:297, h:420 };
+
+/* ========= HELPERS ========= */
+// convertit une image en dataURL (pour l’inliner dans le SVG → pas de CORS)
+async function toDataURL(url){
+  const res = await fetch(url, {mode:'cors'}); const blob = await res.blob();
+  return new Promise((ok)=>{ const r=new FileReader(); r.onload=()=>ok(r.result); r.readAsDataURL(blob); });
+}
+// crée un élément SVG avec namespace
+function svgEl(name, attrs={}){
+  const el = document.createElementNS('http://www.w3.org/2000/svg', name);
+  for(const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+  return el;
+}
+// style texte
+function t(parent, x, y, txt, opts={}){
+  const el = svgEl('text', {x, y, fill: opts.fill||'#f2ece7', 'font-family':opts.ff||'Inter, Arial', 'font-size':opts.fs||'12', 'font-weight':opts.fw||'600', 'letter-spacing':opts.ls||'0'});
+  el.textContent = txt; parent.appendChild(el); return el;
+}
+// badge arrondi
+function badge(parent, x, y, txt){
+  const padX = 8, padY = 6, fs=10;
+  const g = svgEl('g'); parent.appendChild(g);
+  const temp = t(g, x+padX, y+fs+padY-2, txt, {fs, fw:'600', fill:'#eee'});
+  const bbox = { w: txt.length*fs*0.6 + padX*2, h: fs+padY*2 };
+  const r = svgEl('rect', {x, y: y, rx:12, ry:12, width: bbox.w, height: bbox.h, fill:'rgba(255,255,255,0.03)', stroke:'rgba(255,255,255,0.15)'});
+  g.insertBefore(r, temp);
+  return bbox.w + 6;
+}
+
+/* ========= PAGES (SVG vector) ========= */
+// fond glossy (dégradé subtil)
+function glossyBackground(defs){
+  const lg = svgEl('linearGradient', {id:'gloss', x1:'0%',y1:'0%',x2:'100%',y2:'100%'});
+  lg.appendChild(svgEl('stop',{offset:'0%','stop-color':'rgba(255,255,255,0.06)'}));
+  lg.appendChild(svgEl('stop',{offset:'40%','stop-color':'rgba(255,255,255,0)'}));
+  defs.appendChild(lg);
+}
+// coeur
+function heart(defs){
+  const rg = svgEl('radialGradient', {id:'hgrad', cx:'60%', cy:'35%', r:'60%'});
+  rg.appendChild(svgEl('stop',{offset:'0%','stop-color':'#ff7a70'}));
+  rg.appendChild(svgEl('stop',{offset:'40%','stop-color':'#ff3b30'}));
+  rg.appendChild(svgEl('stop',{offset:'85%','stop-color':'#a91510'}));
+  defs.appendChild(rg);
+}
+// PAGE 1 — Cover
+function pageCover(){
+  const svg = svgEl('svg', {viewBox:`0 0 ${PREVIEW.w} ${PREVIEW.h}`, width:PREVIEW.w, height:PREVIEW.h});
+  const defs = svgEl('defs'); svg.appendChild(defs); glossyBackground(defs); heart(defs);
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:PREVIEW.w,height:PREVIEW.h,fill:'#020203'}));
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:PREVIEW.w,height:PREVIEW.h,fill:'url(#gloss)'}));
+  // titre
+  t(svg, PREVIEW.w/2, 80, 'LOVE PASSPORT', {fs:24, fw:'800', ff:'Playfair Display, serif', fill:'#ff3b30'}).setAttribute('text-anchor','middle');
+  // coeur
+  const g = svgEl('g', {transform:`translate(${PREVIEW.w/2-40}, ${PREVIEW.h/2-30})`});
+  g.appendChild(svgEl('path',{d:'M40 120 L0 60 A30 30 0 0 1 40 20 A30 30 0 0 1 80 60 Z', fill:'url(#hgrad)'}));
+  svg.appendChild(g);
+  // LPID
+  const lp = t(svg, PREVIEW.w/2, PREVIEW.h-40, `LPID: ${DATA.lpid}`, {fs:12, fw:'800', ff:'Inter, Arial', fill:'#e7e1db'});
+  lp.setAttribute('text-anchor','middle');
+  return svg;
+}
+
+// PAGE 2 — Identity
+function pageIdentity(photoDataUrl){
+  const s = PREVIEW, svg = svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`, width:s.w, height:s.h});
+  const defs = svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'#050506'}));
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
+  t(svg, 20, 32, 'Profile & Identity', {fs:16, fw:'800', ff:'Playfair Display, serif', fill:'#ff3b30'});
+  // photo
+  const ph = svgEl('image', {href:photoDataUrl, x:20, y:42, width:54, height:54, preserveAspectRatio:'xMidYMid slice'});
+  const phB = svgEl('rect',{x:20,y:42,width:54,height:54,rx:10,ry:10, fill:'none', stroke:'rgba(255,255,255,0.2)'});
+  svg.appendChild(ph); svg.appendChild(phB);
+  t(svg, 84, 62, DATA.fullName, {fs:16, fw:'800'});
+  t(svg, 84, 80, DATA.ageCountry, {fs:12, fw:'600', fill:'#d8d2cc'});
+  // table
+  const x1=20, x2=130, y0=118, lh=18, kf={fs:12, fw:'600', fill:'#c9c2bb'}, vf={fs:12, fw:'700'};
+  const rows = [
+    ['Religion', DATA.religion],
+    ['LPID', DATA.lpid],
+    ['Languages', DATA.langs],
+    ['Origin', DATA.origin],
+    ['Lives in', DATA.residency],
+    ['Marital', DATA.marital],
+    ['Kids', DATA.kids],
+  ];
+  rows.forEach((r,i)=>{ t(svg,x1,y0+i*lh,r[0],kf); t(svg,x2,y0+i*lh,r[1],vf); });
+  return svg;
+}
+
+// PAGE 3 — Values / Lifestyle
+function pageValues(){
+  const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
+  const defs = svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'#050506'}));
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
+  t(svg,20,32,'Values & Lifestyle',{fs:16,fw:'800',ff:'Playfair Display, serif', fill:'#ff3b30'});
+  const x1=20, x2=170, y0=64, lh=18, kf={fs:12,fw:'600',fill:'#c9c2bb'}, vf={fs:12,fw:'700'};
+  const rows = [
+    ['Faith',DATA.faith],['Prayer',DATA.prayer],['Work style',DATA.workStyle],
+    ['Fitness',DATA.fitness],['Smoking',DATA.smoke],['Alcohol',DATA.alcohol],['Diet',DATA.diet]
+  ];
+  rows.forEach((r,i)=>{ t(svg,x1,y0+i*lh,r[0],kf); t(svg,x2,y0+i*lh,r[1],vf); });
+  // hobbies badges
+  t(svg,20, y0+lh*8, 'Hobbies', {fs:14,fw:'800',ff:'Playfair Display, serif', fill:'#ff3b30'});
+  let x=20, y=y0+lh*8+10;
+  DATA.hobbies.forEach(h=>{ const w=badge(svg,x,y,h); x+=w; if(x>PREVIEW.w-110){x=20; y+=28;} });
+  return svg;
+}
+
+// PAGE 4 — Deal Breakers
+function pageDeal(){
+  const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
+  const defs = svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'#050506'}));
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
+  t(svg,20,32,'Deal Breakers',{fs:16,fw:'800',ff:'Playfair Display, serif', fill:'#ff3b30'});
+  const box = svgEl('rect',{x:20,y:52,rx:12,ry:12,width:s.w-40,height:s.h-92,fill:'rgba(255,255,255,.03)',stroke:'rgba(255,255,255,.15)'}); svg.appendChild(box);
+  const text = DATA.dealBreakers;
+  // multi-ligne simple
+  const words=text.split(' '); let line='', y=76;
+  for(const w of words){
+    const test=(line?line+' ':'')+w;
+    if(test.length>46){ t(svg,34,y,line,{fs:12,fw:'600'}); line=w; y+=18; }
+    else line=test;
+  }
+  if(line) t(svg,34,y,line,{fs:12,fw:'600'});
+  return svg;
+}
+
+// PAGE 5 — Verify & Share
+function pageVerify(){
+  const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
+  const defs = svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'#050506'}));
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
+  t(svg,20,32,'Verify & Share',{fs:16,fw:'800',ff:'Playfair Display, serif', fill:'#ff3b30'});
+  t(svg,20,60,'Signed on:',{fs:12,fw:'600',fill:'#c9c2bb'}); t(svg,100,60,DATA.signedOn,{fs:12,fw:'800'});
+  t(svg,20,82,'LPID:',{fs:12,fw:'600',fill:'#c9c2bb'}); t(svg,100,82,DATA.lpid,{fs:12,fw:'800'});
+  // placeholder QR
+  const qr = svgEl('rect',{x:s.w-20-74,y:56,width:74,height:74,rx:8,ry:8,fill:'url(#gloss)',stroke:'rgba(255,255,255,.15)'}); svg.appendChild(qr);
+  t(svg, s.w-20-37, 98, 'QR', {fs:12, fw:'800'}).setAttribute('text-anchor','middle');
+  return svg;
+}
+
+// PAGE 6 — Back cover
+function pageBack(){
+  const s=PREVIEW, svg=svgEl('svg',{viewBox:`0 0 ${s.w} ${s.h}`,width:s.w,height:s.h});
+  const defs = svgEl('defs'); svg.appendChild(defs); glossyBackground(defs);
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'#020203'}));
+  svg.appendChild(svgEl('rect',{x:0,y:0,width:s.w,height:s.h,fill:'url(#gloss)'}));
+  t(svg, s.w/2, 110, 'VISIT:', {fs:12, fw:'800', ff:'Playfair Display, serif', fill:'#ff3b30'}).setAttribute('text-anchor','middle');
+  t(svg, s.w/2, 136, 'WWW.MATCHORMOVEON.COM', {fs:14, fw:'800', ff:'Playfair Display, serif', fill:'#ff3b30'}).setAttribute('text-anchor','middle');
+  t(svg, s.w/2, 164, '© Match or Move On • Generated by AI', {fs:10, fw:'600', fill:'#d9d3cd'}).setAttribute('text-anchor','middle');
+  return svg;
+}
+
+/* ========= RENDU ÉCRAN & EXPORT PDF ========= */
+async function buildAll(){
+  // photo => dataURL
+  const photo = await toDataURL(DATA.photoUrl);
+  const pages = [
+    pageCover(),
+    pageIdentity(photo),
+    pageValues(),
+    pageDeal(),
+    pageVerify(),
+    pageBack()
+  ];
+  // preview
+  const gal = document.getElementById('gallery'); gal.innerHTML='';
+  pages.forEach(svg=>{ const card=document.createElement('div'); card.className='card'; card.appendChild(svg); gal.appendChild(card); });
+  return pages;
+}
+
+async function downloadPDF(pages){
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({ unit:'pt', format:[A6.w_pt, A6.h_pt], orientation:'portrait' });
+
+  // svg2pdf : convertit le SVG en contenu vectoriel dans le PDF
+  for(let i=0;i<pages.length;i++){
+    if(i>0) pdf.addPage([A6.w_pt, A6.h_pt], 'portrait');
+    // important: adapter le viewport (297×420) à la page (points)
+    const scaleX = A6.w_pt / PREVIEW.w;
+    const scaleY = A6.h_pt / PREVIEW.h;
+    const opts = { x:0, y:0, width:A6.w_pt, height:A6.h_pt, assumePt:true, scale:Math.min(scaleX, scaleY) };
+    await svg2pdf(pages[i], pdf, opts);
+  }
+  pdf.save('Love_Passport_A6.pdf');
+}
+
+/* boot */
+let PAGES=[];
+buildAll().then(p=>PAGES=p);
+
+document.getElementById('dl').addEventListener('click', async ()=>{
+  if(!PAGES.length) PAGES = await buildAll();
+  await downloadPDF(PAGES);
+});
 </script>
 </body>
 </html>
+
 
 
 

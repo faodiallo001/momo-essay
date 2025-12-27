@@ -3,210 +3,205 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
   <title>Compatibility Test — Match or Move On</title>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
-  <!-- MAIN CSS -->
+  <!-- ✅ Global styles -->
   <link rel="stylesheet" href="css/main.css">
+  <!-- ✅ Page-specific overrides -->
+  <link rel="stylesheet" href="css/compatibility.css">
 </head>
 
 <body>
+  <!-- background sparkles -->
+  <canvas id="sparks"></canvas>
+  <div class="bg-float" id="hearts"></div>
 
-<!-- background sparkles -->
-<canvas id="sparks"></canvas>
-<div class="bg-float" id="hearts"></div>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-left"><a href="index.html">Home</a></div>
 
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-left">
-    <a href="index.html">Home</a>
-  </div>
+    <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
 
-  <div class="logo-neon">
-    MATCH OR <span class="accent">MOVE ON</span>
-  </div>
+    <div class="nav-right">
+      <a href="how-it-works.html">How it works</a>
+      <a href="contact.html">Contact</a>
 
-  <div class="nav-right">
-    <a href="how-it-works.html">How it works</a>
-    <a href="contact.html">Contact</a>
-
-    <div class="lang" id="lang">
-      <div class="lang-current" id="langBtn">🇺🇸 EN ▾</div>
-      <div class="lang-menu" id="langMenu">
-        <a href="index-fr.html">🇫🇷 FR</a>
-        <a href="index-pt.html">🇵🇹 PT</a>
-        <a href="index-es.html">🇪🇸 ES</a>
+      <div class="lang" id="lang">
+        <div class="lang-current" id="langBtn">🇺🇸 EN ▾</div>
+        <div class="lang-menu" id="langMenu">
+          <a href="index-fr.html">🇫🇷 FR</a>
+          <a href="index-pt.html">🇵🇹 PT</a>
+          <a href="index-es.html">🇪🇸 ES</a>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<main class="wrap">
-  <section class="page">
-    <h1>Check Compatibility</h1>
-    <p class="lead">
-      Here you can check faster — use your <b>Love Passport ID (LPID)</b>
-      and your partner’s LPID for a quick match score.
-    </p>
+  <main class="wrap wrap-compat">
+    <section class="page">
+      <h1>Check Compatibility</h1>
+      <p class="lead">
+        Here you can check faster — use your <b>Love Passport ID (LPID)</b> and your partner’s LPID for a quick match score.
+      </p>
 
-    <div class="compat-card">
+      <div class="compat-card">
+        <div class="field">
+          <label for="myID">Your LPID</label>
+          <input class="input" id="myID" placeholder="e.g. LP-7FQ2-K9M3" autocomplete="off">
+        </div>
 
-      <div class="field">
-        <label for="myID">Your LPID</label>
-        <input class="input" id="myID" placeholder="e.g. LP-7FQ2-K9M3" autocomplete="off">
+        <div class="field">
+          <label for="partnerID">Partner’s LPID</label>
+          <input class="input" id="partnerID" placeholder="e.g. LP-X4Z9-T1Q8" autocomplete="off">
+        </div>
+
+        <div class="hint">Tip: You’ll find your LPID on your Love Passport.</div>
+
+        <div class="actions">
+          <button class="btn" id="checkBtn">Check Compatibility</button>
+        </div>
+
+        <div id="result" class="result"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" id="footer">
+    <div class="f-wrap">
+      <div class="f-col brand">
+        <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
+        <p class="tag">Built for clarity, not confusion.</p>
+        <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
       </div>
 
-      <div class="field">
-        <label for="partnerID">Partner’s LPID</label>
-        <input class="input" id="partnerID" placeholder="e.g. LP-X4Z9-T1Q8" autocomplete="off">
-      </div>
+      <nav class="f-col legal">
+        <h4>Legal</h4>
+        <a href="terms.html">Terms Policy</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="cookies.html">Cookies</a>
+      </nav>
 
-      <div class="hint">
-        Tip: You’ll find your LPID on your Love Passport.
-      </div>
-
-      <div class="actions">
-        <button class="btn" id="checkBtn">Check Compatibility</button>
-      </div>
-
-      <div id="result" class="result"></div>
-
-    </div>
-  </section>
-</main>
-
-<!-- FOOTER -->
-<footer class="site-footer" id="footer">
-  <div class="f-wrap">
-
-    <div class="f-col brand">
-      <div class="brand-title">
-        MATCH OR <span>MOVE ON</span>
-      </div>
-      <p class="tag">Built for clarity, not confusion.</p>
-      <a class="mail" href="mailto:support@matchormoveon.com">
-        support@matchormoveon.com
-      </a>
-    </div>
-
-    <nav class="f-col legal">
-      <h4>Legal</h4>
-      <a href="terms.html">Terms Policy</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="cookies.html">Cookies</a>
-    </nav>
-
-    <div class="f-col social">
-      <h4>Social</h4>
-      <div class="icons">
-        <a href="https://tiktok.com" aria-label="TikTok">TikTok</a>
-        <a href="https://instagram.com" aria-label="Instagram">Instagram</a>
-        <a href="https://youtube.com" aria-label="YouTube">YouTube</a>
+      <div class="f-col social">
+        <h4>Social</h4>
+        <div class="icons">
+          <a href="https://tiktok.com" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/></svg>
+          </a>
+          <a href="https://instagram.com" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/></svg>
+          </a>
+          <a href="https://youtube.com" aria-label="YouTube">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M23.5 6.2c-.2-1.2-.8-2.3-1.7-3-1-.8-2.2-.9-2.7-1C16.1 2 12 2 12 2s-4.1 0-7.1.2c-.5.1-1.7.2-2.7 1-1 .7-1.5 1.8-1.7 3C0 7.4 0 10 0 10s0 2.6.2 3.8c.2 1.2.8 2.3 1.7 3 1 .8 2.3.9 2.8 1C7.9 18 12 18 12 18s4.1 0 7.1-.2c.5-.1 1.7-.2 2.7-1 .9-.7 1.5-1.8 1.7-3 .2-1.2.2-3.8.2-3.8s0-2.6-.2-3.8zM9.5 14.6V7.4L15.5 11 9.5 14.6z"/></svg>
+          </a>
+        </div>
       </div>
     </div>
 
-  </div>
+    <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
+  </footer>
 
-  <div class="f-bottom">
-    <small>© 2025 Match or Move On. All rights reserved.</small>
-  </div>
-</footer>
+  <!-- FLOATING HEARTS -->
+  <script>
+  (function(){
+    const LAYER = document.getElementById('hearts');
+    if (!LAYER) return;
 
-<!-- FLOATING HEARTS -->
-<script>
-(function(){
-  const LAYER = document.getElementById('hearts');
-  if (!LAYER) return;
+    const HEART = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
+      <defs>
+        <radialGradient id="hg" cx="50%" cy="40%" r="70%">
+          <stop offset="0%" stop-color="#ffd0d4"/>
+          <stop offset="45%" stop-color="#ff5252"/>
+          <stop offset="100%" stop-color="#7c1414"/>
+        </radialGradient>
+      </defs>
+      <g filter="drop-shadow(0 4px 10px rgba(255,80,80,.55))">
+        <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
+        <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
+      </g></svg>`);
 
-  const HEART = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
-    <defs>
-      <radialGradient id="hg" cx="50%" cy="40%" r="70%">
-        <stop offset="0%" stop-color="#ffd0d4"/>
-        <stop offset="45%" stop-color="#ff5252"/>
-        <stop offset="100%" stop-color="#7c1414"/>
-      </radialGradient>
-    </defs>
-    <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
-  </svg>`);
+    const isM = matchMedia('(max-width:768px)').matches;
+    const COUNT = isM ? 12 : 18;
+    const MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
 
-  const COUNT = 14;
-  for (let i = 0; i < COUNT; i++) {
-    const el = document.createElement('img');
-    el.src = `data:image/svg+xml;utf8,${HEART}`;
-    el.className = 'float-item';
-    el.style.left = Math.random() * 100 + 'vw';
-    LAYER.appendChild(el);
+    function spawn(svg){
+      const el = document.createElement('img');
+      el.src = `data:image/svg+xml;utf8,${svg}`;
+      el.className = 'float-item';
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.setProperty('--w', (MIN_W + Math.random()*(MAX_W - MIN_W)) + 'px');
+      el.style.setProperty('--x', (Math.random()*80 - 40) + 'px');
+      el.style.setProperty('--t', (MIN_T + Math.random()*(MAX_T - MIN_T)) + 's');
+      el.style.setProperty('--r', (Math.random()*40 - 20) + 'deg');
+      el.style.setProperty('--rEnd', (200 + Math.random()*260) + 'deg');
+      el.style.setProperty('--spin', (14 + Math.random()*10) + 's');
+      el.style.animationDelay = (Math.random()*12).toFixed(2) + 's';
+      LAYER.appendChild(el);
+    }
+
+    for (let i = 0; i < COUNT; i++) spawn(HEART);
+  })();
+  </script>
+
+  <!-- SPARKLES -->
+  <script>
+  const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
+  function size(){W=s.width=innerWidth;H=s.height=innerHeight;
+    const n=Math.min(140,Math.floor(W*H/14000));
+    PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));
   }
-})();
-</script>
-
-<!-- SPARKLES -->
-<script>
-const s = document.getElementById('sparks'),
-      ctx = s.getContext('2d');
-let W, H, PS;
-
-function size(){
-  W = s.width = innerWidth;
-  H = s.height = innerHeight;
-  PS = Array.from({length:120}, () => ({
-    x:Math.random()*W,
-    y:Math.random()*H,
-    r:Math.random()*1.6+0.4,
-    a:Math.random()*6.28,
-    s:Math.random()*0.4+0.1,
-    o:Math.random()*0.3+0.1
-  }));
-}
-
-function loop(){
-  ctx.clearRect(0,0,W,H);
-  for(const p of PS){
-    p.a += 0.002;
-    p.x += Math.cos(p.a)*p.s;
-    p.y += Math.sin(p.a)*p.s;
-    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
-    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-    ctx.fillStyle = `rgba(255,80,80,${p.o})`;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,6.28);
-    ctx.fill();
+  function loop(){ctx.clearRect(0,0,W,H);
+    for(const p of PS){p.a+=.0028;p.x+=Math.cos(p.a)*p.s;p.y+=Math.sin(p.a)*p.s*.45;
+      if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;if(p.y>H+10)p.y=-10;
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+      g.addColorStop(0,`rgba(255,80,80,${p.o})`);g.addColorStop(1,'rgba(255,80,80,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();
+    }
+    requestAnimationFrame(loop);
   }
-  requestAnimationFrame(loop);
-}
+  addEventListener('resize',size);size();loop();
+  </script>
 
-addEventListener('resize', size);
-size(); loop();
-</script>
+  <!-- COMPAT JS (MVP: score simulé — inchangé) -->
+  <script>
+  document.getElementById('checkBtn').addEventListener('click', ()=>{
+    const myID=document.getElementById('myID').value.trim();
+    const partnerID=document.getElementById('partnerID').value.trim();
+    const box=document.getElementById('result');
 
-<!-- COMPAT JS -->
-<script>
-document.getElementById('checkBtn').addEventListener('click', ()=>{
-  const myID = document.getElementById('myID').value.trim();
-  const partnerID = document.getElementById('partnerID').value.trim();
-  const box = document.getElementById('result');
+    if(!myID || !partnerID){
+      box.style.display='block';
+      box.innerHTML='⚠️ Please enter both LPIDs.';
+      return;
+    }
 
-  if (!myID || !partnerID) {
-    box.style.display = 'block';
-    box.textContent = '⚠️ Please enter both LPIDs.';
-    return;
-  }
+    const score=Math.floor(Math.random()*41)+60; // 60–100
+    box.style.display='block';
+    box.innerHTML = `
+      <div class="score">${score}% match</div>
+      <div class="cta-mini" style="margin-top:10px">
+        Want to know why it’s ${score}%?<br>
+        Discover the strengths and the challenges of your match.<br>
+        <strong>Unlock full report for $4.99</strong>.
+      </div>
+    `;
+  });
+  </script>
 
-  const score = Math.floor(Math.random()*41) + 60;
-  box.style.display = 'block';
-  box.innerHTML = `
-    <div class="score">${score}% match</div>
-    <div class="cta-mini">
-      Want the full compatibility breakdown?<br>
-      <strong>Unlock for $3.99</strong>
-    </div>
-  `;
-});
-</script>
+  <!-- language dropdown -->
+  <script>
+  (function(){
+    const lang=document.getElementById('lang'), btn=document.getElementById('langBtn'), menu=document.getElementById('langMenu');
+    if(!lang||!btn||!menu) return;
+    function close(){ lang.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+    btn.addEventListener('click', (e)=>{ e.stopPropagation(); lang.classList.toggle('open'); btn.setAttribute('aria-expanded',lang.classList.contains('open')); });
+    document.addEventListener('click', close);
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+  })();
+  </script>
 
 </body>
 </html>

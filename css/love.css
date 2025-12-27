@@ -1,0 +1,220 @@
+/* ===============================
+   LOVE PASSPORT — PAGE ONLY
+   =============================== */
+
+/* ----- Page layout ----- */
+.page{
+  max-width: min(760px, 94vw);
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page h1{
+  font-family: "Playfair Display", serif;
+  font-size: clamp(32px, 5.2vw, 56px);
+  line-height: 1.08;
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.page .lead{
+  color: var(--muted);
+  text-align: center;
+  margin: 4px 0 22px;
+}
+
+/* ----- Progress bar ----- */
+.progress{
+  width: 100%;
+  height: 10px;
+  background: #1b1b1d;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 22px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.progress-bar{
+  height: 100%;
+  width: 0%;
+  background: var(--rose);
+  transition: width .35s ease;
+}
+
+/* ----- Question card ----- */
+.question-box{
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 18px;
+  padding: 26px 18px;
+  margin-bottom: 16px;
+  box-shadow:
+    0 0 14px rgba(255,59,48,.12),
+    inset 0 0 12px rgba(255,255,255,.04);
+}
+
+.q-index{
+  display: block;
+  color: #bfb7b0;
+  font-size: .9rem;
+  margin-bottom: 6px;
+}
+
+.q-title{
+  font-family: "Playfair Display", serif;
+  font-size: clamp(18px, 3.8vw, 24px);
+  margin: 0 0 12px;
+  color: #fff;
+}
+
+/* ----- Inputs ----- */
+.field{
+  margin: 10px 0 4px;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"],
+select{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: #111214;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+}
+
+input[type="file"]{
+  color: #dcd5cf;
+}
+
+.hint{
+  font-size: .9rem;
+  color: #bfb7b0;
+  margin-top: 6px;
+}
+
+/* ----- Options (radio / checkbox ronds) ----- */
+.options{
+  display: grid;
+  gap: 10px;
+}
+
+.opt{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #121215;
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.opt input{
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #666;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+}
+
+.opt input:checked{
+  border-color: var(--rose);
+}
+
+.opt input:checked::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rose);
+  transform: translate(-50%, -50%);
+}
+
+/* multi-select */
+.opt.multi input:checked::after{
+  width: 10px;
+  height: 10px;
+}
+
+.opt label{
+  flex: 1;
+  cursor: pointer;
+}
+
+/* ----- Navigation buttons ----- */
+.nav-buttons{
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn{
+  flex: 1;
+  background: transparent;
+  color: #ffecec;
+  border: 1px solid rgba(255,59,48,.45);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .25s, border-color .25s, opacity .25s;
+}
+
+.btn:hover{
+  background: rgba(255,59,48,.10);
+}
+
+.btn:disabled{
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+/* ----- Summary ----- */
+.summary{
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.summary h3{
+  margin: 0 0 8px;
+  font-family: "Playfair Display", serif;
+}
+
+.summary .row{
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(255,255,255,.08);
+}
+
+.summary .row:last-child{
+  border-bottom: none;
+}
+
+.summary .k{
+  min-width: 160px;
+  color: #bfb7b0;
+}
+
+.summary .v{
+  flex: 1;
+}
+
+/* ----- Mobile ----- */
+@media (max-width: 768px){
+  .page{
+    max-width: 94vw;
+  }
+}

@@ -1,210 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>How it works — Match or Move On</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>How it works — Match or Move On</title>
 
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
-  <!-- Global shared styles -->
-  <link rel="stylesheet" href="css/main.css">
-
-  <!-- Page-specific styles -->
-  <link rel="stylesheet" href="css/howitworks.css">
+<!-- ✅ Page CSS -->
+<link rel="stylesheet" href="css/howitworks.css">
 </head>
 
 <body>
-  <!-- background sparkles -->
-  <canvas id="sparks"></canvas>
 
-  <!-- floating hearts layer -->
-  <div class="bg-float" id="hearts"></div>
+<!-- background sparkles -->
+<canvas id="sparks"></canvas>
+<!-- floating hearts layer -->
+<div class="bg-float" id="hearts"></div>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-left"><a href="index.html">Home</a></div>
-    <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
-    <div class="nav-right">
-      <a href="how-it-works.html" aria-current="page">How it works</a>
-      <a href="contact.html">Contact</a>
-      <div class="lang" id="lang">
-        <div class="lang-current" id="langBtn">🇺🇸 EN ▾</div>
-        <div class="lang-menu" id="langMenu">
-          <a href="index-fr.html">🇫🇷 FR</a>
-          <a href="index-pt.html">🇵🇹 PT</a>
-          <a href="index-es.html">🇪🇸 ES</a>
-        </div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-left"><a href="index.html">Home</a></div>
+  <div class="logo-neon">MATCH OR <span class="accent">MOVE ON</span></div>
+  <div class="nav-right">
+    <a href="how-it-works.html" aria-current="page">How it works</a>
+    <a href="contact.html">Contact</a>
+
+    <div class="lang" id="lang">
+      <div class="lang-current" id="langBtn">🇺🇸 EN ▾</div>
+      <div class="lang-menu" id="langMenu">
+        <a href="index-fr.html">🇫🇷 FR</a>
+        <a href="index-pt.html">🇵🇹 PT</a>
+        <a href="index-es.html">🇪🇸 ES</a>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <main class="wrap">
-    <section class="page">
-      <h1>How it works</h1>
-      <p class="lead">Single, dating, or rebuilding trust — choose what you need today.</p>
+<main class="wrap">
+  <section class="page">
+    <h1>How it works</h1>
+    <p class="lead">No profiles, no dating app stress. Just clarity — either you match, or you move on.</p>
 
-      <div class="divider" aria-hidden="true"></div>
+    <div class="divider" aria-hidden="true"></div>
 
-      <!-- Love Passport -->
-      <section class="section" id="passport">
-        <div>
-          <h2>Love Passport</h2>
-          <p>This is where you begin. You’ll answer clear questions about your lifestyle, values, and boundaries.</p>
-          <p>Once you’re done, you’ll instantly receive your Love Passport — your personal card that shows your relationship identity. You can download it, save it, or share it.</p>
-        </div>
-        <aside class="cta">
-          <a class="btn" href="love-passport.html">Create your Passport</a>
-          <div class="note">Payment required before starting</div>
-        </aside>
-      </section>
-
-      <div class="divider" aria-hidden="true"></div>
-
-      <!-- Compatibility Test -->
-      <section class="section" id="test">
-        <div>
-          <h2>Compatibility Test</h2>
-          <p>This test is for two. You’ll generate a private link and send it to your partner.</p>
-          <p>Each one of you completes the questions separately on your own phone. When you’re both done, you’ll instantly see your match score and a breakdown of where you align and where you don’t.</p>
-        </div>
-        <aside class="cta">
-          <a class="btn" href="compatibility-test.html">Try the Test</a>
-          <div class="note">Payment required before starting</div>
-        </aside>
-      </section>
-
-      <div class="divider" aria-hidden="true"></div>
-
-      <!-- Pro Tips -->
-      <section class="tips" aria-labelledby="protips">
-        <h2 id="protips" class="tips-title">Pro Tips</h2>
-        <div class="tip">✨ <strong>Pro Tip:</strong> Share your Passport early — even before the first date. That’s the fastest way to see if it can actually work, or if you should move on.</div>
-        <div class="tip">💡 <strong>Do we have to be identical?</strong> No. Differences are fine. This is about clarity: either you match, or you move on. Life is too short.</div>
-      </section>
-
-      <div class="divider" aria-hidden="true"></div>
-
-      <!-- FAQ -->
-      <section aria-labelledby="faq">
-        <h2 id="faq" class="faq-title">FAQ</h2>
-
-        <details>
-          <summary>Do I have to pay?</summary>
-          <p>Yes. Creating your Love Passport and taking the Compatibility Test require a one-time payment before starting.</p>
-        </details>
-
-        <div class="spacer"></div>
-
-        <details>
-          <summary>Can I redo it?</summary>
-          <p>Yes. You can update your Passport anytime. The latest version becomes your active profile.</p>
-        </details>
-
-        <div class="spacer"></div>
-
-        <details>
-          <summary>Do you guarantee matches?</summary>
-          <p>No. We don’t promise a perfect match — we give you the clearest picture so you don’t waste time with the wrong person.</p>
-        </details>
-      </section>
+    <!-- Love Passport -->
+    <section class="section" id="passport">
+      <div>
+        <h2>1) Create your Love Passport</h2>
+        <p>You answer clear questions about your lifestyle, values, boundaries, and daily habits.</p>
+        <p>When you finish, you get your personal Love Passport + your unique ID: <strong>LPID</strong>.</p>
+        <p><strong>LPID</strong> is what you can share when you want someone to check compatibility with you.</p>
+      </div>
+      <aside class="cta">
+        <a class="btn" href="love-passport.html">Create your Passport</a>
+        <div class="note">Payment required before starting</div>
+      </aside>
     </section>
-  </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer" id="footer">
-    <div class="f-wrap">
-      <div class="f-col brand">
-        <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
-        <p class="tag">Built for clarity, not confusion.</p>
-        <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- LPID Compatibility -->
+    <section class="section" id="compat">
+      <div>
+        <h2>2) Check Compatibility with LPID</h2>
+        <p>You and your partner each have a Love Passport and an <strong>LPID</strong>.</p>
+        <p>To check compatibility, enter <strong>your LPID</strong> + <strong>their LPID</strong>, and you’ll get a quick match score instantly.</p>
+        <p>This is perfect when you meet someone in real life and want to avoid wasting time.</p>
       </div>
+      <aside class="cta">
+        <a class="btn" href="compatibility-test.html">Check Compatibility</a>
+        <div class="note">Instant score using 2 LPIDs</div>
+      </aside>
+    </section>
 
-      <nav class="f-col legal">
-        <h4>Legal</h4>
-        <a href="terms.html">Terms Policy</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="cookies.html">Cookies</a>
-      </nav>
+    <div class="divider" aria-hidden="true"></div>
 
-      <div class="f-col social">
-        <h4>Social</h4>
-        <div class="icons">
-          <a href="https://tiktok.com" aria-label="TikTok">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/></svg>
-          </a>
-          <a href="https://instagram.com" aria-label="Instagram">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/></svg>
-          </a>
-          <a href="https://youtube.com" aria-label="YouTube">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1C17.6 2.5 12 2.5 12 2.5h-.1s-5.6 0-8.6.4c-.4.1-1.3.1-2.1 1-.6.7-.8 2.3-.8 2.3S0 8.1 0 10v1.9c0 1.9.4 3.8.4 3.8s.2 1.6.8 2.3c.8.9 1.9.8 2.4.9 1.7.2 7.4.3 7.4.3s5.6 0 8.6-.4c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.3.8-2.3s.4-1.9.4-3.8V10c0-1.9-.4-3.8-.4-3.8ZM9.5 14.6v-5.2l5 2.6-5 2.6Z"/></svg>
-          </a>
-        </div>
+    <!-- Full report -->
+    <section class="section" id="report">
+      <div>
+        <h2>3) Unlock the full report (optional)</h2>
+        <p>The match score is the quick view.</p>
+        <p>If you want the details (strengths + challenges + what to watch out for), you can unlock the full report.</p>
+        <p>That’s how you turn a “95%” into something useful, not just a number.</p>
+      </div>
+      <aside class="cta">
+        <a class="btn" href="compatibility-test.html">Unlock Full Report</a>
+        <div class="note">One-time payment — no subscription</div>
+      </aside>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- Pro Tips -->
+    <section class="tips" aria-labelledby="protips">
+      <h2 id="protips" class="tips-title">Pro Tips</h2>
+      <div class="tip">✨ Share your LPID early. If someone gets offended by clarity, that’s already an answer.</div>
+      <div class="tip">💡 The goal is not to be identical — the goal is to avoid dealbreakers and wasted time.</div>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- FAQ -->
+    <section aria-labelledby="faq">
+      <h2 id="faq" class="faq-title">FAQ</h2>
+
+      <details>
+        <summary>Do I need a Love Passport first?</summary>
+        <p>Yes. The compatibility check works with LPIDs, and LPIDs come from your Love Passport.</p>
+      </details>
+
+      <div class="spacer"></div>
+
+      <details>
+        <summary>Can I share my Love Passport?</summary>
+        <p>Yes. You choose what to share. LPID is the easiest and most private way to check compatibility.</p>
+      </details>
+
+      <div class="spacer"></div>
+
+      <details>
+        <summary>Do you guarantee love?</summary>
+        <p>No. We give you clarity. What you do with it is your choice.</p>
+      </details>
+    </section>
+
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="footer">
+  <div class="f-wrap">
+    <div class="f-col brand">
+      <div class="brand-title">MATCH OR <span>MOVE ON</span></div>
+      <p class="tag">Built for clarity, not confusion.</p>
+      <a class="mail" href="mailto:support@matchormoveon.com">support@matchormoveon.com</a>
+    </div>
+
+    <nav class="f-col legal">
+      <h4>Legal</h4>
+      <a href="terms.html">Terms Policy</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies</a>
+    </nav>
+
+    <div class="f-col social">
+      <h4>Social</h4>
+      <div class="icons">
+        <a href="https://tiktok.com" aria-label="TikTok">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M12.72 0h3.33c.1 1.56.7 3.04 1.7 4.2 1 1.18 2.4 1.93 3.9 2.07v3.39c-1.47-.05-2.94-.42-4.23-1.15v7.73c0 4.38-3.57 7.96-7.96 7.96-1.54 0-3.04-.46-4.33-1.31A7.96 7.96 0 0 1 0 15.96c0-4.39 3.57-7.96 7.96-7.96 1.1 0 2.2.24 3.21.68v3.68a4.57 4.57 0 0 0-3.21-.68 4.58 4.58 0 0 0-3.65 3.48 4.57 4.57 0 0 0 7.54 4.56c.69-.6 1.11-1.48 1.1-2.4V0Z"/></svg>
+        </a>
+        <a href="https://instagram.com" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/></svg>
+        </a>
+        <a href="https://youtube.com" aria-label="YouTube">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1C17.6 2.5 12 2.5 12 2.5h-.1s-5.6 0-8.6.4c-.4.1-1.3.1-2.1 1-.6.7-.8 2.3-.8 2.3S0 8.1 0 10v1.9c0 1.9.4 3.8.4 3.8s.2 1.6.8 2.3c.8.9 1.9.8 2.4.9 1.7.2 7.4.3 7.4.3s5.6 0 8.6-.4c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.3.8-2.3s.4-1.9.4-3.8V10c0-1.9-.4-3.8-.4-3.8ZM9.5 14.6v-5.2l5 2.6-5 2.6Z"/></svg>
+        </a>
       </div>
     </div>
-    <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
-  </footer>
+  </div>
+  <div class="f-bottom"><small>© 2025 Match or Move On. All rights reserved.</small></div>
+</footer>
 
-  <!-- ===== SCRIPTS ===== -->
+<!-- ===== SCRIPTS ===== -->
 
-  <!-- sparkles -->
-  <script>
-  const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
-  function size(){W=s.width=innerWidth;H=s.height=innerHeight;
-    const n=Math.min(180,Math.floor(W*H/11000));
-    PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));
+<!-- sparkles -->
+<script>
+const s=document.getElementById('sparks'),ctx=s.getContext('2d');let W,H,PS;
+function size(){W=s.width=innerWidth;H=s.height=innerHeight;
+  const n=Math.min(180,Math.floor(W*H/11000));
+  PS=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,a:Math.random()*6.28,s:Math.random()*.45+.12,o:Math.random()*.35+.15}));
+}
+function loop(){ctx.clearRect(0,0,W,H);
+  for(const p of PS){p.a+=.0028;p.x+=Math.cos(p.a)*p.s;p.y+=Math.sin(p.a)*p.s*.45;
+    if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;if(p.y>H+10)p.y=-10;
+    const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);g.addColorStop(0,`rgba(255,80,80,${p.o})`);g.addColorStop(1,'rgba(255,80,80,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}
+  requestAnimationFrame(loop);
+}
+addEventListener('resize',size);size();loop();
+</script>
+
+<!-- floating hearts -->
+<script>
+(function(){
+  const LAYER=document.getElementById('hearts'); if(!LAYER) return;
+  const HEART=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
+    <defs><radialGradient id="hg" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ffd0d4"/><stop offset="45%" stop-color="#ff5252"/><stop offset="100%" stop-color="#7c1414"/></radialGradient></defs>
+    <g filter="drop-shadow(0 4px 10px rgba(255,80,80,.55))">
+      <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
+      <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
+    </g></svg>`);
+  const isM = matchMedia('(max-width:768px)').matches;
+  const COUNT=isM?12:18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
+  function spawn(svg){
+    const el=document.createElement('img');
+    el.src=`data:image/svg+xml;utf8,${svg}`; el.className='float-item';
+    el.style.left=Math.random()*100+'vw';
+    el.style.setProperty('--w',(MIN_W+Math.random()*(MAX_W-MIN_W))+'px');
+    el.style.setProperty('--x',(Math.random()*80-40)+'px');
+    el.style.setProperty('--t',(MIN_T+Math.random()*(MAX_T-MIN_T))+'s');
+    el.style.setProperty('--r',(Math.random()*40-20)+'deg');
+    el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
+    el.style.setProperty('--spin',(14+Math.random()*10)+'s');
+    el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
+    LAYER.appendChild(el);
   }
-  function loop(){ctx.clearRect(0,0,W,H);
-    for(const p of PS){p.a+=.0028;p.x+=Math.cos(p.a)*p.s;p.y+=Math.sin(p.a)*p.s*.45;
-      if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;if(p.y>H+10)p.y=-10;
-      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);g.addColorStop(0,`rgba(255,80,80,${p.o})`);g.addColorStop(1,'rgba(255,80,80,0)');
-      ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,6.28);ctx.fill();}
-    requestAnimationFrame(loop);
-  }
-  addEventListener('resize',size);size();loop();
-  </script>
+  for(let i=0;i<COUNT;i++) spawn(HEART);
+})();
+</script>
 
-  <!-- floating hearts -->
-  <script>
-  (function(){
-    const LAYER=document.getElementById('hearts'); if(!LAYER) return;
-    const HEART=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 40 36">
-      <defs><radialGradient id="hg" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ffd0d4"/><stop offset="45%" stop-color="#ff5252"/><stop offset="100%" stop-color="#7c1414"/></radialGradient></defs>
-      <g filter="drop-shadow(0 4px 10px rgba(255,80,80,.55))">
-        <path d="M20 34 C5 22,0 16,0 10 C0 5,4 2,8 2 C12 2,15 4,20 9 C25 4,28 2,32 2 C36 2,40 5,40 10 C40 16,35 22,20 34Z" fill="url(#hg)"/>
-        <ellipse cx="14" cy="10" rx="8" ry="4.5" fill="white" opacity=".22"/>
-      </g></svg>`);
-    const isM = matchMedia('(max-width:768px)').matches;
-    const COUNT=isM?12:18, MIN_W=22, MAX_W=64, MIN_T=18, MAX_T=28;
-    function spawn(svg){
-      const el=document.createElement('img');
-      el.src=`data:image/svg+xml;utf8,${svg}`; el.className='float-item';
-      el.style.left=Math.random()*100+'vw';
-      el.style.setProperty('--w',(MIN_W+Math.random()*(MAX_W-MIN_W))+'px');
-      el.style.setProperty('--x',(Math.random()*80-40)+'px');
-      el.style.setProperty('--t',(MIN_T+Math.random()*(MAX_T-MIN_T))+'s');
-      el.style.setProperty('--r',(Math.random()*40-20)+'deg');
-      el.style.setProperty('--rEnd',(200+Math.random()*260)+'deg');
-      el.style.setProperty('--spin',(14+Math.random()*10)+'s');
-      el.style.animationDelay=(Math.random()*12).toFixed(2)+'s';
-      LAYER.appendChild(el);
-    }
-    for(let i=0;i<COUNT;i++) spawn(HEART);
-  })();
-  </script>
+<!-- language dropdown (tap-friendly) -->
+<script>
+(function(){
+  const lang=document.getElementById('lang'), btn=document.getElementById('langBtn'), menu=document.getElementById('langMenu');
+  if(!lang||!btn||!menu) return;
+  function close(){ lang.classList.remove('open'); }
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); lang.classList.toggle('open'); });
+  document.addEventListener('click', close);
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
 
-  <!-- language dropdown (tap-friendly) -->
-  <script>
-  (function(){
-    const lang=document.getElementById('lang'), btn=document.getElementById('langBtn'), menu=document.getElementById('langMenu');
-    if(!lang||!btn||!menu) return;
-    function close(){ lang.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
-    btn.addEventListener('click', (e)=>{ e.stopPropagation(); lang.classList.toggle('open'); btn.setAttribute('aria-expanded',lang.classList.contains('open')); });
-    document.addEventListener('click', close);
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
-  })();
-  </script>
 </body>
 </html>
 

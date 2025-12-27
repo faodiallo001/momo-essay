@@ -1,0 +1,85 @@
+/* howitworks.css — page-specific */
+
+.wrap{align-items:flex-start;justify-content:center}
+.page{max-width:min(1100px,94vw)}
+.page h1{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(34px,5.6vw,64px);
+  line-height:1.05;
+  margin:0 0 8px
+}
+.lead{color:var(--muted);max-width:820px;margin:6px 0 26px}
+
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  margin:24px 0
+}
+
+.section{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:26px;
+  align-items:start;
+  margin:14px 0
+}
+.section h2{
+  font-family:"Playfair Display",serif;
+  margin:0 0 8px;
+  font-size:clamp(22px,3.2vw,28px)
+}
+.section p{margin:0 0 10px;color:#dcd5cf}
+
+.cta{
+  align-self:start;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.10);
+  padding:16px;
+  border-radius:16px;
+  box-shadow:0 0 14px rgba(255,59,48,.12), inset 0 0 12px rgba(255,255,255,.04)
+}
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  color:#fff;
+  font-weight:700;
+  border-radius:14px;
+  padding:12px 16px;
+  border:1px solid rgba(255,59,48,.45);
+  background:rgba(255,59,48,.12)
+}
+.btn:hover{background:rgba(255,59,48,.18)}
+.note{font-size:13px;color:#cbbfb7}
+
+.tips{display:grid;gap:12px}
+.tips-title, .faq-title{
+  margin:0 0 10px;
+  font-family:"Playfair Display",serif
+}
+.tip{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.10);
+  padding:14px;
+  border-radius:14px;
+  color:#e9e2db
+}
+
+details{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  padding:12px
+}
+summary{cursor:pointer;font-weight:700;list-style:none}
+summary::-webkit-details-marker{display:none}
+details p{margin:8px 0 0;color:#dcd5cf}
+
+.spacer{height:10px}
+
+/* mobile */
+@media (max-width:768px){
+  .section{grid-template-columns:1fr}
+}
